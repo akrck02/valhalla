@@ -1,9 +1,11 @@
 {
     "compilerOptions": {
       "target": "ES2021",
-      "outDir": "./out/",
+      "outDir": "./temp/src/",
+
       "rootDir": "./src/",
       "strict": true,
+     
       "esModuleInterop": true,
   
       /* Experimental Options */

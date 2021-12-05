@@ -14,5 +14,10 @@
       /* Advanced Options */
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true
-    }
+    },
+    /* TO DO - Fix file compilation (root variable node declaration) */
+    "files": [
+      "./src/custom.d.ts",
+      "./src/electron.ts",
+    ]
   }

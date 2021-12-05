@@ -1,7 +1,15 @@
+import path from "path";
+
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require("electron");
 const { exec } = require("child_process");
-const server = require("./server.js");
+//const server = require("./server.js");
+
+//Redeclaring the Nodejs global variable object
+const global = {
+  root: ''
+}; 
+global.root = path.resolve(__dirname + "/../../");
 
 function createWindow() {
   // Create the browser window.
@@ -11,14 +19,15 @@ function createWindow() {
     //frame: false,
     backgroundColor: "#fafafa",
     webPreferences: {
-      enableRemoteModule: true,
-      nodeIntegration: true,
-      contextIsolation: false,
+      //enableRemoteModule: true,
+      //nodeIntegration: true,
+      contextIsolation: false,  
     },
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL("http://127.0.0.1:3000/web/");
+  const url = path.join(global.root, "/web/index.html");
+  mainWindow.loadURL(url);
 
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();
