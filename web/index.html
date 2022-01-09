@@ -1,33 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hi</title>
-    <script type="module" src="../client/temp/src/app.js"></script>
-    <style>
-        body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.42857143;
-            color: #333;
-            background-color: #fafafa;
-        }
-        .container {
-            margin-right: auto;
-            margin-left: auto;
-            padding-left: 15px;
-            padding-right: 15px;
-        }
-        .row {
-            margin-left: -15px;
-            margin-right: -15px;
-        }
-    </style>
+    <title>Vallhala</title>
+    <link rel="stylesheet" href="./vallhalla.css">
 </head>
-<body>
-    <h1>Hi</h1>
-    <p>Serving!</p>
+
+<body class="no-copy">
+    <header id="os-navbar" class="box-row" style="top:0;">
+        <h1 id="title" draggable="false">VALHALLA</h1>
+        <div id="drag-region" style="width: 100%;"></div>
+        <div id="search" draggable="false">
+            <input id="search-input" draggable="false" type="text" placeholder="Search...">
+        </div>
+        <div id="drag-region" style="width: 100%;"></div>
+        <div id="window-controls" class="box-row">
+            <div class="button" id="min-button" draggable="false">
+                <img class="icon" src="../client/resources/images/minimize.svg" draggable="false" />
+            </div>
+
+            <div class="button" id="max-button" draggable="false">
+                <img class="icon" src="../client/resources/images/fullscreen.svg" draggable="false" />
+            </div>
+
+            <div class="button" id="close-button" draggable="false">
+                <img class="icon" src="../client/resources/images/close.svg" close.svg" draggable="false" />
+            </div>
+        </div>
+        </div>
+    </header>
+    <div id="view-container" class="box-row box-y-start">
+
+    </div>
 </body>
+<script type="module" src="../client/temp/src/app.js"></script>
+<script type="module" src="../server/out/renderer.js"></script>
+
 </html>

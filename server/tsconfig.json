@@ -19,5 +19,8 @@
     "files": [
       "./src/custom.d.ts",
       "./src/electron.ts",
+      "./src/renderer.ts",
+      "./src/db/db.ts",
+      "./src/db/api.ts",
     ]
   }

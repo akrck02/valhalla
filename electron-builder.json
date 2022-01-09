@@ -1,0 +1,31 @@
+{
+    "appId": "com.akrck02.valhalla",
+    "productName": "Valhalla",
+    "copyright": "akrck02",
+    "directories": {
+        "app": ".",
+        "output": "dist",
+        "buildResources": "resources/build"
+    },
+    "files": [
+        "package.json",
+        "node_modules",
+        "electron.js",
+        "api/**/*",
+        "app/**/*",
+        "resources/**/*"
+    ],
+    "mac": {
+        "target": "dmg",
+        "category": "public.app-category.utilities"
+      },
+    "win": {
+        "target": "nsis",
+        "icon": "./resources/build/logo.png" 
+    },
+    "linux": {
+        "target": "AppImage",
+        "category": "Utility",
+        "icon": "./resources/build/logo.png" 
+    }
+}

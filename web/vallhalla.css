@@ -1,0 +1,140 @@
+@import url("./bubbleUI.css");
+
+header#os-navbar { 
+    background: #404040;
+    color: #FFFFFF;
+    height: 2.5rem;
+}
+
+header#os-navbar div#drag-region{
+    -webkit-app-region: drag;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+  
+header#os-navbar h1#title{
+    font-size: .7rem;
+    font-weight: bold;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 1.2rem;
+    letter-spacing: .12rem;
+}
+
+header#os-navbar div#window-controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+header#os-navbar div#window-controls .button {
+    padding: .2rem;
+    height: 100%;
+    box-sizing: border-box;
+    transition: background var(--fast);
+    cursor: pointer;
+}
+
+header#os-navbar div#window-controls .button:hover {
+    background: rgba(255, 255, 255, .1);
+}
+
+header#os-navbar div#window-controls img {
+    --size: 1.8rem;
+    padding: .25rem;
+    border-radius: .35rem;
+    width: var(--size);
+    height: var(--size);
+}
+
+header#os-navbar div#search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+header#os-navbar div#search input#search-input {
+    width: 20rem;
+    height: 1.5rem;
+    border: none;
+    background: rgba(255, 255, 255, .05);
+    border-radius: .35rem;
+    color: #FFFFFF;
+    font-size: .7rem;
+    padding: .5rem;
+    transition: width var(--fast);
+    cursor: text;
+}
+
+header#os-navbar div#search input#search-input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #fff;
+    opacity: .9; 
+}
+
+header#os-navbar div#search input#search-input:focus {    
+    width: 20.5rem;
+    outline: none;
+}
+
+div#view-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    height: calc( 100% - 2.5rem );
+    width: 100%;
+}
+
+div#sidebar {
+    --sidebar-background: #fff;
+    width: 3rem;
+    height: 100%;
+    background: var(--sidebar-background);
+    padding:  .2rem 0;
+}
+
+:root[data-theme=dark] div#sidebar {
+    --sidebar-background: #404040;
+}
+
+div#sidebar a.sidebar-item {
+    --sidebar-item-size: 2.5rem;
+    height: var(--sidebar-item-size);
+    width: var(--sidebar-item-size);
+    margin: 0.15rem 0;
+    border-radius: 50rem;
+    transition: background var(--fast);
+    cursor: pointer;
+}
+
+div#sidebar a.sidebar-item svg {
+    fill: #404040;
+}
+
+:root[data-theme=dark] div#sidebar a.sidebar-item svg {
+    fill: #f1f1f1;
+}
+
+div#sidebar a.sidebar-item.selected {
+    background: rgba(0, 0, 0, .05);
+}
+
+:root[data-theme=dark] div#sidebar a.sidebar-item.selected{
+    background: rgba(0, 0, 0, .15);
+}
+
+div#sidebar a.sidebar-item.selected svg {
+    fill: #f1f1f1;
+}
+
+
+div#sidebar a.sidebar-item:hover, div#sidebar a.sidebar-item:focus {
+    background: rgba(0, 0, 0, .05);
+    outline: none;
+}
+

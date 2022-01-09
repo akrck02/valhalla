@@ -4,7 +4,6 @@
       "outDir": "./temp/src/",
 
       "rootDir": "./src/",
-      "strict": true,
      
       "esModuleInterop": true,
   
