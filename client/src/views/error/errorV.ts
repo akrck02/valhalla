@@ -1,7 +1,8 @@
+import { Configurations } from "../../config/config.js";
 import { UIComponent } from "../../lib/web/uicomponent.js";
 
 export default class ErrorV {
-    public show(params : string[], container : UIComponent): void {
+    public show(params : string[], container : UIComponent, configurations : Configurations): void {
         const view = new UIComponent({
             type: "view",
             classes: ["box-center"],

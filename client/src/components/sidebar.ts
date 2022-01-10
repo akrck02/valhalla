@@ -1,3 +1,5 @@
+import { APP } from "../app.js";
+import { Configurations } from "../config/config.js";
 import { CALENDAR_TODAY, GROUP, SPOKE, TASK_ALT, TUNE } from "../lib/material/materialicons.js";
 import { UIComponent } from "../lib/web/uicomponent.js";
 
@@ -5,16 +7,27 @@ export class Sidebar extends UIComponent {
 
     private elements : UIComponent[];
 
-    public constructor() {
+    public constructor(configurations : Configurations) {
         super({
             type: "div",
             id: "sidebar",
             classes: ["box-column","box-y-center"],
         });
-        this.build();
+        this.build(configurations);
     }
 
-    public build() {
+    public build(CONFIG : Configurations) {
+        const tasks = new UIComponent({
+            type: "a",
+            classes: ["sidebar-item","box-center"],
+            text: TASK_ALT({
+                size: "1.25rem",
+                fill: "#404040",
+            }),
+            attributes: {
+                href: CONFIG.VIEWS.TASKS,
+            },
+        });
 
         const calendar = new UIComponent({
             type: "a",
@@ -24,21 +37,10 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }),
             attributes: {
-                href: "#/calendar/",
+                href: CONFIG.VIEWS.CALENDAR,
             },
         });
 
-        const tasks = new UIComponent({
-            type: "a",
-            classes: ["sidebar-item","box-center"],
-            text: TASK_ALT({
-                size: "1.25rem",
-                fill: "#404040",
-            }),
-            attributes: {
-                href: "#/tasks/",
-            },
-        });
 
         const teams = new UIComponent({
             type: "a",
@@ -48,7 +50,7 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }),
             attributes: {
-                href: "#/teams/",
+                href: CONFIG.VIEWS.TEAMS,
             },
         });
 
@@ -60,7 +62,7 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }),
             attributes: {
-                href: "#/projects/",
+                href: CONFIG.VIEWS.PROJECTS + "s",
             },
         });
 
@@ -72,7 +74,7 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }),
             attributes: {
-                href: "#/configuration/",
+                href: CONFIG.VIEWS.CONFIGURATION,
             },
         });
 

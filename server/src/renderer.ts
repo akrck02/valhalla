@@ -4,15 +4,11 @@ console.log("Renderer is working!");
 /*Disable zoom*/
 const webFrame = require('electron').webFrame;
 webFrame.setZoomLevel(1);
-webFrame.setVisualZoomLevelLimits(1, 1);
-//webFrame.setLayoutZoomLevelLimits(0, 0);
+webFrame.setVisualZoomLevelLimits(1, 2);
+//webFrame.setLayoutZoomLevelLimits(1, 2);
 
 const win = remote.getCurrentWindow(); 
 
-/* Note this is different to the
-html global `window` variable */
-
-// When document has loaded, initialise
 document.onreadystatechange = (event) => {
     if (document.readyState == "complete") {
         handleWindowControls();
@@ -20,9 +16,6 @@ document.onreadystatechange = (event) => {
 };
 
 window.onbeforeunload = (event) => {
-    /* If window is reloaded, remove win event listeners
-    (DOM element listeners get auto garbage collected but not
-    Electron win listeners as the win is not dereferenced unless closed) */
     win.removeAllListeners();
 }
 

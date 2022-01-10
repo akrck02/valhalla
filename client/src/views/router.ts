@@ -1,18 +1,27 @@
 import homeV from "./calendar/calendarV.js";
 import errorV from "./error/errorV.js";
-import { CONFIG } from "../config/config.js";
 import TasksV from "./tasks/tasksV.js";
 import { Sidebar } from "../components/sidebar.js";
 import { UIComponent } from "../lib/web/uicomponent.js";
+import { APP } from "../app.js";
+import { Configurations } from "../config/config.js";
+import { Terminal } from "../components/terminal.js";
 
 export default class Router {
 
-    
     public parent : HTMLElement;
+    public osNavbar : HTMLElement;
+    public searchbar : HTMLElement;
     public sidebar : Sidebar;
+    public terminal : Terminal;
     public container : UIComponent;
+    public configurations : Configurations;
 
-    constructor() {
+    constructor(configurations : Configurations) {
+
+        this.configurations = configurations;
+        this.osNavbar = document.getElementById("os-navbar");
+        this.searchbar = this.osNavbar.querySelector("input");
         this.parent = document.getElementById("view-container") as HTMLElement;
         this.container = new UIComponent({
             type: "div",
@@ -22,16 +31,13 @@ export default class Router {
             },
         });
 
-        this.sidebar = new Sidebar();
-        this.sidebar.element.style.opacity = "0";
-        this.sidebar.element.style.transition = "opacity var(--slow)";
+        this.terminal = new Terminal();
+        this.terminal.start();
 
+        this.sidebar = new Sidebar(configurations);
         this.sidebar.appendTo(this.parent);
         this.container.appendTo(this.parent);
-
-        setTimeout(() => {
-            this.sidebar.element.style.opacity = "1";
-        }, 200);
+        this.terminal.appendTo(this.parent);
     }
     /**
      * Load a view
@@ -45,18 +51,18 @@ export default class Router {
             case undefined:
             case "":
             case "tasks":
-                new TasksV().show(params, this.container);    
+                new TasksV().show(params.splice(1), this.container, this.configurations);    
                 this.sidebar.setSelected(0);
                 break;
             case "calendar":
-                new homeV().show(params, this.container);
+                new homeV().show(params.splice(1), this.container, this.configurations);
                 this.sidebar.setSelected(1);
                 break;
             case "error":
-                new errorV().show(params, this.container);
+                new errorV().show(params.splice(1), this.container, this.configurations);
                 break;
             default:
-                location.href = CONFIG.URL + "#/error/404/";
+                location.href = APP.configurations.BASE.URL + "#/error/404/";
         }
     };
 

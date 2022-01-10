@@ -1,9 +1,12 @@
 import path from "path";
+import { API } from "./db/api";
 
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require("electron");
 const database = require("./db/db.js");
+
 database.createDB(database.DB);
+API.start();
 
 //Redeclaring the Nodejs global variable object
 const global = {

@@ -8,7 +8,7 @@ General variables of the framework
 --font-light:   'Roboto thin', sans-serif;
 --font-title:   'Roboto', sans-serif;
 --font-console: 'Ubuntu Mono', monospace;
---RGB-background:   241, 241, 241;
+--RGB-background:   255, 255, 255;
 --RGB-background-alternative:   247, 247, 247;
 --RGB-menu: 255, 255, 255;
 --RGB-contrast: 241, 241, 241;

@@ -1,5 +1,4 @@
-import { Sidebar } from "../../components/sidebar.js";
-import { PATHS, VIEWS } from "../../config/config.js";
+import { Configurations } from "../../config/config.js";
 import { UIComponent } from "../../lib/web/uicomponent.js";
 
 export default class CalendarV extends UIComponent {
@@ -16,7 +15,7 @@ export default class CalendarV extends UIComponent {
         });
     }
 
-    public show(params: string[], container: UIComponent): void {
+    public show(params: string[], container: UIComponent, config : Configurations): void {
         console.log("Home view is showing");
         console.log("Params: ", params);
 
