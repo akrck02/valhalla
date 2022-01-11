@@ -2,10 +2,11 @@ import homeV from "./calendar/calendarV.js";
 import errorV from "./error/errorV.js";
 import TasksV from "./tasks/tasksV.js";
 import { Sidebar } from "../components/sidebar.js";
-import { UIComponent } from "../lib/web/uicomponent.js";
+import { setStyles, UIComponent } from "../lib/web/uicomponent.js";
 import { APP } from "../app.js";
 import { Configurations } from "../config/config.js";
 import { Terminal } from "../components/terminal.js";
+import ConfigurationV from "./configuration/configurationV.js";
 
 export default class Router {
 
@@ -45,27 +46,37 @@ export default class Router {
      */
     public load (params : string[]) {
     
-        this.clear();
+        try{
+            this.clear();
 
-        switch (params[0]) {
-            case undefined:
-            case "":
-            case "tasks":
-                new TasksV().show(params.splice(1), this.container, this.configurations);    
-                this.sidebar.setSelected(0);
-                break;
-            case "calendar":
-                new homeV().show(params.splice(1), this.container, this.configurations);
-                this.sidebar.setSelected(1);
-                break;
-            case "error":
-                new errorV().show(params.splice(1), this.container, this.configurations);
-                break;
-            default:
-                location.href = APP.configurations.BASE.URL + "#/error/404/";
-        }
-    };
+            switch (params[0]) {
+                case undefined:
+                case "":
+                case "tasks":
+                    new TasksV().show(params.splice(1), this.container, this.configurations);    
+                    this.sidebar.setSelected(0);
+                    break;
+                case "calendar":
+                    new homeV().show(params.splice(1), this.container, this.configurations);
+                    this.sidebar.setSelected(1);
+                    break;
+                case "configuration":
+                    new ConfigurationV().show(params.splice(1), this.container, this.configurations);
+                    this.sidebar.setSelected(4);
+                    break;
+                case "error":
+                    new errorV().show(params.splice(1), this.container, this.configurations);
+                    break;
+                default:
+                    location.href = APP.configurations.BASE.URL + "#/error/404/";
+            }
 
+        } catch (e) {
+            console.error(e);
+        };
+
+    }
+    
     /** show a view */
     public clear() {
         this.container.element.innerHTML="";

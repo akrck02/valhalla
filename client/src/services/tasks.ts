@@ -5,8 +5,6 @@ import { efetch, Response } from "../lib/data/easyfetch.js";
 export class taskService {
    
     static getUserTasks(username : string) : Response {
-        
-
         const response = efetch({
             method: HTTPS_METHOD.POST,
             url: APP.configurations.API.GET_USER_TASKS,
@@ -17,6 +15,20 @@ export class taskService {
 
         return response;
     }
+
+    static getUserTasksFromCategory(username : string, category : string) : Response {
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: APP.configurations.API.GET_USER_TASKS_FROM_CATEGORY,
+            parameters: {
+                user: username,
+                category: category,
+            },
+        });
+        
+        return response;
+    }
+
 
     static getUserTaskCategories(username : string) : Response {
 

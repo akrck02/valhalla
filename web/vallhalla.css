@@ -1,23 +1,57 @@
 @import url("./bubbleUI.css");
 
+body{
+    z-index: 0;
+    background-size: cover;
+}
+
+body.loading::after{
+    content: "";
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    transform: rotate(0deg);
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,1);
+    z-index: -1;
+}
+
+body.loading::after{
+    animation: loader .5s;
+}
+
+@keyframes loader {
+    0% {    
+        left: 0%;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 #terminal {
     display: flex;
     flex-direction: column;
-    background: rgba(0, 0, 0, .03);
+    background: rgba(0, 0, 0, .0);
     height: 100%;
     width: 30rem;
     padding: 0rem;
     line-height: 1.5rem;
     border-left: .1rem solid rgba(0, 0, 0, .05);
     border-top: .1rem solid rgba(0, 0, 0, .05);
+    backdrop-filter: blur(.5rem);
 
-    transition: opacity var(--fast), width var(--fast);
+    transition: opacity var(--fast), right var(--fast);
 }
 
-
+:root[data-theme="dark"] #terminal {
+    background: rgba(0, 0, 0, .03);
+}
 
 #terminal.hidden *{
     opacity: 0;
+    display: none;
 }
 
 div#terminal h1#title {
@@ -37,6 +71,7 @@ div#terminal div#tab-bar {
 div#terminal div#tab-bar button.tab {
     --color: var(--accent-color);
     margin: 0rem .1rem;
+    box-shadow: none;
 }
 
 div#terminal div#tab-bar button.tab:hover, div#terminal div#tab-bar button.tab.selected,  div#terminal div#tab-bar button.tab:focus {
@@ -45,8 +80,6 @@ div#terminal div#tab-bar button.tab:hover, div#terminal div#tab-bar button.tab.s
 }
 
 div#terminal p {
-    display: flex;
-    flex-direction: column;
     height: calc(100% - 5rem);
     overflow: hidden;
     overflow-y: auto;
@@ -69,9 +102,17 @@ div#terminal span.log-item{
     display: block;
     padding: .45rem 2rem;
     min-height: 2.6rem;
+    height: fit-content;
     font-size: .9rem;
     border-bottom: .08rem solid rgba(0, 0, 0, .05);
     margin:  0;
+}
+
+div#terminal span.log-item span.log-time{
+    display: flex;
+    justify-content: flex-end;
+    opacity: .5;
+    font-size: .75rem;
 }
 
 div#terminal div#input-bar{
@@ -83,24 +124,30 @@ div#terminal div#input-bar{
 }
 
 div#terminal input{
-   
     width: 90%;
     height: 1.7rem;
     padding: .35rem;
     border-radius: .35rem;
-    border: .15rem solid rgba(0, 0, 0, .05);
-    color: #fff;
+    color: #404040;
+    background: rgba(0, 0, 0, .045);
+    border: .15rem solid rgba(0, 0, 0, .01);
+}
+
+:root[data-theme="dark"] div#terminal input{
     background: rgba(0, 0, 0, .06);
+    color: #fff;
+    border: .15rem solid rgba(0, 0, 0, .05);
 }
 
 header#os-navbar { 
     background: #fff;
     color: #FFFFFF;
     height: 2.5rem;
+    backdrop-filter: blur(1rem);
 }
 
 :root[data-theme=dark] header#os-navbar {
-    background: #404040;
+    background: rgba(0, 0, 0, .07);
 }
 
 header#os-navbar div#drag-region {
@@ -121,7 +168,6 @@ header#os-navbar h1#title {
     letter-spacing: .12rem;
     color:  #404040;
 }
-
 
 :root[data-theme=dark] header#os-navbar h1#title{
     color:  #fff;
@@ -225,11 +271,12 @@ div#sidebar {
     height: 100%;
     background: var(--sidebar-background);
     padding:  .2rem 0;
+    backdrop-filter: blur(1rem);
     border-right: .1rem solid rgba(0,0,0,.05);
 }
 
 :root[data-theme=dark] div#sidebar {
-    --sidebar-background: #404040;
+    --sidebar-background: rgba(0, 0, 0, .07);;
     border-right: none;
 }
 
@@ -270,10 +317,12 @@ div#sidebar a.sidebar-item:hover, div#sidebar a.sidebar-item:focus {
 
 
 div#category-bar {
-    width: 17rem;
+    width: 20em;
     height: 100%;
     padding: 1rem 1.7rem;
     border-right: .1rem solid rgba(0, 0, 0, .05);
+    transition: width var(--medium), opacity var(--slow);
+    backdrop-filter: blur(.3rem);
 }
 
 div#category-bar div#search-bar {
@@ -336,4 +385,42 @@ div#category-bar div.label.selected::after {
 
 div#category-bar div.label:hover {
     opacity: .8;
+}
+
+div.backdrop {
+    backdrop-filter: blur(.2rem);
+}
+
+div#config-menu {
+    width: 16rem;
+    height: 100%;
+    border-right: .1rem solid rgba(0,0,0,0.05);
+    backdrop-filter: blur(.3rem);
+}
+
+
+div#wallpaper-gallery{
+    width: 100%;
+    padding: .5rem 3rem;
+    flex-wrap: wrap;
+}
+
+div#wallpaper-gallery img.wallpaper-gallery-item {
+    width: 7rem;
+    height: 4rem;
+    object-fit: cover;
+    border-radius: 0.35rem;
+    cursor: pointer;
+    margin: 0.5rem .75rem;
+    box-shadow: var(--default-box-shadow);
+    transition: transform var(--fast);
+}
+
+div#wallpaper-gallery img.wallpaper-gallery-item:hover {
+    transform: scale(1.1);
+}
+
+div#wallpaper-gallery img.wallpaper-gallery-item.selected {
+    transform: scale(1.3);
+    border: .25rem dashed rgba(0, 0, 0, .5);
 }

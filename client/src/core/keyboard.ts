@@ -10,7 +10,7 @@ export class Keyboard {
 
         document.addEventListener('keyup', function(event) {
             if (event.shiftKey && event.code === 'KeyT') {
-                APP.router.terminal.toggle();
+                APP.configurations.toggleTerminal();
             }
 
             if (event.shiftKey && event.code === 'KeyM') {

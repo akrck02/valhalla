@@ -1,10 +1,15 @@
-import { setClasses, setEvents, setStyles, UIComponent } from "../lib/web/uicomponent.js";
+import { setEvents, setStyles, UIComponent } from "../lib/web/uicomponent.js";
+
+interface LogMessage {
+    message: string;
+    time: string;
+}
 
 export class Terminal extends UIComponent {
 
-    private logs : string[];
-    private warnings : string[];
-    private errors : string[];
+    private logs : LogMessage[];
+    private warnings : LogMessage[];
+    private errors : LogMessage[];
     private mode : string;
     
     private scroll : boolean;
@@ -13,7 +18,6 @@ export class Terminal extends UIComponent {
     private tabBar : UIComponent;
     private logger : UIComponent;
 
-
     public constructor(){
         super({
             type:"div",
@@ -21,12 +25,10 @@ export class Terminal extends UIComponent {
         });
 
         this.visible = true;
-        this.toggle();
-
         const title = new UIComponent({
             type: "h1",
             id: "title",
-            text: "💻 | Terminal:",
+            text: "Terminal ",
         });
 
         this.logger = new UIComponent({
@@ -48,8 +50,6 @@ export class Terminal extends UIComponent {
         this.errors = [];        
     }
 
-
-
     public start(){
         const terminal = this;
 
@@ -60,7 +60,10 @@ export class Terminal extends UIComponent {
             .map(msg => terminal.check(msg))
             .forEach(msg => {result += " " + msg})
 
-            terminal.logs?.push(result);
+            terminal.logs?.push({
+                message : result, 
+                time: new Date().toLocaleTimeString()
+            });
         };
         
         console.error = function(...messages) {
@@ -69,31 +72,84 @@ export class Terminal extends UIComponent {
             messages.map(msg => terminal.check(msg))
             .forEach(msg => {result += " " + msg})
 
-            terminal.errors?.push(result)
+            terminal.errors?.push({
+                message : result, 
+                time: new Date().toLocaleTimeString()
+            })
         };
         
         console.warn = function(...messages) {
+            let result = "";
             messages.map(msg => terminal.check(msg))
-            .forEach(msg => terminal.warnings?.push(msg))
+            .forEach(msg => {result += " " + msg})
+
+            terminal.warnings?.push({
+                message : result,
+                time: new Date().toLocaleTimeString()
+            })
         };
 
         setInterval(() => {
+
+            if(!this.visible){
+                return;
+            }
+
             this.logger.element.innerHTML ="";
           
             switch (this.mode) {
                 case "error":
                     terminal.errors.forEach( msg => {
-                        this.logger.element.innerHTML += `<span class='log-item text-error'>${msg}</span>`; 
+                        const logItem = new UIComponent({
+                            type: "span",
+                            classes : ["log-item", "text-error"],
+                            text: msg.message,
+                        });
+
+                        const time = new UIComponent({
+                            type: "span",
+                            classes : ["log-time"],
+                            text: msg.time,
+                        });
+                  
+                        logItem.appendChild(time);
+                        terminal.logger.appendChild(logItem);
                     });
                     break;
                 case "warning":
                     terminal.warnings.forEach( msg => {
-                        this.logger.element.innerHTML += `<span class='log-item text-warning'>${msg}</span>`; 
+                        const logItem = new UIComponent({
+                            type: "span",
+                            classes : ["log-item", "text-warning"],
+                            text: msg.message,
+                        });
+
+                        const time = new UIComponent({
+                            type: "span",
+                            classes : ["log-time"],
+                            text: msg.time,
+                        });
+                  
+                        logItem.appendChild(time);
+                        terminal.logger.appendChild(logItem);
                     });
                     break;
                 default:
                     terminal.logs.forEach( msg => {
-                        this.logger.element.innerHTML += `<span class='log-item'>${msg}</span>`; 
+                        const logItem = new UIComponent({
+                            type: "span",
+                            classes : ["log-item", "text-log"],
+                            text: msg.message,
+                        });
+
+                        const time = new UIComponent({
+                            type: "span",
+                            classes : ["log-time"],
+                            text: msg.time,
+                        });
+                  
+                        logItem.appendChild(time);
+                        terminal.logger.appendChild(logItem); 
                     });
                     break;
             }
@@ -154,8 +210,20 @@ export class Terminal extends UIComponent {
                 fontSize: "1.1rem",
                 background: "transparent",
                 boxShadow: "none",
-                filter: "grayscale(0)"
+                filter: "grayscale(0)",
+                width : "1rem"
             },
+        });
+
+        const clear = new UIComponent({
+            type: "button",
+            text: "🚫",
+            styles: {
+                fontSize: "1.1rem",
+                background: "transparent",
+                boxShadow: "none",
+                width : "1rem"
+            }
         });
 
         setEvents(autoScroll.element,{
@@ -192,20 +260,27 @@ export class Terminal extends UIComponent {
             }
         })
 
+        setEvents(clear.element,{
+            click : () => {
+                this.clear();
+            }
+        })
+
         tabBar.appendChild(logTab);
         tabBar.appendChild(errorTab);
         tabBar.appendChild(warningTab);
         tabBar.appendChild(autoScroll);
+        tabBar.appendChild(clear);
 
         return tabBar;
     }
 
-    private check(msg : any) : string{
+    private check(msg : any) : string {
 
-        if(msg.length == 0){
-            return "<empty>"
+        if(msg === undefined || msg.length == 0){
+            return "{empty message}";
         }
-        
+
         if(msg == null){
             return "null"
         }
@@ -215,7 +290,7 @@ export class Terminal extends UIComponent {
         }
 
         if(msg instanceof Object){
-            return JSON.stringify(msg);
+            return JSON.stringify(msg, null, 5);
         }
 
         if(typeof msg == "string"){
@@ -268,25 +343,30 @@ export class Terminal extends UIComponent {
         return msg;
     }
 
+    public hide(){
+        this.visible = false;
+        setStyles(this.element, {
+            opacity: "0",
+        });
 
-    public toggle(){
-
-        if(this.visible){
-            setStyles(this.element, {
-                position: "relative",
-                width: "20rem",
-                opacity: "0"
-            });
-
-        } else { 
-            setStyles(this.element, {
-                width: "30rem",
-                opacity: "1"
-            });
-            
-        }
-
-        this.visible =! this.visible;
+        setTimeout(() => {
+            this.element.style.display = "none";
+        }, 100);
     }
 
+    public show(){
+        this.visible = true;
+        setStyles(this.element, {
+            display: "flex",
+            width: "30rem",
+            opacity: "1",
+        });
+    }
+
+
+    public clear() {
+        this.errors = [];
+        this.warnings = [];
+        this.logs = [];
+    }
 }

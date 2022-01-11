@@ -131,6 +131,7 @@ export function efetch(properties: EasyFetchProperties): Response {
     }
 
     const promise = fetch(properties.url, options);
-    let response = new Response(promise);
+    const response = new Response(promise);
     return response;
+    
 }
