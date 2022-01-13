@@ -1,8 +1,8 @@
 import { Configurations } from './config/config.js';
 import { Keyboard } from './core/keyboard.js';
-import { getParametersByIndex } from './lib/data/urltools.js';
-import { prefersDarkMode } from './lib/web/responsivetools.js';
-import { setStyles } from './lib/web/uicomponent.js';
+import { getParametersByIndex } from './lib/gtd-ts/data/urltools.js';
+import { prefersDarkMode } from './lib/gtd-ts/web/responsivetools.js';
+import { setStyles } from './lib/gtd-ts/web/uicomponent.js';
 import Router from './views/router.js';
 
 /**
@@ -26,7 +26,7 @@ class App {
         const params = getParametersByIndex(window.location.hash.slice(1).toLowerCase(),1);
 
         if(params[0] == ""){
-            params[0] = "home";
+            location.href = this.configurations.VIEWS.TASKS;
         }
 
         const titleElement = document.getElementById("title");
@@ -48,28 +48,22 @@ window.addEventListener('hashchange',() => {
 });
 
 window.onload = () => {    
-
    
     if(APP === undefined){
         APP = new App();   
         
-        let theme = APP.configurations.getConfigVariable("THEME");
-        if(theme == "dark" || theme == undefined && prefersDarkMode())
-            APP.configurations.toggleTheme();
-
-        let wallpaper = APP.configurations.getConfigVariable("WALLPAPER");
-        console.log("Wallpaper: " + wallpaper);
+        const wallpaper = APP.configurations.getConfigVariable("WALLPAPER");
         
-        if(wallpaper != undefined){
-            APP.configurations.setWallpaper(wallpaper);
-            setStyles(document.body,{
-                "background-image": "url(" + APP.configurations.PATHS.WALLPAPERS + wallpaper + ")"
-            });
+        if(wallpaper){
+            APP.configurations.setTheme("dark"); 
+            APP.configurations.setWallpaper(wallpaper); 
+        } else {
+            const theme = APP.configurations.getConfigVariable("THEME");
+            APP.configurations.setTheme(theme);
         }
 
-        let terminalVisible = APP.configurations.getConfigVariable("TERMINAL_VISIBLE");
-        APP.configurations.setTerminalVisible(terminalVisible === true);
-     
+        const terminalVisible = APP.configurations.getConfigVariable("TERMINAL_VISIBLE");
+        APP.configurations.setTerminalVisible(terminalVisible);
     }
 
     APP.loadFromUrl();

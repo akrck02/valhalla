@@ -1,4 +1,5 @@
 import { APP } from "../app.js";
+import { setStyles } from "../lib/gtd-ts/web/uicomponent.js";
 
 enum ENVIROMENT {
     DEVELOPMENT = "development",
@@ -32,7 +33,6 @@ export class Configurations {
             LOG_FILE: "app.log",
             THEME: "light",
             TERMINAL_VISIBLE: false,
-            WALLPAPER: undefined,
         };
     }
 
@@ -59,13 +59,13 @@ export class Configurations {
 
     private declareViews() {
         this.VIEWS = {};
-        this.VIEWS["BASE_URL"] = "#/";
+        this.VIEWS["BASE_URL"] = "../web/index.html#/";
         this.VIEWS["TASKS"] = this.VIEWS["BASE_URL"] + "tasks/";
         this.VIEWS["CALENDAR"] = this.VIEWS["BASE_URL"] + "calendar/";
         this.VIEWS["TEAMS"] = this.VIEWS["BASE_URL"] + "teams/";
         this.VIEWS["PROJECTS"] = this.VIEWS["BASE_URL"] + "projects/";
         this.VIEWS["CONFIGURATION"] = this.VIEWS["BASE_URL"] + "configuration/";
-
+        this.VIEWS["ERROR"] = this.VIEWS["BASE_URL"] + "error/";
     }
 
     public toggleTheme() {
@@ -73,14 +73,20 @@ export class Configurations {
             return;
         }
 
-        if (this.BASE.THEME === "light") {
-            this.BASE.THEME = "dark";
-        } else {
-            this.BASE.THEME = "light";
-        }
+        this.setTheme((this.BASE.THEME === "light") ? "dark" : "light")
+    }
+
+    public setTheme(theme : string) {
+        this.BASE.THEME = theme;
 
         this.addConfigVariable("THEME", this.BASE.THEME);
+        this.addConfigVariable("WALLPAPER", false);
+
         document.documentElement.dataset.theme = this.BASE.THEME;
+    }
+
+    public isDarkModeActive() {
+        return this.BASE.THEME === "dark";
     }
 
     public setTerminalVisible(value: boolean) {
@@ -88,9 +94,9 @@ export class Configurations {
         this.addConfigVariable("TERMINAL_VISIBLE", this.BASE.TERMINAL_VISIBLE);
 
         if (this.BASE.TERMINAL_VISIBLE) {
-            APP.router.terminal.hide();
-        } else {
             APP.router.terminal.show();
+        } else {
+            APP.router.terminal.hide();
         }
     }
 
@@ -99,6 +105,7 @@ export class Configurations {
         this.setTerminalVisible(!this.BASE.TERMINAL_VISIBLE);
     }
 
+    
     public getConfig() {
         let localStorageConfiguration = JSON.parse(localStorage.getItem("vallhala-config"));
 
@@ -122,10 +129,28 @@ export class Configurations {
     }
 
     public setWallpaper(wallpaper: string) {
-        this.BASE.WALLPAPER = wallpaper;
-        this.BASE.THEME = "dark";
         
-        this.addConfigVariable("WALLPAPER", this.BASE.WALLPAPER);
-        this.addConfigVariable("THEME", this.BASE.THEME);
+        if(!wallpaper){
+            this.addConfigVariable("WALLPAPER", wallpaper);
+            setStyles(document.body,{"background-image": "none"});
+            return;
+        }
+
+        this.setTheme("dark");
+        this.addConfigVariable("WALLPAPER", wallpaper);
+
+        setStyles(document.body,{
+            "background-image": "url(" + APP.configurations.PATHS.WALLPAPERS + wallpaper + ")"
+        });
     }    
+
+    public hasWallpaper() {
+        const wallpaper = this.getConfigVariable("WALLPAPER") ;
+
+        if(!wallpaper){
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -1,7 +1,7 @@
 import { APP } from "../app.js";
 import { Configurations } from "../config/config.js";
-import { CALENDAR_TODAY, GROUP, SPOKE, TASK_ALT, TUNE } from "../lib/material/materialicons.js";
-import { UIComponent } from "../lib/web/uicomponent.js";
+import { CALENDAR_TODAY, GROUP, SPOKE, TASK_ALT, TUNE } from "../lib/gtd-ts/material/materialicons.js";
+import { UIComponent } from "../lib/gtd-ts/web/uicomponent.js";
 
 export class Sidebar extends UIComponent {
 

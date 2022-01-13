@@ -1,12 +1,12 @@
+import { APP } from "../app.js";
+import { Sidebar } from "../components/sidebar.js";
+import { Terminal } from "../components/terminal/terminal.js";
+import { Configurations } from "../config/config.js";
+import { UIComponent } from "../lib/gtd-ts/web/uicomponent.js";
 import homeV from "./calendar/calendarV.js";
+import ConfigurationV from "./configuration/configurationV.js";
 import errorV from "./error/errorV.js";
 import TasksV from "./tasks/tasksV.js";
-import { Sidebar } from "../components/sidebar.js";
-import { setStyles, UIComponent } from "../lib/web/uicomponent.js";
-import { APP } from "../app.js";
-import { Configurations } from "../config/config.js";
-import { Terminal } from "../components/terminal.js";
-import ConfigurationV from "./configuration/configurationV.js";
 
 export default class Router {
 
@@ -68,7 +68,7 @@ export default class Router {
                     new errorV().show(params.splice(1), this.container, this.configurations);
                     break;
                 default:
-                    location.href = APP.configurations.BASE.URL + "#/error/404/";
+                    location.href = APP.configurations.VIEWS.ERROR;
             }
 
         } catch (e) {

@@ -1,4 +1,4 @@
-import { createSVG } from "./material/materialicons.js";
+import { createSVG } from "./gtd-ts/material/materialicons.js";
 
 export const TWITTER = (properties) => {
     properties.svg = `

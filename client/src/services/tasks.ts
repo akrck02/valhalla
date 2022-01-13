@@ -1,6 +1,6 @@
 import { APP } from "../app.js";
-import { HTTPS_METHOD } from "../lib/core/http.js";
-import { efetch, Response } from "../lib/data/easyfetch.js";
+import { HTTPS_METHOD } from "../lib/gtd-ts/core/http.js";
+import { efetch, Response } from "../lib/gtd-ts/data/easyfetch.js";
 
 export class taskService {
    

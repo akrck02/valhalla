@@ -1,5 +1,7 @@
 import { Configurations } from "../../config/config.js";
-import { UIComponent } from "../../lib/web/uicomponent.js";
+import { setClasses, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { ThemeChooser } from "./components/themeChooser.js";
+import { WallpaperGallery } from "./components/wallpaperGallery.js";
 
 export default class ConfigurationV extends UIComponent {
 
@@ -90,8 +92,7 @@ export default class ConfigurationV extends UIComponent {
             }   
         });
 
-        const wallpaperGallery = this.crateWallpaperGallery(configurations);
-
+        const wallpaperGallery = new WallpaperGallery(configurations);
         const themeTitle = new UIComponent({
             type: "h1",
             text: "Theme",
@@ -100,74 +101,15 @@ export default class ConfigurationV extends UIComponent {
                 padding: "2rem 3.7rem",
             }   
         });
+
+        const themeChooser = new ThemeChooser(configurations);       
         
         parent.appendChild(wallPaperTitle);
         parent.appendChild(wallpaperGallery);
         parent.appendChild(themeTitle);
+        parent.appendChild(themeChooser);
     }
 
 
-    private crateWallpaperGallery(configurations : Configurations): UIComponent {
-        const gallery = new UIComponent({
-            type: "div",
-            id: "wallpaper-gallery",
-            classes: ["box-row"],
-        });
-
-        const wallpaper1 = this.createWallpaperGalleryItem(configurations, "wall1-min.png", "wall1.png");
-        const wallpaper2 = this.createWallpaperGalleryItem(configurations, "wall2-min.png", "wall2.png");
-        const wallpaper3 = this.createWallpaperGalleryItem(configurations, "wall3-min.png", "wall3.png");
-        const wallpaper4 = this.createWallpaperGalleryItem(configurations, "wall4-min.png", "wall4.png");
-        const wallpaper5 = this.createWallpaperGalleryItem(configurations, "wall5-min.png", "wall5.png");
-        const wallpaper6 = this.createWallpaperGalleryItem(configurations, "wall6-min.png", "wall6.png");
-
-        gallery.appendChild(wallpaper1);
-        gallery.appendChild(wallpaper2);
-        gallery.appendChild(wallpaper3);
-        gallery.appendChild(wallpaper4);
-        gallery.appendChild(wallpaper5);
-        gallery.appendChild(wallpaper6);
-
-        return gallery;
-    }
-
-    private createWallpaperGalleryItem(configurations : Configurations, preview: string, file : string): UIComponent {
-        const wallpaper = new UIComponent({
-            type: "img",
-            classes: ["wallpaper-gallery-item"],
-            attributes: {
-                src: configurations.PATHS.WALLPAPERS + preview,
-            },
-            data: {
-                file: file,
-            },
-            events: {
-                click: () => {
-                    document.body.style.backgroundImage = "url(" + configurations.PATHS.WALLPAPERS + file + ")";
-                    configurations.setWallpaper(file);
-
-                    const wallpapers = document.querySelectorAll("div#wallpaper-gallery img.wallpaper-gallery-item");
-                    wallpapers?.forEach((wallpaper) => {
-                        wallpaper.classList.remove("selected");
-
-                        if ((wallpaper as HTMLElement).dataset.file === file) {
-                            wallpaper.classList.add("selected");
-                        }
-
-                        document.body.classList.add("loading");
-                        setTimeout(() => {
-                            document.body.classList.remove("loading");
-                        }, 500);
-                    });
-                }
-            }
-        });
-
-        if (configurations.BASE.WALLPAPER === file) {
-            wallpaper.element.classList.add("selected");
-        }
-
-        return wallpaper;
-    }
 
 }

@@ -1,55 +1,112 @@
 import path from "path";
 import { API } from "./db/api";
+import fs from "fs";
+import { Database } from "./db/db";
 
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require("electron");
-const database = require("./db/db.js");
 
-database.createDB(database.DB);
-API.start();
+class ElectronApp {
 
-//Redeclaring the Nodejs global variable object
-const global = {
-  root: ''
-}; 
-global.root = path.resolve(__dirname + "/../../");
+  private database?: Database;
+  private api?: API;
 
-function createWindow() {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    minWidth: 1280,
-    minHeight: 720,
-    frame: false,
-    backgroundColor: "#fafafa",
-    webPreferences: {
-      enableRemoteModule: true,
-      nodeIntegration: true,
-      contextIsolation: false,  
-    },
-  });
+  public constructor() {
 
-  // and load the index.html of the app.
-  const url = path.join(global.root, "/web/index.html");
-  mainWindow.loadFile(url);
-  console.log(url);
-  
+  }
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  public async start() {
+    this.title();
+    await this.startDatabase();
+    await this.startAPI();
+    await this.setEvents();
+  }
+
+  public title() {
+    console.info("###############################################################################");
+    console.info("                     VALHALLA by @Akrck02 - Coffee version                     ");
+    console.info("###############################################################################");
+    console.info(" ");
+  }
+
+
+  public async startDatabase() {
+
+    this.database = new Database();
+    const databasePath = path.join(global.root, "db/Valhalla-user.db");
+    if (fs.existsSync(databasePath) === true) {
+      console.log("Electron", "Database found");
+      fs.rmSync(databasePath);
+      console.log("Electron", "Database deleted.");
+      await this.database.createDB();    
+    }
+    else await this.database.createDB();
+
+
+  }
+
+  public startAPI() {
+    if(this.database){      
+      this.api = new API(this.database);
+      this.api.start();
+    } else throw new Error("[DB-API] Database not initialized, exiting...");
+  }
+
+  public loadUI() {
+
+    // Create the browser window.
+    const mainWindow = new BrowserWindow({
+      minWidth: 1280,
+      minHeight: 720,
+      frame: false,
+      backgroundColor: "#fafafa",
+      webPreferences: {
+        enableRemoteModule: true,
+        nodeIntegration: true,
+        contextIsolation: false,
+      },
+    });
+
+    // and load the index.html of the app.
+    const url = path.join(global.root, "/web/index.html");
+    mainWindow.loadFile(url);
+    console.log("Electron", "Opening HTML: " + url);
+  }
+
+  public setEvents() {
+
+    app.whenReady().then(() => {
+      this.loadUI();
+      const electronApp = this; 
+
+      /* Create windows */
+      app.on("activate", function () {
+        if (BrowserWindow.getAllWindows().length === 0)
+          electronApp.loadUI();
+      });
+
+    }); 
+
+    app.on("window-all-closed", function () {
+      if (process.platform !== "darwin") {
+        app.quit();
+      }
+    });
+
+  }
 }
 
-/* Start */
-app.whenReady().then(() => {
-  createWindow();
-  
-  /* Create windows */
-  app.on("activate", function () {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
+// Redeclaring the Nodejs global variable object
+const global = {
+  root: ''
+};
+global.root = path.resolve(__dirname + "/../../");
 
-});
+// Overriding the default console.log function
+console.log = (...msg) => {
+  console.info("[" + msg[0] + "] " + msg.slice(1));
+}
 
-app.on("window-all-closed", function () {
-  if (process.platform !== "darwin") app.quit();
-});
-
+//Start new instance of the application
+const electronApp = new ElectronApp();
+electronApp.start();

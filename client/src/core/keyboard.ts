@@ -1,28 +1,43 @@
 import e from "express";
 import { APP } from "../app.js";
+import { AppearenceListener } from "./listeners/appearence.js";
+import { ExpertListener } from "./listeners/expert.js";
 
 export class Keyboard {
 
-    private listener : number;
+    private appearenceListener: AppearenceListener;
+    private expertListener: ExpertListener;
 
+    public constructor() {
+        this.appearenceListener = new AppearenceListener();
+        this.expertListener = new ExpertListener();
+        this.setEventListeners();
+    }
 
-    public constructor(){
+    public setEventListeners(): void {
+        const keyboard = this;
+        document.addEventListener('keyup', function (event) {
 
-        document.addEventListener('keyup', function(event) {
+            // SHIFT + T
             if (event.shiftKey && event.code === 'KeyT') {
-                APP.configurations.toggleTerminal();
+                keyboard.expertListener.toggleTerminal();
             }
 
-            if (event.shiftKey && event.code === 'KeyM') {
-                APP.configurations.toggleTheme();
-            }
+            // SHIFT + W
+            if (event.shiftKey && event.code === 'KeyW') 
+                keyboard.appearenceListener.nextWallpaper();
 
+
+            // SHIFT + M
+            if (event.shiftKey && event.code === 'KeyM') 
+                keyboard.appearenceListener.toggleTheme();
+
+            // SHIFT + S
             if (event.shiftKey && event.code === 'KeyS') {
-                APP.router.searchbar.focus();
-                (APP.router.searchbar as HTMLInputElement ).value = "";
+                keyboard.expertListener.search();
+                return false;
             }
         });
-
     }
 
 

@@ -1,5 +1,5 @@
 import { Configurations } from "../../config/config.js";
-import { UIComponent } from "../../lib/web/uicomponent.js";
+import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 
 export default class CalendarV extends UIComponent {
 

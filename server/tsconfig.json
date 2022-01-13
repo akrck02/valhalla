@@ -19,10 +19,20 @@
       "./src/custom.d.ts",
       "./src/electron.ts",
       "./src/renderer.ts",
+
+      "./src/utils/time.ts",
+      
       "./src/db/db.ts",
+      "./src/db/tables.ts",
+      "./src/db/insert.ts",
       "./src/db/api.ts",
       "./src/db/router.ts",
+
+      "./src/db/classes/user.ts",
+      "./src/db/classes/task.ts",
+
       "./src/db/model/model.ts",
-      "./src/db/model/tasks.ts"
+      "./src/db/model/tasks.ts",
+      "./src/db/model/user.ts"
     ]
   }
