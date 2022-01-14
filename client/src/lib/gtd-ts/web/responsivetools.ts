@@ -73,6 +73,15 @@ export function prefersReducedMotion(): boolean {
 }
 
 /**
+ * Return if media query matches 
+ * @param query Media query to match
+ * @returns true if media query matches, false otherwise
+ */
+export function mediaQuery(query: string): boolean {
+    return window.matchMedia(query).matches;
+}
+
+/**
  * Get if is mobile device
  * @description This method is useful for checking if the device is a mobile device.
  * @returns true if the device is a mobile device, false otherwise

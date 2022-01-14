@@ -1,5 +1,12 @@
 @import url("./bubbleUI.css");
 
+
+:root[data-animations=false]{
+    --fast : 0s;
+    --medium : 0s;
+    --slow : 0s;
+}
+
 body {
     z-index: 0;
     background-size: cover;
@@ -19,6 +26,24 @@ body.loading::after {
 
 body.loading::after {
     animation: loader .5s;
+}
+
+*::-webkit-scrollbar {
+    width: .35rem;
+    background-color: transparent;
+}
+
+*::-webkit-scrollbar:hover {
+    width: .35rem;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, .15);
+    border-radius: 3em;
+}
+
+:root[data-theme=dark] *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .1);
 }
 
 @keyframes loader {
@@ -189,11 +214,17 @@ header#os-navbar {
     background: rgba(0, 0, 0, .07);
 }
 
-header#os-navbar div#drag-region {
+header#os-navbar div.drag-region {
     -webkit-app-region: drag;
     display: flex;
     flex-direction: row;
+    width: auto;
     align-items: center;
+}
+
+header#os-navbar div.drag-region#first {
+    position: relative;
+    min-width: 25%;
 }
 
 header#os-navbar h1#title {
@@ -210,6 +241,16 @@ header#os-navbar h1#title {
 
 :root[data-theme=dark] header#os-navbar h1#title {
     color: #fff;
+    margin-right: 2rem;
+}
+
+header#os-navbar div#control-panel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    margin-right: 1.2rem;
 }
 
 header#os-navbar div#window-controls {
@@ -253,10 +294,12 @@ header#os-navbar div#search {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    min-width: 30%;
 }
 
 header#os-navbar div#search input#search-input {
-    width: 20rem;
+    position: relative;
+    width: 100%;
     height: 1.5rem;
     border: none;
     background: rgba(0, 0, 0, .05);
@@ -280,7 +323,7 @@ header#os-navbar div#search input#search-input {
 }
 
 header#os-navbar div#search input#search-input:focus {
-    width: 20.5rem;
+    width: 95%;
     outline: none;
 }
 
@@ -511,3 +554,95 @@ button.mode-select.selected, :root[data-theme=dark] button.mode-select.selected 
     background: rgba(0, 0, 0, .45);
 }
 
+div#calendar-container {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    padding: 3rem;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity var(--slow);
+    flex-wrap: wrap;
+}
+
+div#calendar-container div#calendar-wrapper {
+    width: 100%;
+    max-width: 56rem;
+}
+
+#calendar-container h1 {
+    position: relative;
+}
+
+#calendar {
+    width: 100%;
+}
+
+#calendar div.day {
+    width: 7.5rem;
+    height: 7.5rem;
+    margin: .25rem;
+    border-radius: .35rem;
+    padding:  1rem;
+    background: rgba(0,0,0,.035);
+    opacity: 0;
+    transition: opacity var(--slow);
+    border: .25rem solid rgba(255, 255, 255, 0);
+    transition: transform var(--fast), background var(--fast);
+}
+
+
+#calendar div.day:not(.empty):hover {
+    transform: scale(.95);
+    cursor: pointer;
+    background: rgba(0,0,0,.055);
+}
+
+:root[data-theme=dark] #calendar div.day:not(.empty):hover {
+    background: rgba(255,255,255,.1);
+}
+
+:root[data-theme=dark] #calendar div.day {
+    background: rgba(255,255,255,.05);
+}
+
+#calendar div.day.empty {
+    background: rgba(0,0,0,.015); 
+}
+
+:root[data-theme=dark] #calendar div.day.empty {
+    background: rgba(255,255,255,.025); 
+}
+
+:root[data-theme=dark] #calendar div.day.today {
+    border-color:rgba(255, 255, 255, 0.2);
+}
+
+#calendar div.day.today {
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+
+div#calendar-more, :root[data-terminal-visible=true] div#calendar-more {
+    opacity: 0;
+    display: none;
+}
+
+@media (min-width: 1450px) {
+    div#calendar-more {
+        display: flex;
+        height: 82%;
+       
+        min-width: 27rem;
+        width: 30%;
+        margin-left: 5rem;
+        margin-top: 3.9rem;
+        background-color: rgba(0,0,0,0.035);
+        border-radius: 0.5rem;
+        opacity: 1;
+    }
+
+    :root[data-theme=dark] div#calendar-more {
+        background-color: rgba(255,255,255,0.035);
+    }
+}

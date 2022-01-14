@@ -21,6 +21,8 @@ export class Terminal extends UIComponent {
     private tabBar: UIComponent;
     private logger: UIComponent;
 
+    private viewVars: Object;
+
     public constructor() {
         super({
             type: "div",
@@ -49,6 +51,7 @@ export class Terminal extends UIComponent {
         this.logs = [];
         this.warnings = [];
         this.errors = [];
+        this.viewVars = {};
     }
 
     public start() {
@@ -141,6 +144,9 @@ export class Terminal extends UIComponent {
 
     }
 
+    public addViewVariables(variables : Object){
+        return this.viewVars = variables;
+    }
 
     private check(msg: any): string {
 
@@ -245,6 +251,17 @@ export class Terminal extends UIComponent {
             "TERMINAL_VISIBLE": baseConfig.TERMINAL_VISIBLE,
             "VIEW": location.href.substring(location.href.indexOf("#") + 1),
         });
+
+
+        if(this.viewVars && Object.keys(this.viewVars).length != 0){
+            const view = new UIComponent({
+                type: "h1",
+                text: "View variables",
+                classes: ["log-item-title"]
+            });
+            view.appendTo(this.logger);
+            this.createVariableTable(this.viewVars);
+        }
     }
 
     private createVariableTable(config: Object) {

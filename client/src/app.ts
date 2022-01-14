@@ -1,8 +1,7 @@
 import { Configurations } from './config/config.js';
 import { Keyboard } from './core/keyboard.js';
 import { getParametersByIndex } from './lib/gtd-ts/data/urltools.js';
-import { prefersDarkMode } from './lib/gtd-ts/web/responsivetools.js';
-import { setStyles } from './lib/gtd-ts/web/uicomponent.js';
+import { TextBundle } from './res/textBundle.js';
 import Router from './views/router.js';
 
 /**
@@ -12,10 +11,12 @@ class App {
 
     private keyboard : Keyboard;
     public router : Router;
-    public  configurations : Configurations;
-   
+    public configurations : Configurations;
+    public bundle : TextBundle;
+
     constructor() {
         this.configurations = new Configurations();
+        this.bundle = new TextBundle(navigator.language);
         this.router = new Router(this.configurations);
         this.keyboard = new Keyboard();
         console.log(this.configurations.BASE.APP_NAME + " " + this.configurations.BASE.APP_VERSION + " is loaded!");

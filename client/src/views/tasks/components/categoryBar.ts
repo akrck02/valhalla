@@ -18,23 +18,6 @@ export default class CategoryBar extends UIComponent {
     }
 
     public build(configuration: Configurations, selected : string, callback : (selected:string) => void): void {
-        const searchBar = new UIComponent({
-            type: "div",
-            id: "search-bar",
-            classes: ["box-row"],
-        });
-
-        const searchInput = new UIComponent({
-            type: "input",
-            id: "search-input",
-            classes: ["box-row"],
-            attributes: {
-                placeholder: "Search ...",
-            },
-        });
-
-        searchInput.appendTo(searchBar);
-        this.appendChild(searchBar);
 
         const categories = taskService.getUserTaskCategories("akrck02");
 

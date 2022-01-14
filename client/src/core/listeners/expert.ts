@@ -10,8 +10,8 @@ export class ExpertListener {
     }
 
     public search(): void {
-        APP.router.searchbar.focus();
-        (APP.router.searchbar as HTMLInputElement).value = "";
+        APP.router.osNavbar.focusSearchbar();
+        APP.router.osNavbar.clearSearchbar();
     }
 
 

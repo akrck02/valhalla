@@ -1,7 +1,7 @@
 import { APP } from "../app.js";
-import { setStyles } from "../lib/gtd-ts/web/uicomponent.js";
+import { setDataset, setStyles } from "../lib/gtd-ts/web/uicomponent.js";
 
-enum ENVIROMENT {
+export enum ENVIROMENT {
     DEVELOPMENT = "development",
     PRODUCTION = "production",
 }
@@ -90,6 +90,8 @@ export class Configurations {
     }
 
     public setTerminalVisible(value: boolean) {
+        
+
         this.BASE.TERMINAL_VISIBLE = value;
         this.addConfigVariable("TERMINAL_VISIBLE", this.BASE.TERMINAL_VISIBLE);
 
@@ -102,7 +104,12 @@ export class Configurations {
 
 
     public toggleTerminal() {
+
+        if(this.BASE.ENVIROMENT !== ENVIROMENT.DEVELOPMENT)
+            return; 
+
         this.setTerminalVisible(!this.BASE.TERMINAL_VISIBLE);
+        setDataset(document.documentElement, {"terminalVisible" : this.BASE.TERMINAL_VISIBLE});
     }
 
     

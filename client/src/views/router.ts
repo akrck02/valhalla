@@ -1,4 +1,5 @@
 import { APP } from "../app.js";
+import OsNavbar from "../components/os/osnavbar.js";
 import { Sidebar } from "../components/sidebar.js";
 import { Terminal } from "../components/terminal/terminal.js";
 import { Configurations } from "../config/config.js";
@@ -11,8 +12,7 @@ import TasksV from "./tasks/tasksV.js";
 export default class Router {
 
     public parent : HTMLElement;
-    public osNavbar : HTMLElement;
-    public searchbar : HTMLElement;
+    public osNavbar : OsNavbar;
     public sidebar : Sidebar;
     public terminal : Terminal;
     public container : UIComponent;
@@ -20,9 +20,9 @@ export default class Router {
 
     constructor(configurations : Configurations) {
 
+        this.osNavbar = new OsNavbar();
+
         this.configurations = configurations;
-        this.osNavbar = document.getElementById("os-navbar");
-        this.searchbar = this.osNavbar.querySelector("input");
         this.parent = document.getElementById("view-container") as HTMLElement;
         this.container = new UIComponent({
             type: "div",
@@ -48,6 +48,8 @@ export default class Router {
     
         try{
             this.clear();
+            this.osNavbar.clearControls();
+            this.terminal.addViewVariables({});
 
             switch (params[0]) {
                 case undefined:

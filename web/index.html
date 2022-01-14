@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light" data-animations="true">
 
 <head>
     <meta charset="UTF-8">
@@ -13,11 +13,13 @@
 <body class="no-copy">
     <header id="os-navbar" class="box-row" style="top:0;">
         <h1 id="title" draggable="false">VALHALLA</h1>
-        <div id="drag-region" style="width: 100%;"></div>
+        <div id="first" class="drag-region"></div>
         <div id="search" draggable="false">
             <input id="search-input" draggable="false" type="text" placeholder="Search...">
         </div>
-        <div id="drag-region" style="width: 100%;"></div>
+        <div class="drag-region" style="width: 100%;"></div>
+        <div class="drag-region" id="control-panel" style="width: fit-content;"></div>
+       
         <div id="window-controls" class="box-row">
             <div class="button" id="min-button" draggable="false">
                 <svg class="icon" draggable="false" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#fff">
