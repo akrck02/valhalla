@@ -1,5 +1,6 @@
 */**/delete.*
-**/node_modules/**
-**/out/**
-**/temp/**
-**/db/**
+node_modules
+
+server/out/
+client/temp/
+db/
