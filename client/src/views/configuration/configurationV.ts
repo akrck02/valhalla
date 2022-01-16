@@ -22,7 +22,7 @@ export default class ConfigurationV extends UIComponent {
         const menu = this.createMenu();
         const content = new UIComponent({
             type: "div",
-            classes: ["box-column", "box-y-center"],
+            classes: ["backdrop","box-column", "box-y-center"],
             styles: {
                 width: "calc(100% - 16rem)",
                 height: "100%",

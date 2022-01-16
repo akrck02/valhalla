@@ -192,23 +192,38 @@ export default class CalendarV extends UIComponent {
 
         const calendarView = this;
         const button = new UIComponent({
-            type: "button",
+            type: "select",
             id: "calendar-prev-month",
             text: "Previous",
             styles: {
+                background: "rgb(255,255,255,.05)",
                 borderRadius: "50rem",
-                padding: "0.25rem 1rem",
+                padding: "0.25rem .5rem",
+                border: "none",
+                width: "6.5rem",
+                color: "rgba(255,255,255,.8)",
             }
         });
+
+        for (let i = 0; i < 12; i++) {
+            const option = new UIComponent({
+                type: "option",
+                text: DateText.month(i),
+                attributes: {
+                    value: i + "",
+                }
+            });
+
+            button.appendChild(option);
+        }
 
         APP.router.osNavbar.addToControls(button);
-
         setEvents(button.element , {
-            "click" : () => {
-                calendarView.createCalendar(new Date(calendarView.currentMonth.getFullYear(), calendarView.currentMonth.getMonth() - 1, 1));
+            "change" : () => {
+                const month = parseInt((button.element as HTMLSelectElement).value);
+                calendarView.createCalendar(new Date(calendarView.currentMonth.getFullYear(), month, 1));
             }
         });
-
 
     }
 }

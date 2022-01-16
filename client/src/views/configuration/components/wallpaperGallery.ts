@@ -9,19 +9,10 @@ export class WallpaperGallery extends UIComponent {
             classes: ["box-row"],
         });
 
-        const wallpaper1 = this.createWallpaperGalleryItem(configurations, "wall1-min.png", "wall1.png");
-        const wallpaper2 = this.createWallpaperGalleryItem(configurations, "wall2-min.png", "wall2.png");
-        const wallpaper3 = this.createWallpaperGalleryItem(configurations, "wall3-min.png", "wall3.png");
-        const wallpaper4 = this.createWallpaperGalleryItem(configurations, "wall4-min.png", "wall4.png");
-        const wallpaper5 = this.createWallpaperGalleryItem(configurations, "wall5-min.png", "wall5.png");
-        const wallpaper6 = this.createWallpaperGalleryItem(configurations, "wall6-min.png", "wall6.png");
-
-        this.appendChild(wallpaper1);
-        this.appendChild(wallpaper2);
-        this.appendChild(wallpaper3);
-        this.appendChild(wallpaper4);
-        this.appendChild(wallpaper5);
-        this.appendChild(wallpaper6);
+        for (let i = 1; i < 25; i++) {
+            const wallpaper = this.createWallpaperGalleryItem(configurations, "wall" + i + "-min.png", "wall" + i +".png");
+            this.appendChild(wallpaper);
+        }
 
     }
 
