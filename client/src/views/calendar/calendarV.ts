@@ -1,8 +1,8 @@
 import { APP } from "../../app.js";
+import { Selector } from "../../components/os/selector.js";
 import { Configurations } from "../../config/config.js";
 import { DateText } from "../../core/data/dateText.js";
-import { isLargeDevice, isMediumDevice } from "../../lib/gtd-ts/web/responsivetools.js";
-import { setEvents, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 
 export default class CalendarV extends UIComponent {
 
@@ -13,20 +13,20 @@ export default class CalendarV extends UIComponent {
     public constructor() {
         super({
             type: "view",
-            classes: ["box-row"],
+            classes: ["box-column","backdrop"],
             styles: {
                 width: "100%",
                 height: "100%",
+                overflowY: "hidden"
             },
 
         });
 
         this.setCalendarOsBarControls();
-
         this.calendarContainer = new UIComponent({
             type: "div",
             id: "calendar-container",
-            classes: ["box-row", "backdrop"],
+            classes: ["box-row"],
         });
     }
 
@@ -44,9 +44,9 @@ export default class CalendarV extends UIComponent {
 
     }
 
-    private createCalendar(today: Date) {
+    private createCalendar(current: Date) {
 
-        this.currentMonth = today;
+        this.currentMonth = current;
         this.calendarContainer.clean();
         const calendarWrapper = new UIComponent({
             type: "div",
@@ -58,11 +58,11 @@ export default class CalendarV extends UIComponent {
             }
         });
 
-        const year = today.getFullYear();
-        const month = today.getMonth();
+        const year = current.getFullYear();
+        const month = current.getMonth();
 
-        const lastDayOfMonth = new Date(year, month-1, 0).getDate();
-        let dayOfWeek = new Date(year, month, 1).getDay() - 1;
+        const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+        let dayOfWeek = new Date(year, month + 1, 1).getDay() - 1;
 
         if (dayOfWeek == -1) {
             dayOfWeek = 7;
@@ -72,12 +72,13 @@ export default class CalendarV extends UIComponent {
             "LAST_DAY": lastDayOfMonth,
             "DAY_WEEK": dayOfWeek,
             "MONTH": DateText.month(month),
-            "TODAY": today.toISOString(),
+            "TODAY": current.toISOString(),
         });
 
 
         const title = new UIComponent({
             type: "h1",
+            id: "title",
             text: DateText.month(month) + " " + year,
             styles: {
                 padding: "0 0 2rem 0"
@@ -127,6 +128,7 @@ export default class CalendarV extends UIComponent {
 
             
             //if year is this year and month is this month and day is today
+            const today = new Date();
             const isToday = today.getFullYear() == year && today.getMonth() == month && realday == today.getDate();
 
             const day = new UIComponent({
@@ -191,39 +193,40 @@ export default class CalendarV extends UIComponent {
     private setCalendarOsBarControls() {
 
         const calendarView = this;
-        const button = new UIComponent({
-            type: "select",
-            id: "calendar-prev-month",
-            text: "Previous",
-            styles: {
-                background: "rgb(255,255,255,.05)",
-                borderRadius: "50rem",
-                padding: "0.25rem .5rem",
-                border: "none",
-                width: "6.5rem",
-                color: "rgba(255,255,255,.8)",
-            }
-        });
-
-        for (let i = 0; i < 12; i++) {
-            const option = new UIComponent({
-                type: "option",
-                text: DateText.month(i),
-                attributes: {
-                    value: i + "",
+        const monthSelector = new Selector("Month", this);
+        for (let i = 0; i <= 12; i++) {
+           monthSelector.addOptionFull(
+               DateText.month(i), 
+               i + "", 
+               (month) => {
+                   calendarView.createCalendar(new Date(calendarView.currentMonth.getFullYear(), month, 1));
                 }
-            });
-
-            button.appendChild(option);
+            );
         }
+        monthSelector.setSelected(0 + "");
+        
+        const yearSelector = new Selector("Year", this);
+        for (let i = new Date().getFullYear() + 1 ; i >= new Date().getFullYear() - 10; i--) {
+            yearSelector.addOption(
+               i + "", 
+               (year) => {                 
+                    calendarView.createCalendar(new Date(year, calendarView.currentMonth.getMonth(), 1));
+                }
+            );
+        }
+        yearSelector.setSelected(new Date().getFullYear() + "");
 
-        APP.router.osNavbar.addToControls(button);
-        setEvents(button.element , {
-            "change" : () => {
-                const month = parseInt((button.element as HTMLSelectElement).value);
-                calendarView.createCalendar(new Date(calendarView.currentMonth.getFullYear(), month, 1));
-            }
-        });
+        const modeSelector = new Selector("Mode", this);
+        modeSelector.addOption( "Month", (year) => {});
+        modeSelector.addOption( "Week", (year) => {});
+        modeSelector.addOption( "Day", (year) => {});
+        modeSelector.setSelected("Month");
+        
+
+        APP.router.osNavbar.addToControls(modeSelector);
+        APP.router.osNavbar.addToControls(monthSelector);
+        APP.router.osNavbar.addToControls(yearSelector);
+       
 
     }
 }

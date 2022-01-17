@@ -80,16 +80,6 @@ export default class TasksV extends UIComponent {
                 const task = new UIComponent({
                     type: "div",
                     classes: ["box-row", "box-y-center", "box-x-between", "task"],
-                    styles: {
-                        width: "100%",
-                        padding: "1rem",
-                        borderRadius: "0.55rem",
-                        height: "3rem",
-                        background: "rgba(255,255,255,0.05)",
-                        marginBottom: ".5rem",
-                        opacity: "0",
-                        transition: "opacity var(--slow)",
-                    },
                 });
 
                 const taskTitle = new UIComponent({

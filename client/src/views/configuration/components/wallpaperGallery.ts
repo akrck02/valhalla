@@ -9,7 +9,7 @@ export class WallpaperGallery extends UIComponent {
             classes: ["box-row"],
         });
 
-        for (let i = 1; i < 25; i++) {
+        for (let i = 1; i < 26; i++) {
             const wallpaper = this.createWallpaperGalleryItem(configurations, "wall" + i + "-min.png", "wall" + i +".png");
             this.appendChild(wallpaper);
         }

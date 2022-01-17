@@ -1,10 +1,12 @@
 import { APP } from "../app.js";
 import { Configurations } from "../config/config.js";
-import { CALENDAR_TODAY, GROUP, SPOKE, TASK_ALT, TUNE } from "../lib/gtd-ts/material/materialicons.js";
+import { CALENDAR_TODAY, GROUP, SPOKE, TASK_ALT, TERMINAL, TUNE } from "../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../lib/gtd-ts/web/uicomponent.js";
 
 export class Sidebar extends UIComponent {
 
+    private buttonBar : UIComponent;
+    private userImage : UIComponent;
     private elements : UIComponent[];
 
     public constructor(configurations : Configurations) {
@@ -13,10 +15,34 @@ export class Sidebar extends UIComponent {
             id: "sidebar",
             classes: ["box-column","box-y-center"],
         });
+
+        this.buttonBar = new UIComponent({
+            type: "div",
+            styles: {
+                height: "calc(100% - 2.5rem)"
+            }
+            
+        });
+
+        this.userImage = new UIComponent({
+            type: "img",
+            attributes : {
+                src: configurations.PATHS.ICONS + "/default-user.png"
+            },
+            styles: {
+                width: "1.7rem",
+                height: "1.7rem",
+                borderRadius: "20rem"
+            }
+        });
+
+
         this.build(configurations);
+        this.appendChild(this.buttonBar);
+        this.appendChild(this.userImage);
     }
 
-    public build(CONFIG : Configurations) {
+    public build(configurations : Configurations) {
         const tasks = new UIComponent({
             type: "a",
             classes: ["sidebar-item","box-center"],
@@ -25,7 +51,7 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }),
             attributes: {
-                href: CONFIG.VIEWS.TASKS,
+                href: configurations.VIEWS.TASKS,
             },
         });
 
@@ -37,7 +63,7 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }),
             attributes: {
-                href: CONFIG.VIEWS.CALENDAR,
+                href: configurations.VIEWS.CALENDAR,
             },
         });
 
@@ -50,7 +76,7 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }),
             attributes: {
-                href: CONFIG.VIEWS.TEAMS,
+                href: configurations.VIEWS.TEAMS,
             },
         });
 
@@ -62,7 +88,7 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }),
             attributes: {
-                href: CONFIG.VIEWS.PROJECTS + "s",
+                href: configurations.VIEWS.PROJECTS + "s",
             },
         });
 
@@ -74,16 +100,31 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }),
             attributes: {
-                href: CONFIG.VIEWS.CONFIGURATION,
+                href: configurations.VIEWS.CONFIGURATION,
             },
         });
 
         this.elements = [tasks, calendar, teams, projects, configuration];
 
-        this.elements.forEach((element) => {
-            this.appendChild(element);
-        });
+        if(configurations.getConfigVariable("GANDALF")){
+            const hiddenTerminal = new UIComponent({
+                type: "a",
+                classes: ["sidebar-item","box-center"],
+                text: TERMINAL({
+                    size: "1.25rem",
+                    fill: "#404040",
+                }),
+                attributes: {
+                    href: configurations.VIEWS.TERMINAL,
+                },
+            });
 
+            this.elements.push(hiddenTerminal);
+        }
+
+        this.elements.forEach((element) => {
+            this.buttonBar.appendChild(element);
+        });
     }
 
     public setSelected(index: number) {

@@ -1,17 +1,11 @@
-import e from "express";
-import { APP } from "../app.js";
-import { ENVIROMENT } from "../config/config.js";
-import { AppearenceListener } from "./listeners/appearence.js";
-import { ExpertListener } from "./listeners/expert.js";
+import { ListenerSet } from "./listenerset.js";
 
 export class Keyboard {
 
-    private appearenceListener: AppearenceListener;
-    private expertListener: ExpertListener;
+    private listeners : ListenerSet;
 
-    public constructor() {
-        this.appearenceListener = new AppearenceListener();
-        this.expertListener = new ExpertListener();
+    public constructor(listeners: ListenerSet) {
+        this.listeners = listeners;
         this.setEventListeners();
     }
 
@@ -21,21 +15,21 @@ export class Keyboard {
 
             // SHIFT + T
             if (event.shiftKey && event.code === 'KeyT') {
-                keyboard.expertListener.toggleTerminal();
+                keyboard.listeners.getExpertListener().toggleTerminal();
             }
 
             // SHIFT + W
             if (event.shiftKey && event.code === 'KeyW') 
-                keyboard.appearenceListener.nextWallpaper();
+                keyboard.listeners.getAppearenceListener().nextWallpaper();
 
 
             // SHIFT + M
             if (event.shiftKey && event.code === 'KeyM') 
-                keyboard.appearenceListener.toggleTheme();
+                keyboard.listeners.getAppearenceListener().toggleTheme();
 
             // SHIFT + S
             if (event.shiftKey && event.code === 'KeyS') {
-                keyboard.expertListener.search();
+                keyboard.listeners.getExpertListener().search();
                 return false;
             }
         });

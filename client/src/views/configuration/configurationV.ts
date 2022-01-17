@@ -26,6 +26,8 @@ export default class ConfigurationV extends UIComponent {
             styles: {
                 width: "calc(100% - 16rem)",
                 height: "100%",
+                overflow: "auto",
+                paddingBottom: "10rem",
                 background: "rgba(0,0,0,0.05)",
             },
         });
@@ -75,8 +77,24 @@ export default class ConfigurationV extends UIComponent {
             },
         });
 
+        const userOption = new UIComponent({
+            type: "div",
+            text: "User",
+            classes: ["box-row", "box-y-center"],
+            styles: {
+                width: "80%",
+                height: "2.5rem",
+                margin: ".1rem 0",
+                borderRadius: "0.35rem",
+                padding: "0 1rem",
+                cursor: "pointer",
+            },
+        });
+
+
         menu.appendChild(title);
         menu.appendChild(appearenceOption);
+        menu.appendChild(userOption);
 
         return menu;
     }

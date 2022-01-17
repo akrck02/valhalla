@@ -1,15 +1,17 @@
+import { ListenerSet } from "../../core/listenerset.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import Searchbar from "./searchbar/searchbar.js";
 
 export default class OsNavbar {
 
     private element : HTMLElement;
     private controlpanel : HTMLElement;
-    private searchbar : HTMLInputElement;
+    private searchbar : Searchbar;
 
-    public constructor() {
+    public constructor(listeners : ListenerSet) {
         this.element = document.getElementById("os-navbar");
         this.controlpanel = this.element.querySelector("div#control-panel");
-        this.searchbar = this.element.querySelector("input#search-input");
+        this.searchbar = new Searchbar(this.element.querySelector("#search"), listeners);
     }
 
 
@@ -28,7 +30,7 @@ export default class OsNavbar {
     }
 
     public clearSearchbar() {
-        this.searchbar.value = "";
+        this.searchbar.setValue("");
     }
 
 

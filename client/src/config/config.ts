@@ -43,6 +43,7 @@ export class Configurations {
         this.PATHS["RESOURCES"] = this.PATHS["ROOT"] + "resources/";
         this.PATHS["FONTS"] = this.PATHS["RESOURCES"] + "fonts/";
         this.PATHS["IMAGES"] = this.PATHS["RESOURCES"] + "images/";
+        this.PATHS["ICONS"] = this.PATHS["RESOURCES"] + "icons/";
         this.PATHS["WALLPAPERS"] = this.PATHS["RESOURCES"] + "wallpapers/";
         this.PATHS["VIDEOS"] = this.PATHS["RESOURCES"] + "videos/";
         this.PATHS["AUDIOS"] = this.PATHS["RESOURCES"] + "audios/";
@@ -65,6 +66,7 @@ export class Configurations {
         this.VIEWS["TEAMS"] = this.VIEWS["BASE_URL"] + "teams/";
         this.VIEWS["PROJECTS"] = this.VIEWS["BASE_URL"] + "projects/";
         this.VIEWS["CONFIGURATION"] = this.VIEWS["BASE_URL"] + "configuration/";
+        this.VIEWS["TERMINAL"] = this.VIEWS["BASE_URL"] + "terminal/";
         this.VIEWS["ERROR"] = this.VIEWS["BASE_URL"] + "error/";
     }
 

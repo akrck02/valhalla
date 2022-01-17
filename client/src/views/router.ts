@@ -3,11 +3,15 @@ import OsNavbar from "../components/os/osnavbar.js";
 import { Sidebar } from "../components/sidebar.js";
 import { Terminal } from "../components/terminal/terminal.js";
 import { Configurations } from "../config/config.js";
+import { ListenerSet } from "../core/listenerset.js";
 import { UIComponent } from "../lib/gtd-ts/web/uicomponent.js";
-import homeV from "./calendar/calendarV.js";
+import CalendarV from "./calendar/calendarV.js";
 import ConfigurationV from "./configuration/configurationV.js";
 import errorV from "./error/errorV.js";
+import ProjectsV from "./projects/projects.js";
 import TasksV from "./tasks/tasksV.js";
+import TeamsV from "./teams/teams.js";
+import TerminalV from "./terminal/terminal.js";
 
 export default class Router {
 
@@ -18,9 +22,9 @@ export default class Router {
     public container : UIComponent;
     public configurations : Configurations;
 
-    constructor(configurations : Configurations) {
+    constructor(configurations : Configurations, listeners : ListenerSet) {
 
-        this.osNavbar = new OsNavbar();
+        this.osNavbar = new OsNavbar(listeners);
 
         this.configurations = configurations;
         this.parent = document.getElementById("view-container") as HTMLElement;
@@ -59,12 +63,24 @@ export default class Router {
                     this.sidebar.setSelected(0);
                     break;
                 case "calendar":
-                    new homeV().show(params.splice(1), this.container, this.configurations);
+                    new CalendarV().show(params.splice(1), this.container, this.configurations);
                     this.sidebar.setSelected(1);
+                    break;
+                case "teams":
+                    new TeamsV().show(params.splice(1), this.container, this.configurations);
+                    this.sidebar.setSelected(2);
+                    break;
+                case "projects":
+                    new ProjectsV().show(params.splice(1), this.container, this.configurations);
+                    this.sidebar.setSelected(3);
                     break;
                 case "configuration":
                     new ConfigurationV().show(params.splice(1), this.container, this.configurations);
                     this.sidebar.setSelected(4);
+                    break;
+                case "terminal":
+                    new TerminalV().show(params.splice(1), this.container, this.configurations);
+                    this.sidebar.setSelected(5);
                     break;
                 case "error":
                     new errorV().show(params.splice(1), this.container, this.configurations);

@@ -2,13 +2,10 @@ import { Configurations } from "../../config/config.js";
 import { ERRORS } from "../../config/errors.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 
-export default class ErrorV {
-    public show(params : string[], container : UIComponent, configurations : Configurations): void {
-        let error = ERRORS[params[0]]; 
-        if(!error) 
-            error = ERRORS[404];
-        
-        const view = new UIComponent({
+export default class ErrorV extends UIComponent{
+
+    public constructor() {
+        super({
             type: "view",
             classes: ["box-column","box-center","backdrop"],
             styles: {
@@ -17,9 +14,13 @@ export default class ErrorV {
                 height: "100%",
             },
         });
+    }
 
-
-
+    public show(params : string[], container : UIComponent, configurations : Configurations): void {
+        let error = ERRORS[params[0]]; 
+        if(!error) 
+            error = ERRORS[404];
+        
         const image = new UIComponent({
             type: "img",
             attributes: {
@@ -45,9 +46,9 @@ export default class ErrorV {
             }
         });
 
-        view.appendChild(image);
-        view.appendChild(title);
-        view.appendTo(container);
+        this.appendChild(image);
+        this.appendChild(title);
+        this.appendTo(container);
 
         setTimeout(() => {
             title.element.style.opacity = "1";

@@ -119,6 +119,8 @@ border-spacing: 0;
 */
 * {
 box-sizing: border-box;
+position: relative;
+z-index: 0;
 }
 *:focus {
 outline: var(--default-outline);
