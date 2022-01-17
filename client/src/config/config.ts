@@ -68,7 +68,7 @@ export class Configurations {
         this.VIEWS["CONFIGURATION"] = this.VIEWS["BASE_URL"] + "configuration/";
         this.VIEWS["TERMINAL"] = this.VIEWS["BASE_URL"] + "terminal/";
         this.VIEWS["ERROR"] = this.VIEWS["BASE_URL"] + "error/";
-    }
+    } 
 
     public toggleTheme() {
         if (this.BASE.WALLPAPER){
