@@ -26,20 +26,22 @@ export default class Searchbar extends UIComponent {
 
         setEvents(this.input,{
             keyup: (event) => {
+
                 if (event.key === "Backspace" && this.input.value.length == 0) {
                     this.removeTag();
+                    this.mode = SEARCHBAR_MODE.SEARCH;
+                    return
                 }
 
                 if(this.input.value.substring(0,3) === ">cm"){
                     this.setTag("CM");
                     this.setValue("");
                     this.mode = SEARCHBAR_MODE.COMMAND;
+                    return;
                 }
 
                 if (event.key === "Enter"){
-                    
                     const value = this.input.value;
-
                     switch (this.mode) {
                         case SEARCHBAR_MODE.COMMAND:
                             this.handler.handle(value);
@@ -75,7 +77,10 @@ export default class Searchbar extends UIComponent {
 
     public removeTag(){
         this.tagContainer.classList.remove("visible"); 
-        this.tagContainer.innerHTML = ""; 
+        setTimeout(() => {
+            this.tagContainer.innerHTML = ""; 
+        }, 100);
+        
     }
 
 

@@ -55,40 +55,25 @@ export default class ConfigurationV extends UIComponent {
             text: "Configuration",
             classes: ["box-column", "box-y-start", "box-x-center"],
             styles: {
-                width: "calc(80% - 2rem)",
+                width: "calc(80% - 1rem)",
                 opacity: "0.85",
-                height: "4rem",
+                height: "2rem",
+                padding: "2rem 0",
                 borderBottom: ".1rem solid rgba(0,0,0,0.05)",
+                marginBottom: "1rem",
             }
         });
 
         const appearenceOption = new UIComponent({
-            type: "div",
+            type: "button",
             text: "Appearence",
-            classes: ["box-row", "box-y-center"],
-            styles: {
-                width: "80%",
-                height: "2.5rem",
-                margin: ".5rem 0",
-                borderRadius: "0.35rem",
-                padding: "0 1rem",
-                cursor: "pointer",
-                background: "rgba(0,0,0,0.15)"
-            },
+            classes: ["option","selected","box-row", "box-y-center"],
         });
 
         const userOption = new UIComponent({
-            type: "div",
+            type: "button",
             text: "User",
-            classes: ["box-row", "box-y-center"],
-            styles: {
-                width: "80%",
-                height: "2.5rem",
-                margin: ".1rem 0",
-                borderRadius: "0.35rem",
-                padding: "0 1rem",
-                cursor: "pointer",
-            },
+            classes: ["option","box-row", "box-y-center"],
         });
 
 

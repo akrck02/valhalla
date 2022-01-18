@@ -1,7 +1,7 @@
 import { APP } from "../app.js";
 import OsNavbar from "../components/os/osnavbar.js";
-import { Sidebar } from "../components/sidebar.js";
-import { Terminal } from "../components/terminal/terminal.js";
+import { Sidebar } from "../components/sidebar/sidebar.js";
+import { VariablePanel } from "../components/variables/variablePanel.js";
 import { Configurations } from "../config/config.js";
 import { ListenerSet } from "../core/listenerset.js";
 import { UIComponent } from "../lib/gtd-ts/web/uicomponent.js";
@@ -18,7 +18,7 @@ export default class Router {
     public parent : HTMLElement;
     public osNavbar : OsNavbar;
     public sidebar : Sidebar;
-    public terminal : Terminal;
+    public variablePanel : VariablePanel;
     public container : UIComponent;
     public configurations : Configurations;
 
@@ -36,13 +36,13 @@ export default class Router {
             },
         });
 
-        this.terminal = new Terminal();
-        this.terminal.start();
+        this.variablePanel = new VariablePanel();
+        this.variablePanel.start();
 
         this.sidebar = new Sidebar(configurations);
         this.sidebar.appendTo(this.parent);
         this.container.appendTo(this.parent);
-        this.terminal.appendTo(this.parent);
+        this.variablePanel.appendTo(this.parent);
     }
     /**
      * Load a view
@@ -53,7 +53,7 @@ export default class Router {
         try{
             this.clear();
             this.osNavbar.clearControls();
-            this.terminal.addViewVariables({});
+            this.variablePanel.addViewVariables({});
 
             switch (params[0]) {
                 case undefined:

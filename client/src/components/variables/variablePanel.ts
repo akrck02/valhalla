@@ -1,7 +1,7 @@
 import { APP } from "../../app.js";
 import { setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 
-export class Terminal extends UIComponent {
+export class VariablePanel extends UIComponent {
 
     private mode: string;
     private visible: boolean;
@@ -12,7 +12,7 @@ export class Terminal extends UIComponent {
     public constructor() {
         super({
             type: "div",
-            id: "terminal"
+            id: "variable-panel"
         });
 
         this.visible = true;
@@ -36,7 +36,7 @@ export class Terminal extends UIComponent {
         setInterval(() => this.update(terminal), 250);
     }
 
-    private update(terminal: Terminal) {
+    private update(terminal: VariablePanel) {
         if (!this.visible)
             return;
         this.logger.element.innerHTML = "";

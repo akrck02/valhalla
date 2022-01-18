@@ -1,0 +1,92 @@
+
+/**
+*  -----------------------------------------------------
+*   Global CSS configurations here 
+*  -----------------------------------------------------
+*/
+:root[data-animations=false]{
+    --fast : 0s;
+    --medium : 0s;
+    --slow : 0s;
+}
+
+body {
+    z-index: 0;
+    background-size: cover;
+}
+
+
+body.loading::after {
+    content: "";
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    transform: rotate(0deg);
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 1);
+    z-index: -1;
+}
+
+body.loading::after {
+    animation: loader .5s;
+}
+
+*::-webkit-scrollbar {
+    width: .35rem;
+    background-color: transparent;
+}
+
+*::-webkit-scrollbar:hover {
+    width: .35rem;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, .15);
+    border-radius: 3em;
+}
+
+:root[data-theme=dark] *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .1);
+}
+
+@keyframes loader {
+    0% {
+        left: 0%;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+/**
+*  -----------------------------------------------------
+*   Global view configurations 
+*  -----------------------------------------------------
+*/
+div#view-container {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    align-items: center;
+    justify-content: start;
+    height: calc(100vh - 2.5rem);
+    width: 100vw;
+    max-width: 100vw;
+
+}
+
+view {
+    scroll-behavior: smooth;
+    border-top: .1rem solid rgba(0, 0, 0, .05);
+}
+
+:root[data-theme=dark] view {
+    border: none;
+}
+
+.backdrop {
+    backdrop-filter: blur(.3rem);
+}

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Database } from "../db";
 import Model from "./model";
-const database = require("../db.js");
+
 
 export class Tasks implements Model {
 

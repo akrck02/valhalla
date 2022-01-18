@@ -8,7 +8,7 @@ export class Selector extends UIComponent {
 
     public constructor(text : string , parent : UIComponent) {
         super({
-            type: "div",
+            type: "button",
             classes: ["selector"],
             text: text,
         });
@@ -47,6 +47,7 @@ export class Selector extends UIComponent {
     public addOptionFull(option: string, value: string , callback : Function){
     
         const optionComponent = new UIComponent({
+            type: "button",
             classes: ["option"],
             text: option,
             data: {

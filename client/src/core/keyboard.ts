@@ -13,9 +13,18 @@ export class Keyboard {
         const keyboard = this;
         document.addEventListener('keyup', function (event) {
 
+            //ALT + NUMBER
+            if (event.altKey) {
+                let keyNumber = +event.key;
+                
+                if (keyNumber >= 1 && keyNumber <= 9) 
+                    keyboard.listeners.getExpertListener().clickControl(keyNumber - 1);
+               
+            }
+
             // SHIFT + T
             if (event.shiftKey && event.code === 'KeyT') {
-                keyboard.listeners.getExpertListener().toggleTerminal();
+                keyboard.listeners.getExpertListener().toggleVariablePanel();
             }
 
             // SHIFT + W

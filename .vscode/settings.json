@@ -1,0 +1,7 @@
+{
+    "files.exclude": {
+        "server/out": true,
+        "client/temp": true
+    },
+    "workspace.isHidden": true
+}

@@ -19,7 +19,7 @@ export default class CategoryBar extends UIComponent {
 
     public build(configuration: Configurations, selected : string, callback : (selected:string) => void): void {
 
-        const categories = taskService.getUserTaskCategories("akrck02");
+        const categories = taskService.getUserTaskCategories(configuration.USER.USERNAME);
 
         categories.success((categories) => {
             categories.forEach((category) => {
@@ -42,6 +42,14 @@ export default class CategoryBar extends UIComponent {
                 this.appendChild(option);
             });
 
+            if(categories.length == 0) {
+                const noCategories = new UIComponent({
+                    type: "div",
+                    text: "There are no categories here yet.",
+                });
+
+                this.appendChild(noCategories);
+            }
 
             if(!selected){
                 this.options[0]?.element.click();

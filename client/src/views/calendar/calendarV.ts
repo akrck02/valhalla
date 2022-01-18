@@ -1,3 +1,4 @@
+import { time } from "console";
 import { APP } from "../../app.js";
 import { Selector } from "../../components/os/selector.js";
 import { Configurations } from "../../config/config.js";
@@ -7,7 +8,6 @@ import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 export default class CalendarV extends UIComponent {
 
     private calendarContainer: UIComponent;
-
     private currentMonth: Date;
 
     public constructor() {
@@ -30,8 +30,12 @@ export default class CalendarV extends UIComponent {
         });
     }
 
-
-
+    /**
+     * Show the calendar view
+     * @param params the parameters
+     * @param container the container to append the view
+     * @param config the app configuration
+     */
     public show(params: string[], container: UIComponent, config: Configurations): void {
 
         this.createCalendar(new Date());
@@ -44,6 +48,10 @@ export default class CalendarV extends UIComponent {
 
     }
 
+    /**
+     * Create the calendar for the given month
+     * @param current the current month
+     */
     private createCalendar(current: Date) {
 
         this.currentMonth = current;
@@ -68,14 +76,14 @@ export default class CalendarV extends UIComponent {
             dayOfWeek = 7;
         }
 
-        APP.router.terminal.addViewVariables({
+        APP.router.variablePanel.addViewVariables({
             "LAST_DAY": lastDayOfMonth,
             "DAY_WEEK": dayOfWeek,
             "MONTH": DateText.month(month),
             "TODAY": current.toISOString(),
         });
 
-
+        const rows = [];
         const title = new UIComponent({
             type: "h1",
             id: "title",
@@ -98,24 +106,19 @@ export default class CalendarV extends UIComponent {
             classes: ["calendar-row", "box-row", "box-x-start", "box-y-center"],
         });
 
-        let timer = 100;
-        let difference = 100;
+
         let realday = 1;
-
         if(dayOfWeek != 7)
-        for (let i = 0; i < dayOfWeek; i++) {
-            const day = new UIComponent({
-                text: "",
-                classes: ["day","empty"]
-            })
+            for (let i = 0; i < dayOfWeek; i++) {
+                const day = new UIComponent({
+                    text: "",
+                    classes: ["day","empty"]
+                })
 
-            this.showDayDiv(day, timer);
-            timer += difference;
-            difference = this.calculateDifference(difference);
-
-            row.appendChild(day);
-            calendar.appendChild(row);
-        }
+                row.appendChild(day);
+                rows.push(row);
+                calendar.appendChild(row);
+            }
 
         for (let i = dayOfWeek; i < lastDayOfMonth + dayOfWeek; i++) {
 
@@ -124,6 +127,7 @@ export default class CalendarV extends UIComponent {
                     classes: ["calendar-row", "box-row", "box-x-start", "box-y-center"],
                 });
                 calendar.appendChild(row);
+                rows.push(row);
             }
 
             
@@ -137,11 +141,6 @@ export default class CalendarV extends UIComponent {
             })
 
             row.appendChild(day);
-
-            this.showDayDiv(day, timer);
-            timer += difference;
-            difference = this.calculateDifference(difference);
-
             realday++;
 
         }
@@ -153,10 +152,6 @@ export default class CalendarV extends UIComponent {
                 classes: ["day","empty"]
             })
 
-            this.showDayDiv(day, timer);
-            timer += difference;
-            difference = this.calculateDifference(difference);
-
             row.appendChild(day);
             calendar.appendChild(row);
             index++;
@@ -165,17 +160,30 @@ export default class CalendarV extends UIComponent {
         calendarWrapper.appendChild(title);
         calendarWrapper.appendChild(calendar);
         this.calendarContainer.appendChild(calendarWrapper);
-
-
         this.calendarContainer.appendChild(new UIComponent({
             type: "div",
             id: "calendar-more",
             classes: ["box-row", "box-x-center", "box-y-center"],
         }));
+        
+
+        let even = true;
+        rows.forEach((row) =>{
+            even = !even;
+
+            let time = even ? 100 : 200;
+            time += Math.random() * 50;
+
+            setTimeout(() => {
+                row.element.classList.add("visible");
+            }, time);
+
+          
+        });
     }
 
     public calculateDifference(difference : number) : number{
-        difference -= 5 * Math.random();
+        difference = difference * Math.random();
 
         if (difference < 0) {
             difference = 0;
@@ -184,17 +192,18 @@ export default class CalendarV extends UIComponent {
         return difference;
     }
 
-    private showDayDiv( day : UIComponent, timer : number) {
-        setTimeout(() => {
-            day.element.style.opacity = "1";
-        }, timer);
-    }
-
+    /**
+     * Set the calendar controls on the OS bar
+     * 
+     * - Calendar mode selector
+     * - Year selector
+     * - Month selector
+     */
     private setCalendarOsBarControls() {
 
         const calendarView = this;
         const monthSelector = new Selector("Month", this);
-        for (let i = 0; i <= 12; i++) {
+        for (let i = 0; i < 12; i++) {
            monthSelector.addOptionFull(
                DateText.month(i), 
                i + "", 

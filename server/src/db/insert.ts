@@ -8,63 +8,23 @@ export class Inserter {
         try {
             
         await Inserter.insertUser(db, {
-            username: "akrck02",
+            username: "default",
             password: "1234",
-            email: "akrck02@gmail.com",
-            picture: "akrck02.png"
+            email: "defaultuser@nomail.com",
+            picture: "default-user.png"
         });
 
         await Inserter.insertTask(db, {
-            author: 'akrck02', 
-            name : 'Start Valhalla development on electron', 
-            description: 'Valhalla is a modern productivity web app!',
+            author: 'default', 
+            name : 'Start using valhalla 😉', 
+            description: 'Optimize your workflow with valhalla',
             start: TimeUtils.now(),
             end : TimeUtils.now(),
             allDay: 1,
             done: 0
         });
 
-        await Inserter.insertTask(db, {
-            author: 'akrck02', 
-            name : 'Get Task manager working', 
-            description: 'Too much typescript',
-            start: TimeUtils.now(),
-            end : TimeUtils.now(),
-            allDay: 1,
-            done: 0
-        });
-
-        await Inserter.insertTask(db, {
-            author: 'akrck02', 
-            name : 'API update for Valhalla', 
-            description: ':\')',
-            start: TimeUtils.now(),
-            end : TimeUtils.now(),
-            allDay: 1,
-            done: 0
-        });
-
-        await Inserter.insertTaskLabel(db, 1, 'Development');
-        await Inserter.insertTaskLabel(db, 2, 'Development');
-        await Inserter.insertTaskLabel(db, 3, 'Today');
-
-        let date = new Date();
-
-        for (let i = 0; i < 20; i++) {
-            await Inserter.insertTask(db, {
-                author: 'akrck02', 
-                name : 'API update for Valhalla', 
-                description: ':\')',
-                start: TimeUtils.print(date),
-                end : TimeUtils.print(date),
-                allDay: 1,
-                done: Math.random() > 0.5 ? 1 : 0
-            });
-            await Inserter.insertTaskLabel(db, i, 'Test');
-
-            //add a random amount of days to the date
-            date.setDate(date.getDate() + i);
-        }
+        await Inserter.insertTaskLabel(db, 1, 'Today');
 
         } catch (err) {
             console.log("Database", err);

@@ -1,0 +1,25 @@
+div#wallpaper-gallery {
+    width: 100%;
+    padding: .5rem 3rem;
+    flex-wrap: wrap;
+}
+
+div#wallpaper-gallery img.wallpaper-gallery-item {
+    width: 7rem;
+    height: 4rem;
+    object-fit: cover;
+    border-radius: 0.35rem;
+    cursor: pointer;
+    margin: 0.5rem .75rem;
+    box-shadow: var(--default-box-shadow);
+    transition: transform var(--fast);
+}
+
+div#wallpaper-gallery img.wallpaper-gallery-item:hover {
+    transform: scale(1.1);
+}
+
+div#wallpaper-gallery img.wallpaper-gallery-item.selected {
+    transform: scale(1.3);
+    border: .25rem dashed rgba(0, 0, 0, .5);
+}

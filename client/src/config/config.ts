@@ -12,12 +12,14 @@ export class Configurations {
     public PATHS;
     public VIEWS;
     public API;
+    public USER;
 
     public constructor() {
         this.declareConfig();
         this.declarePaths();
         this.declareApi();
         this.declareViews();
+        this.declareUser();
     }
 
     private declareConfig() {
@@ -32,7 +34,7 @@ export class Configurations {
             LOG_LEVEL: "debug",
             LOG_FILE: "app.log",
             THEME: "light",
-            TERMINAL_VISIBLE: false,
+            VARIABLES_VISIBLE: false,
         };
     }
 
@@ -70,6 +72,16 @@ export class Configurations {
         this.VIEWS["ERROR"] = this.VIEWS["BASE_URL"] + "error/";
     } 
 
+    public declareUser() {
+        this.USER = {};
+        this.USER["USERNAME"] = "default";
+        this.USER["OAUTH"] = "#";
+    }
+
+    /**
+     * Toogle the dark / light mode.
+     * if a wallpaper is set, does not change the theme
+     */
     public toggleTheme() {
         if (this.BASE.WALLPAPER){
             return;
@@ -78,6 +90,10 @@ export class Configurations {
         this.setTheme((this.BASE.THEME === "light") ? "dark" : "light")
     }
 
+    /**
+     * Set the application UI theme 
+     * @param theme the theme to set
+     */
     public setTheme(theme : string) {
         this.BASE.THEME = theme;
 
@@ -87,31 +103,35 @@ export class Configurations {
         document.documentElement.dataset.theme = this.BASE.THEME;
     }
 
+    /**
+     * Get if the dark mode is active
+     * @returns true if the dark mode is active
+     */
     public isDarkModeActive() {
         return this.BASE.THEME === "dark";
     }
 
-    public setTerminalVisible(value: boolean) {
-        
 
-        this.BASE.TERMINAL_VISIBLE = value;
-        this.addConfigVariable("TERMINAL_VISIBLE", this.BASE.TERMINAL_VISIBLE);
+    public setVariablePanelVisible(value: boolean) {
 
-        if (this.BASE.TERMINAL_VISIBLE) {
-            APP.router.terminal.show();
+        this.BASE.VARIABLES_VISIBLE = value;
+        this.addConfigVariable("VARIABLES_VISIBLE", this.BASE.VARIABLES_VISIBLE);
+
+        if (this.BASE.VARIABLES_VISIBLE) {
+            APP.router.variablePanel.show();
         } else {
-            APP.router.terminal.hide();
+            APP.router.variablePanel.hide();
         }
     }
 
 
-    public toggleTerminal() {
+    public toggleVariablePanel() {
 
         if(this.BASE.ENVIROMENT !== ENVIROMENT.DEVELOPMENT)
             return; 
 
-        this.setTerminalVisible(!this.BASE.TERMINAL_VISIBLE);
-        setDataset(document.documentElement, {"terminalVisible" : this.BASE.TERMINAL_VISIBLE});
+        this.setVariablePanelVisible(!this.BASE.VARIABLES_VISIBLE);
+        setDataset(document.documentElement, {"variablesVisible" : this.BASE.VARIABLES_VISIBLE});
     }
 
     

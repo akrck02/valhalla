@@ -66,8 +66,8 @@ window.onload = () => {
             APP.configurations.setTheme(theme);
         }
 
-        const terminalVisible = APP.configurations.getConfigVariable("TERMINAL_VISIBLE");
-        APP.configurations.setTerminalVisible(terminalVisible);
+        const terminalVisible = APP.configurations.getConfigVariable("VARIABLES_VISIBLE");
+        APP.configurations.setVariablePanelVisible(terminalVisible);
     }
 
     APP.loadFromUrl();

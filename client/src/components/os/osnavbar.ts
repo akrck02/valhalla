@@ -7,6 +7,7 @@ export default class OsNavbar {
     private element : HTMLElement;
     private controlpanel : HTMLElement;
     private searchbar : Searchbar;
+    private controls : UIComponent[];
 
     public constructor(listeners : ListenerSet) {
         this.element = document.getElementById("os-navbar");
@@ -18,11 +19,17 @@ export default class OsNavbar {
     public addToControls(component : UIComponent) {
         this.controlpanel.classList.remove("drag-region");
         this.controlpanel.appendChild(component.element);
+        this.controls.push(component);
     }
 
     public clearControls() {
         this.controlpanel.innerHTML = "";
         this.controlpanel.classList.add("drag-region");
+        this.controls = [];
+    }
+
+    public clickControl(option : number) {
+        this.controls[option]?.element.click();
     }
 
     public focusSearchbar() {

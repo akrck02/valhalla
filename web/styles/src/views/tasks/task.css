@@ -1,0 +1,14 @@
+.task {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.55rem;
+    height: 3rem;
+    background: rgba(0,0,0,0.05);
+    margin-bottom: .5rem;
+    opacity: 0;
+    transition: opacity var(--slow);
+}
+
+:root[data-theme=dark] .task {
+    background: rgba(255,255,255,0.05);
+}

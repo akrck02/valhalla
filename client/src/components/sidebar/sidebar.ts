@@ -1,12 +1,14 @@
-import { APP } from "../app.js";
-import { Configurations } from "../config/config.js";
-import { CALENDAR_TODAY, GROUP, SPOKE, TASK_ALT, TERMINAL, TUNE } from "../lib/gtd-ts/material/materialicons.js";
-import { UIComponent } from "../lib/gtd-ts/web/uicomponent.js";
+import { APP } from "../../app.js";
+import { Configurations } from "../../config/config.js";
+import { CALENDAR_TODAY, GROUP, SPOKE, TASK_ALT, TERMINAL, TUNE } from "../../lib/gtd-ts/material/materialicons.js";
+import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { SideModal } from "./sidemodal.js";
 
 export class Sidebar extends UIComponent {
 
     private buttonBar : UIComponent;
     private userImage : UIComponent;
+    private modal : SideModal;
     private elements : UIComponent[];
 
     public constructor(configurations : Configurations) {
@@ -21,7 +23,6 @@ export class Sidebar extends UIComponent {
             styles: {
                 height: "calc(100% - 2.5rem)"
             }
-            
         });
 
         this.userImage = new UIComponent({
@@ -32,14 +33,28 @@ export class Sidebar extends UIComponent {
             styles: {
                 width: "1.7rem",
                 height: "1.7rem",
-                borderRadius: "20rem"
+                borderRadius: "20rem",
+                cursor: "pointer",
+            },
+            events : {
+                click : () => {
+                    if(this.modal.isOpened()){
+                        this.modal.close();
+                    }
+                    else{
+                        this.modal.open();
+                    }
+                }
             }
         });
 
 
+        this.modal = new SideModal(configurations);
+
         this.build(configurations);
         this.appendChild(this.buttonBar);
         this.appendChild(this.userImage);
+        this.appendChild(this.modal);
     }
 
     public build(configurations : Configurations) {

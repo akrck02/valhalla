@@ -1,5 +1,5 @@
 import { Configurations } from "../../config/config.js";
-import { setEvents, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../services/tasks.js";
 import CategoryBar from "./components/categoryBar.js";
 
@@ -36,7 +36,7 @@ export default class TasksV extends UIComponent {
 
         });
 
-        const categoryBar = new CategoryBar(configurations, params[0], (selected) => this.showTasks(selected));
+        const categoryBar = new CategoryBar(configurations, params[0], (selected) => this.showTasks(configurations,selected));
         categoryBar.element.style.opacity = "0";
 
 
@@ -50,7 +50,7 @@ export default class TasksV extends UIComponent {
         }, 100);
     }
 
-    showTasks(selected: string) {
+    showTasks(configurations: Configurations, selected: string) {
 
         const container = this.taskContainer;
         container.clean();
@@ -68,7 +68,7 @@ export default class TasksV extends UIComponent {
         });
         container.appendChild(title);
 
-        const response = taskService.getUserTasksFromCategory("akrck02", selected);
+        const response = taskService.getUserTasksFromCategory(configurations.USER.USERNAME, selected);
         response.success((tasks) => {
 
             let timer = 300;
