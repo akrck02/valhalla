@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Database } from "./db";
-import { Tasks } from "./model/tasks";
+import { Tasks } from "./commands/tasks";
 
 export class Router {
 
@@ -14,7 +14,4 @@ export class Router {
             "get/user/task/categories" : Tasks.getUserTaskCategories
         }
     }
-
-   
-
 }

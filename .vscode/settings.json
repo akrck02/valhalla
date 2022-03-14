@@ -1,7 +1,18 @@
 {
     "files.exclude": {
-        "server/out": true,
-        "client/temp": true
+        "server/out": false,
+        "client/temp": false,
+        ".vscode": false,
+        "client": false,
+        "db": false,
+        "node_modules": false,
+        "server": false,
+        "server/src": false,
+        "server/src/db": false,
+        "server/src/utils": false,
+        "server/src/custom.d.ts": false,
+        "server/src/electron.ts": false,
+        "server/src/renderer.ts": false
     },
-    "workspace.isHidden": true
+    "workspace.isHidden": false
 }

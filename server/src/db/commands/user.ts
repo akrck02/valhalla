@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { Database } from "../db.js";
-import Model from "./model.js";
+import HTTPResponse from "./httpResponse.js";
 
-export class UserModel implements Model {
+export class UserModel implements HTTPResponse {
 
     static async registerUser(db: Database, req: Request, res: Response): Promise<any> {
         const username = req?.body?.user;
