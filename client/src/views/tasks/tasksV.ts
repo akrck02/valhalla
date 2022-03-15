@@ -2,6 +2,7 @@ import { Configurations } from "../../config/config.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../services/tasks.js";
 import CategoryBar from "./components/categoryBar.js";
+import TaskPopUp from "./components/taskpopup.js";
 
 export default class TasksV extends UIComponent {
 
@@ -36,7 +37,12 @@ export default class TasksV extends UIComponent {
 
         });
 
-        const categoryBar = new CategoryBar(configurations, params[0], (selected) => this.showTasks(configurations,selected));
+        const categoryBar = new CategoryBar(
+            configurations, 
+            params[0], 
+            (selected) => this.showTasks(configurations,selected),
+            () => this.showTaskPopUp(),
+            );
         categoryBar.element.style.opacity = "0";
 
 
@@ -129,6 +135,14 @@ export default class TasksV extends UIComponent {
 
     }
 
+
+    showTaskPopUp() {
+        const container = this.taskContainer;
+        container.clean();
+        
+        const popup = new TaskPopUp();
+        container.appendChild(popup);
+    }
 
     public getTimeText(date: Date): string {
 

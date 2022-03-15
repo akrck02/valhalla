@@ -41,7 +41,7 @@ export class TableSet {
 
         await db.exec(
             `CREATE TABLE IF NOT EXISTS task_label (
-                taskId INTEGER ,
+                taskId INTEGER NOT NULL ,
                 label TEXT
             )`
         );

@@ -58,6 +58,7 @@ export class Configurations {
         this.API["GET_USER_TASKS"] = this.API["URL"] + "get/user/tasks/";
         this.API["GET_USER_TASKS_FROM_CATEGORY"] = this.API["URL"] + "get/user/tasks/from/category/";
         this.API["GET_USER_TASK_CATEGORIES"] = this.API["URL"] + "get/user/task/categories/";
+        this.API["INSERT_USER_TASK"] = this.API["URL"] + "insert/user/task/";
     }
 
     private declareViews() {

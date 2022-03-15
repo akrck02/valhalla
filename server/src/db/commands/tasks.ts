@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Database } from "../db";
 import HTTPResponse from "./httpResponse";
 import TaskModel from "../model/tasks"
+import { ITask } from "../classes/task";
 
 
 export class Tasks implements HTTPResponse {
@@ -51,14 +52,7 @@ export class Tasks implements HTTPResponse {
             );
         }
 
-        const SQL = "SELECT * FROM task WHERE author = ? AND id IN (SELECT taskId FROM task_label WHERE label = ?) ORDER BY end ASC";
-        const response = db.db.all(
-            SQL,
-            username,
-            category
-        );
-
-        return response;
+        return TaskModel.getUserTasksFromCategory(db,username,category);
     }
 
     /**
@@ -82,13 +76,42 @@ export class Tasks implements HTTPResponse {
 
         }
 
-        const SQL = "SELECT DISTINCT(label) FROM task_label WHERE taskId IN (SELECT id FROM task WHERE author = ?)";
-        const response = db.db.all(SQL, username);
-
-        return response;
+        return TaskModel.getUserTaskCategories(db,username);
     }
 
 
-    public static insertUserTask() : void {}
-    public static getUserMonthTasks() : void {}
+    public static async insertUserTask(db: Database, req: Request, res: Response) : Promise<any> {
+        try {
+            const task : ITask = req?.body?.task;
+            if(await TaskModel.insertUserTask(db,task)){
+                return new Promise((resolve) => 
+                    resolve({
+                        status : "success",
+                        reason : "User task successfully inserted"
+                    })
+                );
+            }
+
+            return new Promise((resolve) => 
+                resolve({
+                    status : "Error",
+                    reason : "Task wasn't inserted"
+                })
+            );
+        } catch(error) {
+            console.error(error);
+            return new Promise((resolve) => 
+                resolve({
+                    status : "failed",
+                    reason : "Missing parameters"
+                })
+            );
+        } 
+    }
+
+    public static setTagToUserTask(db: Database, req: Request, res: Response) : void {
+
+    }
+
+    public static getUserMonthTasks(db: Database, req: Request, res: Response) : void {}
 }

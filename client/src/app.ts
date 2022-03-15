@@ -3,6 +3,7 @@ import { Keyboard } from './core/keyboard.js';
 import { ListenerSet } from './core/listenerset.js';
 import { getParametersByIndex } from './lib/gtd-ts/data/urltools.js';
 import { TextBundle } from './res/textBundle.js';
+import { taskService } from './services/tasks.js';
 import Router from './views/router.js';
 
 /**

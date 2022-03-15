@@ -1,4 +1,5 @@
 import { APP } from "../app.js";
+import { ITask } from "../core/data/interfaces/task.js";
 import { HTTPS_METHOD } from "../lib/gtd-ts/core/http.js";
 import { efetch, Response } from "../lib/gtd-ts/data/easyfetch.js";
 
@@ -37,6 +38,20 @@ export class taskService {
             url: APP.configurations.API.GET_USER_TASK_CATEGORIES,
             parameters: {
                 user: username,
+            },
+        });
+
+        return response;
+    }
+
+
+    static insertUserTask(task: ITask) : Response {
+
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: APP.configurations.API.INSERT_USER_TASK,
+            parameters: {
+                task: task
             },
         });
 

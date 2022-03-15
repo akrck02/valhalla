@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Database } from "./db";
+import Tasks from "./model/tasks";
 import { Router } from "./router";
 
 const express = require('express');

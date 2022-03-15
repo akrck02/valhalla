@@ -41,3 +41,21 @@ div#category-bar div.label.selected::after {
 div#category-bar div.label:hover {
     opacity: .8;
 }
+
+
+div#category-bar button#new {
+    background: rgba(255, 255, 255, .1);
+    box-shadow: var(--default-box-shadow);
+    height: 3rem;
+    width: 3rem;
+    border-radius: 35rem;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    transition: background var(--fast), transform var(--fast);
+}
+
+div#category-bar button#new:hover {
+    background-color: rgba(255, 255, 255, .2);
+    transform: scale(.95);
+}
