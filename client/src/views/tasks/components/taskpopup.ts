@@ -1,5 +1,6 @@
 import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 import { ITask } from "../../../core/data/interfaces/task.js";
+import DateInput from "../../../components/input/date/dateinput.js";
 
 export default class TaskPopUp extends UIComponent {
 
@@ -28,7 +29,6 @@ export default class TaskPopUp extends UIComponent {
             () => {
                 popup.task.name = name.element.innerText;
                 console.log(popup.task);
-                
             }
             
         );
@@ -50,8 +50,14 @@ export default class TaskPopUp extends UIComponent {
             }
         );
 
+
+        const date = new DateInput({
+            id: "task-start-date",
+        });
+        
         this.appendChild(name);
         this.appendChild(description);
+        this.appendChild(date);
     }
 
 
