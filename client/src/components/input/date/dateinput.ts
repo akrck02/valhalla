@@ -1,5 +1,5 @@
 import { resolveModuleName } from "../../../../../node_modules/typescript/lib/typescript.js";
-import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
+import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 
 interface InputAttributes {
     default?: Date;
@@ -11,6 +11,7 @@ export default class DateInput extends UIComponent {
     input: UIComponent;
     selector: UIComponent;
     open: boolean;
+    current : Date;
 
     constructor(attributes?: InputAttributes) {
 
@@ -56,7 +57,8 @@ export default class DateInput extends UIComponent {
 
         this.appendChild(this.selector)
 
-        this.drawMonth(new Date());
+        this.current = new Date();
+        this.drawMonth();
 
     }
 
@@ -102,23 +104,22 @@ export default class DateInput extends UIComponent {
 
     /**
      * Draw the month selector with the given date
-     * @param current The month to draw
      */
-    private drawMonth(current: Date) {
+    private drawMonth() {
 
         //draw the month name
         const monthName = new UIComponent({
             type: "div",
             classes: ["month-name","box-row","box-center"],
-            text: current.toLocaleString("default", { month: "long" })
+            text: this.current.toLocaleString("default", { month: "long" })
         });
 
         this.selector.appendChild(monthName);
 
         //draw the days
         const rows = [];
-        const year = current.getFullYear();
-        const month = current.getMonth();
+        const year = this.current.getFullYear();
+        const month = this.current.getMonth();
 
         const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
         let dayOfWeek = new Date(year, month + 1, 1).getDay() - 1;
@@ -136,8 +137,12 @@ export default class DateInput extends UIComponent {
         if(dayOfWeek != 7)
             for (let i = 0; i < dayOfWeek; i++) {
                 const day = new UIComponent({
+                    type: "button",
                     text: "",
-                    classes: ["day","empty"]
+                    classes: ["day","empty"],
+                    attributes: {
+                        disabled : "true"
+                    }
                 })
 
                 row.appendChild(day);
@@ -161,9 +166,25 @@ export default class DateInput extends UIComponent {
             const isToday = today.getFullYear() == year && today.getMonth() == month && realday == today.getDate();
 
             const day = new UIComponent({
+                type: "button",
                 text: "" + (realday),
                 classes: isToday? ["day","today"] : ["day"],
             })
+
+            const calendar = this;
+            setEvents(day.element, {
+                click:
+                () =>{
+                 
+                    const newDate = new Date();
+                    newDate.setDate(parseInt(day.text));
+                    newDate.setFullYear(calendar.current.getFullYear());
+                    newDate.setMonth(calendar.current.getMonth());
+                    calendar.current = newDate;
+                    calendar.update();
+                }
+            })
+
 
             row.appendChild(day);
             realday++;
@@ -173,8 +194,12 @@ export default class DateInput extends UIComponent {
         let index = lastDayOfMonth + dayOfWeek;
         while (index % 7 != 0) {
             const day = new UIComponent({
+                type: "button",
                 text: "",
-                classes: ["day","empty"]
+                classes: ["day","empty"],
+                attributes : {
+                    disabled : "true"
+                }
             })
 
             row.appendChild(day);
@@ -184,6 +209,13 @@ export default class DateInput extends UIComponent {
 
 
     }
+
+    public update() : void {
+
+        (this.input.element as HTMLInputElement).value = this.toDateString(this.current);
+
+    }
+
 
     /**
      * Convert a date to a string

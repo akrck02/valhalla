@@ -28,14 +28,17 @@ div.date-input div#date-selector {
     top: .25rem;
     width: 15rem;
     
-    background: rgba(0,0,0, .05);
+    background: rgba(0,0,0, .025);
     border-radius: .35rem;
     opacity: 0;
     transition: opacity var(--fast);
+    backdrop-filter: blur(10rem);
+    border: 1px solid rgba(0,0,0,.05);
 }
 
 :root[data-theme=dark] div.date-input div#date-selector {
     background: rgba(255,255,255, .05);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.005)
 }
 
 div.date-input.open div#date-selector {
@@ -59,14 +62,14 @@ div.date-input div#date-selector div.week-days{
     padding-bottom: .15rem;
 }
 
-div.date-input div#date-selector div.week-days div.day {
+div.date-input div#date-selector div.week-days button.day {
+    margin: 0;
     font-size: .75rem;
     text-align: center;
     font-weight: 600;
     display: flex;
     justify-content: center;
     align-items: center;
-
     width: 1.7rem;
     height: 1.7rem;
     line-height: 2rem;
@@ -76,16 +79,19 @@ div.date-input div#date-selector div.week-days div.day {
     transition: background var(--fast), transform var(--fast), color var(--fast);
 }
 
-:root[data-theme=dark] div.date-input div#date-selector div.week-days div.day {
+:root[data-theme=dark] div.date-input div#date-selector div.week-days button.day {
     background: rgba(255,255,255, .05);
 }
 
-div.date-input div#date-selector div.week-days div.day.empty{
+div.date-input div#date-selector div.week-days div.day.empty, 
+:root[data-theme=dark] div.date-input div#date-selector div.week-days button.day.empty{
     background: transparent;
     cursor: default;
+    box-shadow: none;
 }
 
-div.date-input div#date-selector div.week-days div.day:not(.empty):hover {
+div.date-input div#date-selector div.week-days button.day:not(.empty):hover,
+div.date-input div#date-selector div.week-days button.day:not(.empty):focus {
     background : var(--accent-color);
     color: #fff;
     font-weight: bold;
