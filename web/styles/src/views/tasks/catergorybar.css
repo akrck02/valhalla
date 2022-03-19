@@ -5,7 +5,7 @@ div#category-bar {
     padding: 1rem 1.7rem;
     border-right: .1rem solid rgba(0, 0, 0, .05);
     transition: width var(--medium), opacity var(--slow);
-    backdrop-filter: blur(.5rem);
+    backdrop-filter: blur(1rem);
 }
 
 div#category-bar div.label {

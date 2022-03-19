@@ -88,5 +88,5 @@ view {
 }
 
 .backdrop {
-    backdrop-filter: blur(.3rem);
+    backdrop-filter: blur(1rem);
 }

@@ -1,3 +1,4 @@
+import { DateSelector } from "../../components/input/date/selector.js";
 import { Configurations } from "../../config/config.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../services/tasks.js";
@@ -7,6 +8,7 @@ import TaskPopUp from "./components/taskpopup.js";
 export default class TasksV extends UIComponent {
 
     private taskContainer: UIComponent;
+    private dateSelector : DateSelector;
 
     public constructor() {
         super({
@@ -16,7 +18,10 @@ export default class TasksV extends UIComponent {
                 width: "100%",
                 height: "100%",
             },
+        });
 
+        this.dateSelector = new DateSelector((date: Date)=> {
+            console.log("TASK VIEW SEE: ", date); 
         });
     }
 
@@ -24,7 +29,7 @@ export default class TasksV extends UIComponent {
 
         this.taskContainer = new UIComponent({
             type: "div",
-            classes: ["box-column", "backdrop"],
+            classes: ["box-column", "box-y-center", "backdrop"],
             styles: {
                 width: "100%",
                 height: "100%",
@@ -41,10 +46,9 @@ export default class TasksV extends UIComponent {
             configurations, 
             params[0], 
             (selected) => this.showTasks(configurations,selected),
-            () => this.showTaskPopUp(),
+            () => this.selectDate(),
             );
         categoryBar.element.style.opacity = "0";
-
 
         this.appendChild(categoryBar);
         this.appendChild(this.taskContainer);
@@ -175,6 +179,16 @@ export default class TasksV extends UIComponent {
                 return date.toLocaleDateString();
             }
         }
+    }
+
+    selectDate() {
+        this.taskContainer.element.innerHTML = "";
+        this.taskContainer.appendChild(this.dateSelector);
+       
+        setTimeout(() => {
+            this.dateSelector.draw();
+            this.dateSelector.toogle(); 
+        }, 250);
     }
 
 }

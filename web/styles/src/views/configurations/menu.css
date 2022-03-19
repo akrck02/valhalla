@@ -2,7 +2,7 @@ div#config-menu {
     width: 16rem;
     height: 100%;
     border-right: .1rem solid rgba(0, 0, 0, 0.05);
-    backdrop-filter: blur(.3rem);
+    backdrop-filter: blur(1rem);
 }
 
 
