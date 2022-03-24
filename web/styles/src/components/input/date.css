@@ -21,3 +21,7 @@ div.date-input input:focus {
 div.date-input input.no-editable {
     cursor: default;
 }
+
+div.date-input input:focus {
+    background: rgba(255,255,255,.1);
+}

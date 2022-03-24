@@ -3,12 +3,11 @@ import { Configurations } from "../../config/config.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../services/tasks.js";
 import CategoryBar from "./components/categoryBar.js";
-import TaskPopUp from "./components/taskpopup.js";
 
 export default class TasksV extends UIComponent {
 
     private taskContainer: UIComponent;
-    private dateSelector : DateSelector;
+    private configurations : Configurations;
 
     public constructor() {
         super({
@@ -19,17 +18,15 @@ export default class TasksV extends UIComponent {
                 height: "100%",
             },
         });
-
-        this.dateSelector = new DateSelector((date: Date)=> {
-            console.log("TASK VIEW SEE: ", date); 
-        });
     }
 
     public show(params: string[], container: UIComponent, configurations: Configurations): void {
 
+        this.configurations = configurations;
         this.taskContainer = new UIComponent({
             type: "div",
             classes: ["box-column", "box-y-center", "backdrop"],
+            id: "",
             styles: {
                 width: "100%",
                 height: "100%",
@@ -46,7 +43,7 @@ export default class TasksV extends UIComponent {
             configurations, 
             params[0], 
             (selected) => this.showTasks(configurations,selected),
-            () => this.selectDate(),
+            () => this.newTask()
             );
         categoryBar.element.style.opacity = "0";
 
@@ -140,14 +137,6 @@ export default class TasksV extends UIComponent {
     }
 
 
-    showTaskPopUp() {
-        const container = this.taskContainer;
-        container.clean();
-        
-        const popup = new TaskPopUp();
-        container.appendChild(popup);
-    }
-
     public getTimeText(date: Date): string {
 
         console.log(date);
@@ -181,14 +170,8 @@ export default class TasksV extends UIComponent {
         }
     }
 
-    selectDate() {
-        this.taskContainer.element.innerHTML = "";
-        this.taskContainer.appendChild(this.dateSelector);
-       
-        setTimeout(() => {
-            this.dateSelector.draw();
-            this.dateSelector.toogle(); 
-        }, 250);
+    private newTask() {
+        location.href = this.configurations.VIEWS.NEW_TASK;
     }
 
 }

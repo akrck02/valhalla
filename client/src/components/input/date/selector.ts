@@ -79,6 +79,8 @@ export class DateSelector extends UIComponent {
             events: {
                 click: () => {
                     this.current.setMonth(this.current.getMonth() + 1);
+                    console.log("next month: ", this.current.getMonth() + 1);
+                    
                     this.draw();
                 }
             }
@@ -89,6 +91,7 @@ export class DateSelector extends UIComponent {
             classes: ["month-name","box-column","box-center"],
         });
 
+        nextMonth.element.onclick = () => alert();
 
         monthName.appendChild(nextMonth);
         monthName.element.innerHTML += this.current.toLocaleString("default", { month: "long" });
@@ -230,23 +233,37 @@ export class DateSelector extends UIComponent {
         }   
 
 
+        const buttonBar = new UIComponent({
+            type: "div"
+        });
+
+        const accept = new UIComponent({
+            type : "button",
+            text : "Accept"
+        });
+
+        accept.element.onclick = () => this.update(this.current);
+        buttonBar.appendChild(accept);
+        this.box.appendChild(buttonBar);
     }
 
 
      /**
      * Toggle the date selector visibility
      */
-        public toogle() {
-            this.open =! this.open;
-            if(this.open){
-                this.element.classList.add("visible");
-                setTimeout(() => {
-                    this.element.classList.add("open");
-                }, 1);
-                
-            } else {
-                this.element.classList.remove("open");
-            }
+        public show() {
+            this.element.classList.add("visible");
+            setTimeout(() => {
+                this.element.classList.add("open");
+            }, 1);
+        }
+
+
+
+        public hide() {
+            this.open = false;
+            this.element.classList.remove("visible");
+            this.element.classList.remove("open");
         }
 
 }

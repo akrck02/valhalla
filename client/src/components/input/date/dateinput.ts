@@ -1,4 +1,6 @@
 
+import { threadId } from "worker_threads";
+import { DateText } from "../../../core/data/dateText.js";
 import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 import { DateSelector } from "./selector.js";
 
@@ -6,12 +8,17 @@ interface InputAttributes {
     default?: Date;
     editable?: boolean;
     id?: string;
+    callback?: (date : Date) => void,
+    parent: UIComponent
 }
 
 export default class DateInput extends UIComponent {
-    input: UIComponent;
-    selector: UIComponent;
-    open: boolean;
+    private input: UIComponent;
+    private selector: DateSelector;
+    private open: boolean;
+    private date : Date;
+    private parent : UIComponent;
+    public callback : (date : Date) => void;
 
     constructor(attributes?: InputAttributes) {
 
@@ -22,34 +29,51 @@ export default class DateInput extends UIComponent {
 
         this.open = false;
         this.checkAttributes(attributes);
+        this.date = attributes.default;
+        this.parent = attributes.parent;
+        this.callback = attributes.callback;
+        
         this.input = new UIComponent({
             type: "input",
             id: attributes.id,
             attributes: {
                 type: "text",
-                value : this.toDateString(attributes.default),
+                value : DateText.toDateString(this.date),
             },
         });
 
         const dateIn = this;
         this.input.element.onclick = () => {
             dateIn.toogle();
+            this.parent.clean();
+            this.selector.hide();
+            this.selector.draw();
+            this.selector.appendTo(this.parent);
+            this.selector.show();
         }
 
         if(!attributes.editable) {
             this.input.element.classList.add("no-editable");
-            this.input.element.classList.add("no-copy");
-            this.input.element.contentEditable = "false";
+            this.element.classList.add("no-copy");
+            ;
             this.input.element.addEventListener("keydown",
                 (e) => {
-                   e.preventDefault();  
+                    var charCode = e.which || e.keyCode;
+
+                    if (charCode != 9 ) {
+                        e.preventDefault();  
+                    }
                 }
             );
         }
 
-        this.selector = new DateSelector(this.update)
+        this.selector = new DateSelector(
+            (date: Date) => {
+                dateIn.callback(date)
+            }
+        );
         this.appendChild(this.input);
-        this.appendChild(this.selector)
+        this.appendChild(this.selector);
 
     }
 
@@ -62,7 +86,8 @@ export default class DateInput extends UIComponent {
         if(!attributes) {
             attributes = {
                 default: new Date(),
-                editable: false
+                editable: false,
+                parent: new UIComponent({})
             };
         }
 
@@ -93,52 +118,5 @@ export default class DateInput extends UIComponent {
         }
     }
 
-    public update(date : Date) : void {
-        (this.input.element as HTMLInputElement).value = this.toDateString(date);
-    }
-
-
-    /**
-     * Convert a date to a string
-     * TO DO : move to GTD-LIB
-     * @param date 
-     * @returns 
-     */
-    private toDateString(date: Date) : string {
-        if(!date) {
-           return;
-        }
-        
-        const day = date.getDate();
-        const month = date.getMonth() + 1;
-        const  year = date.getFullYear();
-
-        const result = this.normalize(year,4)  + " / " + this.normalize(month,2) + " / " + this.normalize(day,2);
-        return result;
-    }
-
-    /**
-     * Normalize a number to a string with the given length
-     * @param number The number to normalize
-     * @param digits The length of the result
-     * @returns The normalized number
-     */
-    private normalize( number:number , digits : number ) : string {
-        
-        let result = "";
-        let missing = digits - (number + "").length; 
-
-        for (let i = 0; i < missing; i++) {
-            const character = [i];
-
-            if(character)
-                result += character;
-            else 
-                result += "0"
-        }
-        result += number;
-
-        return result;
-    }
 
 }

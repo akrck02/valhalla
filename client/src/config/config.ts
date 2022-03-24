@@ -65,6 +65,7 @@ export class Configurations {
         this.VIEWS = {};
         this.VIEWS["BASE_URL"] = "../web/index.html#/";
         this.VIEWS["TASKS"] = this.VIEWS["BASE_URL"] + "tasks/";
+        this.VIEWS["NEW_TASK"] = this.VIEWS["BASE_URL"] + "new-task/";
         this.VIEWS["CALENDAR"] = this.VIEWS["BASE_URL"] + "calendar/";
         this.VIEWS["TEAMS"] = this.VIEWS["BASE_URL"] + "teams/";
         this.VIEWS["PROJECTS"] = this.VIEWS["BASE_URL"] + "projects/";
