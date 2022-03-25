@@ -1,9 +1,9 @@
 import { APP } from "../../app.js";
 
 export class DateText {
-    
-    public static month(month : number) : string {
-        
+
+    public static month(month: number): string {
+
         const bundle = APP.bundle.dateBundle;
         const array = [
             bundle.JANUARY,
@@ -22,4 +22,42 @@ export class DateText {
 
         return array[month];
     }
+
+
+    public static normalize(number: number, digits: number): string {
+
+        let result = "";
+        let missing = digits - (number + "").length;
+
+        for (let i = 0; i < missing; i++) {
+            const character = [i];
+
+            if (character)
+                result += character;
+            else
+                result += "0"
+        }
+        result += number;
+
+        return result;
+    }
+
+
+    public static toDateString(date: Date): string {
+
+        if (!date) {
+            return;
+        }
+
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+
+        const result = this.normalize(year, 4) + " / " + this.normalize(month, 2) + " / " + this.normalize(day, 2);
+        return result;
+    }
+
+
+    
+
 }

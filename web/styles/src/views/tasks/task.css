@@ -4,11 +4,41 @@
     border-radius: 0.55rem;
     height: 3rem;
     background: rgba(0,0,0,0.05);
-    margin-bottom: .5rem;
+    /*margin-bottom: .5rem;*/
     opacity: 0;
-    transition: opacity var(--slow);
+    transition: opacity var(--slow), width var(--medium);
 }
 
 :root[data-theme=dark] .task {
     background: rgba(255,255,255,0.05);
+}
+
+.task-toolbar {
+    width: 6%;
+    visibility: hidden;
+    height: 100%;
+    padding: 0rem 1rem;
+    opacity: 0;
+}   
+
+.task-box:hover .task-toolbar {
+    width: 6rem;
+    visibility: visible;
+    transition: visibility var(--fast), width var(--medium), opacity var(--slow);
+    opacity: 1;
+}
+
+.task-box:hover .task {
+    width: calc( 90% - 5rem);
+}
+
+.task-box:hover .task-toolbar div{
+    padding: .5rem;
+    transition: background var(--fast);
+    border-radius: .35rem;
+    cursor: pointer;
+}
+
+.task-box:hover .task-toolbar div:hover{
+    background: rgba(255,255,255,0.15);
 }

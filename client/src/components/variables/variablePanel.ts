@@ -140,6 +140,10 @@ export class VariablePanel extends UIComponent {
 
             const keyCol = new UIComponent({
                 type: "td",
+                styles: {
+                    maxHeight: "1.5rem", 
+                    verticalAlign: "middle",
+                },
                 text: key,
                 classes: ["key"]
             });
@@ -147,6 +151,15 @@ export class VariablePanel extends UIComponent {
 
             if(value === undefined)
                 value = "undefined";
+
+            //if value is an object, we need to parse it
+            if(typeof value === "object"){
+                value = JSON.stringify(value);
+            }
+
+            if(value === 0){
+                value = value.toString();
+            }
 
             const valueCol = new UIComponent({
                 type: "td",

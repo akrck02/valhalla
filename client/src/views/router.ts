@@ -9,7 +9,8 @@ import CalendarV from "./calendar/calendarV.js";
 import ConfigurationV from "./configuration/configurationV.js";
 import errorV from "./error/errorV.js";
 import ProjectsV from "./projects/projects.js";
-import TasksV from "./tasks/tasksV.js";
+import { NewTaskView } from "./tasks/new/newTaskView.ui.js";
+import TasksView from "./tasks/tasksView.ui.js";
 import TeamsV from "./teams/teams.js";
 import TerminalV from "./terminal/terminal.js";
 
@@ -59,7 +60,11 @@ export default class Router {
                 case undefined:
                 case "":
                 case "tasks":
-                    new TasksV().show(params.splice(1), this.container, this.configurations);    
+                    new TasksView().show(params.splice(1), this.container, this.configurations);    
+                    this.sidebar.setSelected(0);
+                    break;
+                case "new-task":
+                    new NewTaskView().show(params.splice(1), this.container, this.configurations);    
                     this.sidebar.setSelected(0);
                     break;
                 case "calendar":

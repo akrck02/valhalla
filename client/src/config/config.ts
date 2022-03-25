@@ -59,12 +59,14 @@ export class Configurations {
         this.API["GET_USER_TASKS_FROM_CATEGORY"] = this.API["URL"] + "get/user/tasks/from/category/";
         this.API["GET_USER_TASK_CATEGORIES"] = this.API["URL"] + "get/user/task/categories/";
         this.API["INSERT_USER_TASK"] = this.API["URL"] + "insert/user/task/";
+        this.API["DELETE_USER_TASK"] = this.API["URL"] + "delete/user/task/";
     }
 
     private declareViews() {
         this.VIEWS = {};
         this.VIEWS["BASE_URL"] = "../web/index.html#/";
         this.VIEWS["TASKS"] = this.VIEWS["BASE_URL"] + "tasks/";
+        this.VIEWS["NEW_TASK"] = this.VIEWS["BASE_URL"] + "new-task/";
         this.VIEWS["CALENDAR"] = this.VIEWS["BASE_URL"] + "calendar/";
         this.VIEWS["TEAMS"] = this.VIEWS["BASE_URL"] + "teams/";
         this.VIEWS["PROJECTS"] = this.VIEWS["BASE_URL"] + "projects/";

@@ -100,4 +100,29 @@ export default class Tasks implements Model {
     } 
 
 
+    /**
+     * Delete a task from a given user
+     * @param db The database connection
+     * @param task The task to be deleted
+     * @returns The query result
+     */
+    public static async deleteUserTask(db : Database, task : ITask) {
+        const SQL = "DELETE FROM task WHERE id = ?";
+        const response = await db.db.run(SQL,
+            task.id
+        )
+
+        if(!response) 
+            return false;
+
+        if(response.length >= 0)
+            return false;
+
+        if(response.changes == 0) 
+            return false;
+
+        return true;
+    }
+
+
 }

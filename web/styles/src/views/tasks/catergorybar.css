@@ -5,7 +5,7 @@ div#category-bar {
     padding: 1rem 1.7rem;
     border-right: .1rem solid rgba(0, 0, 0, .05);
     transition: width var(--medium), opacity var(--slow);
-    backdrop-filter: blur(.5rem);
+    backdrop-filter: blur(1rem);
 }
 
 div#category-bar div.label {
@@ -18,7 +18,7 @@ div#category-bar div.label {
     letter-spacing: .1rem;
     height: 1rem;
     opacity: .6;
-    transition: opacity var(--fast), font-size var(--fast);
+    transition: opacity var(--fast), font-size var(--fast), color var(--medium);
 }
 
 div#category-bar div.label.selected {
@@ -44,7 +44,7 @@ div#category-bar div.label:hover {
 
 
 div#category-bar button#new {
-    background: rgba(255, 255, 255, .1);
+    background: rgba(0,0,0,0.75);
     box-shadow: var(--default-box-shadow);
     height: 3rem;
     width: 3rem;
@@ -55,7 +55,17 @@ div#category-bar button#new {
     transition: background var(--fast), transform var(--fast);
 }
 
+:root[data-theme=dark] div#category-bar button#new {
+    background: rgba(255, 255, 255, .1);
+    box-shadow: var(--default-box-shadow);
+}
+
 div#category-bar button#new:hover {
+    background-color: rgba(0, 0, 0, .60);
+    transform: scale(.95);
+}
+
+:root[data-theme=dark] div#category-bar button#new:hover {
     background-color: rgba(255, 255, 255, .2);
     transform: scale(.95);
 }

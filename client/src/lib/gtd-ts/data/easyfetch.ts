@@ -16,6 +16,11 @@ export class Response {
         this.errorFn = (err) => console.log("Error in response : ", err);
     }
 
+
+    getResponse(): Promise<globalThis.Response> {
+        return this.response;
+    }
+
     /**
      *  Executes tne callback function with the response json as an argument.
      * @returns the response itself
@@ -32,6 +37,24 @@ export class Response {
             .then((res) => res.json().then((json) => this.successFn(json)))
             .catch((err) => this.errorFn(err));
         return this;
+    }
+    
+
+    /**
+     *  Executes tne callback function with the response json as an argument.
+     * @returns the response itself
+     * @description This method is useful for fetching json files.
+     * @example
+     *      Response
+     *      .success(text => console.log(text))
+     *      .error(err => console.log(err))
+     *      .json();
+     *
+     */
+    public async jsonPromise(): Promise<any> {
+        await this.response
+            .then((res) => res.json().then((json) => this.successFn(json)))
+            .catch((err) => this.errorFn(err));
     }
 
     /**

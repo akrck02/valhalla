@@ -1,5 +1,5 @@
 import { Configurations } from "../../../config/config.js";
-import { PLUS, SUMMATION } from "../../../lib/gtd-ts/material/materialicons.js";
+import { PLUS, SUMMATION, TAG, TASK } from "../../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../../services/tasks.js";
 
@@ -36,7 +36,7 @@ export default class CategoryBar extends UIComponent {
         this.menu = new UIComponent({
             type: "div",
             id: "category-bar-menu",
-            classes: ["box-column"],
+            classes: ["box-column", "box-x-start"],
         });
 
         this.options = [];
@@ -64,6 +64,9 @@ export default class CategoryBar extends UIComponent {
                             callback(selected);
                         },
                     },
+                    styles: {
+                        color : "rgba(0,0,0,.0)",
+                    }
                 });
 
                 this.options.push(option);
@@ -73,7 +76,17 @@ export default class CategoryBar extends UIComponent {
             if(categories.length == 0) {
                 const noCategories = new UIComponent({
                     type: "div",
-                    text: "There are no categories here yet.",
+                    text:  `<h2>There are no categories here yet. 👋🏼</h2>
+                            <br><br>
+                            <span style='font-size:.85rem; opacity:.7'>Categories are used to organize your tasks. They will appear here when you create new tasks </span>
+                            <br><br>
+                            <span class='italic bold'>Create your first task!</span>
+
+                    `,
+                    styles: {
+                        fontSize: "1rem",
+                        margin: "2rem 0.5rem ",
+                    },
                 });
 
                 this.appendChild(noCategories);
@@ -85,5 +98,21 @@ export default class CategoryBar extends UIComponent {
         });
 
         categories.json();
+    }
+
+
+    public show(): void {
+        let diff = 100;
+        this.options.forEach(e =>{
+
+           
+
+            setTimeout(() => {
+                e.element.style.color = "var(--text-color)"
+            }, diff);
+
+            diff += Math.random() * 100;
+
+        });
     }
 }

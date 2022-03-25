@@ -57,4 +57,19 @@ export class taskService {
 
         return response;
     }
+
+    static deleteUserTask(task: ITask) : Response { 
+
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: APP.configurations.API.DELETE_USER_TASK,
+            parameters: {
+                task: task
+            },
+        });
+
+        return response;
+    }
+
+
 }

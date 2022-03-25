@@ -50,7 +50,7 @@ overflow-x: hidden;
 }
 
 :root[data-theme="dark"] {
---RGB-background:   69, 69, 69;
+--RGB-background:  40,40,40;
 --RGB-background-alternative:   21, 21, 21;
 --RGB-menu: 36, 36, 36;
 --RGB-contrast: 48, 48, 48;

@@ -103,7 +103,7 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }),
             attributes: {
-                href: configurations.VIEWS.PROJECTS + "s",
+                href: configurations.VIEWS.PROJECTS,
             },
         });
 
@@ -119,9 +119,9 @@ export class Sidebar extends UIComponent {
             },
         });
 
-        this.elements = [tasks, calendar, teams, projects, configuration];
+        this.elements = [tasks, calendar, configuration];
 
-        if(configurations.getConfigVariable("GANDALF")){
+        if(false && configurations.getConfigVariable("GANDALF")){
             const hiddenTerminal = new UIComponent({
                 type: "a",
                 classes: ["sidebar-item","box-center"],
@@ -146,9 +146,13 @@ export class Sidebar extends UIComponent {
         this.elements.forEach(element => {
             element.element.classList.remove("selected");
         });
+
+        if(index > this.elements.length - 1){
+            index = this.elements.length - 1;
+        }
+
         this.elements[index].element.classList.add("selected");
     }
-
 
     public show(): void {
 
