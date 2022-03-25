@@ -1,4 +1,4 @@
-import { EXPAND, EXPAND_LESS } from "../../../lib/gtd-ts/material/materialicons.js";
+import { CHECK, EXPAND, EXPAND_LESS } from "../../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent, setEvents } from "../../../lib/gtd-ts/web/uicomponent.js";
 
 export class DateSelector extends UIComponent {
@@ -7,7 +7,7 @@ export class DateSelector extends UIComponent {
     private open: boolean;
     private box: UIComponent;
 
-    constructor(callback: (date: Date) => void) {
+    constructor(current, callback: (date: Date) => void) {
         super({
             type: "div",
             id: "date-selector",
@@ -26,7 +26,7 @@ export class DateSelector extends UIComponent {
         this.appendChild(this.box);
         
         this.open = false;
-        this.current = new Date();
+        this.current = current;
         this.update = callback;
     }
 
@@ -239,7 +239,8 @@ export class DateSelector extends UIComponent {
 
         const accept = new UIComponent({
             type : "button",
-            text : "Accept"
+            id: "accept",
+            text : CHECK({size: "1.2rem", fill: "#fff"}) +"&nbsp;Accept"
         });
 
         accept.element.onclick = () => this.update(this.current);

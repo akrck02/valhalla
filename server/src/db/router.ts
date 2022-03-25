@@ -12,7 +12,8 @@ export class Router {
             "get/user/tasks" : Tasks.getUserTasks,
             "get/user/tasks/from/category" : Tasks.getUserTasksFromCategory,
             "get/user/task/categories" : Tasks.getUserTaskCategories,
-            "insert/user/task" : Tasks.insertUserTask
+            "insert/user/task" : Tasks.insertUserTask,
+            "delete/user/task" : Tasks.deleteUserTask,
         }
     }
 }

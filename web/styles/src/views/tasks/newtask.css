@@ -10,12 +10,12 @@ view#new-task {
     backdrop-filter: blur(.3rem);
 }
 
-view#new-task h1#task-name,
+view#new-task div.task-name-row,
 view#new-task p#task-description {
     margin: .5rem 0;
     padding: 1rem;
     border-radius: .35rem;
-    max-width: 50rem;
+    max-width: 38rem;
     transition: background var(--fast) ;
 }
 
@@ -24,8 +24,16 @@ view#new-task h1#task-name {
 }
 
 view#new-task p#task-description {
-    max-height: 15rem;
+    height: 15rem;
+    width: 100%;
+    margin: 1rem 1rem;
     overflow-y: auto;
+    background: rgba(255, 255, 255, .05);
+}
+
+view#new-task h1{
+    border-radius: .35rem;
+    padding: .5rem ; 
 }
 
 view#new-task h1#task-name:focus,
@@ -49,6 +57,7 @@ view#new-task button.task-label {
     padding: .25rem 1rem;
     transition: background var(--fast);
     cursor: pointer;
+    box-shadow: none;
 }
 
 view#new-task div#tag-container {
@@ -66,4 +75,42 @@ view#new-task div#tag-container button#new-tag {
     margin: 0rem;
     background: rgba(255, 255, 255, .065);
     border-radius: 5rem;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+view#new-task button#save-task {
+    padding: .75rem 1rem;
+    background: rgba(255,255,255,.05);
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: fit-content;
+    box-shadow: none;
+}
+
+view#new-task button#save-task svg {
+    margin-right: .5rem;
+} 
+
+view#new-task button#save-task:hover,
+view#new-task button#save-task:focus {
+    background: rgba(255,255,255,.1);
+}
+
+view#new-task.loading svg {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

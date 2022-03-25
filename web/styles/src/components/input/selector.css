@@ -103,3 +103,22 @@ div#date-selector div.week-days button.day:not(.empty):not(.today):focus {
     background : rgba(255,255,255,.05);
     color: #fff;
 }
+
+div#date-selector button#accept {
+    padding: .75rem 1rem;
+    background: rgba(255,255,255,.05);
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    box-shadow: none;
+}
+
+div#date-selector button#accept svg {
+    margin-right: .5rem;
+} 
+
+div#date-selector button#accept:hover,
+div#date-selector button#accept:focus {
+    background: rgba(255,255,255,.1);
+}

@@ -114,4 +114,33 @@ export class Tasks implements HTTPResponse {
     }
 
     public static getUserMonthTasks(db: Database, req: Request, res: Response) : void {}
+
+    public  static async deleteUserTask(db: Database, req: Request, res: Response) : Promise<any> {
+        try {
+            const task : ITask = req?.body?.task;
+            if(await TaskModel.deleteUserTask(db,task)){
+                return new Promise((resolve) => 
+                    resolve({
+                        status : "success",
+                        reason : "User task successfully deleted"
+                    })
+                );
+            }
+
+            return new Promise((resolve) => 
+                resolve({
+                    status : "Error",
+                    reason : "Task wasn't deleted"
+                })
+            );
+        } catch(error) {
+            console.error(error);
+            return new Promise((resolve) => 
+                resolve({
+                    status : "failed",
+                    reason : "Missing parameters"
+                })
+            );
+        } 
+    }
 }

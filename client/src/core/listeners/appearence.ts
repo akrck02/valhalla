@@ -3,7 +3,7 @@ import { APP } from "../../app.js";
 export class AppearenceListener {
 
     private carrousel;
-    private static MAX_WALLPAPERS: number = 25;
+    private static MAX_WALLPAPERS: number = 19;
 
     public constructor() {
         this.carrousel = 1;

@@ -67,7 +67,7 @@ export default class DateInput extends UIComponent {
             );
         }
 
-        this.selector = new DateSelector(
+        this.selector = new DateSelector(this.date,
             (date: Date) => {
                 dateIn.callback(date)
             }
