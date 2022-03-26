@@ -21,5 +21,5 @@ div#wallpaper-gallery img.wallpaper-gallery-item:hover {
 
 div#wallpaper-gallery img.wallpaper-gallery-item.selected {
     transform: scale(1.3);
-    border: .25rem dashed rgba(0, 0, 0, .5);
+ /*   border: .25rem dashed rgba(0, 0, 0, .5); */
 }

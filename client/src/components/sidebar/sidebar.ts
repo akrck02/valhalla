@@ -1,6 +1,6 @@
 import { APP } from "../../app.js";
 import { Configurations } from "../../config/config.js";
-import { CALENDAR_TODAY, GROUP, SPOKE, TASK_ALT, TERMINAL, TUNE } from "../../lib/gtd-ts/material/materialicons.js";
+import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { SideModal } from "./sidemodal.js";
 
@@ -61,10 +61,10 @@ export class Sidebar extends UIComponent {
         const tasks = new UIComponent({
             type: "a",
             classes: ["sidebar-item","box-center"],
-            text: TASK_ALT({
+            text: getMaterialIcon("task_alt",{
                 size: "1.25rem",
                 fill: "#404040",
-            }),
+            }).toHTML(),
             attributes: {
                 href: configurations.VIEWS.TASKS,
             },
@@ -73,10 +73,10 @@ export class Sidebar extends UIComponent {
         const calendar = new UIComponent({
             type: "a",
             classes: ["sidebar-item","box-center"],
-            text: CALENDAR_TODAY({
+            text: getMaterialIcon("calendar_today",{
                 size: "1.25rem",
                 fill: "#404040",
-            }),
+            }).toHTML(),
             attributes: {
                 href: configurations.VIEWS.CALENDAR,
             },
@@ -86,10 +86,10 @@ export class Sidebar extends UIComponent {
         const teams = new UIComponent({
             type: "a",
             classes: ["sidebar-item","box-center"],
-            text: GROUP({
+            text: getMaterialIcon("group",{
                 size: "1.25rem",
                 fill: "#404040",
-            }),
+            }).toHTML(),
             attributes: {
                 href: configurations.VIEWS.TEAMS,
             },
@@ -98,10 +98,10 @@ export class Sidebar extends UIComponent {
         const projects = new UIComponent({
             type: "a",
             classes: ["sidebar-item","box-center"],
-            text: SPOKE({
+            text: getMaterialIcon("spoke",{
                 size: "1.25rem",
                 fill: "#404040",
-            }),
+            }).toHTML(),
             attributes: {
                 href: configurations.VIEWS.PROJECTS,
             },
@@ -110,25 +110,37 @@ export class Sidebar extends UIComponent {
         const configuration = new UIComponent({
             type: "a",
             classes: ["sidebar-item","box-center"],
-            text: TUNE({
+            text: getMaterialIcon("tune",{
                 size: "1.25rem",
                 fill: "#404040",
-            }),
+            }).toHTML(),
             attributes: {
                 href: configurations.VIEWS.CONFIGURATION,
             },
         });
 
-        this.elements = [tasks, calendar, configuration];
+        const about = new UIComponent({
+            type: "a",
+            classes: ["sidebar-item","box-center"],
+            text: getMaterialIcon("info",{
+                size: "1.25rem",
+                fill: "#404040",
+            }).toHTML(),
+            attributes: {
+                href: configurations.VIEWS.ABOUT,
+            },
+        });
+
+        this.elements = [tasks, calendar, configuration, about];
 
         if(false && configurations.getConfigVariable("GANDALF")){
             const hiddenTerminal = new UIComponent({
                 type: "a",
                 classes: ["sidebar-item","box-center"],
-                text: TERMINAL({
+                text: getMaterialIcon("terminal",{
                     size: "1.25rem",
                     fill: "#404040",
-                }),
+                }).toHTML(),
                 attributes: {
                     href: configurations.VIEWS.TERMINAL,
                 },

@@ -1,7 +1,6 @@
 import { Configurations } from "../../config/config.js";
-import { DELETE, EDIT, TASK, TASK_ALT } from "../../lib/gtd-ts/material/materialicons.js";
+import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
-import { taskService } from "../../services/tasks.js";
 import CategoryBar from "./components/categoryBar.js";
 import TaskCore from "./tasksView.core.js";
 
@@ -15,6 +14,7 @@ export default class TasksView extends UIComponent {
         super({
             type: "view",
             classes: ["box-row"],
+            id: "tasks",
             styles: {
                 width: "100%",
                 height: "100%",
@@ -65,6 +65,16 @@ export default class TasksView extends UIComponent {
         const container = this.taskContainer;
         container.clean();
 
+        const titleBar = new UIComponent({
+            type: "div",
+            id: "title-bar",
+            classes: ["box-row", "box-x-between", "box-y-center"],
+            styles: {
+                width: "100%",
+                marginBottom: "2rem",
+            }
+        });
+
         const title = new UIComponent({
             type: "h1",
             text: selected,
@@ -73,17 +83,39 @@ export default class TasksView extends UIComponent {
                 fontSize: "1.7em",
                 width: "100%",
                 height: "2rem",
-                marginBottom: "2rem",
             }
         });
-        container.appendChild(title);
+        titleBar.appendChild(title);
+
+        const reload = new UIComponent({
+            type: "button",
+            id: "reload",
+            classes: ["button"],
+            text: getMaterialIcon("sync", { fill: "#fff", size: "1.5em" }).toHTML(),
+        });
+
+        reload.element.addEventListener("click", () => {
+
+            reload.element.querySelector("svg").style.transition = "transform var(--medium)";
+            reload.element.querySelector("svg").style.transform = "rotate(-180deg)";
+            setTimeout(() => {
+                this.core.goToCategory(selected)
+            }, 350);
+            
+        });
+
+        titleBar.appendChild(reload);
+        container.appendChild(titleBar);
 
         const tasks = await this.core.getTasks(configurations.USER.USERNAME, selected);
         let timer = 300;
         let difference = 200;
 
-        console.log(tasks);
-        
+
+        if (tasks.length == 0) {
+            container.appendChild(this.buildNotTaskFoundErrorMessage());
+        }
+
 
         for (const key in tasks) {
             const currentTask = tasks[key];
@@ -142,32 +174,16 @@ export default class TasksView extends UIComponent {
                 classes: ["box-row", "box-y-center", "box-x-between", "task-toolbar"],
             });
 
-            const edit = new UIComponent({
-                type: "div",
-                classes: ["box-row", "box-y-center", "box-x-center"],
-                text: EDIT({ size: "1.2em", fill: "white" }),
-            });
+            const edit = getMaterialIcon("edit",{ size: "1.2em", fill: "white" });
+            const done = getMaterialIcon("task_alt", { size: "1.2em", fill: "white" }); 
+            const deleteTask = getMaterialIcon("delete", { size: "1.2em", fill: "white" }); 
 
-            const done = new UIComponent({
-                type: "div",
-                classes: ["box-row", "box-y-center", "box-x-center"],
-                text: TASK_ALT({ size: "1.2em", fill: "white" }),
-            });
-
-            const deleteTask = new UIComponent({
-                type: "div",
-                classes: ["box-row", "box-y-center", "box-x-center"],
-                text: DELETE({ size: "1.2em", fill: "white" }),
-            });
-
-            deleteTask.element.onclick = () => {
-                const response = taskService.deleteUserTask({ id: currentTask.id });
-                response.success((json) => {
-                    console.log(json);
-                    container.removeChild(taskBox);
-                });
-
-                response.json();
+            deleteTask.element.onclick = async () => {
+                await this.core.deleteUserTask(currentTask.id);
+                container.removeChild(taskBox);
+                if (document.querySelectorAll(".task-box").length == 0) {
+                    container.appendChild(this.buildNotTaskFoundErrorMessage());
+                }
             };
 
             toolbar.appendChild(edit);
@@ -186,5 +202,20 @@ export default class TasksView extends UIComponent {
 
     }
 
-   
+    /**
+     * Create a message to show when there are no tasks
+     * @returns The message as a UIComponent
+     */
+    private buildNotTaskFoundErrorMessage(): UIComponent {
+        return new UIComponent({
+            type: "h2",
+            classes: ["box-row", "box-center"],
+            text: "No tasks found &nbsp;" + getMaterialIcon("manage_search",{ fill: "#fff", size: "1.5em" }).toHTML(),
+            styles: {
+                opacity: "0.8",
+            }
+        });
+    }
+
+
 }

@@ -1,6 +1,6 @@
 import { config } from "process";
 import { Configurations } from "../../config/config.js";
-import { CLOUD, CLOUD_OFF } from "../../lib/gtd-ts/material/materialicons.js";
+import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 
 export class SideModal extends UIComponent {
@@ -33,13 +33,7 @@ export class SideModal extends UIComponent {
             }
         });
 
-        this.icon = new UIComponent({
-            type: "div",
-            text : CLOUD_OFF({
-                size : "1.5rem",
-                fill: "#fff"
-            })
-        });
+        this.icon = getMaterialIcon("cloud_off", {size : "1.5rem",fill: "#fff"});
 
         this.description = new UIComponent({
             type: "p",
@@ -77,10 +71,7 @@ export class SideModal extends UIComponent {
     public offlineMode() {
 
         this.title.element.innerHTML = "Your account is offline";
-        this.icon.element.innerHTML = CLOUD_OFF({
-            size : "1.5rem",
-            fill: "#fff"
-        });
+        this.icon.element.innerHTML = getMaterialIcon("cloud_off", {size : "1.5rem",fill: "#fff"}).element.innerHTML;
 
         this.description.element.innerHTML = "Your data is only accesible from this computer";
         this.action.element.innerHTML = "Sync";
@@ -90,10 +81,7 @@ export class SideModal extends UIComponent {
     public onlineMode() {
 
         this.title.element.innerHTML = "Your account is online";
-        this.icon.element.innerHTML = CLOUD({
-            size : "1.5rem",
-            fill: "#fff"
-        });
+        this.icon.element.outerHTML = getMaterialIcon("cloud", {size : "1.5rem",fill: "#fff"}).element.innerHTML;
 
         this.description.element.innerHTML = "Your data is synced with your devices";
         this.action.element.innerHTML = "Logout";

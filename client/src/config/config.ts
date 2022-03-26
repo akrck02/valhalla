@@ -25,7 +25,7 @@ export class Configurations {
     private declareConfig() {
         this.BASE = {
             APP_NAME: "Vallhala",
-            APP_VERSION: "v1.0",
+            APP_VERSION: "v1.0.0a",
             HOST: "127.0.0.1",
             PORT: 80,
             URL: location.href,
@@ -72,6 +72,7 @@ export class Configurations {
         this.VIEWS["PROJECTS"] = this.VIEWS["BASE_URL"] + "projects/";
         this.VIEWS["CONFIGURATION"] = this.VIEWS["BASE_URL"] + "configuration/";
         this.VIEWS["TERMINAL"] = this.VIEWS["BASE_URL"] + "terminal/";
+        this.VIEWS["ABOUT"] = this.VIEWS["BASE_URL"] + "about/";
         this.VIEWS["ERROR"] = this.VIEWS["BASE_URL"] + "error/";
     } 
 

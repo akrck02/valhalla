@@ -83,6 +83,10 @@ export class UIComponent {
         return element;
     }
 
+    toHTML(): string {
+        return this.element.outerHTML;
+    }
+
     /**
      * Appends a child to the component.
      * @param child  Child component to be added

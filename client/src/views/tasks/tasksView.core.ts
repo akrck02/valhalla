@@ -41,6 +41,19 @@ export default class TaskCore {
     }
 
     /**
+     * Get categories for a user
+     * @param id the id of the task
+     * @returns a promise that resolves to an array of categories
+     */
+     async deleteUserTask(id: number) : Promise<any> {
+        const response = taskService.deleteUserTask({ id: id });
+        
+        await response.jsonPromise();
+        return new Promise((resolve) => {resolve({})});
+    }
+
+
+    /**
      * Get the user-friendly text for a given date
      * @param date Date to get text for
      * @returns a string representing the date
@@ -79,5 +92,11 @@ export default class TaskCore {
         location.href = APP.configurations.VIEWS.NEW_TASK;
     }
 
+    public goToCategory(category: string) {
+        
+        //Assure that the view is loaded loading a new view and then loading the original view
+        location.href = APP.configurations.VIEWS.NEW_TASK;
+        location.href = APP.configurations.VIEWS.TASKS + category;
+    }
 
 }

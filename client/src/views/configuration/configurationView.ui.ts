@@ -1,13 +1,15 @@
 import { Configurations } from "../../config/config.js";
+import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { setClasses, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { ThemeChooser } from "./components/themeChooser.js";
 import { WallpaperGallery } from "./components/wallpaperGallery.js";
 
-export default class ConfigurationV extends UIComponent {
+export default class ConfigurationView extends UIComponent {
 
     public constructor() {
         super({
             type: "view",
+            id: "configuration",
             classes: ["box-row"],
             styles: {
                 width: "100%",
@@ -29,9 +31,14 @@ export default class ConfigurationV extends UIComponent {
                 overflow: "auto",
                 paddingBottom: "10rem",
                 background: "rgba(0,0,0,0.05)",
+                opacity: "0",
+                transition : "opacity var(--slow)",
             },
         });
 
+        setTimeout(() => {
+            menu.element.style.opacity = "1";
+        }, 100);
         this.createAppearenceView(configurations, content);
 
         this.appendChild(menu);
@@ -46,7 +53,8 @@ export default class ConfigurationV extends UIComponent {
             id: "config-menu",
             classes: ["box-column", "box-y-center"],
             styles: {
-            
+                opacity: "0",
+                transition : "opacity var(--medium)",
             },
         });
 
@@ -66,13 +74,13 @@ export default class ConfigurationV extends UIComponent {
 
         const appearenceOption = new UIComponent({
             type: "button",
-            text: "Appearence",
+            text: getMaterialIcon("palette",{fill: "#fafafa", size : "1rem"}).toHTML() + "Appearence",
             classes: ["option","selected","box-row", "box-y-center"],
         });
 
         const userOption = new UIComponent({
             type: "button",
-            text: "User",
+            text: getMaterialIcon("user",{fill: "#fafafa", size : "1rem"}).toHTML() + "User",
             classes: ["option","box-row", "box-y-center"],
         });
 
@@ -111,6 +119,10 @@ export default class ConfigurationV extends UIComponent {
         parent.appendChild(wallpaperGallery);
         parent.appendChild(themeTitle);
         parent.appendChild(themeChooser);
+
+        setTimeout(() => {
+            parent.element.style.opacity = "1";
+        }, 100);
     }
 
 

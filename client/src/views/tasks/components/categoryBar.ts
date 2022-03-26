@@ -1,5 +1,5 @@
 import { Configurations } from "../../../config/config.js";
-import { PLUS, SUMMATION, TAG, TASK } from "../../../lib/gtd-ts/material/materialicons.js";
+import { getMaterialIcon} from "../../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../../services/tasks.js";
 
@@ -22,10 +22,10 @@ export default class CategoryBar extends UIComponent {
 
         let button = new UIComponent({
             type: "button",
-            text: PLUS({
+            text: getMaterialIcon("plus",{
                 size: "1.7rem",
                 fill: "#fff",
-            }),
+            }).toHTML(),
             classes: ["icon-button","box-center"],
             id: "new",
             events : {
@@ -76,25 +76,36 @@ export default class CategoryBar extends UIComponent {
             if(categories.length == 0) {
                 const noCategories = new UIComponent({
                     type: "div",
+                    id: "no-catergories",
                     text:  `<h2>There are no categories here yet. 👋🏼</h2>
                             <br><br>
                             <span style='font-size:.85rem; opacity:.7'>Categories are used to organize your tasks. They will appear here when you create new tasks </span>
                             <br><br>
                             <span class='italic bold'>Create your first task!</span>
-
                     `,
                     styles: {
                         fontSize: "1rem",
                         margin: "2rem 0.5rem ",
+                        opacity: "0",
+                        transition : "opacity var(--medium)",
                     },
                 });
 
                 this.appendChild(noCategories);
             }
 
-            if(!selected){
+            if(selected){
+                this.options.forEach(e => {
+                    
+                    if(e.text.toUpperCase() == selected.toUpperCase()) {
+                        e.element.click();
+                    }
+                });
+            } else {  
                 this.options[0]?.element.click();
             }
+
+
         });
 
         categories.json();
@@ -103,9 +114,7 @@ export default class CategoryBar extends UIComponent {
 
     public show(): void {
         let diff = 100;
-        this.options.forEach(e =>{
-
-           
+        this.options.forEach(e =>{           
 
             setTimeout(() => {
                 e.element.style.color = "var(--text-color)"
@@ -114,5 +123,10 @@ export default class CategoryBar extends UIComponent {
             diff += Math.random() * 100;
 
         });
+
+        const noCategoriesMessage = this.element.querySelector("#no-catergories") as HTMLElement;
+        if(noCategoriesMessage) {
+            noCategoriesMessage.style.opacity = "1";
+        }
     }
 }

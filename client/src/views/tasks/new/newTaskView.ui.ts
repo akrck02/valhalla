@@ -1,12 +1,12 @@
 import DateInput from "../../../components/input/date/dateinput.js";
 import { Configurations } from "../../../config/config.js";
 import { DateText } from "../../../core/data/dateText.js";
-import { CHECK, PLUS, SAVE, SYNC, TASK } from "../../../lib/gtd-ts/material/materialicons.js";
+import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
 import { setStyles, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../../services/tasks.js";
 import NewTaskCore from "./newTaskView.core.js";
 
-export class NewTaskView extends UIComponent {
+export default class NewTaskView extends UIComponent {
 
     private configuration: Configurations;
     private core : NewTaskCore;
@@ -44,10 +44,7 @@ export class NewTaskView extends UIComponent {
             classes: ["box-row","box-y-center","task-name-row"],
         });
 
-        const taskIcon = new UIComponent({
-            text: TASK({ size: "1.8rem", fill: "#fff"})
-        });
-
+        const taskIcon = getMaterialIcon("task",{ size: "1.8rem", fill: "#fff"});
         const name = new UIComponent({
             type: "h1",
             text: this.core.getTask().name,
@@ -81,7 +78,7 @@ export class NewTaskView extends UIComponent {
 
         const saveButton = new UIComponent({
             type: "button",
-            text: CHECK({size: "1.2rem", fill: "#fff"}) + "&nbsp;Save",
+            text: getMaterialIcon("check",{size: "1.2rem", fill: "#fff"}).toHTML() + "&nbsp;Save",
             id: "save-task",
             classes: ["button"],
             events: { click: () => {
@@ -91,7 +88,7 @@ export class NewTaskView extends UIComponent {
                 const loadingTitle = new UIComponent({
                     type: "h1",
                     classes: ["box-center"],
-                    text: "Saving task... &nbsp;" + SYNC({size: "1.5rem", fill: "#fff"}),
+                    text: "Saving task... &nbsp;" + getMaterialIcon("sync",{size: "1.5rem", fill: "#fff"}).toHTML(),
                 });
                 
                 this.element.classList.add("box-center");
@@ -144,7 +141,7 @@ export class NewTaskView extends UIComponent {
         const newTagButton = new UIComponent({
             type : "button",
             id: "new-tag",
-            text : PLUS({ fill: "#fff", size: "1rem" })
+            text : getMaterialIcon("plus",{ fill: "#fff", size: "1rem" }).toHTML() 
         });
         newTagButton.appendTo(tagContainer);
 

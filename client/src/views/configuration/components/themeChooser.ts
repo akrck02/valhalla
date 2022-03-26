@@ -1,4 +1,5 @@
 import { Configurations } from "../../../config/config.js";
+import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
 import {
     UIComponent,
     setClasses,
@@ -22,8 +23,8 @@ export class ThemeChooser extends UIComponent {
         this.dark = new UIComponent({
             type: "button",
             id: "dark",
-            classes: ["mode-select"],
-            text: "Dark",
+            classes: ["mode-select", "box-row", "box-y-center"],
+            text: "Dark" + getMaterialIcon("dark_mode",{fill:"#fff",size:"1.25rem"}).toHTML(),
         });
 
         setEvents(this.dark.element, {
@@ -39,8 +40,8 @@ export class ThemeChooser extends UIComponent {
         this.light = new UIComponent({
             type: "button",
             id: "light",
-            classes: ["mode-select"],
-            text: "Light",
+            classes: ["mode-select", "box-row", "box-y-center"],
+            text: "Light" + getMaterialIcon("light_mode",{fill:"#fff",size:"1.25rem"}).toHTML(),
         });
 
         setEvents(this.light.element, {
