@@ -53,23 +53,23 @@ any questions? please [contact me](mailto:akrck02@gmail.com)
 
 Valhalla is currently supported on the following platforms:
 
-<div style="font-size: 1.2rem display:flex;   justify-content:center; align-items: center;">
-    <img style="width: 1.1rem; height: 1.1rem;" src="./readme/microsoft_logo.png" alt="Microsoft logo" style="width: 100%; height: 100%"> 
+<div style="font-size: 1.2em display:flex; height:1em; justify-content:center; align-items: center;">
+    <img style="width: 1em; height: 1em;" src="./readme/microsoft_logo.png" alt="Microsoft logo" > 
     <b> &nbsp;|&nbsp; Windows <i>(Recommended: 10 or later)</i></b>
 </div>
 
-<div style="font-size: 1.2rem display:flex;   justify-content:center; align-items: center;">
-    <img style="width: 1.1rem; height: 1.1rem;" src="./readme/ubuntu_logo.png" alt="Microsoft logo" style="width: 100%; height: 100%"> 
+<div style="font-size: 1.2em display:flex; height:1em;    justify-content:center; align-items: center;">
+    <img style="width: 1em; height: 1em;" src="./readme/fedora_logo.png" alt="Fedora logo" > 
     <b> &nbsp;|&nbsp; Fedora  <i>(Recommended: 34 or later)</i></b>
 </div>
 
-<div style="font-size: 1.2rem display:flex;   justify-content:center; align-items: center;">
-    <img style="width: 1.1rem; height: 1.1rem;" src="./readme/fedora_logo.png" alt="Microsoft logo" style="width: 100%; height: 100%"> 
+<div style="font-size: 1.2em display:flex;   justify-content:center; align-items: center;">
+    <img style="width: 1em; height: 1em;" src="./readme/ubuntu_logo.png" alt="Ubuntu logo" > 
     <b> &nbsp;|&nbsp; Ubuntu -  <i>(Recommended: 20.04 or later)</i></b>
 </div>
 
-<div style="font-size: 1.2rem display:flex;   justify-content:center; align-items: center;">
-    <img style="width: 1.1rem; height: 1.1rem;" src="./readme/linux_logo.png" alt="Microsoft logo" style="width: 100%; height: 100%"> 
+<div style="font-size: 1.2em display:flex;   justify-content:center; align-items: center;">
+    <img style="width: 1em; height: 1rem;" src="./readme/linux_logo.png" alt="Linux logo" > 
     <b> &nbsp;|&nbsp; Linux -  <i>(Required: .appImage support)</i></b>
 </div>
 
