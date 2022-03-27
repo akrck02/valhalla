@@ -1,3 +1,4 @@
+import { App } from "../../../app.js";
 import { Configurations } from "../../../config/config.js";
 import { getMaterialIcon} from "../../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
@@ -77,11 +78,13 @@ export default class CategoryBar extends UIComponent {
                 const noCategories = new UIComponent({
                     type: "div",
                     id: "no-catergories",
-                    text:  `<h2>There are no categories here yet. 👋🏼</h2>
+                    text:  `<h2>${App.getBundle().tasks.THERE_ARE_NO_CATEGORIES_YET}</h2>
                             <br><br>
-                            <span style='font-size:.85rem; opacity:.7'>Categories are used to organize your tasks. They will appear here when you create new tasks </span>
+                            <span style='font-size:.85rem; opacity:.7'>
+                            ${App.getBundle().tasks.CATEGORIES_EXPLANATION}
+                            </span>
                             <br><br>
-                            <span class='italic bold'>Create your first task!</span>
+                            <span class='italic bold'>${App.getBundle().tasks.CREATE_YOUR_FIRST_TASK}</span>
                     `,
                     styles: {
                         fontSize: "1rem",

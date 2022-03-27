@@ -1,4 +1,5 @@
 import { config } from "process";
+import { APP, App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
@@ -70,21 +71,24 @@ export class SideModal extends UIComponent {
 
     public offlineMode() {
 
-        this.title.element.innerHTML = "Your account is offline";
+        this.title.element.innerHTML = App.getBundle().sync.YOUR_ACCOUNT_IS_OFFLINE;
         this.icon.element.innerHTML = getMaterialIcon("cloud_off", {size : "1.5rem",fill: "#fff"}).element.innerHTML;
 
-        this.description.element.innerHTML = "Your data is only accesible from this computer";
-        this.action.element.innerHTML = "Sync";
+        this.description.element.innerHTML = App.getBundle().sync.OFFLINE_EXPLANATION;
+        this.action.element.innerHTML = App.getBundle().sync.SYNC;
+        this.action.element.onclick = () => {
+            alert(App.getBundle().system.NOT_IMPLEMENTED_YET);
+        }
     }
 
 
     public onlineMode() {
 
-        this.title.element.innerHTML = "Your account is online";
+        this.title.element.innerHTML = App.getBundle().sync.YOUR_ACCOUNT_IS_ONLINE;
         this.icon.element.outerHTML = getMaterialIcon("cloud", {size : "1.5rem",fill: "#fff"}).element.innerHTML;
 
-        this.description.element.innerHTML = "Your data is synced with your devices";
-        this.action.element.innerHTML = "Logout";
+        this.description.element.innerHTML = App.getBundle().sync.ONLINE_EXPLANATION;
+        this.action.element.innerHTML = App.getBundle().sync.LOGOUT;
     }
 
 

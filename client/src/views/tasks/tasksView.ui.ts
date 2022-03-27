@@ -1,3 +1,4 @@
+import { App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
@@ -154,10 +155,6 @@ export default class TasksView extends UIComponent {
                 type: "div",
                 text: text,
                 classes: ["time"],
-                styles: {
-                    fontSize: "0.8em",
-                    color: "rgba(255,255,255,0.5)"
-                }
             });
 
             task.appendChild(taskTitle);
@@ -210,7 +207,7 @@ export default class TasksView extends UIComponent {
         return new UIComponent({
             type: "h2",
             classes: ["box-row", "box-center"],
-            text: "No tasks found &nbsp;" + getMaterialIcon("manage_search",{ fill: "#fff", size: "1.5em" }).toHTML(),
+            text: App.getBundle().tasks.NO_TASKS_FOUND + " &nbsp;" + getMaterialIcon("manage_search",{ fill: "#fff", size: "1.5em" }).toHTML(),
             styles: {
                 opacity: "0.8",
             }

@@ -23,11 +23,19 @@ view#new-task h1#task-name {
     max-height: 3.5rem;
 }
 
+view#new-task div.task-name-row svg {
+    fill: var(--text-color);
+}
+
 view#new-task p#task-description {
     height: 15rem;
     width: 100%;
     margin: 1rem 1rem;
     overflow-y: auto;
+    background: rgba(0, 0, 0, .025);
+}
+
+:root[data-theme=dark] view#new-task p#task-description{
     background: rgba(255, 255, 255, .05);
 }
 
@@ -39,7 +47,12 @@ view#new-task h1{
 view#new-task h1#task-name:focus,
 view#new-task p#task-description:focus {
     outline: none;
-    background: rgba(255, 255, 255, .05);
+    background: rgba(0, 0, 0, .035);
+}
+
+:root[data-theme=dark] #new-task h1#task-name:focus,
+:root[data-theme=dark] view#new-task p#task-description:focus {
+    background: rgba(255, 255, 255, .015);
 }
 
 view#new-task div.date-row {
@@ -52,12 +65,16 @@ view#new-task div.date-row label {
 
 view#new-task button.task-label {
     margin: 0rem .25rem;
-    background: rgba(255, 255, 255, .065);
+    background: rgba(0, 0, 0, .065);
     border-radius: 5rem;
     padding: .25rem 1rem;
     transition: background var(--fast);
     cursor: pointer;
     box-shadow: none;
+}
+
+:root[data-theme=dark] view#new-task button.task-label {
+    background: rgba(255, 255, 255, .065);
 }
 
 view#new-task div#tag-container {
@@ -68,23 +85,43 @@ view#new-task div#tag-container button.task-label:hover,
 view#new-task div#tag-container button.task-label:focus,
 view#new-task div#tag-container button#new-tag:hover ,
 view#new-task div#tag-container button#new-tag:focus  {
+    background: rgba(0, 0, 0, .15);
+    color: var(--text-color) !important;
+}
+
+
+:root[data-theme=dark] view#new-task div#tag-container button.task-label:hover,
+:root[data-theme=dark] view#new-task div#tag-container button.task-label:focus,
+:root[data-theme=dark] view#new-task div#tag-container button#new-tag:hover ,
+:root[data-theme=dark] view#new-task div#tag-container button#new-tag:focus  {
     background: rgba(255, 255, 255, .15);
 }
 
+
 view#new-task div#tag-container button#new-tag {
     margin: 0rem;
-    background: rgba(255, 255, 255, .065);
+    background: rgba(0, 0, 0, .065);
     border-radius: 5rem;
     box-shadow: none;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--text-color) !important;
+}
+
+view#new-task div#tag-container button#new-tag svg {
+    fill: var(--text-color);
+}
+
+
+:root[data-theme=dark] view#new-task div#tag-container button#new-tag {
+    background: rgba(255, 255, 255, .065);
 }
 
 
 view#new-task button#save-task {
     padding: .75rem 1rem;
-    background: rgba(255,255,255,.05);
+    background: rgba(0,0,0,.05);
     font-weight: bold;
     justify-content: center;
     align-items: center;
@@ -93,14 +130,27 @@ view#new-task button#save-task {
     box-shadow: none;
 }
 
+
+:root[data-theme=dark] view#new-task button#save-task {
+    background: rgba(255,255,255,.05);
+}
+
 view#new-task button#save-task svg {
     margin-right: .5rem;
+    fill: var(--text-color)
 } 
 
 view#new-task button#save-task:hover,
 view#new-task button#save-task:focus {
+    background: rgba(0,0,0,.10);
+    color: var(--text-color) !important;
+}
+
+:root[data-theme=dark] view#new-task button#save-task:hover,
+:root[data-theme=dark] view#new-task button#save-task:focus {
     background: rgba(255,255,255,.1);
 }
+
 
 view#new-task.loading svg {
     animation: spin 1s linear infinite;

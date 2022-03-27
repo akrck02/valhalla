@@ -24,7 +24,7 @@ export default class Searchbar extends UIComponent {
         this.mode = SEARCHBAR_MODE.SEARCH;
         this.handler = new CommandHandler(listeners);
 
-        this.input.placeholder = App.getBundle().osBundle.SEARCHBAR_PLACEHOLDER;
+        this.input.placeholder = App.getBundle().os.SEARCHBAR_PLACEHOLDER;
 
         setEvents(this.input,{
             keyup: (event) => {

@@ -91,9 +91,10 @@ div#sidebar a.sidebar-item:not(.selected):focus{
 }
 
 div#sidebar div#sidebar-modal {
-    background : RGBA(var(--RGB-background),.58);
+    background : rgba(0,42,200,0.75);
     width : 15rem;
     height : 8.5rem;
+    color: #fafafa;
     border-radius : .35rem;
     position: fixed;
     bottom: 3.5rem;
@@ -106,6 +107,19 @@ div#sidebar div#sidebar-modal {
     display: none;
 }
 
+:root[data-theme=dark] div#sidebar div#sidebar-modal {
+    background: rgba(255, 255, 255, .1);
+}
+
+div#sidebar div#sidebar-modal svg { 
+    fill: #fafafa !important;
+}
+
+div#sidebar div#sidebar-modal button {
+    background: rgba(255, 255, 255, .15) !important;
+    box-shadow: none;
+    color: #fafafa !important;
+}
 
 div#sidebar div#sidebar-modal.visible {
     display: block;

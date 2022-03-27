@@ -1,3 +1,4 @@
+import { App } from "../../../app.js";
 import { Configurations } from "../../../config/config.js";
 import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
 import {
@@ -24,7 +25,7 @@ export class ThemeChooser extends UIComponent {
             type: "button",
             id: "dark",
             classes: ["mode-select", "box-row", "box-y-center"],
-            text: "Dark" + getMaterialIcon("dark_mode",{fill:"#fff",size:"1.25rem"}).toHTML(),
+            text: App.getBundle().configuration.DARK + getMaterialIcon("dark_mode",{fill:"#fff",size:"1.25rem"}).toHTML(),
         });
 
         setEvents(this.dark.element, {
@@ -41,7 +42,7 @@ export class ThemeChooser extends UIComponent {
             type: "button",
             id: "light",
             classes: ["mode-select", "box-row", "box-y-center"],
-            text: "Light" + getMaterialIcon("light_mode",{fill:"#fff",size:"1.25rem"}).toHTML(),
+            text: App.getBundle().configuration.LIGHT + getMaterialIcon("light_mode",{fill:"#fff",size:"1.25rem"}).toHTML(),
         });
 
         setEvents(this.light.element, {

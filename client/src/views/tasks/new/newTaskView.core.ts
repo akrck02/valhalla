@@ -1,3 +1,4 @@
+import { App } from "../../../app.js";
 import { ITask } from "../../../core/data/interfaces/task.js";
 import NewTaskView from "./newTaskView.ui";
 
@@ -18,13 +19,13 @@ export default class NewTaskCore {
     private defaultTask(): ITask {
 
         const task = {
-            name: "Write here a task name ✍️",
-            description: "Insert here your task description :)",
+            name: App.getBundle().newTask.WRITE_HERE_A_TASK_NAME,
+            description:  App.getBundle().newTask.WRITE_HERE_A_TASK_DESCRIPTION,
             allDay: 0,
             start: "2022/03/21",
             end: "2022/03/21",
             author: "",
-            labels: ["Today", "Important"],
+            labels: [ App.getBundle().newTask.TODAY,  App.getBundle().newTask.IMPORTANT],
         };
 
         return task;

@@ -1,3 +1,4 @@
+import { App } from "../../../app.js";
 import DateInput from "../../../components/input/date/dateinput.js";
 import { Configurations } from "../../../config/config.js";
 import { DateText } from "../../../core/data/dateText.js";
@@ -78,7 +79,7 @@ export default class NewTaskView extends UIComponent {
 
         const saveButton = new UIComponent({
             type: "button",
-            text: getMaterialIcon("check",{size: "1.2rem", fill: "#fff"}).toHTML() + "&nbsp;Save",
+            text: getMaterialIcon("check",{size: "1.2rem", fill: "#fff"}).toHTML() + "&nbsp;" +  App.getBundle().newTask.SAVE,
             id: "save-task",
             classes: ["button"],
             events: { click: () => {
@@ -88,7 +89,7 @@ export default class NewTaskView extends UIComponent {
                 const loadingTitle = new UIComponent({
                     type: "h1",
                     classes: ["box-center"],
-                    text: "Saving task... &nbsp;" + getMaterialIcon("sync",{size: "1.5rem", fill: "#fff"}).toHTML(),
+                    text:   App.getBundle().newTask.SAVING_TASK + " &nbsp;" + getMaterialIcon("sync",{size: "1.5rem", fill: "#fff"}).toHTML(),
                 });
                 
                 this.element.classList.add("box-center");
@@ -191,7 +192,7 @@ export default class NewTaskView extends UIComponent {
         const startDateLabel = new UIComponent({
             type: "label",
             attributes: { for : "task-start-date" },
-            text : "Start date: "
+            text :  App.getBundle().newTask.START_DATE + ": "
         });
         startDateRow.appendChild(startDateLabel);
 
@@ -224,7 +225,7 @@ export default class NewTaskView extends UIComponent {
         const endDateLabel = new UIComponent({
             type: "label",
             attributes: { for : "task-end-date" },
-            text : "End date: "
+            text :   App.getBundle().newTask.END_DATE + ": "
         });
         endDateRow.appendChild(endDateLabel);
 
@@ -254,7 +255,7 @@ export default class NewTaskView extends UIComponent {
 
         const allDayLabel = new UIComponent({
             type: "label" ,
-            text : "All day",
+            text :  App.getBundle().newTask.ALL_DAY,
             styles :  {
                 marginLeft: "1rem"
             }

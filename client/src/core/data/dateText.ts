@@ -4,7 +4,7 @@ export class DateText {
 
     public static month(month: number): string {
 
-        const bundle = App.getBundle().dateBundle;
+        const bundle = App.getBundle().date;
         const array = [
             bundle.JANUARY,
             bundle.FEBRUARY,

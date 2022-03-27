@@ -1,4 +1,4 @@
-view#tasks .task {
+view#tasks .task-box  .task {
     width: 100%;
     padding: 1rem;
     border-radius: 0.55rem;
@@ -9,8 +9,17 @@ view#tasks .task {
     transition: opacity var(--slow), width var(--medium);
 }
 
-:root[data-theme=dark] view#tasks .task {
+:root[data-theme=dark] view#tasks .task-box  .task {
     background: rgba(255,255,255,0.05);
+}
+
+view#tasks .task-box .task .time {
+    font-size: 0.8em;
+    color: rgba(0,0,0,0.5);
+}
+
+:root[data-theme=dark] view#tasks .task-box .task .time {
+    color: rgba(255,255,255,0.5);
 }
 
 view#tasks .task-toolbar {

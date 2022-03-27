@@ -1,5 +1,5 @@
 import { time } from "console";
-import { APP } from "../../app.js";
+import { App, APP } from "../../app.js";
 import { Selector } from "../../components/os/selector.js";
 import { Configurations } from "../../config/config.js";
 import { DateText } from "../../core/data/dateText.js";
@@ -202,7 +202,7 @@ export default class CalendarV extends UIComponent {
     private setCalendarOsBarControls() {
 
         const calendarView = this;
-        const monthSelector = new Selector("Month", this);
+        const monthSelector = new Selector(App.getBundle().calendar.MONTH, this);
         for (let i = 0; i < 12; i++) {
            monthSelector.addOptionFull(
                DateText.month(i), 
@@ -214,7 +214,7 @@ export default class CalendarV extends UIComponent {
         }
         monthSelector.setSelected(0 + "");
         
-        const yearSelector = new Selector("Year", this);
+        const yearSelector = new Selector(App.getBundle().calendar.YEAR, this);
         for (let i = new Date().getFullYear() + 1 ; i >= new Date().getFullYear() - 10; i--) {
             yearSelector.addOption(
                i + "", 
@@ -225,11 +225,11 @@ export default class CalendarV extends UIComponent {
         }
         yearSelector.setSelected(new Date().getFullYear() + "");
 
-        const modeSelector = new Selector("Mode", this);
-        modeSelector.addOption( "Month", (year) => {});
-        modeSelector.addOption( "Week", (year) => {});
-        modeSelector.addOption( "Day", (year) => {});
-        modeSelector.setSelected("Month");
+        const modeSelector = new Selector(App.getBundle().calendar.MODE, this);
+        modeSelector.addOption( App.getBundle().calendar.MONTH, (year) => {});
+        modeSelector.addOption( App.getBundle().calendar.WEEK, (year) => {});
+        modeSelector.addOption( App.getBundle().calendar.DAY, (year) => {});
+      //  modeSelector.setSelected(App.getBundle().calendar.YEAR);
         
 
         APP.router.osNavbar.addToControls(modeSelector);

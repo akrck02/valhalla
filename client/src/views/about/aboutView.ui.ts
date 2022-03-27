@@ -1,3 +1,4 @@
+import { App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
 import { getOs } from "../../lib/gtd-ts/web/responsivetools.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
@@ -35,11 +36,10 @@ export default class AboutView extends UIComponent {
         });
 
         const logo = new UIComponent({
-            type: "img",
+            type: "div",
+            id: "logo",
             classes: ["box-row", "box-x-center", "box-y-center"],
-            attributes: {
-                src: configurations.PATHS.IMAGES + "logo-light.svg",
-            },
+            text: getSocialIcon("valhalla", { size: "10rem", fill: "#404040" }).toHTML(),
             styles: {
                 width: "10rem",
                 opacity: "0.75",
@@ -55,14 +55,14 @@ export default class AboutView extends UIComponent {
         const os = new UIComponent({
             type: "h2",
             classes: ["box-row", "box-x-center", "box-y-center"],
-            text: "Running on " + getOs(),
+            text: App.getBundle().about.RUNNING_ON + " " + getOs(),
         });
 
 
         const description = new UIComponent({
             type: "p",
             classes: ["box-row", "box-x-center", "box-y-center", "text-center"],
-            text: `Made with 💙 by akrck02.`,
+            text: App.getBundle().about.MADE_WITH_LOVE_BY_AKRCK02 + `.`,
             styles : {
                 marginTop: "2rem",
                 maxWidth: "30rem",
@@ -80,7 +80,7 @@ export default class AboutView extends UIComponent {
 
         const github = new UIComponent({
             type: "a",
-            classes: ["box-row", "box-x-center", "box-y-center", "text-center"],
+            classes: ["social", "box-row", "box-x-center", "box-y-center", "text-center"],
             attributes: {
                 href: "https://github.com/akrck02/valhalla",
                 target: "_blank",

@@ -1,3 +1,5 @@
+import TextBundle from "../res/textBundle";
+import { getLang } from "../system";
 import { TimeUtils } from "../utils/time";
 import { ITask } from "./classes/task";
 import { IUser } from "./classes/user";
@@ -16,7 +18,7 @@ export class Inserter {
 
         await Inserter.insertTask(db, {
             author: 'default', 
-            name : 'Start using valhalla 😉', 
+            name : TextBundle.get(getLang()).create.START_USING_VALHALLA, 
             description: 'Optimize your workflow with valhalla',
             start: TimeUtils.now(),
             end : TimeUtils.now(),
@@ -24,7 +26,7 @@ export class Inserter {
             done: 0
         });
 
-        await Inserter.insertTaskLabel(db, 1, 'Today');
+        await Inserter.insertTaskLabel(db, 1, TextBundle.get(getLang()).create.TODAY);
 
         } catch (err) {
             console.log("Database", err);

@@ -1,3 +1,4 @@
+import { App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { setClasses, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
@@ -60,7 +61,7 @@ export default class ConfigurationView extends UIComponent {
 
         const title = new UIComponent({
             type: "h1",
-            text: "Configuration",
+            text: App.getBundle().configuration.CONFIGURATION,
             classes: ["box-column", "box-y-start", "box-x-center"],
             styles: {
                 width: "calc(80% - 1rem)",
@@ -74,13 +75,13 @@ export default class ConfigurationView extends UIComponent {
 
         const appearenceOption = new UIComponent({
             type: "button",
-            text: getMaterialIcon("palette",{fill: "#fafafa", size : "1rem"}).toHTML() + "Appearence",
+            text: getMaterialIcon("palette",{fill: "#fafafa", size : "1rem"}).toHTML() + App.getBundle().configuration.APPEARANCE,
             classes: ["option","selected","box-row", "box-y-center"],
         });
 
         const userOption = new UIComponent({
             type: "button",
-            text: getMaterialIcon("user",{fill: "#fafafa", size : "1rem"}).toHTML() + "User",
+            text: getMaterialIcon("user",{fill: "#fafafa", size : "1rem"}).toHTML() + App.getBundle().configuration.USER,
             classes: ["option","box-row", "box-y-center"],
         });
 
@@ -96,7 +97,7 @@ export default class ConfigurationView extends UIComponent {
 
         const wallPaperTitle = new UIComponent({
             type: "h1",
-            text: "Wallpapers",
+            text: App.getBundle().configuration.WALLPAPERS,
             styles: {
                 width: "100%",
                 padding: "2rem 3.7rem",
@@ -106,7 +107,7 @@ export default class ConfigurationView extends UIComponent {
         const wallpaperGallery = new WallpaperGallery(configurations);
         const themeTitle = new UIComponent({
             type: "h1",
-            text: "Theme",
+            text: App.getBundle().configuration.THEME,
             styles: {
                 width: "100%",
                 padding: "2rem 3.7rem",
