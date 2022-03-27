@@ -1,5 +1,5 @@
-import { ITask } from "../../../core/data/interfaces/task";
-import { NewTaskView } from "./newTaskView.ui";
+import { ITask } from "../../../core/data/interfaces/task.js";
+import NewTaskView from "./newTaskView.ui";
 
 export default class NewTaskCore {
 

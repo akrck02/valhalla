@@ -1,10 +1,10 @@
-import { APP } from "../../app.js";
+import { App } from "../../app.js";
 
 export class DateText {
 
     public static month(month: number): string {
 
-        const bundle = APP.bundle.dateBundle;
+        const bundle = App.getBundle().dateBundle;
         const array = [
             bundle.JANUARY,
             bundle.FEBRUARY,

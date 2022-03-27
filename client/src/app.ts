@@ -3,23 +3,20 @@ import { Keyboard } from './core/keyboard.js';
 import { ListenerSet } from './core/listenerset.js';
 import { getParametersByIndex } from './lib/gtd-ts/data/urltools.js';
 import { TextBundle } from './res/textBundle.js';
-import { taskService } from './services/tasks.js';
 import Router from './views/router.js';
 
 /**
  * Main application class
  */
-class App {
+export class App {
 
     private keyboard : Keyboard;
     private listeners : ListenerSet;
     public router : Router;
     public configurations : Configurations;
-    public bundle : TextBundle;
 
     constructor() {
         this.configurations = new Configurations();
-        this.bundle = new TextBundle(navigator.language);
         this.listeners = new ListenerSet();
         this.router = new Router(this.configurations, this.listeners);
         this.keyboard = new Keyboard(this.listeners);
@@ -39,6 +36,11 @@ class App {
             titleElement.onclick = () => location.href = this.configurations.VIEWS.BASE_URL;
     
         this.router.load(params);
+    }
+
+
+    public static getBundle() : any {
+        return TextBundle.get(navigator.language);
     }
 
 }
