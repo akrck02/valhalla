@@ -19,4 +19,6 @@ export const DateBundleEn = {
     THURSDAY: "Thursday",
     FRIDAY: "Friday",
     SATURDAY: "Saturday",
+
+    DATE_FORMAT : "yyyy/MM/dd"
 }

@@ -2,6 +2,17 @@ import { App } from "../../app.js";
 
 export class DateText {
 
+    static DATE_FORMAT = {
+        STANDARD : "yyyy/MM/dd",
+        EUROPE :  "dd/MM/yyyy",
+        SQLITE : "yyyy-MM-dd"
+    }
+
+    /**
+     * Get the month text for the given number
+     * @param month The month number
+     * @returns The month as text
+     */
     public static month(month: number): string {
 
         const bundle = App.getBundle().date;
@@ -23,7 +34,12 @@ export class DateText {
         return array[month];
     }
 
-
+    /**
+     * Add zeros to a given number to match a length
+     * @param number The number to normalize
+     * @param digits The number of digits to match
+     * @returns The normalized number
+     */
     public static normalize(number: number, digits: number): string {
 
         let result = "";
@@ -42,22 +58,55 @@ export class DateText {
         return result;
     }
 
+    /*
+    * Format a date in standard format
+    * @param date The date to format
+    * @returns The formatted date as string
+    */
+    public static toStandardDate(date : Date) : string {
+        return this.dateToString(date,DateText.DATE_FORMAT.STANDARD);    
+    }
 
-    public static toDateString(date: Date): string {
+    /**
+     * Format a date in europe format
+     * @param date The date to format
+     * @returns The formatted date as string
+     */
+    public static toEuropeDate(date : Date) : string {
+        return this.dateToString(date, DateText.DATE_FORMAT.EUROPE);        
+    }
 
+    /**
+     * Format a date in sqlite format
+     * @param date The date to format
+     * @returns The formatted date as string
+     */
+    public static toSQLiteDate(date : Date) : string {
+        return this.dateToString(date, DateText.DATE_FORMAT.SQLITE);        
+    }
+
+    /**
+     * Convert a date to String matching the given format1 
+     * @param date The date to format
+     * @param format The format to match
+     * @returns The formatted date as string
+     */
+    private static dateToString(date: Date, format : string) : string {
         if (!date) {
             return;
         }
 
-        const day = date.getDate();
-        const month = date.getMonth() + 1;
-        const year = date.getFullYear();
+        let result = format;
+        result = result.replace("yyyy","" + date.getFullYear());
+        result = result.replace("MM","" + (date.getMonth() + 1));
+        result = result.replace("dd","" + (date.getDate()));
 
-        const result = this.normalize(year, 4) + " / " + this.normalize(month, 2) + " / " + this.normalize(day, 2);
-        return result;
+        return result;    
     }
 
 
-    
+    public static toLocalizedDateString(date : Date) : string {
+        return this.dateToString(date, App.getBundle().date.DATE_FORMAT);
+    }
 
 }

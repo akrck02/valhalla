@@ -1,5 +1,6 @@
 import { resolve } from "path";
-import { APP } from "../../app.js";
+import { App, APP } from "../../app.js";
+import { DateText } from "../../core/data/dateText.js";
 import { ITask } from "../../core/data/interfaces/task.js";
 import { taskService } from "../../services/tasks.js";
 import TasksView from "./tasksView.ui.js";
@@ -68,7 +69,7 @@ export default class TaskCore {
 
             if (diff <= 6) {
                 if (diff > 0) return `${diff}h`;
-                else return "now";
+                //else return App.getBundle().tasks.NOW;
             }
         }
 
@@ -76,12 +77,12 @@ export default class TaskCore {
         date.setHours(0, 0, 0, 0);
 
         if (today.toString() === date.toString()) {
-            return "Today";
+            return App.getBundle().tasks.TODAY;
         } else {
 
             today.setDate(today.getDate() + 1);
-            if (date.toString() === today.toString()) { return "Tomorrow"; } 
-            else { return date.toLocaleDateString(); }
+            if (date.toString() === today.toString()) { return App.getBundle().tasks.TOMORROW; } 
+            else { return DateText.toLocalizedDateString(date) }
         }
     }
 

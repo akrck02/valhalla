@@ -3,4 +3,7 @@ export const TaskBundleEn = {
     CATEGORIES_EXPLANATION: "Categories are used to organize your tasks. They will appear here when you create new tasks.",
     CREATE_YOUR_FIRST_TASK: "Create your first one below!",
     NO_TASKS_FOUND : "No tasks found",
+    TODAY : "today",
+    TOMORROW : "tomorrow",
+    NOW: "now" 
 }

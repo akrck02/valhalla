@@ -38,7 +38,7 @@ export default class DateInput extends UIComponent {
             id: attributes.id,
             attributes: {
                 type: "text",
-                value : DateText.toDateString(this.date),
+                value : DateText.toLocalizedDateString(this.date),
             },
         });
 
@@ -118,5 +118,9 @@ export default class DateInput extends UIComponent {
         }
     }
 
+
+    public getDate() : Date {
+        return this.date;
+    }
 
 }

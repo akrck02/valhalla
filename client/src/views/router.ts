@@ -6,7 +6,7 @@ import { Configurations } from "../config/config.js";
 import { ListenerSet } from "../core/listenerset.js";
 import { UIComponent } from "../lib/gtd-ts/web/uicomponent.js";
 import AboutView from "./about/aboutView.ui.js";
-import CalendarV from "./calendar/calendarV.js";
+import CalendarView from "./calendar/calendarView.ui.js";
 import ConfigurationView from "./configuration/configurationView.ui.js";
 import errorV from "./error/errorV.js";
 import ProjectsV from "./projects/projects.js";
@@ -69,7 +69,7 @@ export default class Router {
                     this.sidebar.setSelected(0);
                     break;
                 case "calendar":
-                    new CalendarV().show(params.splice(1), this.container, this.configurations);
+                    new CalendarView().show(params.splice(1), this.container, this.configurations);
                     this.sidebar.setSelected(1);
                     break;
                 case "teams":

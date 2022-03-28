@@ -1,3 +1,4 @@
+import { taskService } from "../../services/tasks.js";
 import AboutView from "./aboutView.ui";
 
 export default class AboutCore {

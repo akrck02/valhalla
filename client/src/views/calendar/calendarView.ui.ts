@@ -3,12 +3,16 @@ import { App, APP } from "../../app.js";
 import { Selector } from "../../components/os/selector.js";
 import { Configurations } from "../../config/config.js";
 import { DateText } from "../../core/data/dateText.js";
+import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import CalendarCore from "./calendarView.core.js";
 
-export default class CalendarV extends UIComponent {
+export default class CalendarView extends UIComponent {
 
-    private calendarContainer: UIComponent;
-    private currentMonth: Date;
+    private core : CalendarCore;
+    private calendarContainer : UIComponent;
+    private currentMonth : Date;
+    private configurations : Configurations;
 
     public constructor() {
         super({
@@ -21,6 +25,8 @@ export default class CalendarV extends UIComponent {
             },
 
         });
+
+        this.core = new CalendarCore(this);
 
         this.setCalendarOsBarControls();
         this.calendarContainer = new UIComponent({
@@ -38,9 +44,12 @@ export default class CalendarV extends UIComponent {
      */
     public show(params: string[], container: UIComponent, config: Configurations): void {
 
+        this.configurations = config;
+        this.currentMonth = new Date();
         this.createCalendar(new Date());
         this.appendChild(this.calendarContainer);
         this.appendTo(container);
+        
 
         setTimeout(() => {
             this.calendarContainer.element.style.opacity = "1";
@@ -52,9 +61,11 @@ export default class CalendarV extends UIComponent {
      * Create the calendar for the given month
      * @param current the current month
      */
-    private createCalendar(current: Date) {
+    private async createCalendar(current: Date) {
 
         this.currentMonth = current;
+        const tasks = await this.core.getMonthTasks();        
+
         this.calendarContainer.clean();
         const calendarWrapper = new UIComponent({
             type: "div",
@@ -136,9 +147,44 @@ export default class CalendarV extends UIComponent {
             const isToday = today.getFullYear() == year && today.getMonth() == month && realday == today.getDate();
 
             const day = new UIComponent({
-                text: "" + (realday),
                 classes: isToday? ["day","today"] : ["day"],
+                styles: {
+                    overflow: "hidden",
+                }
             })
+
+            const dayText = new UIComponent({
+                text: "" + (realday),
+                styles: {
+                    marginBottom : ".5rem"
+                }
+            });
+
+            dayText.appendTo(day);
+
+            const events = tasks[(year + "-" + (month + 1) + "-" + realday)];
+            
+            if(events) {
+                events.forEach(event => {
+                    const eventbox = new UIComponent({
+                        type: "p",
+                        text:  event.name,
+                        styles: {
+                            fontSize : ".75rem",
+                            opacity: ".75",
+                            borderLeft : ".15rem solid rgba(255,255,255,.75)" ,
+                            marginBottom : ".2rem",
+                            marginLeft : "-.35rem",
+                            paddingLeft : ".25rem",
+                            overflow: "hidden",
+                            whiteSpace : "nowrap",
+                            textOverflow : "ellipsis"
+                        }
+                    });
+                   eventbox.appendTo(day);
+                });
+
+            }
 
             row.appendChild(day);
             realday++;
@@ -160,12 +206,63 @@ export default class CalendarV extends UIComponent {
         calendarWrapper.appendChild(title);
         calendarWrapper.appendChild(calendar);
         this.calendarContainer.appendChild(calendarWrapper);
-        this.calendarContainer.appendChild(new UIComponent({
+      
+      
+        const more = new UIComponent({
             type: "div",
             id: "calendar-more",
-            classes: ["box-row", "box-x-center", "box-y-center"],
-        }));
+            classes: ["box-column", "box-x-start", "box-y-center"],
+            styles: {
+                padding: "2rem 3rem",
+                overflowY: "auto"
+            }
+        })
+
+        for (const date in tasks) {
+            const element = tasks[date];
+                
+            const title = new UIComponent({
+                type: "h1",
+                text : getMaterialIcon("calendar_today",{
+                    size: "1.5rem",
+                    fill: "#ffffffe0"
+                }).toHTML() + " &nbsp;&nbsp;&nbsp;" + date,
+                classes : ["box-row", "box-y-center"],
+                styles : {
+                    textAlign: "left",
+                    width: "100%",     
+                    fontSize : "1.25rem",
+                    marginTop: "1rem",
+                    padding: "1rem 1.5rem",
+                    color: "rgba(255,255,255, .75)",
+                    borderBottom: ".05rem solid rgba(255,255,255, .15)"
+                }
+            });
+            title.appendTo(more);
+
+            element.forEach(e => {
+                const event = new UIComponent({
+                    type: "p",
+                    text: e.name,
+                    styles : {
+                        textAlign: "left",
+                        width: "100%",     
+                        marginTop: ".5rem",
+                        padding: ".5rem 1.5rem",
+                        color: "rgba(255,255,255, .75)",
+                    }
+                })
+                event.appendTo(more);
+            })
+
+            
+        }
+
+
+        this.calendarContainer.appendChild(more);
         
+        
+
 
         let even = true;
         rows.forEach((row) =>{
@@ -177,8 +274,6 @@ export default class CalendarV extends UIComponent {
             setTimeout(() => {
                 row.element.classList.add("visible");
             }, time);
-
-          
         });
     }
 
@@ -235,7 +330,15 @@ export default class CalendarV extends UIComponent {
         APP.router.osNavbar.addToControls(modeSelector);
         APP.router.osNavbar.addToControls(monthSelector);
         APP.router.osNavbar.addToControls(yearSelector);
-       
-
+    
     }
+
+
+    getCurrentMonth() : Date {
+        return this.currentMonth;
+    }
+
+    getConfigurations() : Configurations {
+        return this.configurations;
+    } 
 }

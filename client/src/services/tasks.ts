@@ -17,6 +17,21 @@ export class taskService {
         return response;
     }
 
+   
+    static getUserMonthTasks(username : string, month :number, year : number) : Response {
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: APP.configurations.API.GET_USER_MONTH_TASKS,
+            parameters: {
+                user: username,
+                month: month,
+                year: year
+            },
+        });
+
+        return response;
+    }
+
     static getUserTasksFromCategory(username : string, category : string) : Response {
         const response = efetch({
             method: HTTPS_METHOD.POST,

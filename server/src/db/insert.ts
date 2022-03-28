@@ -26,7 +26,29 @@ export class Inserter {
             done: 0
         });
 
+        await Inserter.insertTask(db, {
+            author: 'default', 
+            name : "El pepe juan", 
+            description: 'Optimize your workflow with valhalla',
+            start: TimeUtils.now(),
+            end : TimeUtils.now(),
+            allDay: 1,
+            done: 0
+        });
+
+        await Inserter.insertTask(db, {
+            author: 'default', 
+            name : "Un pokemon ranger", 
+            description: 'Optimize your workflow with valhalla',
+            start: TimeUtils.now(),
+            end : TimeUtils.now(),
+            allDay: 1,
+            done: 0
+        });
+
         await Inserter.insertTaskLabel(db, 1, TextBundle.get(getLang()).create.TODAY);
+        await Inserter.insertTaskLabel(db, 2, TextBundle.get(getLang()).create.TODAY);
+        await Inserter.insertTaskLabel(db, 3, TextBundle.get(getLang()).create.TODAY);
 
         } catch (err) {
             console.log("Database", err);

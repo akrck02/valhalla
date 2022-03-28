@@ -20,7 +20,7 @@ import { TaskBundleEs } from "./spanish/taskBundle_es.js";
 export class TextBundle {
 
     public static get (lang : string) {
-        
+   /// lang = "es";
       switch (lang) {
         case "en":
             return this.getBundleEn();

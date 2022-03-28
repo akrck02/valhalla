@@ -56,6 +56,7 @@ export class Configurations {
         this.API = {};
         this.API["URL"] = "http://127.0.0.1:3333/api/v1/";
         this.API["GET_USER_TASKS"] = this.API["URL"] + "get/user/tasks/";
+        this.API["GET_USER_MONTH_TASKS"] = this.API["URL"] + "get/user/month/tasks/";
         this.API["GET_USER_TASKS_FROM_CATEGORY"] = this.API["URL"] + "get/user/tasks/from/category/";
         this.API["GET_USER_TASK_CATEGORIES"] = this.API["URL"] + "get/user/task/categories/";
         this.API["INSERT_USER_TASK"] = this.API["URL"] + "insert/user/task/";
@@ -99,6 +100,10 @@ export class Configurations {
      * @param theme the theme to set
      */
     public setTheme(theme : string) {
+
+        if(!theme)
+            theme = "dark";
+            
         this.BASE.THEME = theme;
 
         this.addConfigVariable("THEME", this.BASE.THEME);

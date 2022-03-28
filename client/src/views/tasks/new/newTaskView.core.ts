@@ -4,10 +4,10 @@ import NewTaskView from "./newTaskView.ui";
 
 export default class NewTaskCore {
 
-    private parent : NewTaskView;
+    private parent: NewTaskView;
     private task: ITask;
 
-    constructor( parent : NewTaskView) {
+    constructor(parent: NewTaskView) {
         this.parent = parent;
         this.task = this.defaultTask();
     }
@@ -20,12 +20,12 @@ export default class NewTaskCore {
 
         const task = {
             name: App.getBundle().newTask.WRITE_HERE_A_TASK_NAME,
-            description:  App.getBundle().newTask.WRITE_HERE_A_TASK_DESCRIPTION,
+            description: App.getBundle().newTask.WRITE_HERE_A_TASK_DESCRIPTION,
             allDay: 0,
-            start: "2022/03/21",
-            end: "2022/03/21",
+            start: "2022-03-21",
+            end: "2022-03-21",
             author: "",
-            labels: [ App.getBundle().newTask.TODAY,  App.getBundle().newTask.IMPORTANT],
+            labels: [App.getBundle().newTask.TODAY, App.getBundle().newTask.IMPORTANT],
         };
 
         return task;
@@ -110,7 +110,7 @@ export default class NewTaskCore {
      * @param tag The tag to remove from the task
      */
     public removeTag(tag: string) {
-        this.task.labels.splice(this.task.labels.indexOf(tag),1);
+        this.task.labels.splice(this.task.labels.indexOf(tag), 1);
     }
 
     /**
@@ -118,17 +118,36 @@ export default class NewTaskCore {
      * @param labels The labels of the task object
      * @returns The task object
      */
-    public toDate(string : string) : Date {
+    public toDate(string: string): Date {
         const date = new Date();
-        const parts = string.split("/");
+        const parts = string.split("-");
         console.log(parts);
-        
 
-        date.setDate( +(parts[2]));
-        date.setMonth( +(parts[1]) - 1);
-        date.setFullYear( +(parts[0]));
+
+        date.setDate(+(parts[2]));
+        date.setMonth(+(parts[1]) - 1);
+        date.setFullYear(+(parts[0]));
 
         return date;
-    } 
+    }
+
+    /**
+     * Set the task labels
+     * @param labels The labels of the task object
+     * @returns The task object
+     */
+    public toDateString(string: string): Date {
+        const date = new Date();
+        const parts = string.split("-");
+        console.log(parts);
+
+
+        date.setDate(+(parts[2]));
+        date.setMonth(+(parts[1]) - 1);
+        date.setFullYear(+(parts[0]));
+
+        return date;
+    }
+
 
 }

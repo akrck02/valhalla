@@ -199,7 +199,7 @@ export default class NewTaskView extends UIComponent {
         const startDateInput = new DateInput({
             id: "task-start-date",
             callback: (date: Date) => {
-                view.core.getTask().start = DateText.toDateString(date);
+                view.core.getTask().start = DateText.toSQLiteDate(date);
                 view.clean();
                 view.build();
             },
@@ -232,7 +232,7 @@ export default class NewTaskView extends UIComponent {
         const endDateInput = new DateInput({
             id: "task-end-date",
             callback: (date: Date) => {
-                view.core.setTaskEnd(DateText.toDateString(date));
+                view.core.setTaskEnd(DateText.toSQLiteDate(date));
                 view.clean();
                 view.build();
             },

@@ -3,6 +3,6 @@ export const SyncBundleEs = {
     YOUR_ACCOUNT_IS_ONLINE: "Cuenta sincronizada",
     OFFLINE_EXPLANATION: "Tus datos solo serán accesibles desde este dispositivo.",
     ONLINE_EXPLANATION: "Tus datos serán sincronizados con tus dispositivos.",
-    SYNC: "Syncronizar",
+    SYNC: "Sincronizar",
     LOGOUT: "Cerrar sesión",
 }

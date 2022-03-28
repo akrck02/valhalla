@@ -36,8 +36,8 @@ class ElectronApp {
     const databasePath = path.join(global.root, "db/Valhalla-user.db");
     if (fs.existsSync(databasePath) === true) {
       console.log("Electron", "Database found");
-      fs.rmSync(databasePath);
-      console.log("Electron", "Database deleted.");
+      //fs.rmSync(databasePath);
+      //console.log("Electron", "Database deleted.");
       await this.database.createDB();    
     }
     else await this.database.createDB();
