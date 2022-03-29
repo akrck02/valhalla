@@ -98,3 +98,12 @@ export function isMobile() {
         navigator.userAgent.match(/IEMobile/i)
     );
 }
+
+
+export function getOs() {
+    if (navigator.userAgent.indexOf("Win") != -1) return "Windows";
+    if (navigator.userAgent.indexOf("Mac") != -1) return "MacOS";
+    if (navigator.userAgent.indexOf("Linux") != -1) return "Linux";
+    if (navigator.userAgent.indexOf("X11") != -1) return "UNIX";
+   
+}

@@ -1,6 +1,6 @@
 
 import { threadId } from "worker_threads";
-import { DateText } from "../../../core/data/dateText.js";
+import { DateText } from "../../../core/data/integrity/dateText.js";
 import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 import { DateSelector } from "./selector.js";
 
@@ -38,7 +38,7 @@ export default class DateInput extends UIComponent {
             id: attributes.id,
             attributes: {
                 type: "text",
-                value : DateText.toDateString(this.date),
+                value : DateText.toLocalizedDateString(this.date),
             },
         });
 
@@ -118,5 +118,9 @@ export default class DateInput extends UIComponent {
         }
     }
 
+
+    public getDate() : Date {
+        return this.date;
+    }
 
 }

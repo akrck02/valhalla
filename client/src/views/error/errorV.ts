@@ -16,7 +16,7 @@ export default class ErrorV extends UIComponent{
         });
     }
 
-    public show(params : string[], container : UIComponent, configurations : Configurations): void {
+    public show(params : string[], container : UIComponent): void {
         let error = ERRORS[params[0]]; 
         if(!error) 
             error = ERRORS[404];
@@ -24,7 +24,7 @@ export default class ErrorV extends UIComponent{
         const image = new UIComponent({
             type: "img",
             attributes: {
-                src: configurations.PATHS.IMAGES + "cat.png",
+                src: Configurations.PATHS.IMAGES + "cat.png",
             },
             styles: {
                 width: "20rem",

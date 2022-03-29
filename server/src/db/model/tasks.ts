@@ -42,7 +42,7 @@ export default class Tasks implements Model {
      * @returns The query result
      */
     public static getUserTasksFromCategory(db: Database, username : string, category : string): Promise<any> {
-        const SQL = "SELECT * FROM task WHERE author = ? AND id IN (SELECT taskId FROM task_label WHERE label = ?) ORDER BY end ASC";
+        const SQL = "SELECT * FROM task WHERE author = ? AND id IN (SELECT taskId FROM task_label WHERE label = ?) ORDER BY end DESC";
         const response = db.db.all(
             SQL,
             username,
@@ -122,6 +122,23 @@ export default class Tasks implements Model {
             return false;
 
         return true;
+    }
+
+
+    public static async getUserMonthTasks(db : Database, author : string, year : string, month : string) {
+
+        const SQL = "SELECT * FROM task WHERE author=? AND end BETWEEN ? AND ?"
+        const response = db.db.all(
+            SQL,
+            author,
+            year + "-" + month + "-00 00:00",
+            year + "-" + month + "-32 23:59"
+        );
+
+        console.log(year + "-" + month + "-01 00:00");
+        console.log(year + "-" + month + "-30 23:59");
+
+        return response;
     }
 
 

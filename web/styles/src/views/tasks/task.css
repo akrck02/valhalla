@@ -1,19 +1,55 @@
-.task {
+view#tasks div#task-container {
+    width: calc(100% - 20rem);
+    height: 100%;
+    max-height: 100%;
+    padding: 3rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: opacity var(--slow);
+}
+
+view#tasks div#title-bar {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+view#tasks div#title-bar h1#category-title {
+    font-size: 1.7em;
+    width: 100%;
+    height: 2rem;
+}
+
+view#tasks .task-box {
+    width: 100%;
+    height: auto;
+    margin-bottom: .5rem;
+}
+
+view#tasks .task-box .task {
     width: 100%;
     padding: 1rem;
     border-radius: 0.55rem;
     height: 3rem;
-    background: rgba(0,0,0,0.05);
-    /*margin-bottom: .5rem;*/
+    background: rgba(0,0,0,0.035);
     opacity: 0;
+    cursor: pointer;
     transition: opacity var(--slow), width var(--medium);
 }
 
-:root[data-theme=dark] .task {
+:root[data-theme=dark] view#tasks .task-box  .task {
     background: rgba(255,255,255,0.05);
 }
 
-.task-toolbar {
+view#tasks .task-box .task .time {
+    font-size: 0.8em;
+    color: rgba(0,0,0,0.5);
+}
+
+:root[data-theme=dark] view#tasks .task-box .task .time {
+    color: rgba(255,255,255,0.5);
+}
+
+view#tasks .task-toolbar {
     width: 6%;
     visibility: hidden;
     height: 100%;
@@ -21,24 +57,57 @@
     opacity: 0;
 }   
 
-.task-box:hover .task-toolbar {
+view#tasks .task-box:hover .task-toolbar {
     width: 6rem;
     visibility: visible;
     transition: visibility var(--fast), width var(--medium), opacity var(--slow);
     opacity: 1;
 }
 
-.task-box:hover .task {
+
+view#tasks .task-box:hover .task {
     width: calc( 90% - 5rem);
 }
 
-.task-box:hover .task-toolbar div{
+view#tasks .task-box:hover .task-toolbar div{
     padding: .5rem;
     transition: background var(--fast);
     border-radius: .35rem;
     cursor: pointer;
 }
 
-.task-box:hover .task-toolbar div:hover{
+view#tasks .task-box:hover .task-toolbar div svg {
+    fill: var(--text-color) !important;
+}
+
+view#tasks .task-box:hover .task-toolbar div:hover{
+    background: rgba(0,0,0,0.05);
+}
+
+:root[data-theme=dark] view#tasks .task-box:hover .task-toolbar div:hover{
     background: rgba(255,255,255,0.15);
 }
+
+
+view#tasks button#reload {
+    padding: .5rem;
+    margin: 0;
+    background: rgba(255,255,255,.0);
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    box-shadow: none;
+}
+
+view#tasks button#reload:hover {
+    background: rgba(0,0,0,.05);
+}
+
+
+:root[data-theme=dark] view#tasks button#reload:hover {
+    background: rgba(255,255,255,.05);
+}
+
+view#tasks button#reload svg {
+    fill: var(--text-color) !important;
+} 

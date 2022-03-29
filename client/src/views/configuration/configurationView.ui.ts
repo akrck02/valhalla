@@ -1,13 +1,16 @@
+import { App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
+import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { setClasses, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { ThemeChooser } from "./components/themeChooser.js";
 import { WallpaperGallery } from "./components/wallpaperGallery.js";
 
-export default class ConfigurationV extends UIComponent {
+export default class ConfigurationView extends UIComponent {
 
     public constructor() {
         super({
             type: "view",
+            id: "configuration",
             classes: ["box-row"],
             styles: {
                 width: "100%",
@@ -17,7 +20,7 @@ export default class ConfigurationV extends UIComponent {
         });
     }
 
-    public show(params: string[], container: UIComponent, configurations : Configurations): void {
+    public show(params: string[], container: UIComponent): void {
        
         const menu = this.createMenu();
         const content = new UIComponent({
@@ -29,10 +32,15 @@ export default class ConfigurationV extends UIComponent {
                 overflow: "auto",
                 paddingBottom: "10rem",
                 background: "rgba(0,0,0,0.05)",
+                opacity: "0",
+                transition : "opacity var(--slow)",
             },
         });
 
-        this.createAppearenceView(configurations, content);
+        setTimeout(() => {
+            menu.element.style.opacity = "1";
+        }, 100);
+        this.createAppearenceView(content);
 
         this.appendChild(menu);
         this.appendChild(content);
@@ -46,13 +54,14 @@ export default class ConfigurationV extends UIComponent {
             id: "config-menu",
             classes: ["box-column", "box-y-center"],
             styles: {
-            
+                opacity: "0",
+                transition : "opacity var(--medium)",
             },
         });
 
         const title = new UIComponent({
             type: "h1",
-            text: "Configuration",
+            text: App.getBundle().configuration.CONFIGURATION,
             classes: ["box-column", "box-y-start", "box-x-center"],
             styles: {
                 width: "calc(80% - 1rem)",
@@ -66,13 +75,13 @@ export default class ConfigurationV extends UIComponent {
 
         const appearenceOption = new UIComponent({
             type: "button",
-            text: "Appearence",
+            text: getMaterialIcon("palette",{fill: "#fafafa", size : "1rem"}).toHTML() + App.getBundle().configuration.APPEARANCE,
             classes: ["option","selected","box-row", "box-y-center"],
         });
 
         const userOption = new UIComponent({
             type: "button",
-            text: "User",
+            text: getMaterialIcon("user",{fill: "#fafafa", size : "1rem"}).toHTML() + App.getBundle().configuration.USER,
             classes: ["option","box-row", "box-y-center"],
         });
 
@@ -84,33 +93,37 @@ export default class ConfigurationV extends UIComponent {
         return menu;
     }
 
-    private createAppearenceView(configurations : Configurations, parent : UIComponent){
+    private createAppearenceView(parent : UIComponent){
 
         const wallPaperTitle = new UIComponent({
             type: "h1",
-            text: "Wallpapers",
+            text: App.getBundle().configuration.WALLPAPERS,
             styles: {
                 width: "100%",
                 padding: "2rem 3.7rem",
             }   
         });
 
-        const wallpaperGallery = new WallpaperGallery(configurations);
+        const wallpaperGallery = new WallpaperGallery();
         const themeTitle = new UIComponent({
             type: "h1",
-            text: "Theme",
+            text: App.getBundle().configuration.THEME,
             styles: {
                 width: "100%",
                 padding: "2rem 3.7rem",
             }   
         });
 
-        const themeChooser = new ThemeChooser(configurations);       
+        const themeChooser = new ThemeChooser();       
         
         parent.appendChild(wallPaperTitle);
         parent.appendChild(wallpaperGallery);
         parent.appendChild(themeTitle);
         parent.appendChild(themeChooser);
+
+        setTimeout(() => {
+            parent.element.style.opacity = "1";
+        }, 100);
     }
 
 

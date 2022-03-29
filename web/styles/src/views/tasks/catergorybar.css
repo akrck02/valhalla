@@ -11,7 +11,7 @@ div#category-bar {
 div#category-bar div.label {
     padding: .25rem;
     margin: .35rem 0.1rem;
-    text-transform: uppercase;
+    text-transform: uppercase;  
     font-size: .7rem;
     font-weight: 600;
     cursor: pointer;

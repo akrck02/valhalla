@@ -1,4 +1,5 @@
 import { APP } from "../../app.js";
+import { Configurations } from "../../config/config.js";
 
 export class ExpertListener {
 
@@ -6,7 +7,7 @@ export class ExpertListener {
     }
 
     public toggleVariablePanel(): void {
-        APP.configurations.toggleVariablePanel();
+        Configurations.toggleVariablePanel();
     }
 
     public search(): void {
@@ -17,7 +18,5 @@ export class ExpertListener {
     public clickControl(option: number): void {
         APP.router.osNavbar.clickControl(option);
     }
-
-
 
 }

@@ -15,6 +15,7 @@ button.selector {
 
 button.selector:hover, button.selector:focus {
     background: rgb(0,0,0,.1);
+
 }
 
 :root[data-theme=dark] button.selector {
@@ -74,10 +75,12 @@ div#selector-menu button.option:hover,
 div#selector-menu button.option:focus,
 div#selector-menu button.option.selected {
     background: rgba(0,0,0,.05);
+    color: var(--text-color);
 }
 
 :root[data-theme=dark] div#selector-menu button.option:hover,
 :root[data-theme=dark] div#selector-menu button.option:focus,
 :root[data-theme=dark] div#selector-menu button.option.selected {
     background: rgba(255,255,255,.1);
+    color: var(--text-color);
 }

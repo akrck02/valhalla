@@ -1,3 +1,4 @@
+import { App, APP } from "../../../app.js";
 import { CommandHandler } from "../../../core/commands/command.js";
 import { ListenerSet } from "../../../core/listenerset.js";
 import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
@@ -13,7 +14,6 @@ export default class Searchbar extends UIComponent {
     private input : HTMLInputElement;
     private tagContainer : HTMLElement;
     private mode : SEARCHBAR_MODE;
-
     private handler : CommandHandler;
 
     public constructor(bar : HTMLElement, listeners : ListenerSet) {
@@ -23,6 +23,8 @@ export default class Searchbar extends UIComponent {
         this.tagContainer = this.element.querySelector("span#search-tag");
         this.mode = SEARCHBAR_MODE.SEARCH;
         this.handler = new CommandHandler(listeners);
+
+        this.input.placeholder = App.getBundle().os.SEARCHBAR_PLACEHOLDER;
 
         setEvents(this.input,{
             keyup: (event) => {

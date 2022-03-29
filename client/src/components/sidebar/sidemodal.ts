@@ -1,6 +1,7 @@
 import { config } from "process";
+import { APP, App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
-import { CLOUD, CLOUD_OFF } from "../../lib/gtd-ts/material/materialicons.js";
+import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 
 export class SideModal extends UIComponent {
@@ -11,7 +12,7 @@ export class SideModal extends UIComponent {
     private description : UIComponent;
     private action : UIComponent;
 
-    public constructor(configurations : Configurations) {
+    public constructor() {
         super({
             type: "div",
             id: "sidebar-modal",
@@ -33,13 +34,7 @@ export class SideModal extends UIComponent {
             }
         });
 
-        this.icon = new UIComponent({
-            type: "div",
-            text : CLOUD_OFF({
-                size : "1.5rem",
-                fill: "#fff"
-            })
-        });
+        this.icon = getMaterialIcon("cloud_off", {size : "1.5rem",fill: "#fff"});
 
         this.description = new UIComponent({
             type: "p",
@@ -67,7 +62,7 @@ export class SideModal extends UIComponent {
         this.appendChild(this.action);
         this.opened = false;
 
-        if(configurations.USER.OAUTH !== "#"){
+        if(Configurations.getOAuth() !== "#"){
             this.onlineMode();
         } else {
             this.offlineMode();
@@ -76,27 +71,24 @@ export class SideModal extends UIComponent {
 
     public offlineMode() {
 
-        this.title.element.innerHTML = "Your account is offline";
-        this.icon.element.innerHTML = CLOUD_OFF({
-            size : "1.5rem",
-            fill: "#fff"
-        });
+        this.title.element.innerHTML = App.getBundle().sync.YOUR_ACCOUNT_IS_OFFLINE;
+        this.icon.element.innerHTML = getMaterialIcon("cloud_off", {size : "1.5rem",fill: "#fff"}).element.innerHTML;
 
-        this.description.element.innerHTML = "Your data is only accesible from this computer";
-        this.action.element.innerHTML = "Sync";
+        this.description.element.innerHTML = App.getBundle().sync.OFFLINE_EXPLANATION;
+        this.action.element.innerHTML = App.getBundle().sync.SYNC;
+        this.action.element.onclick = () => {
+            alert(App.getBundle().system.NOT_IMPLEMENTED_YET);
+        }
     }
 
 
     public onlineMode() {
 
-        this.title.element.innerHTML = "Your account is online";
-        this.icon.element.innerHTML = CLOUD({
-            size : "1.5rem",
-            fill: "#fff"
-        });
+        this.title.element.innerHTML = App.getBundle().sync.YOUR_ACCOUNT_IS_ONLINE;
+        this.icon.element.outerHTML = getMaterialIcon("cloud", {size : "1.5rem",fill: "#fff"}).element.innerHTML;
 
-        this.description.element.innerHTML = "Your data is synced with your devices";
-        this.action.element.innerHTML = "Logout";
+        this.description.element.innerHTML = App.getBundle().sync.ONLINE_EXPLANATION;
+        this.action.element.innerHTML = App.getBundle().sync.LOGOUT;
     }
 
 

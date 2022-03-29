@@ -15,7 +15,7 @@ export default class TeamsV extends UIComponent {
         });
     }
 
-    public show(params : string[], container : UIComponent, configurations : Configurations): void {
+    public show(params : string[], container : UIComponent): void {
     
 
     };

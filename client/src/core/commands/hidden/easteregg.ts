@@ -1,4 +1,4 @@
-import { APP } from "../../../app.js";
+import { Configurations } from "../../../config/config.js";
 import { ListenerSet } from "../../listenerset.js";
 import Command from "../command.js";
 
@@ -9,7 +9,7 @@ export const HiddenTerminal: Command = {
     },
 
     execute(predicate : string, listeners : ListenerSet) : void {    
-       APP.configurations.addConfigVariable("GANDALF",true);
+       Configurations.addConfigVariable("GANDALF",true);
     }
     
 }

@@ -55,6 +55,45 @@ export class Tasks implements HTTPResponse {
         return TaskModel.getUserTasksFromCategory(db,username,category);
     }
 
+
+    /**
+     * Get the user tasks from a given moth
+     * @param db The database connection
+     * @param req The HTTP request 
+     * @param res The HTTP response
+     * @returns a promise
+     */
+        public static async getUserMonthTasks(db: Database, req: Request, res: Response): Promise<any> {
+
+            const username = req?.body?.user;
+            const month = req?.body?.month;
+            const year = req?.body?.year;
+    
+            if(username == undefined || month == undefined || year == undefined){
+                return new Promise((resolve) => 
+                    resolve({
+                        status : "failed",
+                        reason : "Missing parameters"
+                    })
+                );
+            }
+
+            const response = await TaskModel.getUserMonthTasks(db,username,year,month);
+            let monthTasks : {[key:string] : any} = {};
+
+            //task per date
+            response.forEach((element : {[key : string] : any}) => {
+
+                if(!monthTasks[(element.end) as string]){
+                    monthTasks[(element.end) as string] = [];
+                }
+
+                monthTasks[(element.end) as string].push(element);
+            });
+
+            return new Promise((resolve) => resolve(monthTasks));
+        }
+
     /**
      * Get the user task categories
      * @param db The database connection
@@ -113,7 +152,6 @@ export class Tasks implements HTTPResponse {
 
     }
 
-    public static getUserMonthTasks(db: Database, req: Request, res: Response) : void {}
 
     public  static async deleteUserTask(db: Database, req: Request, res: Response) : Promise<any> {
         try {

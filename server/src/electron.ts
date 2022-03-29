@@ -4,7 +4,7 @@ import fs from "fs";
 import { Database } from "./db/db";
 
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require("electron");
+const { app, shell, BrowserWindow } = require("electron");
 
 class ElectronApp {
 
@@ -36,8 +36,8 @@ class ElectronApp {
     const databasePath = path.join(global.root, "db/Valhalla-user.db");
     if (fs.existsSync(databasePath) === true) {
       console.log("Electron", "Database found");
-      fs.rmSync(databasePath);
-      console.log("Electron", "Database deleted.");
+      //fs.rmSync(databasePath);
+      //console.log("Electron", "Database deleted.");
       await this.database.createDB();    
     }
     else await this.database.createDB();
@@ -65,6 +65,13 @@ class ElectronApp {
         nodeIntegration: true,
         contextIsolation: false,
       },
+    });
+
+    mainWindow.webContents.on("new-window", function(event :Event, url: string) {
+      event.preventDefault();
+      // shell.openExternal("https://"  );
+      console.log("Electron", "Opening external link: " + url);
+      
     });
 
     // and load the index.html of the app.

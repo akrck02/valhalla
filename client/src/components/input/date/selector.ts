@@ -1,4 +1,4 @@
-import { CHECK, EXPAND, EXPAND_LESS } from "../../../lib/gtd-ts/material/materialicons.js";
+import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent, setEvents } from "../../../lib/gtd-ts/web/uicomponent.js";
 
 export class DateSelector extends UIComponent {
@@ -49,10 +49,10 @@ export class DateSelector extends UIComponent {
 
         //draw the month name
         const lastMonth = new UIComponent({
-            text: EXPAND({
+            text: getMaterialIcon("expand",{
                 size: "1.5rem",
                 fill: "var(--text-color)",
-            }),
+            }).toHTML(),
             styles: {
                 padding: "0.15rem",
             },
@@ -67,10 +67,10 @@ export class DateSelector extends UIComponent {
         });
 
         const nextMonth = new UIComponent({
-            text: EXPAND_LESS({
+            text: getMaterialIcon("expand_less",{
                 size: "1.5rem",
                 fill: "var(--text-color)",
-            }),
+            }).toHTML(),
             styles: {
                 padding: "0.15rem",
             },
@@ -101,10 +101,10 @@ export class DateSelector extends UIComponent {
 
         //draw the year selector
         const lastYear = new UIComponent({
-            text: EXPAND({
+            text: getMaterialIcon("expand",{
                 size: "1.5rem",
                 fill: "var(--text-color)",
-            }),
+            }).toHTML(),
             styles: {
                 padding: "0.15rem",
             },
@@ -119,10 +119,10 @@ export class DateSelector extends UIComponent {
         });
 
         const nextYear = new UIComponent({
-            text: EXPAND_LESS({
+            text: getMaterialIcon("expand_less",{
                 size: "1.5rem",
                 fill: "var(--text-color)",
-            }),
+            }).toHTML(),
             styles: {
                 padding: "0.15rem",
             },
@@ -240,7 +240,7 @@ export class DateSelector extends UIComponent {
         const accept = new UIComponent({
             type : "button",
             id: "accept",
-            text : CHECK({size: "1.2rem", fill: "#fff"}) +"&nbsp;Accept"
+            text : getMaterialIcon("check",{size: "1.2rem", fill: "#fff"}).toHTML() +"&nbsp;Accept"
         });
 
         accept.element.onclick = () => this.update(this.current);

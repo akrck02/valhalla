@@ -19,9 +19,14 @@
       "./src/custom.d.ts",
       "./src/electron.ts",
       "./src/renderer.ts",
+      "./src/system.ts",
 
       "./src/utils/time.ts",
       
+      "./src/res/textBundle.ts",
+      "./src/res/english/createBundle_en.ts",
+      "./src/res/spanish/createBundle_es.ts",
+
       "./src/db/db.ts",
       "./src/db/tables.ts",
       "./src/db/insert.ts",

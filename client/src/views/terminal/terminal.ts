@@ -15,7 +15,7 @@ export default class TerminalV extends UIComponent {
         });
     }
 
-    public show(params : string[], container : UIComponent, configurations : Configurations): void {
+    public show(params : string[], container : UIComponent): void {
     
 
     };

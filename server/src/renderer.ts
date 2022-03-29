@@ -45,5 +45,6 @@ function handleWindowControls() {
             document.body.classList.remove('maximized');
         }
     }
+
 }
 

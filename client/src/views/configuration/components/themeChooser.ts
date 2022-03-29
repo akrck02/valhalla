@@ -1,4 +1,6 @@
+import { App } from "../../../app.js";
 import { Configurations } from "../../../config/config.js";
+import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
 import {
     UIComponent,
     setClasses,
@@ -10,7 +12,7 @@ export class ThemeChooser extends UIComponent {
     private dark: UIComponent;
     private light: UIComponent;
 
-    public constructor(configurations: Configurations) {
+    public constructor() {
         super({
             classes: ["box-row", "box-x-start"],
             styles: {
@@ -22,14 +24,14 @@ export class ThemeChooser extends UIComponent {
         this.dark = new UIComponent({
             type: "button",
             id: "dark",
-            classes: ["mode-select"],
-            text: "Dark",
+            classes: ["mode-select", "box-row", "box-y-center"],
+            text: App.getBundle().configuration.DARK + getMaterialIcon("dark_mode",{fill:"#fff",size:"1.25rem"}).toHTML(),
         });
 
         setEvents(this.dark.element, {
             click: () => {
-                configurations.setTheme("dark");
-                configurations.setWallpaper(undefined);
+                Configurations.setTheme("dark");
+                Configurations.setWallpaper(undefined);
                 this.resetWallpapers();
                 this.resetThemes();
                 this.dark.element.classList.add("selected");
@@ -39,21 +41,21 @@ export class ThemeChooser extends UIComponent {
         this.light = new UIComponent({
             type: "button",
             id: "light",
-            classes: ["mode-select"],
-            text: "Light",
+            classes: ["mode-select", "box-row", "box-y-center"],
+            text: App.getBundle().configuration.LIGHT + getMaterialIcon("light_mode",{fill:"#fff",size:"1.25rem"}).toHTML(),
         });
 
         setEvents(this.light.element, {
             click: () => {
-                configurations.setTheme("light");
-                configurations.setWallpaper(undefined);
+                Configurations.setTheme("light");
+                Configurations.setWallpaper(undefined);
                 this.resetWallpapers();
                 this.resetThemes();
                 this.light.element.classList.add("selected");
             },
         });
 
-        if (configurations.isDarkModeActive()) {
+        if (Configurations.isDarkModeActive()) {
             setClasses(this.dark.element, ["selected"]);
         } else {
             setClasses(this.light.element, ["selected"]);

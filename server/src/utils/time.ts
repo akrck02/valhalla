@@ -5,7 +5,7 @@ export class TimeUtils {
     }
 
     public static print(date : Date) : string {
-        return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+        return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;// ${date.getHours()}:${date.getMinutes()}`;
     }
 
 }

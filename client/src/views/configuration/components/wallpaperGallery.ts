@@ -2,7 +2,7 @@ import { Configurations } from "../../../config/config.js";
 import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 
 export class WallpaperGallery extends UIComponent {
-    public constructor(configurations : Configurations) {
+    public constructor() {
         super({
             type: "div",
             id: "wallpaper-gallery",
@@ -10,27 +10,37 @@ export class WallpaperGallery extends UIComponent {
         });
 
         for (let i = 1; i < 19; i++) {
-            const wallpaper = this.createWallpaperGalleryItem(configurations, "wall" + i + "-min.png", "wall" + i +".png");
+            const wallpaper = this.createWallpaperGalleryItem("wall" + i + "-min.png", "wall" + i +".png");
+            
+            if(Configurations.getWallpaper() == "wall" + i + ".png") {
+                wallpaper.element.classList.add("selected");
+            }
+        
             this.appendChild(wallpaper);
         }
 
     }
 
-
-    private createWallpaperGalleryItem(configurations : Configurations, preview: string, file : string): UIComponent {
+    /**
+     * Create a wallpaper gallery item
+     * @param preview the preview image
+     * @param file the wallpaper file
+     * @returns the wallpaper gallery item
+     */
+    private createWallpaperGalleryItem(preview: string, file : string): UIComponent {
         const wallpaper = new UIComponent({
             type: "img",
             classes: ["wallpaper-gallery-item"],
             attributes: {
-                src: configurations.PATHS.WALLPAPERS + preview,
+                src: Configurations.PATHS.WALLPAPERS + preview,
             },
             data: {
                 file: file,
             },
             events: {
                 click: () => {
-                    document.body.style.backgroundImage = "url(" + configurations.PATHS.WALLPAPERS + file + ")";
-                    configurations.setWallpaper(file);
+                    document.body.style.backgroundImage = "url(" + Configurations.PATHS.WALLPAPERS + file + ")";
+                    Configurations.setWallpaper(file);
 
                     const wallpapers = document.querySelectorAll("div#wallpaper-gallery img.wallpaper-gallery-item");
                     wallpapers?.forEach((wallpaper) => {
@@ -55,7 +65,7 @@ export class WallpaperGallery extends UIComponent {
             }
         });
 
-        if (configurations.BASE.WALLPAPER === file) {
+        if (Configurations.getWallpaper() === file) {
             wallpaper.element.classList.add("selected");
         }
 

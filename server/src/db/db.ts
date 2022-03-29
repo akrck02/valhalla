@@ -33,9 +33,9 @@ export class Database {
             await TableSet.createTables(db);
             this.log("Tables created.");
 
-            this.log("Inserting data...");
-            await Inserter.insert(db);
-            this.log("Data inserted.");
+            //this.log("Inserting data...");
+            //await Inserter.insert(db);
+            //this.log("Data inserted.");
             this.log("Connected to the in-memory SQLite database.");
         })
     };

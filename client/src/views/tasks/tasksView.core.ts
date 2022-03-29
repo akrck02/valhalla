@@ -1,5 +1,7 @@
 import { resolve } from "path";
-import { APP } from "../../app.js";
+import { App, APP } from "../../app.js";
+import { Configurations } from "../../config/config.js";
+import { DateText } from "../../core/data/integrity/dateText.js";
 import { ITask } from "../../core/data/interfaces/task.js";
 import { taskService } from "../../services/tasks.js";
 import TasksView from "./tasksView.ui.js";
@@ -41,6 +43,19 @@ export default class TaskCore {
     }
 
     /**
+     * Get categories for a user
+     * @param id the id of the task
+     * @returns a promise that resolves to an array of categories
+     */
+     async deleteUserTask(id: number) : Promise<any> {
+        const response = taskService.deleteUserTask({ id: id });
+        
+        await response.jsonPromise();
+        return new Promise((resolve) => {resolve({})});
+    }
+
+
+    /**
      * Get the user-friendly text for a given date
      * @param date Date to get text for
      * @returns a string representing the date
@@ -55,7 +70,7 @@ export default class TaskCore {
 
             if (diff <= 6) {
                 if (diff > 0) return `${diff}h`;
-                else return "now";
+                //else return App.getBundle().tasks.NOW;
             }
         }
 
@@ -63,12 +78,12 @@ export default class TaskCore {
         date.setHours(0, 0, 0, 0);
 
         if (today.toString() === date.toString()) {
-            return "Today";
+            return App.getBundle().tasks.TODAY;
         } else {
 
             today.setDate(today.getDate() + 1);
-            if (date.toString() === today.toString()) { return "Tomorrow"; } 
-            else { return date.toLocaleDateString(); }
+            if (date.toString() === today.toString()) { return App.getBundle().tasks.TOMORROW; } 
+            else { return DateText.toLocalizedDateString(date) }
         }
     }
 
@@ -76,8 +91,14 @@ export default class TaskCore {
      * Go to new task view
      */
     public newTask() {
-        location.href = APP.configurations.VIEWS.NEW_TASK;
+        location.href = Configurations.VIEWS.NEW_TASK;
     }
 
+    public goToCategory(category: string) {
+        
+        //Assure that the view is loaded loading a new view and then loading the original view
+        location.href = Configurations.VIEWS.NEW_TASK;
+        location.href = Configurations.VIEWS.TASKS + category;
+    }
 
 }
