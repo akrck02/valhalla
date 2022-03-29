@@ -4,4 +4,5 @@ export const CalendarBundleEn = {
     WEEK : "Week",
     DAY : "Day",
     MODE : "Mode",
+    YOUR_EVENTS : "Your events"
 };

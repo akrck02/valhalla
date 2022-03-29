@@ -1,4 +1,6 @@
 import { APP } from "../app.js";
+import { Configurations } from "../config/config.js";
+import { DateText } from "../core/data/integrity/dateText.js";
 import { ITask } from "../core/data/interfaces/task.js";
 import { HTTPS_METHOD } from "../lib/gtd-ts/core/http.js";
 import { efetch, Response } from "../lib/gtd-ts/data/easyfetch.js";
@@ -8,7 +10,7 @@ export class taskService {
     static getUserTasks(username : string) : Response {
         const response = efetch({
             method: HTTPS_METHOD.POST,
-            url: APP.configurations.API.GET_USER_TASKS,
+            url: Configurations.API.GET_USER_TASKS,
             parameters: {
                 user: username,
             },
@@ -21,11 +23,11 @@ export class taskService {
     static getUserMonthTasks(username : string, month :number, year : number) : Response {
         const response = efetch({
             method: HTTPS_METHOD.POST,
-            url: APP.configurations.API.GET_USER_MONTH_TASKS,
+            url: Configurations.API.GET_USER_MONTH_TASKS,
             parameters: {
                 user: username,
-                month: month,
-                year: year
+                month: DateText.normalize(month,2),
+                year: DateText.normalize(year,4)
             },
         });
 
@@ -35,7 +37,7 @@ export class taskService {
     static getUserTasksFromCategory(username : string, category : string) : Response {
         const response = efetch({
             method: HTTPS_METHOD.POST,
-            url: APP.configurations.API.GET_USER_TASKS_FROM_CATEGORY,
+            url: Configurations.API.GET_USER_TASKS_FROM_CATEGORY,
             parameters: {
                 user: username,
                 category: category,
@@ -50,7 +52,7 @@ export class taskService {
 
         const response = efetch({
             method: HTTPS_METHOD.POST,
-            url: APP.configurations.API.GET_USER_TASK_CATEGORIES,
+            url: Configurations.API.GET_USER_TASK_CATEGORIES,
             parameters: {
                 user: username,
             },
@@ -64,7 +66,7 @@ export class taskService {
 
         const response = efetch({
             method: HTTPS_METHOD.POST,
-            url: APP.configurations.API.INSERT_USER_TASK,
+            url: Configurations.API.INSERT_USER_TASK,
             parameters: {
                 task: task
             },
@@ -77,7 +79,7 @@ export class taskService {
 
         const response = efetch({
             method: HTTPS_METHOD.POST,
-            url: APP.configurations.API.DELETE_USER_TASK,
+            url: Configurations.API.DELETE_USER_TASK,
             parameters: {
                 task: task
             },

@@ -7,144 +7,155 @@ export enum ENVIROMENT {
 }
 
 export class Configurations {
+    
     //global runtime configurations
-    public BASE;
-    public PATHS;
-    public VIEWS;
-    public API;
-    public USER;
+    public static BASE = {
+        APP_NAME: "Vallhala",
+        APP_VERSION: "v1.0.0a",
+        HOST: "127.0.0.1",
+        PORT: 80,
+        URL: location.href,
+        ENVIROMENT: ENVIROMENT.DEVELOPMENT,
+        DEBUG: true,
+        LOG_LEVEL: "debug",
+        LOG_FILE: "app.log",
+    };
 
-    public constructor() {
-        this.declareConfig();
-        this.declarePaths();
-        this.declareApi();
-        this.declareViews();
-        this.declareUser();
+    public static PATHS = {
+        ROOT : "../client/",
+        LOGS : "../client/logs/",
+        RESOURCES : "../client/resources/",
+        IMAGES : "../client/resources/images/",
+        ICONS : "../client/resources/icons/",
+        WALLPAPERS : "../client/resources/wallpapers/",
+
+    };
+
+    public static VIEWS = {
+        BASE_URL: "../web/index.html#/",
+        TASKS: "../web/index.html#/tasks/",
+        NEW_TASK: "../web/index.html#/new-task/",
+        CALENDAR: "../web/index.html#/calendar/",
+        TEAMS: "../web/index.html#/teams/",
+        PROJECTS: "../web/index.html#/projects/",
+        CONFIGURATION: "../web/index.html#/configuration/",
+        TERMINAL: "../web/index.html#/terminal/",
+        ABOUT: "../web/index.html#/about/",
+        ERROR: "../web/index.html#/error/",
+    };
+    
+    public static API = {
+        URL : "http://127.0.0.1:3333/api/v1/",
+        GET_USER_TASKS : "http://127.0.0.1:3333/api/v1/get/user/tasks/",
+        GET_USER_MONTH_TASKS: "http://127.0.0.1:3333/api/v1/get/user/month/tasks/",
+        GET_USER_TASKS_FROM_CATEGORY: "http://127.0.0.1:3333/api/v1/get/user/tasks/from/category/",
+        GET_USER_TASK_CATEGORIES: "http://127.0.0.1:3333/api/v1/get/user/task/categories/",
+        INSERT_USER_TASK: "http://127.0.0.1:3333/api/v1/insert/user/task/",
+        DELETE_USER_TASK: "http://127.0.0.1:3333/api/v1/delete/user/task/",
+    };
+
+
+    /**
+     * Set default configurations for the application
+     */
+    public static setDefaultVariables() {
+
+        if(!Configurations.getConfigVariable("USERNAME")) {
+            Configurations.addConfigVariable("USERNAME", "default");
+        }
+
+        if(!Configurations.getConfigVariable("OAUTH")) {
+            Configurations.addConfigVariable("OAUTH", "#");
+        }
     }
 
-    private declareConfig() {
-        this.BASE = {
-            APP_NAME: "Vallhala",
-            APP_VERSION: "v1.0.0a",
-            HOST: "127.0.0.1",
-            PORT: 80,
-            URL: location.href,
-            ENVIROMENT: ENVIROMENT.DEVELOPMENT,
-            DEBUG: true,
-            LOG_LEVEL: "debug",
-            LOG_FILE: "app.log",
-            THEME: "light",
-            VARIABLES_VISIBLE: false,
-        };
+    /**
+     * Get a configuration variable
+     * @returns the configuration variable
+     */
+    public static getUserName() {
+        return Configurations.getConfigVariable("USERNAME");
     }
 
-    private declarePaths() {
-        this.PATHS = {};
-        this.PATHS["ROOT"] = "../client/";
-        this.PATHS["LOGS"] = this.PATHS["ROOT"] + "logs/";
-        this.PATHS["RESOURCES"] = this.PATHS["ROOT"] + "resources/";
-        this.PATHS["FONTS"] = this.PATHS["RESOURCES"] + "fonts/";
-        this.PATHS["IMAGES"] = this.PATHS["RESOURCES"] + "images/";
-        this.PATHS["ICONS"] = this.PATHS["RESOURCES"] + "icons/";
-        this.PATHS["WALLPAPERS"] = this.PATHS["RESOURCES"] + "wallpapers/";
-        this.PATHS["VIDEOS"] = this.PATHS["RESOURCES"] + "videos/";
-        this.PATHS["AUDIOS"] = this.PATHS["RESOURCES"] + "audios/";
-        this.PATHS["JSON"] = this.PATHS["RESOURCES"] + "json/";
-    }
-
-    private declareApi() {
-        this.API = {};
-        this.API["URL"] = "http://127.0.0.1:3333/api/v1/";
-        this.API["GET_USER_TASKS"] = this.API["URL"] + "get/user/tasks/";
-        this.API["GET_USER_MONTH_TASKS"] = this.API["URL"] + "get/user/month/tasks/";
-        this.API["GET_USER_TASKS_FROM_CATEGORY"] = this.API["URL"] + "get/user/tasks/from/category/";
-        this.API["GET_USER_TASK_CATEGORIES"] = this.API["URL"] + "get/user/task/categories/";
-        this.API["INSERT_USER_TASK"] = this.API["URL"] + "insert/user/task/";
-        this.API["DELETE_USER_TASK"] = this.API["URL"] + "delete/user/task/";
-    }
-
-    private declareViews() {
-        this.VIEWS = {};
-        this.VIEWS["BASE_URL"] = "../web/index.html#/";
-        this.VIEWS["TASKS"] = this.VIEWS["BASE_URL"] + "tasks/";
-        this.VIEWS["NEW_TASK"] = this.VIEWS["BASE_URL"] + "new-task/";
-        this.VIEWS["CALENDAR"] = this.VIEWS["BASE_URL"] + "calendar/";
-        this.VIEWS["TEAMS"] = this.VIEWS["BASE_URL"] + "teams/";
-        this.VIEWS["PROJECTS"] = this.VIEWS["BASE_URL"] + "projects/";
-        this.VIEWS["CONFIGURATION"] = this.VIEWS["BASE_URL"] + "configuration/";
-        this.VIEWS["TERMINAL"] = this.VIEWS["BASE_URL"] + "terminal/";
-        this.VIEWS["ABOUT"] = this.VIEWS["BASE_URL"] + "about/";
-        this.VIEWS["ERROR"] = this.VIEWS["BASE_URL"] + "error/";
-    } 
-
-    public declareUser() {
-        this.USER = {};
-        this.USER["USERNAME"] = "default";
-        this.USER["OAUTH"] = "#";
+    /**
+     * Get the oauth token
+     * @returns the oauth token
+     */
+    public static getOAuth() {
+        return Configurations.getConfigVariable("OAUTH");
     }
 
     /**
      * Toogle the dark / light mode.
      * if a wallpaper is set, does not change the theme
      */
-    public toggleTheme() {
-        if (this.BASE.WALLPAPER){
+    public static toggleTheme() {
+        if (Configurations.getConfigVariable("WALLPAPER")){
             return;
         }
 
-        this.setTheme((this.BASE.THEME === "light") ? "dark" : "light")
+        Configurations.setTheme((Configurations.getConfigVariable("THEME") === "light") ? "dark" : "light")
     }
 
     /**
      * Set the application UI theme 
      * @param theme the theme to set
      */
-    public setTheme(theme : string) {
+    public static setTheme(theme : string) {
 
         if(!theme)
             theme = "dark";
-            
-        this.BASE.THEME = theme;
 
-        this.addConfigVariable("THEME", this.BASE.THEME);
+        this.addConfigVariable("THEME", theme);
         this.addConfigVariable("WALLPAPER", false);
 
-        document.documentElement.dataset.theme = this.BASE.THEME;
+        document.documentElement.dataset.theme = theme;
+    }
+
+
+    public static getTheme() {
+        return Configurations.getConfigVariable("THEME");
     }
 
     /**
      * Get if the dark mode is active
      * @returns true if the dark mode is active
      */
-    public isDarkModeActive() {
-        return this.BASE.THEME === "dark";
+    public static isDarkModeActive() {
+        return Configurations.getTheme() === "dark";
     }
 
 
-    public setVariablePanelVisible(value: boolean) {
+    /**
+     * Set the variable panel visibile
+     */
+    public static setVariablePanelVisible(value: boolean) {
+        Configurations.addConfigVariable("VARIABLES_VISIBLE", value);
 
-        this.BASE.VARIABLES_VISIBLE = value;
-        this.addConfigVariable("VARIABLES_VISIBLE", this.BASE.VARIABLES_VISIBLE);
-
-        if (this.BASE.VARIABLES_VISIBLE) {
+        if (Configurations.getConfigVariable('VARIABLES_VISIBLE')) {
             APP.router.variablePanel.show();
         } else {
             APP.router.variablePanel.hide();
         }
     }
 
+    /**
+     * Toggle the variable panel visibility
+     */
+    public static toggleVariablePanel() {
 
-    public toggleVariablePanel() {
-
-        if(this.BASE.ENVIROMENT !== ENVIROMENT.DEVELOPMENT)
+        if(Configurations.BASE.ENVIROMENT !== ENVIROMENT.DEVELOPMENT)
             return; 
 
-        this.setVariablePanelVisible(!this.BASE.VARIABLES_VISIBLE);
-        setDataset(document.documentElement, {"variablesVisible" : this.BASE.VARIABLES_VISIBLE});
+        this.setVariablePanelVisible(!Configurations.getConfigVariable('VARIABLES_VISIBLE'));
+        setDataset(document.documentElement, {"variablesVisible" : Configurations.getConfigVariable('VARIABLES_VISIBLE')});
     }
 
-    
-    public getConfig() {
+    /**
+     * Get application configurations
+     * @returns the application configurations
+     */
+    public static getConfig() {
         let localStorageConfiguration = JSON.parse(localStorage.getItem("vallhala-config"));
 
         if(!localStorageConfiguration) {
@@ -154,19 +165,33 @@ export class Configurations {
         return localStorageConfiguration;
     }
 
-    public addConfigVariable(key: string, value: any) {
-        let localStorageConfiguration = this.getConfig();
+    /**
+     * Add a configuration variable
+     * @param key the name of the variable
+     * @param value the value of the variable
+     */
+    public static addConfigVariable(key: string, value: any) {
+        let localStorageConfiguration = Configurations.getConfig();
         const config = localStorageConfiguration;
         config[key] = value;
         localStorage.setItem("vallhala-config", JSON.stringify(config));
     }
 
-    public getConfigVariable(key: string) {
+    /**
+     * Get a configuration variable
+     * @param key the name of the variable
+     * @returns the value of the variable
+     */
+    public static getConfigVariable(key: string) : string{
         let localStorageConfiguration = this.getConfig();
         return localStorageConfiguration[key];
     }
 
-    public setWallpaper(wallpaper: string) {
+    /**
+     * Set the application wallpaper
+     * @param wallpaper the wallpaper to set
+     */
+    public static setWallpaper(wallpaper: string) {
         
         if(!wallpaper){
             this.addConfigVariable("WALLPAPER", wallpaper);
@@ -178,17 +203,23 @@ export class Configurations {
         this.addConfigVariable("WALLPAPER", wallpaper);
 
         setStyles(document.body,{
-            "background-image": "url(" + APP.configurations.PATHS.WALLPAPERS + wallpaper + ")"
+            "background-image": "url(" + Configurations.PATHS.WALLPAPERS + wallpaper + ")"
         });
     }    
 
-    public hasWallpaper() {
-        const wallpaper = this.getConfigVariable("WALLPAPER") ;
+    /**
+     * Get the application wallpaper
+     * @returns the wallpaper
+     */
+    static getWallpaper() : string {
+        return Configurations.getConfigVariable("WALLPAPER");
+    }
 
-        if(!wallpaper){
-            return false;
-        }
-
-        return true;
+    /**
+     * @returns if the application is has a wallpaper 
+     */
+    public static hasWallpaper() : boolean{
+        const wallpaper = Configurations.getWallpaper();
+        return !!wallpaper;
     }
 }

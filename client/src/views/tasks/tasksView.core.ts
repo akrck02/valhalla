@@ -1,6 +1,7 @@
 import { resolve } from "path";
 import { App, APP } from "../../app.js";
-import { DateText } from "../../core/data/dateText.js";
+import { Configurations } from "../../config/config.js";
+import { DateText } from "../../core/data/integrity/dateText.js";
 import { ITask } from "../../core/data/interfaces/task.js";
 import { taskService } from "../../services/tasks.js";
 import TasksView from "./tasksView.ui.js";
@@ -90,14 +91,14 @@ export default class TaskCore {
      * Go to new task view
      */
     public newTask() {
-        location.href = APP.configurations.VIEWS.NEW_TASK;
+        location.href = Configurations.VIEWS.NEW_TASK;
     }
 
     public goToCategory(category: string) {
         
         //Assure that the view is loaded loading a new view and then loading the original view
-        location.href = APP.configurations.VIEWS.NEW_TASK;
-        location.href = APP.configurations.VIEWS.TASKS + category;
+        location.href = Configurations.VIEWS.NEW_TASK;
+        location.href = Configurations.VIEWS.TASKS + category;
     }
 
 }

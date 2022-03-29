@@ -1,3 +1,4 @@
+import { Configurations } from "../../config/config.js";
 import { taskService } from "../../services/tasks.js";
 import CalendarView from "./calendarView.ui.js";
 
@@ -19,7 +20,7 @@ export default class CalendarCore {
 
         const response = taskService
         .getUserMonthTasks(
-            this.view.getConfigurations().USER.USERNAME,
+            Configurations.getUserName(),
             this.view.getCurrentMonth().getMonth() +1,
             this.view.getCurrentMonth().getFullYear()
         ).success(json => (result = json));

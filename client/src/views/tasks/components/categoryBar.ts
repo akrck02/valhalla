@@ -10,7 +10,6 @@ export default class CategoryBar extends UIComponent {
     private selected: string;
 
     public constructor(
-        configuration: Configurations,
         selected : string,
         callback : (selected:string) => void,
         buttonAction : () => void,
@@ -41,14 +40,14 @@ export default class CategoryBar extends UIComponent {
         });
 
         this.options = [];
-        this.build(configuration, selected, callback);
+        this.build(selected, callback);
         this.appendChild(button);
         this.appendChild(this.menu);
     }
 
-    public build(configuration: Configurations, selected : string, callback : (selected:string) => void): void {
+    public build(selected : string, callback : (selected:string) => void): void {
 
-        const categories = taskService.getUserTaskCategories(configuration.USER.USERNAME);
+        const categories = taskService.getUserTaskCategories(Configurations.getUserName());
 
         categories.success((categories) => {
             categories.forEach((category) => {

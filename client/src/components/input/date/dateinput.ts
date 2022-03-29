@@ -1,6 +1,6 @@
 
 import { threadId } from "worker_threads";
-import { DateText } from "../../../core/data/dateText.js";
+import { DateText } from "../../../core/data/integrity/dateText.js";
 import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 import { DateSelector } from "./selector.js";
 

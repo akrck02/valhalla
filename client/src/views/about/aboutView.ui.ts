@@ -24,7 +24,7 @@ export default class AboutView extends UIComponent {
     }
 
         
-    public show(params: string[], container: UIComponent, configurations: Configurations): void {
+    public show(params: string[], container: UIComponent): void {
 
         const box = new UIComponent({
             type: "div",
@@ -49,7 +49,7 @@ export default class AboutView extends UIComponent {
         const title = new UIComponent({
             type: "h1",
             classes: ["box-row", "box-x-center", "box-y-center"],
-            text: "Valhalla " + configurations.BASE.APP_VERSION,
+            text: "Valhalla " + Configurations.BASE.APP_VERSION,
         });
 
         const os = new UIComponent({

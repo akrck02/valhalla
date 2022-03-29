@@ -127,15 +127,15 @@ export default class Tasks implements Model {
 
     public static async getUserMonthTasks(db : Database, author : string, year : string, month : string) {
 
-        const SQL = "select * FROM task where author = ? AND end BETWEEN ? AND ? "
+        const SQL = "SELECT * FROM task WHERE author=? AND end BETWEEN ? AND ?"
         const response = db.db.all(
             SQL,
             author,
-            year + "-" + month + "-1 0:00",
-            year + "-" + month + "-30 23:59"
+            year + "-" + month + "-00 00:00",
+            year + "-" + month + "-32 23:59"
         );
 
-        console.log(year + "-" + month + "-1 0:00");
+        console.log(year + "-" + month + "-01 00:00");
         console.log(year + "-" + month + "-30 23:59");
 
         return response;

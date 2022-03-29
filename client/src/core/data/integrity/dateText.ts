@@ -1,4 +1,4 @@
-import { App } from "../../app.js";
+import { App } from "../../../app.js";
 
 export class DateText {
 
@@ -33,6 +33,27 @@ export class DateText {
 
         return array[month];
     }
+
+        /**
+     * Get the month text for the given number
+     * @param month The month number
+     * @returns The month as text
+     */
+        public static weekDay(day: number): string {
+
+            const bundle = App.getBundle().date;
+            const array = [
+                bundle.MONDAY,
+                bundle.TUESDAY,
+                bundle.WEDNESDAY,
+                bundle.THURSDAY,
+                bundle.FRIDAY,
+                bundle.SATURDAY,
+                bundle.SUNDAY
+            ];
+    
+            return array[day];
+        }
 
     /**
      * Add zeros to a given number to match a length
@@ -97,9 +118,9 @@ export class DateText {
         }
 
         let result = format;
-        result = result.replace("yyyy","" + date.getFullYear());
-        result = result.replace("MM","" + (date.getMonth() + 1));
-        result = result.replace("dd","" + (date.getDate()));
+        result = result.replace("yyyy","" + this.normalize(date.getFullYear(),4));
+        result = result.replace("MM","" + this.normalize(date.getMonth() + 1, 2));
+        result = result.replace("dd","" + this.normalize(date.getDate(),2));
 
         return result;    
     }

@@ -11,7 +11,7 @@ export class Sidebar extends UIComponent {
     private modal : SideModal;
     private elements : UIComponent[];
 
-    public constructor(configurations : Configurations) {
+    public constructor() {
         super({
             type: "div",
             id: "sidebar",
@@ -28,7 +28,7 @@ export class Sidebar extends UIComponent {
         this.userImage = new UIComponent({
             type: "img",
             attributes : {
-                src: configurations.PATHS.ICONS + "/default-user.png"
+                src: Configurations.PATHS.ICONS + "/default-user.png"
             },
             styles: {
                 width: "1.7rem",
@@ -49,15 +49,15 @@ export class Sidebar extends UIComponent {
         });
 
 
-        this.modal = new SideModal(configurations);
+        this.modal = new SideModal();
+        this.build();
 
-        this.build(configurations);
         this.appendChild(this.buttonBar);
         this.appendChild(this.userImage);
         this.appendChild(this.modal);
     }
 
-    public build(configurations : Configurations) {
+    public build() {
         const tasks = new UIComponent({
             type: "a",
             classes: ["sidebar-item","box-center"],
@@ -66,7 +66,7 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }).toHTML(),
             attributes: {
-                href: configurations.VIEWS.TASKS,
+                href: Configurations.VIEWS.TASKS,
             },
         });
 
@@ -78,7 +78,7 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }).toHTML(),
             attributes: {
-                href: configurations.VIEWS.CALENDAR,
+                href: Configurations.VIEWS.CALENDAR,
             },
         });
 
@@ -91,7 +91,7 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }).toHTML(),
             attributes: {
-                href: configurations.VIEWS.TEAMS,
+                href: Configurations.VIEWS.TEAMS,
             },
         });
 
@@ -103,7 +103,7 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }).toHTML(),
             attributes: {
-                href: configurations.VIEWS.PROJECTS,
+                href: Configurations.VIEWS.PROJECTS,
             },
         });
 
@@ -115,7 +115,7 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }).toHTML(),
             attributes: {
-                href: configurations.VIEWS.CONFIGURATION,
+                href: Configurations.VIEWS.CONFIGURATION,
             },
         });
 
@@ -127,13 +127,13 @@ export class Sidebar extends UIComponent {
                 fill: "#404040",
             }).toHTML(),
             attributes: {
-                href: configurations.VIEWS.ABOUT,
+                href: Configurations.VIEWS.ABOUT,
             },
         });
 
         this.elements = [tasks, calendar, configuration, about];
 
-        if(false && configurations.getConfigVariable("GANDALF")){
+        if(false && Configurations.getConfigVariable("GANDALF")){
             const hiddenTerminal = new UIComponent({
                 type: "a",
                 classes: ["sidebar-item","box-center"],
@@ -142,7 +142,7 @@ export class Sidebar extends UIComponent {
                     fill: "#404040",
                 }).toHTML(),
                 attributes: {
-                    href: configurations.VIEWS.TERMINAL,
+                    href: Configurations.VIEWS.TERMINAL,
                 },
             });
 

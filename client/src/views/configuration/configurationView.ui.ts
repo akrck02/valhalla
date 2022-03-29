@@ -20,7 +20,7 @@ export default class ConfigurationView extends UIComponent {
         });
     }
 
-    public show(params: string[], container: UIComponent, configurations : Configurations): void {
+    public show(params: string[], container: UIComponent): void {
        
         const menu = this.createMenu();
         const content = new UIComponent({
@@ -40,7 +40,7 @@ export default class ConfigurationView extends UIComponent {
         setTimeout(() => {
             menu.element.style.opacity = "1";
         }, 100);
-        this.createAppearenceView(configurations, content);
+        this.createAppearenceView(content);
 
         this.appendChild(menu);
         this.appendChild(content);
@@ -93,7 +93,7 @@ export default class ConfigurationView extends UIComponent {
         return menu;
     }
 
-    private createAppearenceView(configurations : Configurations, parent : UIComponent){
+    private createAppearenceView(parent : UIComponent){
 
         const wallPaperTitle = new UIComponent({
             type: "h1",
@@ -104,7 +104,7 @@ export default class ConfigurationView extends UIComponent {
             }   
         });
 
-        const wallpaperGallery = new WallpaperGallery(configurations);
+        const wallpaperGallery = new WallpaperGallery();
         const themeTitle = new UIComponent({
             type: "h1",
             text: App.getBundle().configuration.THEME,
@@ -114,7 +114,7 @@ export default class ConfigurationView extends UIComponent {
             }   
         });
 
-        const themeChooser = new ThemeChooser(configurations);       
+        const themeChooser = new ThemeChooser();       
         
         parent.appendChild(wallPaperTitle);
         parent.appendChild(wallpaperGallery);

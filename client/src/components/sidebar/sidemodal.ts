@@ -12,7 +12,7 @@ export class SideModal extends UIComponent {
     private description : UIComponent;
     private action : UIComponent;
 
-    public constructor(configurations : Configurations) {
+    public constructor() {
         super({
             type: "div",
             id: "sidebar-modal",
@@ -62,7 +62,7 @@ export class SideModal extends UIComponent {
         this.appendChild(this.action);
         this.opened = false;
 
-        if(configurations.USER.OAUTH !== "#"){
+        if(Configurations.getOAuth() !== "#"){
             this.onlineMode();
         } else {
             this.offlineMode();

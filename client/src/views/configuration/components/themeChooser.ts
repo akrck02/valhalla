@@ -12,7 +12,7 @@ export class ThemeChooser extends UIComponent {
     private dark: UIComponent;
     private light: UIComponent;
 
-    public constructor(configurations: Configurations) {
+    public constructor() {
         super({
             classes: ["box-row", "box-x-start"],
             styles: {
@@ -30,8 +30,8 @@ export class ThemeChooser extends UIComponent {
 
         setEvents(this.dark.element, {
             click: () => {
-                configurations.setTheme("dark");
-                configurations.setWallpaper(undefined);
+                Configurations.setTheme("dark");
+                Configurations.setWallpaper(undefined);
                 this.resetWallpapers();
                 this.resetThemes();
                 this.dark.element.classList.add("selected");
@@ -47,15 +47,15 @@ export class ThemeChooser extends UIComponent {
 
         setEvents(this.light.element, {
             click: () => {
-                configurations.setTheme("light");
-                configurations.setWallpaper(undefined);
+                Configurations.setTheme("light");
+                Configurations.setWallpaper(undefined);
                 this.resetWallpapers();
                 this.resetThemes();
                 this.light.element.classList.add("selected");
             },
         });
 
-        if (configurations.isDarkModeActive()) {
+        if (Configurations.isDarkModeActive()) {
             setClasses(this.dark.element, ["selected"]);
         } else {
             setClasses(this.light.element, ["selected"]);

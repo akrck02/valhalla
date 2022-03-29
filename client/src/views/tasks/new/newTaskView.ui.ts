@@ -1,7 +1,7 @@
 import { App } from "../../../app.js";
 import DateInput from "../../../components/input/date/dateinput.js";
 import { Configurations } from "../../../config/config.js";
-import { DateText } from "../../../core/data/dateText.js";
+import { DateText } from "../../../core/data/integrity/dateText.js";
 import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
 import { setStyles, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../../services/tasks.js";
@@ -9,7 +9,6 @@ import NewTaskCore from "./newTaskView.core.js";
 
 export default class NewTaskView extends UIComponent {
 
-    private configuration: Configurations;
     private core : NewTaskCore;
 
     public constructor() {
@@ -27,11 +26,10 @@ export default class NewTaskView extends UIComponent {
      * @param container The container to append the view
      * @param configurations The configurations to use
      */
-    public show(params: string[], container: UIComponent, configurations: Configurations): void {
+    public show(params: string[], container: UIComponent): void {
         this.build();
         this.appendTo(container);
-        this.core.setTaskAuthor(configurations.getConfigVariable("user") || "default");
-        this.configuration = configurations;
+        this.core.setTaskAuthor(Configurations.getUserName() || "default");
     }
 
     /**
@@ -83,7 +81,14 @@ export default class NewTaskView extends UIComponent {
             id: "save-task",
             classes: ["button"],
             events: { click: () => {
+
+
+                // If is insert mode --> insert
                 taskService.insertUserTask(this.core.getTask());
+
+                // If is edit mode --> update task
+                // taskService.updateUserTask(this.core.getTask());
+
                 this.clean();
 
                 const loadingTitle = new UIComponent({
@@ -98,7 +103,7 @@ export default class NewTaskView extends UIComponent {
                 this.appendChild(loadingTitle);
 
                 setTimeout(() => {
-                    location.href = this.configuration.VIEWS.TASKS;
+                    location.href = Configurations.VIEWS.TASKS;
                 }, 250 + Math.random() * 200);
             }}
         });

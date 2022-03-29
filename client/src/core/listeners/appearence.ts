@@ -1,4 +1,5 @@
 import { APP } from "../../app.js";
+import { Configurations } from "../../config/config.js";
 
 export class AppearenceListener {
 
@@ -31,15 +32,15 @@ export class AppearenceListener {
             this.carrousel = AppearenceListener.MAX_WALLPAPERS;
         }
 
-        APP.configurations.setWallpaper(`wall${this.carrousel}.png`);
+        Configurations.setWallpaper(`wall${this.carrousel}.png`);
         document.body.classList.add("loading");
         setTimeout(() => document.body.classList.remove("loading"), 300);
     }
 
 
     public toggleTheme(): void {
-        if (!APP.configurations.hasWallpaper())
-            APP.configurations.toggleTheme();
+        if (!Configurations.hasWallpaper())
+            Configurations.toggleTheme();
     }    
 
 }

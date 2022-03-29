@@ -78,17 +78,11 @@ export class Tasks implements HTTPResponse {
                 );
             }
 
-
             const response = await TaskModel.getUserMonthTasks(db,username,year,month);
             let monthTasks : {[key:string] : any} = {};
 
-            
-
             //task per date
             response.forEach((element : {[key : string] : any}) => {
-
-                console.log(JSON.stringify(element));
-                
 
                 if(!monthTasks[(element.end) as string]){
                     monthTasks[(element.end) as string] = [];

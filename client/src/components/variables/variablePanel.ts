@@ -1,4 +1,5 @@
 import { APP } from "../../app.js";
+import { Configurations } from "../../config/config.js";
 import { setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 
 export class VariablePanel extends UIComponent {
@@ -83,7 +84,7 @@ export class VariablePanel extends UIComponent {
             text: "Storage variables",
             classes: ["log-item-title"]
         });
-        const config = APP.configurations.getConfig();
+        const config = Configurations.getConfig();
 
         persistent.appendTo(this.logger);
         this.createVariableTable(config);
@@ -95,15 +96,14 @@ export class VariablePanel extends UIComponent {
         });
         base.appendTo(this.logger);
 
-        const baseConfig = APP.configurations.BASE;
+        const baseConfig = Configurations.BASE;
         this.createVariableTable({
             "APP_NAME": baseConfig.APP_NAME,
             "APP_VERSION": baseConfig.APP_VERSION,
             "ENVIROMENT": baseConfig.ENVIROMENT,
             "DEBUG": baseConfig.DEBUG,
             "LOG_LEVEL": baseConfig.LOG_LEVEL,
-            "THEME": baseConfig.THEME,
-            "TERMINAL_VISIBLE": baseConfig.TERMINAL_VISIBLE,
+            "THEME": Configurations.getTheme(),
             "VIEW": location.href.substring(location.href.indexOf("#") + 1),
         });
 
