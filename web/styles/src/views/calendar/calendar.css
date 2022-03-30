@@ -2,9 +2,10 @@ div#calendar-container {
     width: 100%;
     height: 100%;
     min-height: 100%;
-    padding: 1.5rem 3rem .0rem 3rem;
+    padding: 1.5rem 0rem .0rem 3rem;
     overflow-y: auto;
     opacity: 0;
+    justify-content: space-between;
     transition: opacity var(--slow);
     flex-wrap: wrap;
 }
@@ -73,28 +74,3 @@ div#calendar-container div#calendar-wrapper {
 #calendar div.day.today {
     border-color: rgba(0, 0, 0, 0.1);
 }
-
-div#calendar-more, :root[data-terminal-visible=true] div#calendar-more {
-    opacity: 0;
-    display: none;
-}
-
-@media (min-width: 1450px) {
-    div#calendar-more {
-        display: flex;
-        height: 82%;
-       
-        min-width: 27rem;
-        width: 30%;
-        margin-left: 5rem;
-        margin-top: 3.9rem;
-        background-color: rgba(0,0,0,0.035);
-        border-radius: 0.5rem;
-        opacity: 1;
-    }
-
-    :root[data-theme=dark] div#calendar-more {
-        background-color: rgba(255,255,255,0.035);
-    }
-}
-

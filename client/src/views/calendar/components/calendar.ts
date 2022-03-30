@@ -22,7 +22,7 @@ export class Calendar extends UIComponent {
         const month = current.getMonth();
 
         const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
-        let dayOfWeek = new Date(year, month + 1, 1).getDay() - 1;
+        let dayOfWeek = new Date(year, month, 1).getDay() - 1;
 
         if (dayOfWeek == -1) {
             dayOfWeek = 7;

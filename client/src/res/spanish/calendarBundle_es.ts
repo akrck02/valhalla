@@ -4,5 +4,6 @@ export const CalendarBundleEs = {
     WEEK : "Semana",
     DAY : "Día",
     MODE : "Modo",
-    YOUR_EVENTS : "Tus eventos"
+    YOUR_EVENTS : "Tus eventos",
+    NO_EVENTS : "No hay eventos",
 };
