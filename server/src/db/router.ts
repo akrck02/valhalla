@@ -10,11 +10,13 @@ export class Router {
     public constructor() {
         this.PATHS = {
             "get/user/tasks" : Tasks.getUserTasks,
-            "get/user/month/tasks/" : Tasks.getUserMonthTasks,
+            "get/user/task" : Tasks.getUserTask,
+            "get/user/month/tasks" : Tasks.getUserMonthTasks,
             "get/user/tasks/from/category" : Tasks.getUserTasksFromCategory,
             "get/user/task/categories" : Tasks.getUserTaskCategories,
             "insert/user/task" : Tasks.insertUserTask,
             "delete/user/task" : Tasks.deleteUserTask,
+            "update/user/task" : Tasks.updateUserTask,
         }
     }
 }

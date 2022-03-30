@@ -1,7 +1,6 @@
 import Model from "./model.js";
 import { Database } from "../db";
 import { ITask } from "../classes/task.js";
-import { API } from "../api.js";
 
 export default class Tasks implements Model {
 
@@ -13,10 +12,42 @@ export default class Tasks implements Model {
      * @returns The query result
      */
     public static getUserTasks(db: Database, username: string): Promise<any> {
-        const SQL = "SELECT * FROM task WHERE author = ?";
+        const SQL = "SELECT * FROM task WHERE author = ? ORDER BY end DESC";
         const response = db.db.all(
             SQL,
             username,
+        );
+
+        return response;
+    }
+
+    /**
+     * 
+     * @param db The databas3e connection
+     * @param username The user who owns the tasks
+     * @returns The query result
+     */
+     public static getUserTask(db: Database, id: string): Promise<any> {
+        const SQL = "SELECT * FROM task WHERE id = ?";
+        const response = db.db.all(
+            SQL,
+            id,
+        );
+
+        return response;
+    }
+
+    /**
+     * Get the week tasks for a given user
+     * @param db The database connection
+     * @param id The task id to search for
+     * @returns The query result
+     */
+    public static getUserTaskLabels(db: Database, id: string): Promise<any> {
+        const SQL = "SELECT label FROM task_label WHERE taskId = ? ORDER BY label";
+        const response = db.db.all(
+            SQL,
+            id,
         );
 
         return response;
@@ -79,7 +110,7 @@ export default class Tasks implements Model {
         if(response.changes == 0) 
             return false;
 
-        task.labels?.forEach(tag => this.setTagToTask(db, response.lastID, tag));
+        task.labels?.forEach(tag => this.setLabelToTask(db, response.lastID, tag));
         
         return true;
     }
@@ -90,7 +121,7 @@ export default class Tasks implements Model {
      * @param task The task 
      * @param tag The tag to be set 
      */
-    public static async setTagToTask(db : Database, task: string, tag: string){
+    public static async setLabelToTask(db : Database, task: string, tag: string){
         
         const SQL = "INSERT INTO task_label(taskId, label) VALUES (?,?)";
         await db.db.run(SQL,
@@ -124,7 +155,14 @@ export default class Tasks implements Model {
         return true;
     }
 
-
+    /**
+     * Get the month tasks for a given user
+     * @param db The database connection
+     * @param author The user to search for
+     * @param year The year to search for
+     * @param month The month to search for
+     * @returns The query result
+     */
     public static async getUserMonthTasks(db : Database, author : string, year : string, month : string) {
 
         const SQL = "SELECT * FROM task WHERE author=? AND end BETWEEN ? AND ?"
@@ -134,11 +172,39 @@ export default class Tasks implements Model {
             year + "-" + month + "-00 00:00",
             year + "-" + month + "-32 23:59"
         );
-
-        console.log(year + "-" + month + "-01 00:00");
-        console.log(year + "-" + month + "-30 23:59");
-
+        
         return response;
+    }
+
+    /**
+     * Get the week tasks for a given user
+     * @param db The database connection
+     * @param task The task to update
+     * @returns The query result
+     */
+    public static async updateUserTask(db : Database, task : ITask) {
+
+        const SQL = "UPDATE task SET name=?, description=?, start=?, end=?, allDay=?, done=? WHERE id=?";
+        const response = await db.db.run(SQL,
+            task.name,
+            task.description,
+            task.start,
+            task.end,
+            task.allDay,
+            task.done,
+            task.id
+        )
+
+        if(!response)
+            return false;
+
+        if(response.length >= 0)
+            return false;
+
+        if(response.changes == 0)
+            return false;
+
+        return true;
     }
 
 

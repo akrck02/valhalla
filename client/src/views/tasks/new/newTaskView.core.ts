@@ -6,10 +6,12 @@ export default class NewTaskCore {
 
     private parent: NewTaskView;
     private task: ITask;
+    private edit: boolean;
 
     constructor(parent: NewTaskView) {
         this.parent = parent;
         this.task = this.defaultTask();
+        this.edit = false;
     }
 
     /**
@@ -37,6 +39,14 @@ export default class NewTaskCore {
      */
     public getTask(): ITask {
         return this.task;
+    }
+
+    /**
+     * Set the task 
+     * @param task The task to set
+     */
+    public setTask(task: ITask) {        
+        this.task = task;
     }
 
     /**
@@ -149,5 +159,20 @@ export default class NewTaskCore {
         return date;
     }
 
+    /**
+     * Set the edit mode
+     * @param edit 
+     */
+    public setEditMode(edit: boolean) {
+        this.edit = edit;
+    }
+
+    /**
+     * Get if this view is in edit mode
+     * @returns if the edit mode is on 
+     */
+    public isEditMode(): boolean {
+        return this.edit;
+    }
 
 }

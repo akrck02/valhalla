@@ -3,11 +3,13 @@ import { Configurations } from "../../config/config.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import CategoryBar from "./components/categoryBar.js";
+import NewTaskView from "./new/newTaskView.ui.js";
 import TaskCore from "./tasksView.core.js";
 
 export default class TasksView extends UIComponent {
 
     private core: TaskCore;
+    private container: UIComponent;
     private taskContainer: UIComponent;
 
     public constructor() {
@@ -32,6 +34,7 @@ export default class TasksView extends UIComponent {
      */
     public show(params: string[], container: UIComponent): void {
 
+        this.container = container;
         this.taskContainer = new UIComponent({
             type: "div",
             id: "task-container",
@@ -163,6 +166,9 @@ export default class TasksView extends UIComponent {
         const edit = getMaterialIcon("edit",{ size: "1.2em", fill: "white" });
         const done = getMaterialIcon("task_alt", { size: "1.2em", fill: "white" }); 
         const deleteTask = getMaterialIcon("delete", { size: "1.2em", fill: "white" }); 
+
+        edit.element.addEventListener("click", () => App.redirect(Configurations.VIEWS.NEW_TASK, ["edit",currentTask.id]));
+
 
         deleteTask.element.onclick = async () => {
             await this.core.deleteUserTask(currentTask.id);

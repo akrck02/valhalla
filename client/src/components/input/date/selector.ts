@@ -1,3 +1,4 @@
+import { App } from "../../../app.js";
 import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent, setEvents } from "../../../lib/gtd-ts/web/uicomponent.js";
 
@@ -240,7 +241,7 @@ export class DateSelector extends UIComponent {
         const accept = new UIComponent({
             type : "button",
             id: "accept",
-            text : getMaterialIcon("check",{size: "1.2rem", fill: "#fff"}).toHTML() +"&nbsp;Accept"
+            text : getMaterialIcon("check",{size: "1.2rem", fill: "#fff"}).toHTML() + "&nbsp;" + App.getBundle().newTask.ACCEPT
         });
 
         accept.element.onclick = () => this.update(this.current);

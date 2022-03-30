@@ -11,7 +11,7 @@ export class Configurations {
     //global runtime configurations
     public static BASE = {
         APP_NAME: "Vallhala",
-        APP_VERSION: "v1.0.0a",
+        APP_VERSION: "v1.0.1a",
         HOST: "127.0.0.1",
         PORT: 80,
         URL: location.href,
@@ -47,6 +47,7 @@ export class Configurations {
     public static API = {
         URL : "http://127.0.0.1:3333/api/v1/",
         GET_USER_TASKS : "http://127.0.0.1:3333/api/v1/get/user/tasks/",
+        GET_USER_TASK :  "http://127.0.0.1:3333/api/v1/get/user/task/",
         GET_USER_MONTH_TASKS: "http://127.0.0.1:3333/api/v1/get/user/month/tasks/",
         GET_USER_TASKS_FROM_CATEGORY: "http://127.0.0.1:3333/api/v1/get/user/tasks/from/category/",
         GET_USER_TASK_CATEGORIES: "http://127.0.0.1:3333/api/v1/get/user/task/categories/",

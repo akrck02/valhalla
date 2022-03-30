@@ -41,6 +41,11 @@ export class App {
         return TextBundle.get(navigator.language);
     }
 
+    public static redirect(url: string, params: string[]) {
+        url += params.join("/");
+        location.href = url;
+    }
+
 }
 
 /**

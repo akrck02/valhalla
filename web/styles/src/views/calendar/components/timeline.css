@@ -71,7 +71,7 @@ div#calendar-more {
         min-width: 27rem;
         width: calc(100% - 57rem);
         margin-top: -2rem;
-        border-radius: 0.5rem;
+        border-bottom: .1rem solid rgba(255,255,255,0.06);
         opacity: 1;
         padding: 2rem 0 0 0
     }
