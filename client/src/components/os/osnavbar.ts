@@ -32,6 +32,15 @@ export default class OsNavbar {
         this.controls[option]?.element.click();
     }
 
+    public hideSearchBar(){
+        this.searchbar.hide();
+    }
+
+    public showSearchBar(){
+        this.searchbar.show();
+    }
+
+
     public focusSearchbar() {
         this.searchbar.focus();
     }

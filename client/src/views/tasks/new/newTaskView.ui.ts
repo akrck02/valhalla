@@ -101,10 +101,8 @@ export default class NewTaskView extends UIComponent {
             classes: ["button"],
             events: { click: () => {
 
-                // If is insert mode --> insert
                 if(this.core.isEditMode()) {
-                    // If is edit mode --> update task
-                    // taskService.updateUserTask(this.core.getTask());
+                    taskService.updateUserTask(this.core.getTask());
                 } else {
                     taskService.insertUserTask(this.core.getTask());
                 }

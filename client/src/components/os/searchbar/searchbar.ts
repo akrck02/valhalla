@@ -1,7 +1,10 @@
 import { App, APP } from "../../../app.js";
+import { Configurations } from "../../../config/config.js";
 import { CommandHandler } from "../../../core/commands/command.js";
 import { ListenerSet } from "../../../core/listenerset.js";
 import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
+import { taskService } from "../../../services/tasks.js";
+import { SearchModal } from "./searchmodal.js";
 
 
 enum SEARCHBAR_MODE {
@@ -15,6 +18,7 @@ export default class Searchbar extends UIComponent {
     private tagContainer : HTMLElement;
     private mode : SEARCHBAR_MODE;
     private handler : CommandHandler;
+    private modal : SearchModal;
 
     public constructor(bar : HTMLElement, listeners : ListenerSet) {
         super({})
@@ -23,14 +27,19 @@ export default class Searchbar extends UIComponent {
         this.tagContainer = this.element.querySelector("span#search-tag");
         this.mode = SEARCHBAR_MODE.SEARCH;
         this.handler = new CommandHandler(listeners);
-
+        this.modal = new SearchModal();
         this.input.placeholder = App.getBundle().os.SEARCHBAR_PLACEHOLDER;
+        this.appendChild(this.modal);-
 
         setEvents(this.input,{
-            keyup: (event) => {
+            keydown: () => {
+                this.modal.clean(); 
+            },
+            keyup: async (event) => {
 
-                if (event.key === "Backspace" && this.input.value.length == 0) {
+                if (event.key === "Backspace" && this.input.value.trim().length == 0) {
                     this.removeTag();
+                    this.modal.noResults();
                     this.mode = SEARCHBAR_MODE.SEARCH;
                     return
                 }
@@ -40,16 +49,18 @@ export default class Searchbar extends UIComponent {
                     this.setValue("");
                     this.mode = SEARCHBAR_MODE.COMMAND;
                     return;
-                }
+                }              
+                    
+                this.search();
 
+                const value = this.input.value;
                 if (event.key === "Enter"){
-                    const value = this.input.value;
+                   
                     switch (this.mode) {
                         case SEARCHBAR_MODE.COMMAND:
                             this.handler.handle(value);
                             break;
                         default:
-                            
                             break;
                     }
 
@@ -57,12 +68,52 @@ export default class Searchbar extends UIComponent {
                     this.removeTag();
                     this.setValue("");
                 }
-
+            },
+            click: () => {
+                if (this.input.value.trim().length != 0) 
+                    this.modal.show();
+            },
+            blur: () => {
+                this.modal.hide();
             }
         })
         
         
     }
+
+
+    public async search() {
+        const value = this.input.value;
+
+        if(value.trim() == "") {
+            this.modal.hide();
+            return
+        }
+
+        const response = await taskService.searchUserTasksByName(Configurations.getUserName(), value);
+
+        response.success(tasks => {
+            console.log(tasks);
+            this.modal.setTasks( this.input.value.length == 0 ? [] : tasks);
+            this.modal.update();
+        });
+
+        response.json();
+    } 
+
+
+    public hide(){
+        this.element.style.opacity = "0"; 
+        this.element.style.display = "none"; 
+    }
+
+    public show(){
+        this.element.style.display = "flex"; 
+        setTimeout(() => {
+            this.element.style.opacity = "1"; 
+        }, 100);
+    }
+
 
     public focus() {
         this.input.focus();

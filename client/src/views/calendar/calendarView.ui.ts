@@ -125,7 +125,7 @@ export default class CalendarView extends UIComponent {
         modeSelector.addOption(App.getBundle().calendar.DAY, (year) => { });
         //  modeSelector.setSelected(App.getBundle().calendar.YEAR);
 
-        APP.router.osNavbar.addToControls(modeSelector);
+        //APP.router.osNavbar.addToControls(modeSelector);
         APP.router.osNavbar.addToControls(monthSelector);
         APP.router.osNavbar.addToControls(yearSelector);
 

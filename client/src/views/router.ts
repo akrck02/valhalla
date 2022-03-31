@@ -10,6 +10,7 @@ import CalendarView from "./calendar/calendarView.ui.js";
 import ConfigurationView from "./configuration/configurationView.ui.js";
 import ErrorV from "./error/errorV.js";
 import ProjectsV from "./projects/projects.js";
+import SearchView from "./search/searchView.ui.js";
 import NewTaskView from "./tasks/new/newTaskView.ui.js";
 import TasksView from "./tasks/tasksView.ui.js";
 import TeamsV from "./teams/teams.js";
@@ -52,6 +53,7 @@ export default class Router {
         try{
             this.clear();
             this.osNavbar.clearControls();
+            this.osNavbar.showSearchBar();
             this.variablePanel.addViewVariables({});
 
             switch (params[0]) {
@@ -77,10 +79,16 @@ export default class Router {
                     new ProjectsV().show(params.splice(1), this.container);
                     this.sidebar.setSelected(3);
                     break;
+
+                case "search":
+                    new SearchView().show(params.splice(1), this.container);
+                    this.sidebar.setSelected(2);
+                    break;
+
                 case "configuration":
                     new ConfigurationView().show(params.splice(1), this.container);
                     //this.sidebar.setSelected(4);
-                    this.sidebar.setSelected(2);
+                    this.sidebar.setSelected(3);
                     break;
                 case "terminal":
                     new TerminalV().show(params.splice(1), this.container);
@@ -88,7 +96,7 @@ export default class Router {
                     break;
                 case "about":
                     new AboutView().show(params.splice(1), this.container);
-                    this.sidebar.setSelected(3);
+                    this.sidebar.setSelected(4);
                     break;
                 case "error":
                     new ErrorV().show(params.splice(1), this.container);

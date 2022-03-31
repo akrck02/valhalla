@@ -107,6 +107,19 @@ export class Sidebar extends UIComponent {
             },
         });
 
+        const search = new UIComponent({
+            type: "a",
+            classes: ["sidebar-item","box-center"],
+            text: getMaterialIcon("search",{
+                size: "1.25rem",
+                fill: "#404040",
+            }).toHTML(),
+            attributes: {
+                href: Configurations.VIEWS.SEARCH,
+            },
+        });
+
+
         const configuration = new UIComponent({
             type: "a",
             classes: ["sidebar-item","box-center"],
@@ -131,7 +144,7 @@ export class Sidebar extends UIComponent {
             },
         });
 
-        this.elements = [tasks, calendar, configuration, about];
+        this.elements = [tasks, calendar, search, configuration, about];
 
         if(false && Configurations.getConfigVariable("GANDALF")){
             const hiddenTerminal = new UIComponent({

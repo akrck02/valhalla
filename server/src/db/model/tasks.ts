@@ -2,7 +2,22 @@ import Model from "./model.js";
 import { Database } from "../db";
 import { ITask } from "../classes/task.js";
 
+
 export default class Tasks implements Model {
+
+    /**
+     * Get the task matching the given name text 
+     * @param db  The database connection
+     * @param username The user to search for
+     * @param searcher The text to search for
+     * @returns The query result
+     */
+    public static searchTasksByName(db: Database, username: string, searcher : string): Promise<any> {
+        searcher = "%" + searcher + "%";
+        const SQL = "SELECT * FROM task WHERE author = ? AND name LIKE ?";
+        const response  = db.db.all(SQL, username, searcher );
+        return response;
+    }
 
 
     /**
@@ -13,11 +28,7 @@ export default class Tasks implements Model {
      */
     public static getUserTasks(db: Database, username: string): Promise<any> {
         const SQL = "SELECT * FROM task WHERE author = ? ORDER BY end DESC";
-        const response = db.db.all(
-            SQL,
-            username,
-        );
-
+        const response = db.db.all(SQL,username);
         return response;
     }
 
@@ -29,11 +40,7 @@ export default class Tasks implements Model {
      */
      public static getUserTask(db: Database, id: string): Promise<any> {
         const SQL = "SELECT * FROM task WHERE id = ?";
-        const response = db.db.all(
-            SQL,
-            id,
-        );
-
+        const response = db.db.all(SQL,id);
         return response;
     }
 
@@ -45,11 +52,7 @@ export default class Tasks implements Model {
      */
     public static getUserTaskLabels(db: Database, id: string): Promise<any> {
         const SQL = "SELECT label FROM task_label WHERE taskId = ? ORDER BY label";
-        const response = db.db.all(
-            SQL,
-            id,
-        );
-
+        const response = db.db.all(SQL,id);
         return response;
     }
 
@@ -74,12 +77,7 @@ export default class Tasks implements Model {
      */
     public static getUserTasksFromCategory(db: Database, username : string, category : string): Promise<any> {
         const SQL = "SELECT * FROM task WHERE author = ? AND id IN (SELECT taskId FROM task_label WHERE label = ?) ORDER BY end DESC";
-        const response = db.db.all(
-            SQL,
-            username,
-            category
-        );
-
+        const response = db.db.all(SQL, username, category);
         return response;
     }
 
@@ -122,12 +120,8 @@ export default class Tasks implements Model {
      * @param tag The tag to be set 
      */
     public static async setLabelToTask(db : Database, task: string, tag: string){
-        
         const SQL = "INSERT INTO task_label(taskId, label) VALUES (?,?)";
-        await db.db.run(SQL,
-           task,
-           tag
-        )
+        await db.db.run(SQL,task,tag)
     } 
 
 
@@ -139,9 +133,7 @@ export default class Tasks implements Model {
      */
     public static async deleteUserTask(db : Database, task : ITask) {
         const SQL = "DELETE FROM task WHERE id = ?";
-        const response = await db.db.run(SQL,
-            task.id
-        )
+        const response = await db.db.run(SQL,task.id)
 
         if(!response) 
             return false;
@@ -172,7 +164,7 @@ export default class Tasks implements Model {
             year + "-" + month + "-00 00:00",
             year + "-" + month + "-32 23:59"
         );
-        
+
         return response;
     }
 
@@ -206,6 +198,31 @@ export default class Tasks implements Model {
 
         return true;
     }
+
+
+    /**
+     * Delete all labels from the given task
+     * @param db The task db
+     * @param task The task itself
+     * @returns If operation succeded
+     */
+    public static async deleteUserTaskLabels(db : Database, task : ITask) {
+        
+        const SQL = "DELETE FROM task_label WHERE taskId = ?";
+        const response = await db.db.run(SQL,task.id)
+
+        if(!response)
+            return false;
+
+        if(response.length >= 0)
+            return false;
+
+        if(response.changes == 0)
+            return false;
+
+        return true;
+    }
+
 
 
 }

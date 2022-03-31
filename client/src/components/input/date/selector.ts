@@ -92,8 +92,6 @@ export class DateSelector extends UIComponent {
             classes: ["month-name","box-column","box-center"],
         });
 
-        nextMonth.element.onclick = () => alert();
-
         monthName.appendChild(nextMonth);
         monthName.element.innerHTML += this.current.toLocaleString("default", { month: "long" });
         monthName.appendChild(lastMonth);

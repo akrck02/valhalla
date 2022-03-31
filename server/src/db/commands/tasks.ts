@@ -8,6 +8,31 @@ import { ITask } from "../classes/task";
 export class Tasks implements HTTPResponse {
 
     /**
+     * Update a user task
+     * @param db The database connection
+     * @param req The HTTP request
+     * @param res The HTTP response
+     * @returns a promise
+     */
+    public static searchTasksByName (db: Database, req: Request, res: Response): Promise<any> {
+        const username = req?.body?.user;
+        const searcher = req?.body?.searcher;
+
+        if (username == undefined || searcher == undefined) {
+            return new Promise((resolve) =>
+                resolve({
+                    status: "failed",
+                    reason: "Missing parameters"
+                })
+            );
+        }
+
+        return TaskModel.searchTasksByName(db, username, searcher);
+
+    }
+
+
+    /**
      * Get the user tasks from database
      * @param db the database connection
      * @param req The HTTP request
@@ -206,6 +231,7 @@ export class Tasks implements HTTPResponse {
         try {
             const task: ITask = req?.body?.task;
             if (await TaskModel.deleteUserTask(db, task)) {
+                await TaskModel.deleteUserTaskLabels(db, task);
                 return new Promise((resolve) =>
                     resolve({
                         status: "success",
@@ -232,7 +258,13 @@ export class Tasks implements HTTPResponse {
     }
 
 
-
+    /**
+     * Update the user task
+     * @param db The database connection
+     * @param req The HTTP request
+     * @param res The HTTP response
+     * @returns a promise
+     */
     public static async updateUserTask(db: Database, req: Request, res: Response): Promise<any> {
 
         try {
@@ -277,7 +309,6 @@ export class Tasks implements HTTPResponse {
                 })
             );
         }
-
-
     }
+
 }

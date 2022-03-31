@@ -6,6 +6,25 @@ import { HTTPS_METHOD } from "../lib/gtd-ts/core/http.js";
 import { efetch, Response } from "../lib/gtd-ts/data/easyfetch.js";
 
 export class taskService {
+
+    /**
+     * Search for tasks by name
+     * @param username The username of the user
+     * @param searcher The name to search for
+     * @returns The tasks found
+     */
+    static searchUserTasksByName(username : string, searcher : string) : Response {
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: Configurations.API.SEARCH_USER_TASKS_BY_NAME,
+            parameters: {
+                user: username,
+                searcher: searcher
+            },
+        });
+
+        return response;
+    }
    
     /**
      * Get the task of a user from the API
@@ -118,12 +137,34 @@ export class taskService {
         return response;
     }
 
+    /**
+     * Get a task
+     * @param taskId The id of the task to get 
+     * @returns The task 
+     */
     static getUserTask(taskId: string) : Response {
         const response = efetch({
             method: HTTPS_METHOD.POST,
             url: Configurations.API.GET_USER_TASK,
             parameters: {
                 id: taskId
+            },
+        });
+
+        return response;
+    }
+
+    /**
+     * Update a task
+     * @param task 
+     * @returns The task updated
+     */
+    static updateUserTask(task: ITask) : Response {
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: Configurations.API.UPDATE_USER_TASK,
+            parameters: {
+                task: task
             },
         });
 
