@@ -1,4 +1,5 @@
 import { App } from "../../../app.js";
+import { DateText } from "../../../core/data/integrity/dateText.js";
 import { ITask } from "../../../core/data/interfaces/task.js";
 import NewTaskView from "./newTaskView.ui";
 
@@ -24,8 +25,8 @@ export default class NewTaskCore {
             name: App.getBundle().newTask.WRITE_HERE_A_TASK_NAME,
             description: App.getBundle().newTask.WRITE_HERE_A_TASK_DESCRIPTION,
             allDay: 0,
-            start: "2022-03-21",
-            end: "2022-03-21",
+            start: DateText.toSQLiteDate(new Date()),
+            end: DateText.toSQLiteDate(new Date()),
             author: "",
             labels: [App.getBundle().newTask.TODAY, App.getBundle().newTask.IMPORTANT],
         };

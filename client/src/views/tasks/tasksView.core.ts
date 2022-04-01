@@ -25,7 +25,11 @@ export default class TaskCore {
         response.success(((res) => tasks = res));
 
         await response.jsonPromise();
-        return new Promise((resolve) => {resolve(tasks)});
+        return new Promise((resolve) => {
+            console.log(tasks);
+            
+            resolve(tasks)
+        });
     }
 
     /**

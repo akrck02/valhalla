@@ -40,13 +40,17 @@ export class SearchModal extends UIComponent {
 
         for (let i = 0; i < max; i++) {
             const task = this.tasks[i];
+            let icon;
+            
+            if(task.done == 1 ) {
+                icon = getMaterialIcon("task_alt",{ fill: "#fff", size: "1.05rem"});
+            } else {
+                icon = getMaterialIcon("radio_button_unchecked",{ fill: "#fff", size: "1.05rem"});
+            }
+            
             const taskEntry = new UIComponent({
                 classes: ["task-entry","box-row", "box-y-center"],
-                text: getMaterialIcon("task_alt",{
-                    fill: "#fff",
-                    size: "1.05rem",
-                }).toHTML() 
-                + "&nbsp;&nbsp;&nbsp;" + task.name,
+                text: icon.toHTML() + "&nbsp;&nbsp;&nbsp;" + task.name,
             })
 
             this.appendChild(taskEntry);

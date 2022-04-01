@@ -50,7 +50,7 @@ view#tasks .task-box .task .time {
 }
 
 view#tasks .task-toolbar {
-    width: 6%;
+    width: 0px;
     visibility: hidden;
     height: 100%;
     padding: 0rem 1rem;
@@ -58,7 +58,7 @@ view#tasks .task-toolbar {
 }   
 
 view#tasks .task-box:hover .task-toolbar {
-    width: 6rem;
+    width: 4rem;
     visibility: visible;
     transition: visibility var(--fast), width var(--medium), opacity var(--slow);
     opacity: 1;
@@ -66,7 +66,8 @@ view#tasks .task-box:hover .task-toolbar {
 
 
 view#tasks .task-box:hover .task {
-    width: calc( 90% - 5rem);
+    position: relative;
+    width: calc(100% - 10rem);
 }
 
 view#tasks .task-box:hover .task-toolbar div{

@@ -11,7 +11,7 @@ export class Configurations {
     //global runtime configurations
     public static BASE = {
         APP_NAME: "Vallhala",
-        APP_VERSION: "v1.0.1a",
+        APP_VERSION: "v1.0.2a",
         HOST: "127.0.0.1",
         PORT: 80,
         URL: location.href,

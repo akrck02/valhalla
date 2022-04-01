@@ -1,3 +1,4 @@
+import { threadId } from "worker_threads";
 import { App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
@@ -20,6 +21,7 @@ export default class TasksView extends UIComponent {
             styles: {
                 width: "100%",
                 height: "100%",
+                backdropFilter: "blur(1rem)",
             },
         });
 
@@ -104,27 +106,43 @@ export default class TasksView extends UIComponent {
             container.appendChild(this.buildNotTaskFoundErrorMessage());
         }
 
+        const notDoneContainer = new UIComponent({
+            type: "div",
+            id: "not-done-container",
+            classes: ["box-column"],
+            styles: {
+                width: "100%",        
+            }
+        });
+
+        //build all the tasks
         for (const key in tasks) {
-            this.buildTask(tasks[key], timer, container).appendTo(container);
 
-            timer += difference;
-            difference -= 20 * Math.random();
+            const task = tasks[key];
+            const taskbox = this.buildTask(tasks[key],container);
 
-            if (difference < 0) {
-                difference = 0;
+            if(task.done == "1") {
+                taskbox.appendTo(notDoneContainer);
+            } else {
+                taskbox.appendTo(container);
             }
         }
+        container.appendChild(notDoneContainer);
+
+        setTimeout(() => {
+            notDoneContainer.element.style.opacity = "1";
+            notDoneContainer.element.style.transition = "opacity var(--medium)";
+        },100);
 
     }
 
     /**
      * Build a task component
      * @param currentTask The current task info
-     * @param timer The timer to show it
      * @param container The container of the tasks
      * @returns The task component
      */
-    private buildTask( currentTask : any , timer : number, container : UIComponent): UIComponent {
+    private buildTask( currentTask : any , container : UIComponent): UIComponent {
         const taskBox = new UIComponent({
             type: "div",
             classes: ["box-row", "task-box"],
@@ -135,11 +153,21 @@ export default class TasksView extends UIComponent {
             classes: ["box-row", "box-y-center", "box-x-between", "task"],
         });
 
+        if(currentTask.done == "1") {
+            task.element.classList.add("done");
+        }
+
         const taskTitle = new UIComponent({
             type: "div",
             text: currentTask.name,
             classes: ["title"],
         });
+
+        if(currentTask.done == "1") {
+            taskTitle.element.style.textDecoration = "line-through";
+            taskTitle.element.style.opacity = ".6";
+            taskBox.element.style.opacity = ".4";
+        }
 
         //if time is today set "today" text
         let text = "";
@@ -155,7 +183,6 @@ export default class TasksView extends UIComponent {
         task.appendChild(taskTitle);
         task.appendChild(taskTime);
         taskBox.appendChild(task);
-        setTimeout(() => task.element.style.opacity = "1", timer);
 
         const toolbar = new UIComponent({
             type: "div",
@@ -168,8 +195,6 @@ export default class TasksView extends UIComponent {
         const deleteTask = getMaterialIcon("delete", { size: "1.2em", fill: "white" }); 
 
         edit.element.addEventListener("click", () => App.redirect(Configurations.VIEWS.NEW_TASK, ["edit",currentTask.id]));
-
-
         deleteTask.element.onclick = async () => {
             await this.core.deleteUserTask(currentTask.id);
             container.removeChild(taskBox);
@@ -183,6 +208,10 @@ export default class TasksView extends UIComponent {
         toolbar.appendChild(deleteTask);
         toolbar.appendTo(taskBox);
         
+        setTimeout(() => {
+            task.element.style.opacity = "1";
+        }, 100);
+
         return taskBox;
     } 
 

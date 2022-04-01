@@ -184,6 +184,15 @@ export class Tasks implements HTTPResponse {
     public static async insertUserTask(db: Database, req: Request, res: Response): Promise<any> {
         try {
             const task: ITask = req?.body?.task;
+
+            if(!task.done) {
+                task.done = 0;
+            }
+
+            if(!task.allDay) {
+                task.allDay = 0;
+            }
+
             if (await TaskModel.insertUserTask(db, task)) {
                 return new Promise((resolve) =>
                     resolve({
