@@ -1,16 +1,19 @@
-import { threadId } from "worker_threads";
+
 import { App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { taskService } from "../../services/tasks.js";
 import CategoryBar from "./components/categoryBar.js";
-import NewTaskView from "./new/newTaskView.ui.js";
 import TaskCore from "./tasksView.core.js";
 
 export default class TasksView extends UIComponent {
 
     private core: TaskCore;
-    private container: UIComponent;
+
+    private wrapper : UIComponent;
+    private toolbar : UIComponent;
+    private doneContainer: UIComponent;
     private taskContainer: UIComponent;
 
     public constructor() {
@@ -23,11 +26,21 @@ export default class TasksView extends UIComponent {
                 height: "100%",
                 backdropFilter: "blur(1rem)",
             },
+            data: {
+                selected : ""
+            }
+        });
+
+        this.wrapper = new UIComponent({
+            classes: ["box-column"],
+            id: "wrapper",
+            styles: {
+                width: "100%",        
+            }
         });
 
         this.core = new TaskCore(this);
     }
-
     /**
      * Show the current view on display
      * @param params The parameters of the view
@@ -36,11 +49,21 @@ export default class TasksView extends UIComponent {
      */
     public show(params: string[], container: UIComponent): void {
 
-        this.container = container;
+        this.wrapper.clean();
+
         this.taskContainer = new UIComponent({
             type: "div",
             id: "task-container",
             classes: ["box-column", "box-y-center", "backdrop"],
+        });
+
+        this.doneContainer = new UIComponent({
+            type: "div",
+            id: "done-container",
+            classes: ["box-column"],
+            styles: {
+                width: "100%",        
+            }
         });
 
         const categoryBar = new CategoryBar(
@@ -49,8 +72,11 @@ export default class TasksView extends UIComponent {
             () => this.core.newTask()
         );
 
+        this.wrapper.appendChild(this.taskContainer);
+        this.wrapper.appendChild(this.doneContainer);
+
         this.appendChild(categoryBar);
-        this.appendChild(this.taskContainer);
+        this.appendChild(this.wrapper);
         this.appendTo(container);
 
         setTimeout(() => categoryBar.show(), 100);
@@ -61,12 +87,31 @@ export default class TasksView extends UIComponent {
      * @param configurations The configurations of the application
      * @param selected The selected category
      */
-    async showTasks(selected: string) {
+    private async showTasks(selected: string) {
 
-        const container = this.taskContainer;
-        container.clean();
+       this.core.setSelectedCategory(selected);
 
-        const titleBar = new UIComponent({
+        this.taskContainer.clean();
+        this.doneContainer.clean();
+        
+        const titleBar = this.buildTitleBar(selected);
+        this.taskContainer.appendChild(titleBar);
+
+        const notDone = await this.showNotDoneTasks(selected);
+        const done = await this.showDoneTasks(selected);
+
+        if (notDone == 0 && done == 0) {
+            this.taskContainer.appendChild(this.buildNotTaskFoundErrorMessage());
+        }
+    }
+
+    /**
+     * Build the title bar
+     * @param selected The selected category
+     * @returns The title bar
+     */
+    private buildTitleBar (selected : string) : UIComponent {
+        const bar = new UIComponent({
             type: "div",
             id: "title-bar",
             classes: ["box-row", "box-x-between", "box-y-center"],
@@ -78,7 +123,26 @@ export default class TasksView extends UIComponent {
             id: "category-title",
             classes: ["title"],
         });
-        titleBar.appendChild(title);
+        bar.appendChild(title);
+
+        this.createToolbar();
+        this.toolbar.appendTo(bar);
+
+
+        return bar;
+    }
+
+
+    /**
+     * Create the view toolbar
+     */
+    private createToolbar() {
+
+
+        this.toolbar = new UIComponent({
+            type: "div",
+            classes: ["box-row","box-y-center", "box-x-end"]
+        });
 
         const reload = new UIComponent({
             type: "button",
@@ -87,53 +151,107 @@ export default class TasksView extends UIComponent {
             text: getMaterialIcon("sync", { fill: "#fff", size: "1.5em" }).toHTML(),
         });
 
-        reload.element.addEventListener("click", () => {
+        const check = new UIComponent({
+            type: "button",
+            id: "check",
+            classes: ["button"],
+            text: getMaterialIcon("checklist", { fill: "#fff", size: "1.5em" }).toHTML(),
+        });
+         
+        const done = new UIComponent({
+            type: "button",
+            id: "done",
+            classes: ["button","multi-select"],
+            text: getMaterialIcon( "task_alt", { size: "1.2em", fill: "white" }).toHTML(),
+        });
+         
+        const deleteTask = new UIComponent({
+            type: "button",
+            id: "delete",
+            classes: ["button", "multi-select"],
+            text:  getMaterialIcon("delete", { size: "1.2em", fill: "white" }).toHTML(),
+        });      
 
+
+        reload.element.addEventListener("click", () => {
             reload.element.querySelector("svg").style.transition = "transform var(--medium)";
             reload.element.querySelector("svg").style.transform = "rotate(-180deg)";
-            setTimeout(() => this.core.goToCategory(selected), 350);
-            
+            setTimeout(() => this.core.goToCategory(this.core.getSelectedCategory()), 350);
         });
 
-        titleBar.appendChild(reload);
-        container.appendChild(titleBar);
-
-        const tasks = await this.core.getTasks(Configurations.getUserName(), selected);
-        let timer = 300;
-        let difference = 200;
-
-        if (tasks.length == 0) {
-            container.appendChild(this.buildNotTaskFoundErrorMessage());
-        }
-
-        const notDoneContainer = new UIComponent({
-            type: "div",
-            id: "not-done-container",
-            classes: ["box-column"],
-            styles: {
-                width: "100%",        
-            }
-        });
-
-        //build all the tasks
-        for (const key in tasks) {
-
-            const task = tasks[key];
-            const taskbox = this.buildTask(tasks[key],container);
-
-            if(task.done == "1") {
-                taskbox.appendTo(notDoneContainer);
+        check.element.addEventListener("click", () => {
+           
+            if(this.element.classList.contains("select")) {
+                this.element.classList.remove("select");
             } else {
-                taskbox.appendTo(container);
+                this.element.classList.add("select");
             }
+        });
+
+
+        this.toolbar.appendChild(done);
+        this.toolbar.appendChild(deleteTask);
+
+        this.toolbar.appendChild(check);
+        this.toolbar.appendChild(reload);
+
+    }
+
+
+    /**
+     * Show the not done tasks
+     * @param selected The selected category 
+     * @param container The container to append the tasks to 
+     * @returns the promise containing the number of tasks
+     */
+    private async showNotDoneTasks(selected : string) : Promise<number>  {
+        const notDoneTasks = await this.core.getNotDoneTasks(Configurations.getUserName(), selected);
+
+        if (notDoneTasks.length == 0) {
+            this.taskContainer.appendChild(this.buildAllTaskCompletedMessage());
         }
-        container.appendChild(notDoneContainer);
 
-        setTimeout(() => {
-            notDoneContainer.element.style.opacity = "1";
-            notDoneContainer.element.style.transition = "opacity var(--medium)";
-        },100);
+        //build the not done tasks
+        for (const key in notDoneTasks) {
+            const taskbox = this.buildTask(notDoneTasks[key],this.taskContainer);
+            taskbox.appendTo(this.taskContainer);
+        }
 
+        return new Promise((res) => res (notDoneTasks.length)); 
+    }
+
+    /**
+     * Show the done tasks
+     * @param selected The selected category 
+     * @param container The container to append the tasks to
+     * @returns the promise containing the number of tasks
+     */
+    private async showDoneTasks(selected : string) : Promise<number> {
+        const doneTasks = await this.core.getDoneTasks(Configurations.getUserName(), selected);
+        const doneTitle = new UIComponent({
+            type: "h1",
+            text: "Completed &nbsp;" + getMaterialIcon("check_all", { fill: "#fff", size: "1.15em" }).toHTML(),
+            classes: ["box-row", "box-y-center", "box-x-start"],
+            styles: {
+                opacity: "0.8",
+                marginBottom: "1rem",
+                width: "100%",
+                textAlign: "left",
+                padding: "1rem 0",
+            }
+        });
+
+        if (doneTasks.length > 0) {
+            this.doneContainer.appendChild(doneTitle);
+        }
+
+        //build the done tasks
+        for (const key in doneTasks) {
+            const taskbox = this.buildTask(doneTasks[key],this.doneContainer);
+            taskbox.appendTo(this.doneContainer);
+        }
+
+        return new Promise((res) => res (doneTasks.length));
     }
 
     /**
@@ -148,13 +266,39 @@ export default class TasksView extends UIComponent {
             classes: ["box-row", "task-box"],
         });
 
+        //switch control
+        const switchControl = new UIComponent({
+            type: "label",
+            classes : ["switch", "box-center"], 
+            styles :  {
+                height: "100%"
+            }
+        });
+
+        const toggle = new  UIComponent({
+            classes : ["switch-toggle", "box-center"]
+        });
+
+        toggle.appendChild(getMaterialIcon("check", { size: "1rem", fill: "white" }));
+
+        const checkbox = new UIComponent({
+            type : "input", 
+            attributes :{ type : "checkbox"}
+        });
+
+        switchControl.appendChild(checkbox);
+        switchControl.appendChild(toggle);
+
+
+        //Task
+
         const task = new UIComponent({
             type: "div",
             classes: ["box-row", "box-y-center", "box-x-between", "task"],
         });
 
         if(currentTask.done == "1") {
-            task.element.classList.add("done");
+            taskBox.element.classList.add("done");
         }
 
         const taskTitle = new UIComponent({
@@ -162,12 +306,6 @@ export default class TasksView extends UIComponent {
             text: currentTask.name,
             classes: ["title"],
         });
-
-        if(currentTask.done == "1") {
-            taskTitle.element.style.textDecoration = "line-through";
-            taskTitle.element.style.opacity = ".6";
-            taskBox.element.style.opacity = ".4";
-        }
 
         //if time is today set "today" text
         let text = "";
@@ -182,6 +320,7 @@ export default class TasksView extends UIComponent {
 
         task.appendChild(taskTitle);
         task.appendChild(taskTime);
+        taskBox.appendChild(switchControl);
         taskBox.appendChild(task);
 
         const toolbar = new UIComponent({
@@ -191,10 +330,29 @@ export default class TasksView extends UIComponent {
         });
 
         const edit = getMaterialIcon("edit",{ size: "1.2em", fill: "white" });
-        const done = getMaterialIcon("task_alt", { size: "1.2em", fill: "white" }); 
+        const done = getMaterialIcon( currentTask.done? "task_alt" : "radio_button_unchecked", { size: "1.2em", fill: "white" }); 
         const deleteTask = getMaterialIcon("delete", { size: "1.2em", fill: "white" }); 
 
-        edit.element.addEventListener("click", () => App.redirect(Configurations.VIEWS.NEW_TASK, ["edit",currentTask.id]));
+        edit.element.onclick = () => App.redirect(Configurations.VIEWS.NEW_TASK, ["edit",currentTask.id]);
+        done.element.onclick = () => {
+            currentTask.done = currentTask.done == 1 ? 0 : 1;
+            taskService.updateUserTask(currentTask);
+
+            if(currentTask.done == 1) {
+                this.taskContainer.removeChild(taskBox);
+                this.doneContainer.appendChild(taskBox);
+                taskBox.element.classList.add("done");
+            } else {
+                this.doneContainer.removeChild(taskBox);
+                this.taskContainer.appendChild(taskBox);
+                taskBox.element.classList.remove("done");
+            }
+           
+
+            //App.redirect(Configurations.VIEWS.TASKS,["noparams"]);
+            //App.redirect(Configurations.VIEWS.TASKS,[]);
+        }
+
         deleteTask.element.onclick = async () => {
             await this.core.deleteUserTask(currentTask.id);
             container.removeChild(taskBox);
@@ -202,6 +360,7 @@ export default class TasksView extends UIComponent {
                 container.appendChild(this.buildNotTaskFoundErrorMessage());
             }
         };
+
 
         toolbar.appendChild(edit);
         toolbar.appendChild(done);
@@ -214,7 +373,6 @@ export default class TasksView extends UIComponent {
 
         return taskBox;
     } 
-
 
     /**
      * Create a message to show when there are no tasks
@@ -230,6 +388,28 @@ export default class TasksView extends UIComponent {
             }
         });
     }
+
+
+     /**
+     * Create a message to show when all the task are completed
+     * @returns The message as a UIComponent
+     */
+         private buildAllTaskCompletedMessage(): UIComponent {
+            return new UIComponent({
+                type: "h2",
+                classes: ["box-row", "box-center"],
+                text: App.getBundle().tasks.ALL_TASKS_COMPLETED + " &nbsp;<span>😌</span>",
+                styles: {
+                    opacity: "0.8",
+                    width: "calc(100% - 10rem)",
+                    height: "5rem",
+                    padding : "1rem",
+                    marginBottom : "1rem",
+                    borderRadius : ".55rem",
+                    //background: "rgba(255,255,255,.065)",
+                }
+            });
+        }
 
 
 }

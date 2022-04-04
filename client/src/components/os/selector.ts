@@ -1,3 +1,4 @@
+import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent , setEvents } from "../../lib/gtd-ts/web/uicomponent.js";
 
 export class Selector extends UIComponent {
@@ -44,6 +45,20 @@ export class Selector extends UIComponent {
         this.addOptionFull(option, option, callback);
     }
 
+    public addCloseOption() {
+        const optionComponent = new UIComponent({
+            type: "button",
+            classes: ["option", "delete"],
+            text: getMaterialIcon("expand",{size: "1.25rem", fill: "#fff"}).toHTML(),
+        });
+       
+        this.menu.appendChild(optionComponent);
+        setEvents(optionComponent.element, {
+            click : () => this.hide()
+        });
+
+    }
+
     public addOptionFull(option: string, value: string , callback : Function){
     
         const optionComponent = new UIComponent({
@@ -81,4 +96,9 @@ export class Selector extends UIComponent {
         })
     }
 
+
+    public hide(){
+        this.menu.element.classList.remove("show");
+        setTimeout(() => this.menu.element.classList.remove("open"), 250);
+    }
 }

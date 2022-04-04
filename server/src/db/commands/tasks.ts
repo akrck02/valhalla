@@ -56,6 +56,53 @@ export class Tasks implements HTTPResponse {
     }
 
     /**
+     * Get the user done tasks from database
+     * @param db the database connection
+     * @param req The HTTP request
+     * @param res The HTTP response
+     * @return a promise
+     */
+    public static getUserDoneTasks(db: Database, req: Request, res: Response): Promise<any> {
+
+        const username = req?.body?.user;
+
+        if (username == undefined) {
+            return new Promise((resolve) => {
+                resolve({
+                    "status": "failed",
+                    "reason": "No username provided"
+                });
+            });
+        }
+
+        return TaskModel.getUserDoneTasks(db, username);
+    }
+
+    /**
+     * Get the user done tasks from database
+     * @param db the database connection
+     * @param req The HTTP request
+     * @param res The HTTP response
+     * @return a promise
+     */
+     public static getUserNotDoneTasks(db: Database, req: Request, res: Response): Promise<any> {
+
+        const username = req?.body?.user;
+
+        if (username == undefined) {
+            return new Promise((resolve) => {
+                resolve({
+                    "status": "failed",
+                    "reason": "No username provided"
+                });
+            });
+        }
+
+        return TaskModel.getUserNotDoneTasks(db, username);
+    }
+
+
+    /**
     * Get the user task from database
     * @param db the database connection
     * @param req The HTTP request
@@ -109,6 +156,54 @@ export class Tasks implements HTTPResponse {
         }
 
         return TaskModel.getUserTasksFromCategory(db, username, category);
+    }
+
+    /**
+     * Get the user done tasks from category from the database
+     * @param db The database connection
+     * @param req The HTTP request 
+     * @param res The HTTP response
+     * @returns a promise
+     */
+    public static getUserDoneTasksFromCategory(db: Database, req: Request, res: Response): Promise<any> {
+
+        const username = req?.body?.user;
+        const category = req?.body?.category;
+
+        if (username == undefined || category == undefined) {
+            return new Promise((resolve) =>
+                resolve({
+                    status: "failed",
+                    reason: "Missing parameters"
+                })
+            );
+        }
+
+        return TaskModel.getUserDoneTasksFromCategory(db, username, category);
+    }
+
+    /**
+     * Get the user done tasks from category from the database
+     * @param db The database connection
+     * @param req The HTTP request 
+     * @param res The HTTP response
+     * @returns a promise
+     */
+     public static getUserNotDoneTasksFromCategory(db: Database, req: Request, res: Response): Promise<any> {
+
+        const username = req?.body?.user;
+        const category = req?.body?.category;
+
+        if (username == undefined || category == undefined) {
+            return new Promise((resolve) =>
+                resolve({
+                    status: "failed",
+                    reason: "Missing parameters"
+                })
+            );
+        }
+
+        return TaskModel.getUserNotDoneTasksFromCategory(db, username, category);
     }
 
 

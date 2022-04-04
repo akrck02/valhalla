@@ -37,20 +37,24 @@ div#selector-menu.open{
 
 div#selector-menu.show{
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+
     opacity: 1;
 }
 
 
 div#selector-menu{
+    position: absolute;
+    bottom: 0;
     display: none;
+    flex-direction: row;
+    justify-content: center;
     padding: .5rem;
     backdrop-filter: blur(.25rem);
-    width: calc(100% - 6rem);
+    width: calc(100%);
     opacity: 0;
     transition: opacity var(--slow);
-    margin-right: 3rem;
+    background: rgba(0,0,0,.15);
+    z-index: 2;
 }
 
 div#selector-menu button.option {

@@ -411,59 +411,6 @@ input.error,
 textarea.error {
 border: 2px solid var(--error-color);
 }
-.switch {
-position: relative;
-display: inline-flex;
-align-items: center;
-margin: 0;
-}
-.switch .switch-toggle{
-position: relative;
-cursor: pointer;
-transform: translateY(50%);
-}
-.switch .switch-toggle::before,
-.switch .switch-toggle::after {
-position: relative;
-content: '';
-background: var(--contrast);
-margin: 0 3px;
-transition: all .25s;
-display: block;
-}
-.switch .switch-toggle::before {
-position: relative;
-height: 1.4em;
-width: 1.4em;
-border-radius: 100%;
-opacity: 0.6;
-transform: translateY(-50%);
-box-sizing: border-box;
-border: 2px solid rgba(0,0,0,.25);
-z-index: 0;
-top: 0%;
-}
-.switch .switch-toggle::after {
-position: relative;
-height: .8em;
-width: .8em;
-background: transparent;
-transform: translateY(-1.8em) translateX(.3em);
-box-sizing: border-box;
-border: 2px solid transparent;
-border-radius: 100%;
-z-index: 1;
-}
-.switch [type=checkbox]:checked+.switch .switch-toggle::before,
-.switch [type=checkbox]:checked+.switch-toggle::after{
-background:  var(--accent-color);
-}
-.switch input[type=checkbox] {
-display: none;
-}
-.switch .title {
-margin-left: 0.5em;
-}
 div.context {
 display: block;
 margin: 0;

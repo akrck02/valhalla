@@ -2,6 +2,7 @@ import { App, APP } from "../../app.js";
 import { Selector } from "../../components/os/selector.js";
 import { Configurations } from "../../config/config.js";
 import { DateText } from "../../core/data/integrity/dateText.js";
+import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import CalendarCore from "./calendarView.core.js";
 import { Calendar } from "./components/calendar.js";
@@ -106,7 +107,8 @@ export default class CalendarView extends UIComponent {
                 }
             );
         }
-        monthSelector.setSelected(0 + "");
+        monthSelector.setSelected(new Date().getMonth() + "");
+        monthSelector.addCloseOption();
 
         const yearSelector = new Selector(App.getBundle().calendar.YEAR, this);
         for (let i = new Date().getFullYear() + 1; i >= new Date().getFullYear() - 10; i--) {
@@ -117,6 +119,7 @@ export default class CalendarView extends UIComponent {
                 }
             );
         }
+        yearSelector.addCloseOption();
         yearSelector.setSelected(new Date().getFullYear() + "");
 
         const modeSelector = new Selector(App.getBundle().calendar.MODE, this);

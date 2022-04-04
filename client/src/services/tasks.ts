@@ -83,6 +83,45 @@ export class taskService {
         return response;
     }
 
+
+    /**
+     * Get the user tasks for a given category
+     * @param username The username of the user
+     * @param category The category to get the tasks for
+     * @returns The tasks of the user
+     */
+     static getUserDoneTasksFromCategory(username : string, category : string) : Response {
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: Configurations.API.GET_USER_DONE_TASKS_FROM_CATEGORY,
+            parameters: {
+                user: username,
+                category: category,
+            },
+        });
+        
+        return response;
+    }
+
+    /**
+     * Get the user tasks for a given category
+     * @param username The username of the user
+     * @param category The category to get the tasks for
+     * @returns The tasks of the user
+     */
+     static getUserNotdoneTasksFromCategory(username : string, category : string) : Response {
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: Configurations.API.GET_USER_NOT_DONE_TASKS_FROM_CATEGORY,
+            parameters: {
+                user: username,
+                category: category,
+            },
+        });
+        
+        return response;
+    }
+
     /**
      * Get the categories of the user tasks
      * @param username The username of the user

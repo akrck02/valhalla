@@ -38,6 +38,31 @@ export default class Tasks implements Model {
      * @param username The user who owns the tasks
      * @returns The query result
      */
+     public static getUserDoneTasks(db: Database, username: string): Promise<any> {
+        const SQL = "SELECT * FROM task WHERE author = ? AND done=1 ORDER BY end DESC";
+        const response = db.db.all(SQL,username);
+        return response;
+    }
+
+    /**
+     * 
+     * @param db The databas3e connection
+     * @param username The user who owns the tasks
+     * @returns The query result
+     */
+     public static getUserNotDoneTasks(db: Database, username: string): Promise<any> {
+        const SQL = "SELECT * FROM task WHERE author = ? AND done=0 ORDER BY end DESC";
+        const response = db.db.all(SQL,username);
+        return response;
+    }
+
+
+    /**
+     * 
+     * @param db The databas3e connection
+     * @param username The user who owns the tasks
+     * @returns The query result
+     */
      public static getUserTask(db: Database, id: string): Promise<any> {
         const SQL = "SELECT * FROM task WHERE id = ?";
         const response = db.db.all(SQL,id);
@@ -69,7 +94,7 @@ export default class Tasks implements Model {
     }
 
     /**
-     * Gegt the user tasks from a given category
+     * Get the user tasks from a given category
      * @param db The database connection
      * @param username The user to search for
      * @param category The category to search for
@@ -77,6 +102,32 @@ export default class Tasks implements Model {
      */
     public static getUserTasksFromCategory(db: Database, username : string, category : string): Promise<any> {
         const SQL = "SELECT * FROM task WHERE author = ? AND id IN (SELECT taskId FROM task_label WHERE label = ?) ORDER BY end DESC";
+        const response = db.db.all(SQL, username, category);
+        return response;
+    }
+
+    /**
+     * Get the user done tasks from a given category
+     * @param db The database connection
+     * @param username The user to search for
+     * @param category The category to search for
+     * @returns The query result
+     */
+    public static getUserDoneTasksFromCategory(db: Database, username : string, category : string): Promise<any> {
+        const SQL = "SELECT * FROM task WHERE author = ? AND done=1 AND id IN (SELECT taskId FROM task_label WHERE label = ?) ORDER BY end DESC";
+        const response = db.db.all(SQL, username, category);
+        return response;
+    }
+
+    /**
+     * Get the user not done tasks from a given category
+     * @param db The database connection
+     * @param username The user to search for
+     * @param category The category to search for
+     * @returns The query result
+     */
+    public static getUserNotDoneTasksFromCategory(db: Database, username : string, category : string): Promise<any> {
+        const SQL = "SELECT * FROM task WHERE author = ? AND done=0 AND id IN (SELECT taskId FROM task_label WHERE label = ?) ORDER BY end DESC";
         const response = db.db.all(SQL, username, category);
         return response;
     }
@@ -222,6 +273,9 @@ export default class Tasks implements Model {
 
         return true;
     }
+
+
+    
 
 
 
