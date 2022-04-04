@@ -168,7 +168,3 @@ view#tasks .switch input[type=checkbox] + .switch-toggle {
     border-radius: .35rem;
     margin-left : -1rem;
 }
-
-view#tasks .switch input[type=checkbox]:checked + .switch-toggle {
-    background: rgba(17, 255, 1, 0.15);
-}

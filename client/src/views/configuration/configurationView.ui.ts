@@ -116,6 +116,7 @@ export default class ConfigurationView extends UIComponent {
 
         const themeChooser = new ThemeChooser();       
         
+
         parent.appendChild(wallPaperTitle);
         parent.appendChild(wallpaperGallery);
         parent.appendChild(themeTitle);
