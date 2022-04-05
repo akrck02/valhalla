@@ -15,7 +15,7 @@ div#calendar-more .day {
     width: 100%;
     font-size : 1.25rem;
     margin-top: 2rem;
-    padding: .5rem 1.5rem;
+    padding: .5rem 2.2rem .5rem 1.5rem;
     color: rgba(255,255,255, .75);
     /*background: rgba(255,255,255, .05);*/
     border-radius: .5rem;

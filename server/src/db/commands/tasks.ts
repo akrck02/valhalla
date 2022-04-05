@@ -383,11 +383,15 @@ export class Tasks implements HTTPResponse {
             }
 
 
-            if (await TaskModel.updateUserTask(db, task)) {
+            await TaskModel.deleteUserTaskLabels(db,task);
 
-                task.labels?.forEach(async (key: string) => {
-                    await TaskModel.setLabelToTask(db, task.id + "" || "", key);
-                });
+            task.labels?.forEach(async (key: string) => {
+                await TaskModel.setLabelToTask(db, task.id + "" || "", key);
+            });
+
+            if (await TaskModel.updateUserTask(db, task)) {
+                
+
                 
                 return new Promise((resolve) =>
                     resolve({

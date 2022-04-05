@@ -1,6 +1,7 @@
 import { APP, App } from "../../../app.js";
 import { Configurations } from "../../../config/config.js";
 import { DateText } from "../../../core/data/integrity/dateText.js";
+import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 
 export class Timeline extends UIComponent {
@@ -58,10 +59,20 @@ export class Timeline extends UIComponent {
 
  
             element.forEach(e => {
+ 
+                let text = e.name; 
+                
+                if(e.done == "1") {
+                    text += getMaterialIcon("check" , {
+                        size: "1rem",
+                        fill: "#fff"
+                    }).toHTML(); 
+                }
+
                 const event = new UIComponent({
                     type: "p",
-                    text: e.name,
-                    classes: ["event"],
+                    text: text,
+                    classes: ["event", "box-row", "box-x-between"],
                     events: {
                         click : () =>{
                             location.href = Configurations.VIEWS.TASKS + "" + e.id;
