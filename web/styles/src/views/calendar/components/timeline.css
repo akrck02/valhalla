@@ -1,0 +1,79 @@
+:root[data-variables-visible=true] div#calendar-more {
+    opacity: 0;
+    display: none;
+}
+
+div#calendar-more h1#calendar-more-title {
+    border-bottom: .1rem solid rgba(255,255,255,0.06);
+    padding: 0rem 1.5rem 1rem 1.5rem ;
+    width: 100%;
+    min-height: 4rem;
+}
+
+div#calendar-more .day {
+    text-align: left;
+    width: 100%;
+    font-size : 1.25rem;
+    margin-top: 2rem;
+    padding: .5rem 2.2rem .5rem 1.5rem;
+    color: rgba(255,255,255, .75);
+    /*background: rgba(255,255,255, .05);*/
+    border-radius: .5rem;
+}
+
+div#calendar-more .day span {
+    font-size: 1rem;
+    width: 2rem;
+    height: 2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255,255,255, .15);
+    padding: .5rem;
+    border-radius: 5rem;
+
+}
+
+
+div#calendar-more p#no-events {
+
+    padding: 2rem;
+
+}
+
+div#calendar-more .event {
+    text-align: left;
+    width: 90%; 
+    font-size : 1rem;  
+    margin-top: .5rem;
+    padding: .75rem 1.25rem;
+    color: rgba(255,255,255, .75);
+    border-left: .33rem solid rgba(255,255,255, .05);
+    transition: border-color var(--fast);
+    cursor: pointer;
+}
+
+div#calendar-more .event:hover {
+    border-color: rgba(255,255,255, .15);
+}
+
+div#calendar-more {
+    display: none;
+    opacity: 0;
+}
+
+
+@media (min-width: 1450px) {
+    div#calendar-more {
+        display: flex;
+        height: calc(100% + 2rem);
+        min-width: 27rem;
+        width: calc(100% - 57rem);
+        margin-top: -2rem;
+        border-bottom: .1rem solid rgba(255,255,255,0.06);
+        opacity: 1;
+        padding: 2rem 0 0 0
+    }
+
+}

@@ -36,7 +36,8 @@ export class API {
 
         // Get method is not allowed 
         this.app.get('/api/*', function (req: Request, res: Response) {
-            res.send({ "status": "failed", "reason": "Method not allowed" });
+            res.statusCode = 405;
+            res.send({ "status": "failed", "reason": "Method not allowed" }); 
         });
 
 
@@ -49,8 +50,14 @@ export class API {
                 console.log("DB-API","Request: " + this.router.API + key + "/");
                 const promise = callback(this.db,req,res);
 
-                promise.then((data)  => res.send(data))
+                promise.then((data)  => {
+                    if(data.status == "failed"){
+                        res.statusCode = 400;
+                    }
+                    res.send(data)
+                })
                 .catch((err: any) => {
+                    res.statusCode = 500;
                     res.send({
                     "status": "failed",
                     "reason": err.message

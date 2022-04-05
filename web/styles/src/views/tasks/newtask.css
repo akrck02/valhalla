@@ -1,12 +1,12 @@
 view#new-task {
     width: 100%;
     height: 100%;
-    padding: 1.5rem 5rem;
+    padding: 1.5rem 0rem 1.5rem 5rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     opacity: 0;
     transition: opacity var(--medium);
-    
+    justify-content: start;    
     backdrop-filter: blur(.3rem);
 }
 
@@ -163,4 +163,34 @@ view#new-task.loading svg {
     100% {
         transform: rotate(360deg);
     }
+}
+
+view#new-task #recent-label-container {
+    height: fit-content;
+    width:  max(10rem, 30%);
+    padding: 1rem;
+}
+
+view#new-task #recent-label-container h1#title {
+    width : 100%;
+    padding: 7.8rem 0rem 2rem 0;
+    height : fit-content;
+}
+
+view#new-task #recent-label-container .label {
+    padding: .75rem;
+    font-size: 1rem;
+    border-left: .33rem solid rgba(255,255,255, .05); 
+    width: 100%;
+    height: fit-content;
+    border-radius: 0 .35rem .35rem  0;
+    cursor: pointer;
+    margin: .1rem;
+    margin-top: .5rem;
+    cursor: pointer;
+}
+
+view#new-task #recent-label-container .label:hover {
+    border-color: rgba(255,255,255, .15);
+
 }

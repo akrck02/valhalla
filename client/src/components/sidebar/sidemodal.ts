@@ -2,7 +2,7 @@ import { config } from "process";
 import { APP, App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
-import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { setEvents, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 
 export class SideModal extends UIComponent {
 
@@ -96,7 +96,6 @@ export class SideModal extends UIComponent {
     public open() : void {
         this.element.classList.add("visible");
         setTimeout(() =>  this.element.classList.add("show"), 100);
-       
         this.opened = true;
     }
 

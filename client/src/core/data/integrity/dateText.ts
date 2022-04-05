@@ -43,13 +43,13 @@ export class DateText {
 
             const bundle = App.getBundle().date;
             const array = [
+                bundle.SUNDAY,
                 bundle.MONDAY,
                 bundle.TUESDAY,
                 bundle.WEDNESDAY,
                 bundle.THURSDAY,
                 bundle.FRIDAY,
                 bundle.SATURDAY,
-                bundle.SUNDAY
             ];
     
             return array[day];

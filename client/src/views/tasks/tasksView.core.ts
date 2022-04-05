@@ -8,24 +8,42 @@ import TasksView from "./tasksView.ui.js";
 
 export default class TaskCore {
 
-    private parent : TasksView;
-    constructor( parent : TasksView) {
-        this.parent = parent;
+    private view : TasksView;
+    private tasks : ITask[];
+    private doneTasks : ITask[];
+
+    constructor( view : TasksView) {
+        this.view = view;
+        this.tasks = [];
+        this.doneTasks = [];
     }
 
     /**
-     * Get all tasks for a user given a category
+     * Get done tasks for a user given a category
      * @param user User to get tasks for
      * @param category Category to get tasks for
      * @returns a promise that resolves to an array of tasks
      */
-    async getTasks(user: string, category : string) : Promise<any> {
-        let tasks = {};
-        const response = taskService.getUserTasksFromCategory(user,category);
-        response.success(((res) => tasks = res));
+    async getDoneTasks(user: string, category : string) : Promise<any> {
+        const response = taskService.getUserDoneTasksFromCategory(user,category);
+        response.success(((res) => this.doneTasks = res));
 
         await response.jsonPromise();
-        return new Promise((resolve) => {resolve(tasks)});
+        return new Promise((resolve) => resolve(this.doneTasks));
+    }
+
+    /**
+     * Get not done tasks for a user given a category
+     * @param user User to get tasks for
+     * @param category Category to get tasks for
+     * @returns a promise that resolves to an array of tasks
+     */
+    async getNotDoneTasks(user: string, category : string) : Promise<any> {
+        const response = taskService.getUserNotdoneTasksFromCategory(user,category);
+        response.success(((res) => this.tasks = res));
+
+        await response.jsonPromise();
+        return new Promise((resolve) => resolve(this.tasks));
     }
 
     /**
@@ -94,11 +112,34 @@ export default class TaskCore {
         location.href = Configurations.VIEWS.NEW_TASK;
     }
 
+
+    /**
+     * Go to a given category
+     * @param category The category to navigate to
+     */
     public goToCategory(category: string) {
         
         //Assure that the view is loaded loading a new view and then loading the original view
         location.href = Configurations.VIEWS.NEW_TASK;
         location.href = Configurations.VIEWS.TASKS + category;
     }
+
+
+    /**
+     * Set the selected category of the view
+     * @param selected The selected category
+     */
+    public setSelectedCategory(selected : string) {
+        this.view.element.dataset.selected = selected;
+    }
+
+    /**
+     * Get the selected category of the view
+     * @returns The selected category
+     */
+    public getSelectedCategory() {
+        return this.view.element.dataset?.selected;
+    }
+
 
 }

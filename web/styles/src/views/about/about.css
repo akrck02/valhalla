@@ -8,7 +8,6 @@ view#about #logo svg{
 
 :root[data-theme=dark] view#about #logo svg{
     fill: #fff;
-
 }
 
 view#about .social svg {

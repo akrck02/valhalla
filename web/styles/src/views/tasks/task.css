@@ -1,8 +1,9 @@
-view#tasks div#task-container {
+view#tasks div#wrapper {
     width: calc(100% - 20rem);
     height: 100%;
     max-height: 100%;
     padding: 3rem;
+
     overflow-x: hidden;
     overflow-y: auto;
     transition: opacity var(--slow);
@@ -25,8 +26,26 @@ view#tasks .task-box {
     margin-bottom: .5rem;
 }
 
+view#tasks .task-box label {
+    display: none;
+}
+
+view#tasks.select .task-box label {
+    display: flex;
+}
+
+
+view#tasks .task-box.done tasks {
+    opacity: .4;
+}
+
+view#tasks .task-box.done .title {
+    opacity: .6;
+}
+
+
 view#tasks .task-box .task {
-    width: 100%;
+    width: calc(100% );
     padding: 1rem;
     border-radius: 0.55rem;
     height: 3rem;
@@ -50,23 +69,23 @@ view#tasks .task-box .task .time {
 }
 
 view#tasks .task-toolbar {
-    width: 6%;
+    width: 0px;
     visibility: hidden;
     height: 100%;
     padding: 0rem 1rem;
     opacity: 0;
 }   
 
-view#tasks .task-box:hover .task-toolbar {
-    width: 6rem;
+view#tasks:not(.select) .task-box:hover .task-toolbar {
+    width: 4rem;
     visibility: visible;
     transition: visibility var(--fast), width var(--medium), opacity var(--slow);
     opacity: 1;
 }
 
-
-view#tasks .task-box:hover .task {
-    width: calc( 90% - 5rem);
+view#tasks:not(.select) .task-box:hover .task {
+    position: relative;
+    width: calc(100% - 10rem);
 }
 
 view#tasks .task-box:hover .task-toolbar div{
@@ -80,6 +99,7 @@ view#tasks .task-box:hover .task-toolbar div svg {
     fill: var(--text-color) !important;
 }
 
+
 view#tasks .task-box:hover .task-toolbar div:hover{
     background: rgba(0,0,0,0.05);
 }
@@ -89,7 +109,15 @@ view#tasks .task-box:hover .task-toolbar div:hover{
 }
 
 
-view#tasks button#reload {
+view#tasks.select button.button.multi-select {
+    display: flex;
+}
+
+view#tasks button.button.multi-select {
+    display: none;
+}
+
+view#tasks button.button {
     padding: .5rem;
     margin: 0;
     background: rgba(255,255,255,.0);
@@ -99,15 +127,44 @@ view#tasks button#reload {
     box-shadow: none;
 }
 
-view#tasks button#reload:hover {
+view#tasks button.button:hover {
     background: rgba(0,0,0,.05);
 }
 
 
-:root[data-theme=dark] view#tasks button#reload:hover {
+:root[data-theme=dark] view#tasks button.button:hover {
     background: rgba(255,255,255,.05);
 }
 
-view#tasks button#reload svg {
+view#tasks button.button svg {
     fill: var(--text-color) !important;
 } 
+
+view#tasks .switch {
+    width: 1.5rem;
+    height: 100%;
+    
+}
+
+view#tasks .switch input {
+    display: none;
+}
+
+view#tasks .switch input[type=checkbox] + .switch-toggle svg {
+    opacity: 0;
+    transition: opacity .05s;
+}
+
+view#tasks .switch input[type=checkbox]:checked + .switch-toggle svg {
+    opacity: 1;
+}
+
+view#tasks .switch input[type=checkbox] + .switch-toggle {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.05);
+    transition: background var(--fast);
+    border-radius: .35rem;
+    margin-left : -1rem;
+}

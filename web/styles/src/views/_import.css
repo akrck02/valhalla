@@ -1,4 +1,5 @@
-@import url("./calendar/_import.css");
-@import url("./configurations/_import.css");
-@import url("./tasks/_import.css");
-@import url("./about/_import.css");
+@import "./calendar/_import.css";
+@import "./configurations/_import.css";
+@import "./tasks/_import.css";
+@import "./about/_import.css";
+@import "./search/_import.css";

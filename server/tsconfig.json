@@ -38,6 +38,8 @@
       "./src/db/classes/task.ts",
 
       "./src/db/model/model.ts",
+      "./src/db/model/tasks.ts",
+      "./src/db/model/labels.ts",
       
       "./src/db/commands/httpResponse.ts",
       "./src/db/commands/tasks.ts",

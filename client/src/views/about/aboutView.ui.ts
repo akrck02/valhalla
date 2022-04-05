@@ -31,6 +31,7 @@ export default class AboutView extends UIComponent {
             classes: ["box-column", "box-center"],
             styles : {
                 opacity: "0",
+                width: "100%",
                 transition: "opacity var(--slow)",
             }
         });

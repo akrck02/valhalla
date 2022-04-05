@@ -1,5 +1,6 @@
 import { ListenerSet } from "../../core/listenerset.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import Clock from "./clock.js";
 import Searchbar from "./searchbar/searchbar.js";
 
 export default class OsNavbar {
@@ -11,6 +12,11 @@ export default class OsNavbar {
 
     public constructor(listeners : ListenerSet) {
         this.element = document.getElementById("os-navbar");
+
+        const clock = new Clock();
+        this.element.querySelector("#status")?.appendChild(clock.element);        
+        clock.start();
+
         this.controlpanel = this.element.querySelector("div#control-panel");
         this.searchbar = new Searchbar(this.element.querySelector("#search"), listeners);
     }
@@ -31,6 +37,15 @@ export default class OsNavbar {
     public clickControl(option : number) {
         this.controls[option]?.element.click();
     }
+
+    public hideSearchBar(){
+        this.searchbar.hide();
+    }
+
+    public showSearchBar(){
+        this.searchbar.show();
+    }
+
 
     public focusSearchbar() {
         this.searchbar.focus();

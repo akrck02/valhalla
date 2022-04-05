@@ -5,7 +5,10 @@ export const NewTaskBundleEs = {
     END_DATE: "Fecha fin",
     ALL_DAY: "Todo el día",
     SAVE: "Guardar",
+    UPDATE: "Actualizar",
     SAVING_TASK: "Guardando tarea...",
+    UPDATING_TASK: "Actualizando tarea...",
     TODAY: "Hoy",
     IMPORTANT: "Importante",
+    ACCEPT: "Aceptar",
 }

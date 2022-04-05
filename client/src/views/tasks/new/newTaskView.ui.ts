@@ -2,6 +2,7 @@ import { App } from "../../../app.js";
 import DateInput from "../../../components/input/date/dateinput.js";
 import { Configurations } from "../../../config/config.js";
 import { DateText } from "../../../core/data/integrity/dateText.js";
+import { ITask } from "../../../core/data/interfaces/task.js";
 import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
 import { setStyles, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../../services/tasks.js";
@@ -26,17 +27,35 @@ export default class NewTaskView extends UIComponent {
      * @param container The container to append the view
      * @param configurations The configurations to use
      */
-    public show(params: string[], container: UIComponent): void {
+    public async show(params: string[], container: UIComponent): Promise<void> {
+
+        if(params[0] === "edit") {
+            this.core.setEditMode(true);
+            const response = taskService.getUserTask(params[1]);
+            response.success(((res) => {
+                this.core.setTask(res)
+                console.log(res);
+                  
+            }));
+            await response.jsonPromise();
+
+        }
+
+        this.core.setTaskAuthor(this.core.getTask().author || Configurations.getUserName());
+       
         this.build();
         this.appendTo(container);
-        this.core.setTaskAuthor(Configurations.getUserName() || "default");
     }
 
     /**
      * Build the view HTML
      */
-    public build() {
+    public async build() {
         this.clean();
+
+        const container = new UIComponent({
+            classes: ["box-column"]
+        })
 
         const nameRow = new UIComponent({
             type: "div",
@@ -74,32 +93,32 @@ export default class NewTaskView extends UIComponent {
         dateRow.appendChild(startDateRow);
         dateRow.appendChild(endDateRow);
 
-
         const saveButton = new UIComponent({
             type: "button",
-            text: getMaterialIcon("check",{size: "1.2rem", fill: "#fff"}).toHTML() + "&nbsp;" +  App.getBundle().newTask.SAVE,
+            text: this.core.isEditMode() ?  
+                getMaterialIcon("sync",{size: "1.2rem", fill: "#fff"}).toHTML() + "&nbsp;" +  App.getBundle().newTask.UPDATE : 
+                getMaterialIcon("check",{size: "1.2rem", fill: "#fff"}).toHTML() + "&nbsp;" +  App.getBundle().newTask.SAVE,
             id: "save-task",
             classes: ["button"],
             events: { click: () => {
 
-
-                // If is insert mode --> insert
-                taskService.insertUserTask(this.core.getTask());
-
-                // If is edit mode --> update task
-                // taskService.updateUserTask(this.core.getTask());
-
+                if(this.core.isEditMode()) {
+                    taskService.updateUserTask(this.core.getTask());
+                } else {
+                    taskService.insertUserTask(this.core.getTask());
+                }
+                
                 this.clean();
-
                 const loadingTitle = new UIComponent({
                     type: "h1",
                     classes: ["box-center"],
-                    text:   App.getBundle().newTask.SAVING_TASK + " &nbsp;" + getMaterialIcon("sync",{size: "1.5rem", fill: "#fff"}).toHTML(),
+                    text:   
+                    (this.core.isEditMode() ? App.getBundle().newTask.UPDATING_TASK : App.getBundle().newTask.SAVING_TASK ) 
+                    + " &nbsp;" + getMaterialIcon("sync",{size: "1.5rem", fill: "#fff"}).toHTML(),
                 });
                 
                 this.element.classList.add("box-center");
                 this.element.classList.add("loading");
-
                 this.appendChild(loadingTitle);
 
                 setTimeout(() => {
@@ -108,11 +127,16 @@ export default class NewTaskView extends UIComponent {
             }}
         });
 
-        this.appendChild(nameRow);
-        this.appendChild(tagContainer);
-        this.appendChild(description);
-        this.appendChild(dateRow);
-        this.appendChild(saveButton);
+        const recentLabelContainer = await this.buildRecentLabelContainer(); 
+        
+        container.appendChild(nameRow);
+        container.appendChild(tagContainer);
+        container.appendChild(description);
+        container.appendChild(dateRow);
+        container.appendChild(saveButton);
+
+        this.appendChild(container);
+        this.appendChild(recentLabelContainer);
 
         setTimeout(() => setStyles(this.element, { opacity: "1",}), 100);
     }
@@ -272,5 +296,37 @@ export default class NewTaskView extends UIComponent {
 
         return endDateRow;
     }
+
+
+    private async buildRecentLabelContainer() : Promise<UIComponent> {
+
+        const container = new UIComponent({
+            classes: ["box-column","box-warp","box-x-start","box-y-start"],
+            id: "recent-label-container",
+        });
+
+        const title = new UIComponent({
+            type : "h1",
+            text : "Recientes: ",
+            id: "title",
+        });
+        title.appendTo(container);
+
+        const labels = await this.core.getRecentLabels();
+        labels.forEach(label => {
+
+            const labelComp = new UIComponent({
+                text: label.label,
+                classes: ["label"],
+            });
+
+            labelComp.appendTo(container);
+        });
+        
+
+        return new Promise(suc => suc(container));
+    }
+
+
 
 }

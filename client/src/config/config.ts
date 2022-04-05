@@ -11,7 +11,7 @@ export class Configurations {
     //global runtime configurations
     public static BASE = {
         APP_NAME: "Vallhala",
-        APP_VERSION: "v1.0.0a",
+        APP_VERSION: "v1.0.3a",
         HOST: "127.0.0.1",
         PORT: 80,
         URL: location.href,
@@ -38,6 +38,7 @@ export class Configurations {
         CALENDAR: "../web/index.html#/calendar/",
         TEAMS: "../web/index.html#/teams/",
         PROJECTS: "../web/index.html#/projects/",
+        SEARCH: "../web/index.html#/search/",
         CONFIGURATION: "../web/index.html#/configuration/",
         TERMINAL: "../web/index.html#/terminal/",
         ABOUT: "../web/index.html#/about/",
@@ -47,11 +48,18 @@ export class Configurations {
     public static API = {
         URL : "http://127.0.0.1:3333/api/v1/",
         GET_USER_TASKS : "http://127.0.0.1:3333/api/v1/get/user/tasks/",
+        GET_USER_DONE_TASKS : "http://127.0.0.1:3333/api/v1/get/user/done/tasks/",
+        GET_USER_NOT_DONE_TASKS : "http://127.0.0.1:3333/api/v1/get/user/not/done/tasks/",
+        GET_USER_TASK :  "http://127.0.0.1:3333/api/v1/get/user/task/",
         GET_USER_MONTH_TASKS: "http://127.0.0.1:3333/api/v1/get/user/month/tasks/",
         GET_USER_TASKS_FROM_CATEGORY: "http://127.0.0.1:3333/api/v1/get/user/tasks/from/category/",
+        GET_USER_DONE_TASKS_FROM_CATEGORY: "http://127.0.0.1:3333/api/v1/get/user/done/tasks/from/category/",
+        GET_USER_NOT_DONE_TASKS_FROM_CATEGORY: "http://127.0.0.1:3333/api/v1/get/user/not/done/tasks/from/category/",
         GET_USER_TASK_CATEGORIES: "http://127.0.0.1:3333/api/v1/get/user/task/categories/",
         INSERT_USER_TASK: "http://127.0.0.1:3333/api/v1/insert/user/task/",
         DELETE_USER_TASK: "http://127.0.0.1:3333/api/v1/delete/user/task/",
+        UPDATE_USER_TASK: "http://127.0.0.1:3333/api/v1/update/user/task/",
+        SEARCH_USER_TASKS_BY_NAME: "http://127.0.0.1:3333/api/v1/search/user/tasks/by/name",
     };
 
 
