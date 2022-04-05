@@ -28,7 +28,7 @@ export default class NewTaskView extends UIComponent {
      * @param configurations The configurations to use
      */
     public async show(params: string[], container: UIComponent): Promise<void> {
-       
+
         if(params[0] === "edit") {
             this.core.setEditMode(true);
             const response = taskService.getUserTask(params[1]);
@@ -50,8 +50,12 @@ export default class NewTaskView extends UIComponent {
     /**
      * Build the view HTML
      */
-    public build() {
+    public async build() {
         this.clean();
+
+        const container = new UIComponent({
+            classes: ["box-column"]
+        })
 
         const nameRow = new UIComponent({
             type: "div",
@@ -89,9 +93,6 @@ export default class NewTaskView extends UIComponent {
         dateRow.appendChild(startDateRow);
         dateRow.appendChild(endDateRow);
 
-
-
-
         const saveButton = new UIComponent({
             type: "button",
             text: this.core.isEditMode() ?  
@@ -126,11 +127,16 @@ export default class NewTaskView extends UIComponent {
             }}
         });
 
-        this.appendChild(nameRow);
-        this.appendChild(tagContainer);
-        this.appendChild(description);
-        this.appendChild(dateRow);
-        this.appendChild(saveButton);
+        const recentLabelContainer = await this.buildRecentLabelContainer(); 
+        
+        container.appendChild(nameRow);
+        container.appendChild(tagContainer);
+        container.appendChild(description);
+        container.appendChild(dateRow);
+        container.appendChild(saveButton);
+
+        this.appendChild(container);
+        this.appendChild(recentLabelContainer);
 
         setTimeout(() => setStyles(this.element, { opacity: "1",}), 100);
     }
@@ -290,5 +296,37 @@ export default class NewTaskView extends UIComponent {
 
         return endDateRow;
     }
+
+
+    private async buildRecentLabelContainer() : Promise<UIComponent> {
+
+        const container = new UIComponent({
+            classes: ["box-column","box-warp","box-x-start","box-y-start"],
+            id: "recent-label-container",
+        });
+
+        const title = new UIComponent({
+            type : "h1",
+            text : "Recientes: ",
+            id: "title",
+        });
+        title.appendTo(container);
+
+        const labels = await this.core.getRecentLabels();
+        labels.forEach(label => {
+
+            const labelComp = new UIComponent({
+                text: label.label,
+                classes: ["label"],
+            });
+
+            labelComp.appendTo(container);
+        });
+        
+
+        return new Promise(suc => suc(container));
+    }
+
+
 
 }

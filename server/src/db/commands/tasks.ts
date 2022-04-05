@@ -3,6 +3,7 @@ import { Database } from "../db";
 import HTTPResponse from "./httpResponse";
 import TaskModel from "../model/tasks"
 import { ITask } from "../classes/task";
+import LabelModel from "../model/labels";
 
 
 export class Tasks implements HTTPResponse {
@@ -123,7 +124,7 @@ export class Tasks implements HTTPResponse {
         }
 
         let task = (await TaskModel.getUserTask(db, id))[0];
-        let labels = await TaskModel.getUserTaskLabels(db, id);
+        let labels = await LabelModel.getUserTaskLabels(db, id);
         task.labels = [];
 
         labels.forEach((element: { [key: string]: any }) => {
@@ -266,7 +267,7 @@ export class Tasks implements HTTPResponse {
 
         }
 
-        return TaskModel.getUserTaskCategories(db, username);
+        return LabelModel.getUserTaskCategories(db, username);
     }
 
     /**
@@ -335,7 +336,7 @@ export class Tasks implements HTTPResponse {
         try {
             const task: ITask = req?.body?.task;
             if (await TaskModel.deleteUserTask(db, task)) {
-                await TaskModel.deleteUserTaskLabels(db, task);
+                await LabelModel.deleteUserTaskLabels(db, task);
                 return new Promise((resolve) =>
                     resolve({
                         status: "success",
@@ -383,10 +384,10 @@ export class Tasks implements HTTPResponse {
             }
 
 
-            await TaskModel.deleteUserTaskLabels(db,task);
+            await LabelModel.deleteUserTaskLabels(db,task);
 
             task.labels?.forEach(async (key: string) => {
-                await TaskModel.setLabelToTask(db, task.id + "" || "", key);
+                await LabelModel.setLabelToTask(db, task.id + "" || "", key);
             });
 
             if (await TaskModel.updateUserTask(db, task)) {

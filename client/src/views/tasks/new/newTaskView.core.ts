@@ -1,6 +1,8 @@
 import { App } from "../../../app.js";
+import { Configurations } from "../../../config/config.js";
 import { DateText } from "../../../core/data/integrity/dateText.js";
 import { ITask } from "../../../core/data/interfaces/task.js";
+import { taskService } from "../../../services/tasks.js";
 import NewTaskView from "./newTaskView.ui";
 
 export default class NewTaskCore {
@@ -174,6 +176,15 @@ export default class NewTaskCore {
      */
     public isEditMode(): boolean {
         return this.edit;
+    }
+
+
+    public async getRecentLabels() : Promise<any[]>{
+        let labels = [];
+        const response = taskService.getUserTaskCategories(Configurations.getUserName());
+        response.success(res => labels = res);
+        await response.jsonPromise();        
+        return new Promise(suc => suc(labels));
     }
 
 }
