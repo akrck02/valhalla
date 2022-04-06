@@ -3,5 +3,6 @@
 
 /server/out/
 /client/temp/
+/client/out/
 /db/
 /dist/
