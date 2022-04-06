@@ -1,5 +1,6 @@
 import { APP } from "../app.js";
 import { setDataset, setStyles } from "../lib/gtd-ts/web/uicomponent.js";
+import { ConfigService } from "../services/config.js";
 
 export enum ENVIROMENT {
     DEVELOPMENT = "development",
@@ -10,8 +11,8 @@ export class Configurations {
     
     //global runtime configurations
     public static BASE = {
-        APP_NAME: "Vallhala",
-        APP_VERSION: "v1.0.3a",
+        APP_NAME: "Valhalla",
+        APP_VERSION: "v.x.x",
         HOST: "127.0.0.1",
         PORT: 80,
         URL: location.href,
@@ -66,7 +67,15 @@ export class Configurations {
     /**
      * Set default configurations for the application
      */
-    public static setDefaultVariables() {
+    public static async setDefaultVariables() {
+
+        await ConfigService.getAppConfig().success(json => {
+            console.log(json);
+            
+            this.BASE.APP_NAME = json.APP_NAME;
+            this.BASE.APP_VERSION = json.VERSION;
+            
+        }).jsonPromise()
 
         if(!Configurations.getConfigVariable("USERNAME")) {
             Configurations.addConfigVariable("USERNAME", "default");
@@ -230,4 +239,8 @@ export class Configurations {
         const wallpaper = Configurations.getWallpaper();
         return !!wallpaper;
     }
+
+
 }
+
+

@@ -8,7 +8,9 @@
     "compile-server": "tsc --project ./server/",
     "compile-server-watch": "tsc --project ./server/ -w",
     "compile-client": "tsc --project ./client/",
-    "compile-client-watch": "tsc --project ./client/ -w"
+    "compile-client-watch": "tsc --project ./client/ -w",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "repository": {
     "type": "git",

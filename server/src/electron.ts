@@ -32,6 +32,8 @@ class ElectronApp {
 
   public async startDatabase() {
 
+    fs.mkdirSync(path.join("db"), { recursive: true });
+
     this.database = new Database();
     const databasePath = path.join(global.root, "db/Valhalla-user.db");
     if (fs.existsSync(databasePath) === true) {
