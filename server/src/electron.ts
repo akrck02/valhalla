@@ -61,6 +61,7 @@ class ElectronApp {
       minWidth: 1280,
       minHeight: 720,
       frame: false,
+      show: false,
       backgroundColor: "#fafafa",
       webPreferences: {
         enableRemoteModule: true,
@@ -80,11 +81,33 @@ class ElectronApp {
     const url = path.join(global.root, "/web/index.html");
     mainWindow.loadFile(url);
     console.log("Electron", "Opening HTML: " + url);
+
+
+
+    let loading = new BrowserWindow({
+      show: false, 
+      frame: false,
+      width: 380,
+      height: 400,
+    });
+      mainWindow.webContents.once('dom-ready', () => {
+      console.log('main loaded')
+      setTimeout(() => {
+        mainWindow.show()
+        loading.hide()
+        loading.close()
+      }, 1000);
+    
+    })
+
+    loading.loadFile(path.join(global.root,'/web/loading.html'))
+    loading.show()
   }
 
   public setEvents() {
 
     app.whenReady().then(() => {
+
       this.loadUI();
       const electronApp = this; 
 
@@ -103,6 +126,8 @@ class ElectronApp {
     });
 
   }
+
+
 }
 
 // Redeclaring the Nodejs global variable object
