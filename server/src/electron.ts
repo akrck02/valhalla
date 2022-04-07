@@ -87,13 +87,16 @@ class ElectronApp {
     let loading = new BrowserWindow({
       show: false, 
       frame: false,
-      width: 380,
-      height: 400,
+      width: 1280,
+      height: 720,
     });
       mainWindow.webContents.once('dom-ready', () => {
       console.log('main loaded')
       setTimeout(() => {
+       
         mainWindow.show()
+        mainWindow.center()
+
         loading.hide()
         loading.close()
       }, 1000);
