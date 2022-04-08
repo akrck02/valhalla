@@ -97,7 +97,8 @@ export default class ConfigurationView extends UIComponent {
 
         const wallPaperTitle = new UIComponent({
             type: "h1",
-            text: App.getBundle().configuration.WALLPAPERS,
+            classes: ["box-row", "box-y-center"],
+            text: getMaterialIcon("wallpaper",{fill: "#fafafa", size : "1.35rem"}).toHTML() + "&nbsp;" + App.getBundle().configuration.WALLPAPERS ,
             styles: {
                 width: "100%",
                 padding: "2rem 3.7rem",
@@ -105,22 +106,9 @@ export default class ConfigurationView extends UIComponent {
         });
 
         const wallpaperGallery = new WallpaperGallery();
-        const themeTitle = new UIComponent({
-            type: "h1",
-            text: App.getBundle().configuration.THEME,
-            styles: {
-                width: "100%",
-                padding: "2rem 3.7rem",
-            }   
-        });
-
-        const themeChooser = new ThemeChooser();       
-        
 
         parent.appendChild(wallPaperTitle);
         parent.appendChild(wallpaperGallery);
-        parent.appendChild(themeTitle);
-        parent.appendChild(themeChooser);
 
         setTimeout(() => {
             parent.element.style.opacity = "1";

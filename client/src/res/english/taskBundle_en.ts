@@ -6,5 +6,6 @@ export const TaskBundleEn = {
     ALL_TASKS_COMPLETED: "Congratulations, you've completed all your tasks",
     TODAY : "today",
     TOMORROW : "tomorrow",
-    NOW: "now" 
+    NOW: "now",
+    OTHERS: "No category",
 }

@@ -8,6 +8,16 @@ div#category-bar {
     backdrop-filter: blur(1rem);
 }
 
+div#category-bar h1#category-bar-title {
+    font-size: 1.25rem;
+    margin: .5rem 0;
+    text-transform: uppercase;  
+    display:none;
+    padding-bottom: 1rem;
+    border-bottom: .1rem solid rgba(255, 255, 255, .05);
+}
+
+
 div#category-bar div.label {
     padding: .25rem;
     margin: .35rem 0.1rem;
@@ -37,6 +47,7 @@ div#category-bar div.label.selected::after {
     top: -.9rem;
     border-radius: 2rem;
 }
+
 
 div#category-bar div.label:hover {
     opacity: .8;

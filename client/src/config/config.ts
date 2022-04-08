@@ -70,8 +70,6 @@ export class Configurations {
     public static async setDefaultVariables() {
 
         await ConfigService.getAppConfig().success(json => {
-            console.log(json);
-            
             this.BASE.APP_NAME = json.APP_NAME;
             this.BASE.APP_VERSION = json.VERSION;
             

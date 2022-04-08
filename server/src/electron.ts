@@ -91,7 +91,6 @@ class ElectronApp {
       height: 720,
     });
       mainWindow.webContents.once('dom-ready', () => {
-      console.log('main loaded')
       setTimeout(() => {
        
         mainWindow.show()
@@ -99,7 +98,7 @@ class ElectronApp {
 
         loading.hide()
         loading.close()
-      }, 1000);
+      }, 1500);
     
     })
 
