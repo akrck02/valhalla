@@ -97,6 +97,19 @@ export default class Tasks implements Model {
     }
 
     /**
+     * Get the user done tasks without category
+     * @param db The database connection
+     * @param username The user to search for
+     * @param category The category to search for
+     * @returns The query result
+     */
+    public static getUserDoneTasksFromNoCategory(db: Database, username : string): Promise<any> {
+        const SQL = "SELECT * FROM task WHERE author = ? AND done=1 AND id NOT IN (SELECT taskId FROM task_label) ORDER BY end DESC";
+        const response = db.db.all(SQL, username);
+        return response;
+    }
+
+    /**
      * Get the user not done tasks from a given category
      * @param db The database connection
      * @param username The user to search for
@@ -106,6 +119,19 @@ export default class Tasks implements Model {
     public static getUserNotDoneTasksFromCategory(db: Database, username : string, category : string): Promise<any> {
         const SQL = "SELECT * FROM task WHERE author = ? AND done=0 AND id IN (SELECT taskId FROM task_label WHERE label = ?) ORDER BY end DESC";
         const response = db.db.all(SQL, username, category);
+        return response;
+    }
+
+    /**
+     * Get the user not done tasks from a given category
+     * @param db The database connection
+     * @param username The user to search for
+     * @param category The category to search for
+     * @returns The query result
+     */
+    public static getUserNotDoneTasksFromNoCategory(db: Database, username : string): Promise<any> {
+        const SQL = "SELECT * FROM task WHERE author = ? AND done=0 AND id NOT IN (SELECT taskId FROM task_label) ORDER BY end DESC";
+        const response = db.db.all(SQL, username);
         return response;
     }
 

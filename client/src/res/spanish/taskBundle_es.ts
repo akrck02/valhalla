@@ -6,5 +6,6 @@ export const TaskBundleEs = {
     ALL_TASKS_COMPLETED: "Enhorabuena, has completado todas las tareas",
     TODAY : "hoy",
     TOMORROW : "mañana",
-    NOW: "ahora" 
+    NOW: "ahora",
+    OTHERS: "Sin categoria",
 }
