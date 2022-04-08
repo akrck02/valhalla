@@ -180,10 +180,6 @@ export class Tasks implements HTTPResponse {
             );
         }
 
-        if (category == "none") {
-            return TaskModel.getUserDoneTasksFromNoCategory(db, username);
-        }
-
         return TaskModel.getUserDoneTasksFromCategory(db, username, category);
     }
 
@@ -206,10 +202,6 @@ export class Tasks implements HTTPResponse {
                     reason: "Missing parameters"
                 })
             );
-        }
-
-        if (category == "none") {
-            return TaskModel.getUserNotDoneTasksFromNoCategory(db, username);
         }
 
         return TaskModel.getUserNotDoneTasksFromCategory(db, username, category);

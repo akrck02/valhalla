@@ -32,8 +32,6 @@ class ElectronApp {
 
   public async startDatabase() {
 
-    fs.mkdirSync(path.join("db"), { recursive: true });
-
     this.database = new Database();
     const databasePath = path.join(global.root, "db/Valhalla-user.db");
     if (fs.existsSync(databasePath) === true) {
@@ -61,7 +59,6 @@ class ElectronApp {
       minWidth: 1280,
       minHeight: 720,
       frame: false,
-      show: false,
       backgroundColor: "#fafafa",
       webPreferences: {
         enableRemoteModule: true,
@@ -81,35 +78,11 @@ class ElectronApp {
     const url = path.join(global.root, "/web/index.html");
     mainWindow.loadFile(url);
     console.log("Electron", "Opening HTML: " + url);
-
-
-
-    let loading = new BrowserWindow({
-      show: false, 
-      frame: false,
-      width: 1280,
-      height: 720,
-    });
-      mainWindow.webContents.once('dom-ready', () => {
-      setTimeout(() => {
-       
-        mainWindow.show()
-        mainWindow.center()
-
-        loading.hide()
-        loading.close()
-      }, 1500);
-    
-    })
-
-    loading.loadFile(path.join(global.root,'/web/loading.html'))
-    loading.show()
   }
 
   public setEvents() {
 
     app.whenReady().then(() => {
-
       this.loadUI();
       const electronApp = this; 
 
@@ -128,8 +101,6 @@ class ElectronApp {
     });
 
   }
-
-
 }
 
 // Redeclaring the Nodejs global variable object

@@ -57,12 +57,12 @@ window.addEventListener('hashchange',() => {
     APP.loadFromUrl()
 });
 
-window.onload = async () => {    
+window.onload = () => {    
    
     if(APP === undefined){
-        await Configurations.setDefaultVariables();
-        
         APP = new App();   
+
+        Configurations.setDefaultVariables();
         const wallpaper = Configurations.getWallpaper();
         
         if(wallpaper){

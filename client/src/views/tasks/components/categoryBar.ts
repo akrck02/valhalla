@@ -48,6 +48,7 @@ export default class CategoryBar extends UIComponent {
     public build(selected : string, callback : (selected:string) => void): void {
 
         const categories = taskService.getUserTaskCategories(Configurations.getUserName());
+
         categories.success((categories) => {
             categories.forEach((category) => {
                 const option = new UIComponent({

@@ -98,8 +98,11 @@ export default class TasksView extends UIComponent {
         this.taskContainer.appendChild(titleBar);
 
         const notDone = await this.showNotDoneTasks(selected);
-        const done = await this.showDoneTasks(selected,notDone);
+        const done = await this.showDoneTasks(selected);
 
+        if (notDone == 0 && done == 0) {
+            this.taskContainer.appendChild(this.buildNotTaskFoundErrorMessage());
+        }
     }
 
     /**
@@ -116,9 +119,9 @@ export default class TasksView extends UIComponent {
 
         const title = new UIComponent({
             type: "h1",
-            text: selected == "none" ? getMaterialIcon("label_off",{ size: "1.7rem", fill: "var(--text-color)" }).toHTML() + "&nbsp;" + App.getBundle().tasks.OTHERS : selected,
+            text: selected,
             id: "category-title",
-            classes: ["title", "box-row", "box-x-start", "box-y-center"],
+            classes: ["title"],
         });
         bar.appendChild(title);
 
@@ -223,7 +226,7 @@ export default class TasksView extends UIComponent {
      * @param container The container to append the tasks to
      * @returns the promise containing the number of tasks
      */
-    private async showDoneTasks(selected : string, notdone : number) : Promise<number> {
+    private async showDoneTasks(selected : string) : Promise<number> {
         const doneTasks = await this.core.getDoneTasks(Configurations.getUserName(), selected);
         const doneTitle = new UIComponent({
             type: "h1",
