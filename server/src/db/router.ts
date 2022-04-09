@@ -21,6 +21,7 @@ export class Router {
             "insert/user/task" : Tasks.insertUserTask,
             "delete/user/task" : Tasks.deleteUserTask,
             "update/user/task" : Tasks.updateUserTask,
+            "update/user/task/done" : Tasks.updateUserTaskDone,
             "search/user/tasks/by/name" : Tasks.searchTasksByName,
         }
     }

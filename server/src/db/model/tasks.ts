@@ -212,7 +212,7 @@ export default class Tasks implements Model {
     }
 
     /**
-     * Get the week tasks for a given user
+     * Update the given task
      * @param db The database connection
      * @param task The task to update
      * @returns The query result
@@ -243,11 +243,30 @@ export default class Tasks implements Model {
     }
 
 
+    /**
+     * Update the tasks done status for a given task
+     * @param db The database connection
+     * @param task The task to update
+     * @returns The query result
+     */
+     public static async updateUserTaskDone(db : Database, task : ITask) {
 
+        const SQL = "UPDATE task SET done=? WHERE id=?";
+        const response = await db.db.run(SQL,
+            task.done,
+            task.id,
+        )
 
+        if(!response)
+            return false;
 
+        if(response.length >= 0)
+            return false;
+
+        if(response.changes == 0)
+            return false;
+
+        return true;
+    }
     
-
-
-
 }

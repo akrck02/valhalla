@@ -196,12 +196,29 @@ export class taskService {
     /**
      * Update a task
      * @param task 
-     * @returns The task updated
+     * @returns The if the task was updated
      */
     static updateUserTask(task: ITask) : Response {
         const response = efetch({
             method: HTTPS_METHOD.POST,
             url: Configurations.API.UPDATE_USER_TASK,
+            parameters: {
+                task: task
+            },
+        });
+
+        return response;
+    }
+
+    /**
+     * Update a task done status
+     * @param task 
+     * @returns The if the task was updated
+     */
+    static updateUserTaskDone(task: ITask) : Response {
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: Configurations.API.UPDATE_USER_TASK_DONE,
             parameters: {
                 task: task
             },

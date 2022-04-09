@@ -60,6 +60,7 @@ export class Configurations {
         INSERT_USER_TASK: "http://127.0.0.1:3333/api/v1/insert/user/task/",
         DELETE_USER_TASK: "http://127.0.0.1:3333/api/v1/delete/user/task/",
         UPDATE_USER_TASK: "http://127.0.0.1:3333/api/v1/update/user/task/",
+        UPDATE_USER_TASK_DONE: "http://127.0.0.1:3333/api/v1/update/user/task/done/",
         SEARCH_USER_TASKS_BY_NAME: "http://127.0.0.1:3333/api/v1/search/user/tasks/by/name",
     };
 

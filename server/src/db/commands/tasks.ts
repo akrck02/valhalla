@@ -428,4 +428,52 @@ export class Tasks implements HTTPResponse {
         }
     }
 
+    /**
+     * Update the user task done status
+     * @param db The database connection
+     * @param req The HTTP request
+     * @param res The HTTP response
+     * @returns a promise
+     */
+     public static async updateUserTaskDone(db: Database, req: Request, res: Response): Promise<any> {
+
+        try {
+            const task: ITask = req?.body?.task;
+            if (!task || task.done == undefined) {
+                return new Promise((resolve) =>
+                    resolve({
+                        status: "failed",
+                        reason: "Missing parameters"
+                    })
+                );
+            }
+
+            if (await TaskModel.updateUserTask(db, task)) {         
+                return new Promise((resolve) =>
+                    resolve({
+                        status: "success",
+                        reason: "User task successfully updated"
+                    })
+                );
+            }
+
+            return new Promise((resolve) =>
+                resolve({
+                    status: "Error",
+                    reason: "Task wasn't updated"
+                })
+            );
+
+        } catch (error) {
+            console.error(error);
+            return new Promise((resolve) =>
+                resolve({
+                    status: "failed",
+                    reason: "Missing parameters"
+                })
+            );
+        }
+    }
+
+
 }

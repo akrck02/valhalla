@@ -333,8 +333,13 @@ export default class TasksView extends UIComponent {
         edit.element.onclick = () => App.redirect(Configurations.VIEWS.NEW_TASK, ["edit",currentTask.id]);
         done.element.onclick = () => {
             currentTask.done = currentTask.done == 1 ? 0 : 1;
-            taskService.updateUserTask(currentTask);
+            const res = taskService.updateUserTaskDone(currentTask);
+            res.success(s => { 
+                console.log(s);
+            });
+            res.json();
 
+            
             if(currentTask.done == 1) {
                 this.taskContainer.removeChild(taskBox);
                 this.doneContainer.appendChild(taskBox);
