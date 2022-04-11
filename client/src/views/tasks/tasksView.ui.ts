@@ -334,9 +334,6 @@ export default class TasksView extends UIComponent {
         done.element.onclick = () => {
             currentTask.done = currentTask.done == 1 ? 0 : 1;
             const res = taskService.updateUserTaskDone(currentTask);
-            res.success(s => { 
-                console.log(s);
-            });
             res.json();
 
             
@@ -350,9 +347,6 @@ export default class TasksView extends UIComponent {
                 taskBox.element.classList.remove("done");
             }
            
-
-            //App.redirect(Configurations.VIEWS.TASKS,["noparams"]);
-            //App.redirect(Configurations.VIEWS.TASKS,[]);
         }
 
         deleteTask.element.onclick = async () => {
@@ -361,8 +355,12 @@ export default class TasksView extends UIComponent {
             if (document.querySelectorAll(".task-box").length == 0) {
                 container.appendChild(this.buildNotTaskFoundErrorMessage());
             }
-        };
 
+            alert({
+                message: App.getBundle().tasks.TASK_DELETED_SUCCESSFULLY,
+                icon: 'delete'
+            })
+        };
 
         toolbar.appendChild(edit);
         toolbar.appendChild(done);

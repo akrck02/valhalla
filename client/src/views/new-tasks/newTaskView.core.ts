@@ -1,8 +1,8 @@
-import { App } from "../../../app.js";
-import { Configurations } from "../../../config/config.js";
-import { DateText } from "../../../core/data/integrity/dateText.js";
-import { ITask } from "../../../core/data/interfaces/task.js";
-import { taskService } from "../../../services/tasks.js";
+import { App } from "../../app.js";
+import { Configurations } from "../../config/config.js";
+import { DateText } from "../../core/data/integrity/dateText.js";
+import { ITask } from "../../core/data/interfaces/task.js";
+import { taskService } from "../../services/tasks.js";
 import NewTaskView from "./newTaskView.ui";
 
 export default class NewTaskCore {
@@ -30,7 +30,7 @@ export default class NewTaskCore {
             start: DateText.toSQLiteDate(new Date()),
             end: DateText.toSQLiteDate(new Date()),
             author: "",
-            labels: [App.getBundle().newTask.TODAY, App.getBundle().newTask.IMPORTANT],
+            labels: [App.getBundle().newTask.TODAY],
         };
 
         return task;
@@ -134,8 +134,6 @@ export default class NewTaskCore {
     public toDate(string: string): Date {
         const date = new Date();
         const parts = string.split("-");
-        console.log(parts);
-
 
         date.setDate(+(parts[2]));
         date.setMonth(+(parts[1]) - 1);

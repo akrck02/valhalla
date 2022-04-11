@@ -1,16 +1,18 @@
-import { App } from "../../../app.js";
-import DateInput from "../../../components/input/date/dateinput.js";
-import { Configurations } from "../../../config/config.js";
-import { DateText } from "../../../core/data/integrity/dateText.js";
-import { ITask } from "../../../core/data/interfaces/task.js";
-import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
-import { setStyles, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
-import { taskService } from "../../../services/tasks.js";
+import { APP, App } from "../../app.js";
+import DateInput from "../../components/input/date/dateinput.js";
+import { Configurations } from "../../config/config.js";
+import { DateText } from "../../core/data/integrity/dateText.js";
+import { ITask } from "../../core/data/interfaces/task.js";
+import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
+import { setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { taskService } from "../../services/tasks.js";
+import LabelContainer from "./components/labels.js";
 import NewTaskCore from "./newTaskView.core.js";
 
 export default class NewTaskView extends UIComponent {
 
     private core : NewTaskCore;
+    private labelContainer : LabelContainer;
 
     public constructor() {
         super({
@@ -34,8 +36,6 @@ export default class NewTaskView extends UIComponent {
             const response = taskService.getUserTask(params[1]);
             response.success(((res) => {
                 this.core.setTask(res)
-                console.log(res);
-                  
             }));
             await response.jsonPromise();
 
@@ -45,6 +45,7 @@ export default class NewTaskView extends UIComponent {
        
         this.build();
         this.appendTo(container);
+        
     }
 
     /**
@@ -74,7 +75,7 @@ export default class NewTaskView extends UIComponent {
         nameRow.appendChild(taskIcon);
         nameRow.appendChild(name);
 
-        const tagContainer = this.buildTagContainer();
+        this.labelContainer = this.buildLabelContainer();
         const description = new UIComponent({
             type: "p",
             text: this.core.getTask().description,
@@ -123,6 +124,10 @@ export default class NewTaskView extends UIComponent {
 
                 setTimeout(() => {
                     location.href = Configurations.VIEWS.TASKS;
+                    alert({
+                        message: this.core.isEditMode() ? App.getBundle().newTask.TASK_UPDATED_SUCCESSFULLY : App.getBundle().newTask.TASK_SAVED_SUCCESSFULLY,
+                        icon: 'save'
+                    })
                 }, 250 + Math.random() * 200);
             }}
         });
@@ -130,7 +135,7 @@ export default class NewTaskView extends UIComponent {
         const recentLabelContainer = await this.buildRecentLabelContainer(); 
         
         container.appendChild(nameRow);
-        container.appendChild(tagContainer);
+        container.appendChild(this.labelContainer);
         container.appendChild(description);
         container.appendChild(dateRow);
         container.appendChild(saveButton);
@@ -145,66 +150,22 @@ export default class NewTaskView extends UIComponent {
      * Create the tag container
      * @returns The tag container UI component
      */
-    private buildTagContainer() : UIComponent {
-        const tagContainer = new UIComponent({
-            classes: ["box-row","box-warp"],
-            id: "tag-container"
-        });
-        
-        const view = this;
+    private buildLabelContainer() : LabelContainer {
+        const labels = new LabelContainer(this.core);
         this.core.getTask().labels.forEach(tag => {
-            
-            const tagButton  = new UIComponent({
-                type: "button",
-                text: tag,
-                classes: ["task-label"]
+            labels.addLabel(tag, () => {
+                labels.removeLabel(tag);
+                this.core.removeTag(tag);
             });
-
-            tagButton.element.addEventListener("click", () => {
-                tagContainer.removeChild(tagButton);
-                this.core.removeTag(tag)
-            });
-            tagButton.appendTo(tagContainer);
-
         });
 
-        const newTagButton = new UIComponent({
-            type : "button",
-            id: "new-tag",
-            text : getMaterialIcon("plus",{ fill: "#fff", size: "1rem" }).toHTML() 
-        });
-        newTagButton.appendTo(tagContainer);
-
-        newTagButton.element.addEventListener("click", () => {
-            const tag = new UIComponent({
-                type: "button",
-                text: "New tag",
-                classes: ["task-label"],
+        labels.onchange((lbls) => {
+            APP.router.variablePanel.addViewVariables({
+                 LABELS : lbls
             });
-            tagContainer.removeChild(newTagButton);
-            tag.appendTo(tagContainer);
-
-            tag.element.contentEditable = "true";
-            tag.element.style.minWidth = "7rem";
-            tag.element.focus();
-
-            tag.element.onblur = () => {
-                tag.element.contentEditable = "false";
-                tag.element.style.minWidth = "0rem";
-                view.core.addTag(tag.element.innerText);
-
-                tag.element.onclick = () => {
-                    tag.element.onblur = null;
-                    tagContainer.removeChild(tag);
-                    view.core.removeTag(tag.element.innerText);
-                }
-            }
-            
-            tagContainer.appendChild(newTagButton);
-
         });
 
-        return tagContainer;
+        return labels;
     }
 
     /**
@@ -297,7 +258,10 @@ export default class NewTaskView extends UIComponent {
         return endDateRow;
     }
 
-
+    /**
+     * Build the recent label container
+     * @returns The promise of the UIComponent
+     */
     private async buildRecentLabelContainer() : Promise<UIComponent> {
 
         const container = new UIComponent({
@@ -318,6 +282,17 @@ export default class NewTaskView extends UIComponent {
             const labelComp = new UIComponent({
                 text: label.label,
                 classes: ["label"],
+            });
+
+            labelComp.element.addEventListener("click", () => {
+                this.core.addTag(labelComp.element.innerText);
+
+                this.labelContainer.addLabel(labelComp.element.innerText, () => {
+                    this.labelContainer.removeLabel(labelComp.element.innerText);
+                    this.core.removeTag(labelComp.element.innerText);
+                });
+
+                container.removeChild(labelComp);
             });
 
             labelComp.appendTo(container);

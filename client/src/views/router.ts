@@ -11,7 +11,7 @@ import ConfigurationView from "./configuration/configurationView.ui.js";
 import ErrorV from "./error/errorV.js";
 import ProjectsV from "./projects/projects.js";
 import SearchView from "./search/searchView.ui.js";
-import NewTaskView from "./tasks/new/newTaskView.ui.js";
+import NewTaskView from "./new-tasks/newTaskView.ui.js";
 import TasksView from "./tasks/tasksView.ui.js";
 import TeamsV from "./teams/teams.js";
 import TerminalV from "./terminal/terminal.js";

@@ -1,3 +1,3 @@
 export const SystemBundleEn = {
-    NOT_IMPLEMENTED_YET: "Not implemented yet 👾",
+    NOT_IMPLEMENTED_YET: "Not implemented yet",
 }

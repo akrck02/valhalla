@@ -1,3 +1,4 @@
+import UINotification, { NotificationProperties } from './components/notifications/notification.js';
 import { Configurations } from './config/config.js';
 import { Keyboard } from './core/keyboard.js';
 import { ListenerSet } from './core/listenerset.js';
@@ -12,15 +13,37 @@ export class App {
 
     private keyboard : Keyboard;
     private listeners : ListenerSet;
+    private notification : UINotification;
     public router : Router;
 
     constructor() {
         this.listeners = new ListenerSet();
         this.router = new Router(this.listeners);
         this.keyboard = new Keyboard(this.listeners);
+        this.notification = new UINotification();
+
+        document.body.appendChild(this.notification.element);
+
+        window.alert = (properties : NotificationProperties) => {
+            this.notification.setContent(properties);
+            this.notification.show();
+
+            // If the desktop notification are active 
+            if(properties.desktop){
+                new Notification("Valhalla" ,{
+                    icon: Configurations.PATHS.ICONS + "logo-light.png",
+                    body: properties.message,
+                })
+            }
+
+        };
+
         console.log(Configurations.BASE.APP_NAME + " " + Configurations.BASE.APP_VERSION + " is loaded!");
     }
 
+    /**
+     * Load the app from url
+     */
     public loadFromUrl(): void {
         
         const params = getParametersByIndex(window.location.hash.slice(1).toLowerCase(),1);
@@ -36,11 +59,19 @@ export class App {
         this.router.load(params);
     }
 
-
+    /**
+     * Get current language text bundle
+     * @returns 
+     */
     public static getBundle() : any {
         return TextBundle.get(navigator.language);
     }
 
+    /**
+     * Redirect to url with '/' separated params
+     * @param url The URL to be redirected to
+     * @param params The parameter Array
+     */
     public static redirect(url: string, params: string[]) {
         url += params.join("/");
         location.href = url;
