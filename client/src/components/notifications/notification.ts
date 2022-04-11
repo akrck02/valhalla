@@ -51,7 +51,6 @@ export default class UINotification extends UIComponent {
     public show() {
 
         setStyles(this.element,{
-            bottom : "-5rem",
             opacity: "0",
             transition : "none"
         })

@@ -1,3 +1,4 @@
+import { App } from "../../../app.js";
 import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 import NewTaskCore from "../newTaskView.core.js";
@@ -53,7 +54,7 @@ export default class LabelContainer extends UIComponent {
      * @param callback The click function once edited
      * @returns The UIComponent of the label
      */
-    public addEditLabel(label : string, placeholder : string, callback : (labels) => void) : UIComponent {
+    public addEditLabel(label : string, placeholder : string) : UIComponent {
        
         const labelButton  = new EditableLabel(label,placeholder);
         labelButton.onBlur(() => {
@@ -61,7 +62,6 @@ export default class LabelContainer extends UIComponent {
             if(this.isLabelRepeated(labelButton.getLabel())){
 
                 alert({
-                    //title: 'Error',
                     message: 'That tag is registered.',
                     icon: 'block'
                 });
@@ -104,11 +104,8 @@ export default class LabelContainer extends UIComponent {
             text : getMaterialIcon("plus",{ fill: "#fff", size: "1rem" }).toHTML() 
         });
 
-        
         moreButton.element.addEventListener("click", () => {
-            this.addEditLabel("", "Nueva etiqueta", (labels) => {
-                alert("Se ha creado la etiqueta: " + labels[labels.length - 1]);
-            });
+            this.addEditLabel("", App.getBundle().newTask.NEW_LABEL);
         });
 
         return moreButton;
@@ -119,12 +116,16 @@ export default class LabelContainer extends UIComponent {
      * @param label The label to remove
      */
     public removeLabel(label : string) {
-        const matchingLabel = this.labels.find(lbl =>lbl.element.innerText === label);
-        this.labels.splice(this.labels.indexOf(matchingLabel), 1);        
-        this.removeChild(matchingLabel);
-        this.core.removeTag(label);
+        const matchingLabel = this.labels.find(lbl =>lbl.element.innerText.toUpperCase() === label.toUpperCase());
 
-        this.update();
+        if(matchingLabel){
+            this.labels.splice(this.labels.indexOf(matchingLabel), 1);        
+            this.removeChild(matchingLabel);
+            this.core.removeTag(label);
+
+            this.update();
+        }
+
     }
  
     /**

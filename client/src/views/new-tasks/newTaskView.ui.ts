@@ -103,6 +103,15 @@ export default class NewTaskView extends UIComponent {
             classes: ["button"],
             events: { click: () => {
 
+                if(this.core.getTask().labels.length == 0){
+                    alert({
+                        message : App.getBundle().newTask.SELECT_A_CATEGORY,
+                        icon: "block"
+                    });
+                    return;
+                }
+
+
                 if(this.core.isEditMode()) {
                     taskService.updateUserTask(this.core.getTask());
                 } else {

@@ -13,4 +13,6 @@ export const NewTaskBundleEn = {
     TODAY: "Today",
     IMPORTANT: "Important",
     ACCEPT: "Accept",
+    NEW_LABEL: "New category",
+    SELECT_A_CATEGORY : "Select a category"
 }
