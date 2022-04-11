@@ -3,7 +3,7 @@ export const NewTaskBundleEn = {
     WRITE_HERE_A_TASK_DESCRIPTION: "Write here a task description 📝",
     START_DATE: "Start date",
     END_DATE: "End date",
-    ALL_DAY: "All day",
+    SAME_DAY: "Same day",
     SAVE: "Save",
     UPDATE: "Update",
     SAVING_TASK: "Saving task...",
@@ -14,5 +14,7 @@ export const NewTaskBundleEn = {
     IMPORTANT: "Important",
     ACCEPT: "Accept",
     NEW_LABEL: "New category",
-    SELECT_A_CATEGORY : "Select a category"
+    SELECT_A_CATEGORY : "Select a category",
+    INSERT_A_TASK_NAME: "Insert a task name",
+    RECENT_CATEGORIES : "Recent categories",
 }

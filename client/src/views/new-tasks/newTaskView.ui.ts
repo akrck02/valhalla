@@ -1,10 +1,12 @@
 import { APP, App } from "../../app.js";
 import DateInput from "../../components/input/date/dateinput.js";
+import MinimalInput from "../../components/input/minimalinput.js";
+import minimalInput from "../../components/input/minimalinput.js";
 import { Configurations } from "../../config/config.js";
 import { DateText } from "../../core/data/integrity/dateText.js";
 import { ITask } from "../../core/data/interfaces/task.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
-import { setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { setClasses, setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../services/tasks.js";
 import LabelContainer from "./components/labels.js";
 import NewTaskCore from "./newTaskView.core.js";
@@ -18,6 +20,10 @@ export default class NewTaskView extends UIComponent {
         super({
             type: "view",
             id: "new-task",
+            styles: {
+                width: "100%",
+                height: "100%"
+            }
         });
 
         this.core = new NewTaskCore(this);
@@ -55,6 +61,7 @@ export default class NewTaskView extends UIComponent {
         this.clean();
 
         const container = new UIComponent({
+            id : "new-task-container",
             classes: ["box-column"]
         })
 
@@ -64,25 +71,26 @@ export default class NewTaskView extends UIComponent {
         });
 
         const taskIcon = getMaterialIcon("task",{ size: "1.8rem", fill: "#fff"});
-        const name = new UIComponent({
-            type: "h1",
-            text: this.core.getTask().name,
-            id: "task-name",
-            attributes: { contenteditable: "true" },
-            events: { keyup: () => this.core.setTaskName(name.element.innerText) }
-        });
+        const name = new MinimalInput("h1",this.core.getTask().name,this.core.getDefaultPlaceholders().name);
+        name.element.id = "task-name";
+        name.onType(() => this.core.setTaskName(name.element.innerText))
 
         nameRow.appendChild(taskIcon);
         nameRow.appendChild(name);
 
         this.labelContainer = this.buildLabelContainer();
-        const description = new UIComponent({
+        /*const description = new UIComponent({
             type: "p",
             text: this.core.getTask().description,
             id: "task-description",
             attributes: { contenteditable: "true" },
             events: { keyup: () => this.core.setTaskDescription(description.element.innerText) }
-        });
+        });*/
+
+        const description = new MinimalInput("p",this.core.getTask().description,this.core.getDefaultPlaceholders().description);
+        description.element.id = "task-description";
+        description.onType(() => this.core.setTaskDescription(description.element.innerText))
+
 
         const dateRow = new UIComponent({
             type: "div",
@@ -102,6 +110,14 @@ export default class NewTaskView extends UIComponent {
             id: "save-task",
             classes: ["button"],
             events: { click: () => {
+
+                if(this.core.getTask().name.trim().length == 0){
+                    alert({
+                        message : App.getBundle().newTask.INSERT_A_TASK_NAME,
+                        icon: "block"
+                    });
+                    return;
+                }
 
                 if(this.core.getTask().labels.length == 0){
                     alert({
@@ -142,7 +158,7 @@ export default class NewTaskView extends UIComponent {
         });
 
         const recentLabelContainer = await this.buildRecentLabelContainer(); 
-        
+
         container.appendChild(nameRow);
         container.appendChild(this.labelContainer);
         container.appendChild(description);
@@ -152,7 +168,10 @@ export default class NewTaskView extends UIComponent {
         this.appendChild(container);
         this.appendChild(recentLabelContainer);
 
-        setTimeout(() => setStyles(this.element, { opacity: "1",}), 100);
+        setTimeout(() => {
+            setStyles(container.element, { opacity: "1",})
+            setStyles(recentLabelContainer.element, { opacity: "1",})   
+        }, 100);
     }
 
     /**
@@ -254,7 +273,7 @@ export default class NewTaskView extends UIComponent {
 
         const allDayLabel = new UIComponent({
             type: "label" ,
-            text :  App.getBundle().newTask.ALL_DAY,
+            text :  App.getBundle().newTask.SAME_DAY,
             styles :  {
                 marginLeft: "1rem"
             }
@@ -276,11 +295,14 @@ export default class NewTaskView extends UIComponent {
         const container = new UIComponent({
             classes: ["box-column","box-warp","box-x-start","box-y-start"],
             id: "recent-label-container",
+            styles: {
+                marginLeft : "1rem",
+            }
         });
 
         const title = new UIComponent({
             type : "h1",
-            text : "Recientes: ",
+            text :  App.getBundle().newTask.RECENT_CATEGORIES + ":",
             id: "title",
         });
         title.appendTo(container);

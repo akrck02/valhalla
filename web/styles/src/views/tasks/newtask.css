@@ -4,10 +4,14 @@ view#new-task {
     padding: 1.5rem 0rem 1.5rem 5rem;
     display: flex;
     flex-direction: row;
+    justify-content: start;    
+    backdrop-filter: blur(1rem);
+}
+
+
+view#new-task div#new-task-container {
     opacity: 0;
     transition: opacity var(--medium);
-    justify-content: start;    
-    backdrop-filter: blur(.3rem);
 }
 
 view#new-task div.task-name-row,
@@ -19,8 +23,20 @@ view#new-task p#task-description {
     transition: background var(--fast) ;
 }
 
+view#new-task p#task-description::before {
+    padding: 1rem;
+}
+
 view#new-task h1#task-name {
+    height:100%;
     max-height: 3.5rem;
+    width: 30rem;
+    background: transparent;
+    margin-left: .5rem;
+    cursor: text;
+    border-bottom: .15rem dashed rgba(255, 255, 255, .0);  
+    transition: border-color var(--fast);
+    border-radius: 0;
 }
 
 view#new-task div.task-name-row svg {
@@ -33,6 +49,7 @@ view#new-task p#task-description {
     margin: 1rem 1rem;
     overflow-y: auto;
     background: rgba(0, 0, 0, .025);
+
 }
 
 :root[data-theme=dark] view#new-task p#task-description{
@@ -42,17 +59,20 @@ view#new-task p#task-description {
 view#new-task h1{
     border-radius: .35rem;
     padding: .5rem ; 
+    color: rgba(255, 255, 255, .85)
 }
 
 view#new-task h1#task-name:focus,
 view#new-task p#task-description:focus {
     outline: none;
-    background: rgba(0, 0, 0, .035);
 }
 
-:root[data-theme=dark] #new-task h1#task-name:focus,
+:root[data-theme=dark] #new-task h1#task-name:focus{
+    border-color: rgba(255, 255, 255, .15);  
+}
+
 :root[data-theme=dark] view#new-task p#task-description:focus {
-    background: rgba(255, 255, 255, .015);
+    background: rgba(255, 255, 255, .035);
 }
 
 view#new-task div.date-row {
@@ -64,7 +84,8 @@ view#new-task div.date-row label {
 }
 
 view#new-task button.task-label {
-    margin: 0rem .25rem;
+    margin: 0.25rem .25rem;
+    min-height: 2rem;
     background: rgba(0, 0, 0, .065);
     border-radius: 5rem;
     padding: .25rem 1rem;
@@ -79,6 +100,7 @@ view#new-task button.task-label {
 
 view#new-task div#tag-container {
     padding: 0.1rem 1rem;
+    max-width: 38rem;
 }
 
 view#new-task div#tag-container button.task-label:hover,
@@ -104,6 +126,7 @@ view#new-task div#tag-container button#new-tag {
     border-radius: 5rem;
     box-shadow: none;
     display: flex;
+    margin: .25rem;
     justify-content: center;
     align-items: center;
     color: var(--text-color) !important;
@@ -169,6 +192,8 @@ view#new-task #recent-label-container {
     height: fit-content;
     width:  max(10rem, 30%);
     padding: 1rem;
+    opacity: 0;
+    transition: opacity var(--slow);
 }
 
 view#new-task #recent-label-container h1#title {

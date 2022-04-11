@@ -3,7 +3,7 @@ export const NewTaskBundleEs = {
     WRITE_HERE_A_TASK_DESCRIPTION: "Escribe aquí una descripción para la tarea 📝",
     START_DATE: "Fecha inicio",
     END_DATE: "Fecha fin",
-    ALL_DAY: "Todo el día",
+    SAME_DAY: "Mismo día",
     SAVE: "Guardar",
     UPDATE: "Actualizar",
     SAVING_TASK: "Guardando tarea...",
@@ -14,5 +14,7 @@ export const NewTaskBundleEs = {
     IMPORTANT: "Importante",
     ACCEPT: "Aceptar",
     NEW_LABEL: "Nueva categoria",
-    SELECT_A_CATEGORY : "Selecciona una categoría"
+    SELECT_A_CATEGORY : "Selecciona una categoría",
+    INSERT_A_TASK_NAME: "Inserta un nombre de tarea",
+    RECENT_CATEGORIES : "Recientes"
 }

@@ -24,6 +24,26 @@ export default class NewTaskCore {
     private defaultTask(): ITask {
 
         const task = {
+            name: "",
+            description: "",
+            allDay: 0,
+            start: DateText.toSQLiteDate(new Date()),
+            end: DateText.toSQLiteDate(new Date()),
+            author: "",
+            labels: [App.getBundle().newTask.TODAY],
+        };
+
+        return task;
+    }
+
+
+    /**
+     * Build a task object with default placeholders
+     * @returns The default task object
+     */
+    public getDefaultPlaceholders(): ITask {
+
+        const task = {
             name: App.getBundle().newTask.WRITE_HERE_A_TASK_NAME,
             description: App.getBundle().newTask.WRITE_HERE_A_TASK_DESCRIPTION,
             allDay: 0,
@@ -35,6 +55,9 @@ export default class NewTaskCore {
 
         return task;
     }
+    
+
+
 
     /**
      * Get the task object
@@ -150,9 +173,7 @@ export default class NewTaskCore {
     public toDateString(string: string): Date {
         const date = new Date();
         const parts = string.split("-");
-        console.log(parts);
-
-
+        
         date.setDate(+(parts[2]));
         date.setMonth(+(parts[1]) - 1);
         date.setFullYear(+(parts[0]));
@@ -180,7 +201,7 @@ export default class NewTaskCore {
     public async getRecentLabels() : Promise<any[]>{
         let labels = [];
         const response = taskService.getUserTaskCategories(Configurations.getUserName());
-        response.success(res => labels = res);
+        response.success(res => labels = res.slice(0, 3));
         await response.jsonPromise();        
         return new Promise(suc => suc(labels));
     }
