@@ -26,7 +26,7 @@ export class App {
 
         window.alert = (properties : NotificationProperties) => {
             this.notification.setContent(properties);
-            this.notification.show();
+            this.notification.show(properties.time);
 
             // If the desktop notification are active 
             if(properties.desktop){

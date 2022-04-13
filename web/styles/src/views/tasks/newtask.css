@@ -28,6 +28,7 @@ view#new-task p#task-description::before {
 }
 
 view#new-task h1#task-name {
+    overflow-x: auto;
     height:100%;
     max-height: 3.5rem;
     width: 30rem;
@@ -60,6 +61,10 @@ view#new-task h1{
     border-radius: .35rem;
     padding: .5rem ; 
     color: rgba(255, 255, 255, .85)
+}
+
+view#new-task h1::-webkit-scrollbar {
+    display: none;
 }
 
 view#new-task h1#task-name:focus,

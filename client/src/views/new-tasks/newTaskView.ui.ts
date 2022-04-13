@@ -79,14 +79,7 @@ export default class NewTaskView extends UIComponent {
         nameRow.appendChild(name);
 
         this.labelContainer = this.buildLabelContainer();
-        /*const description = new UIComponent({
-            type: "p",
-            text: this.core.getTask().description,
-            id: "task-description",
-            attributes: { contenteditable: "true" },
-            events: { keyup: () => this.core.setTaskDescription(description.element.innerText) }
-        });*/
-
+ 
         const description = new MinimalInput("p",this.core.getTask().description,this.core.getDefaultPlaceholders().description);
         description.element.id = "task-description";
         description.onType(() => this.core.setTaskDescription(description.element.innerText))

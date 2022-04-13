@@ -1,4 +1,5 @@
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
+import { sleep } from "../../lib/gtd-ts/sync/timetools.js";
 import { setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 
 
@@ -6,13 +7,16 @@ export interface NotificationProperties {
     title ?: string,
     message ?: string,
     icon ?: string,
-    desktop ?: boolean
+    desktop ?: boolean,
+    time ?: number
 }
 
 export default class UINotification extends UIComponent {
 
     private bar : UIComponent;
     private content : UIComponent;
+    private showing : boolean;
+
 
     public constructor() {
         super({
@@ -23,7 +27,8 @@ export default class UINotification extends UIComponent {
                 bottom : "-5rem",
                 right : "1rem",
                 width : "20rem",
-                maxHeight: "7rem",
+               // maxHeight: "7rem",
+                height: "fit-content",
                 background : "rgba(0,0,0,.75)",
                 borderRadius: ".35rem",
                 transition: ".5s",
@@ -40,20 +45,20 @@ export default class UINotification extends UIComponent {
         this.content = new UIComponent({
             classes: ["box-row", "box-y-center", "box-x-between"],
             styles:{
+                wordBreak : "break-word"
             }
         });
 
+        this.showing = false;
         this.appendChild(this.bar);
         this.appendChild(this.content);
     }
 
 
-    public show() {
+    public async show(seconds : number = 1) {
 
-        setStyles(this.element,{
-            opacity: "0",
-            transition : "none"
-        })
+        if(this.showing)
+        return;
 
         setTimeout(() => {
             setStyles(this.element, {
@@ -63,6 +68,7 @@ export default class UINotification extends UIComponent {
             })
         }, 1);
 
+        this.showing = true;
 
         setTimeout(() => {
             setStyles(this.element, {
@@ -70,7 +76,9 @@ export default class UINotification extends UIComponent {
                 opacity: "0"
             })
     
-        }, 2000);
+
+            this.showing = false;
+        }, 1000 + seconds * 1000);
     }
 
 

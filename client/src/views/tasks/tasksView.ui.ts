@@ -1,6 +1,7 @@
 
 import { App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
+import { ITask } from "../../core/data/interfaces/task.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../services/tasks.js";
@@ -13,6 +14,7 @@ export default class TasksView extends UIComponent {
 
     private wrapper : UIComponent;
     private toolbar : UIComponent;
+
     private doneContainer: UIComponent;
     private taskContainer: UIComponent;
 
@@ -26,9 +28,7 @@ export default class TasksView extends UIComponent {
                 height: "100%",
                 backdropFilter: "blur(1rem)",
             },
-            data: {
-                selected : ""
-            }
+            data: { selected : "" }
         });
 
         this.wrapper = new UIComponent({
@@ -183,6 +183,7 @@ export default class TasksView extends UIComponent {
             } else {
                 this.element.classList.add("select");
             }
+
         });
 
 
@@ -193,7 +194,6 @@ export default class TasksView extends UIComponent {
         this.toolbar.appendChild(reload);
 
     }
-
 
     /**
      * Show the not done tasks
@@ -235,7 +235,7 @@ export default class TasksView extends UIComponent {
                 width: "100%",
                 textAlign: "left",
                 padding: "1rem 0",
-            }
+            },
         });
 
         if (doneTasks.length > 0) {
@@ -261,6 +261,9 @@ export default class TasksView extends UIComponent {
         const taskBox = new UIComponent({
             type: "div",
             classes: ["box-row", "task-box"],
+            data : {
+                id : currentTask.id
+            }
         });
 
         //switch control
@@ -332,11 +335,11 @@ export default class TasksView extends UIComponent {
 
         edit.element.onclick = () => App.redirect(Configurations.VIEWS.NEW_TASK, ["edit",currentTask.id]);
         done.element.onclick = () => {
+
             currentTask.done = currentTask.done == 1 ? 0 : 1;
             const res = taskService.updateUserTaskDone(currentTask);
             res.json();
 
-            
             if(currentTask.done == 1) {
                 this.taskContainer.removeChild(taskBox);
                 this.doneContainer.appendChild(taskBox);
@@ -346,6 +349,8 @@ export default class TasksView extends UIComponent {
                 this.taskContainer.appendChild(taskBox);
                 taskBox.element.classList.remove("done");
             }
+
+            this.core.toggle(currentTask.id)
            
         }
 
@@ -390,26 +395,25 @@ export default class TasksView extends UIComponent {
     }
 
 
-     /**
+    /**
      * Create a message to show when all the task are completed
      * @returns The message as a UIComponent
      */
-         private buildAllTaskCompletedMessage(): UIComponent {
-            return new UIComponent({
-                type: "h2",
-                classes: ["box-row", "box-center"],
-                text: App.getBundle().tasks.ALL_TASKS_COMPLETED + " &nbsp;<span>😌</span>",
-                styles: {
-                    opacity: "0.8",
-                    width: "calc(100% - 10rem)",
-                    height: "5rem",
-                    padding : "1rem",
-                    marginBottom : "1rem",
-                    borderRadius : ".55rem",
-                    //background: "rgba(255,255,255,.065)",
-                }
-            });
-        }
+    private buildAllTaskCompletedMessage(): UIComponent {
+        return new UIComponent({
+            type: "h2",
+            classes: ["box-row", "box-center"],
+            text: App.getBundle().tasks.ALL_TASKS_COMPLETED + " &nbsp;<span>😌</span>",
+            styles: {
+                opacity: "0.8",
+                width: "calc(100% - 10rem)",
+                height: "5rem",
+                padding : "1rem",
+                marginBottom : "1rem",
+                borderRadius : ".55rem",
+            }
+        });
+    }
 
 
 }

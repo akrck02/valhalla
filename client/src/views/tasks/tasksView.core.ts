@@ -9,12 +9,12 @@ import TasksView from "./tasksView.ui.js";
 export default class TaskCore {
 
     private view : TasksView;
-    private tasks : ITask[];
+    private notDoneTasks : ITask[];
     private doneTasks : ITask[];
 
     constructor( view : TasksView) {
         this.view = view;
-        this.tasks = [];
+        this.notDoneTasks = [];
         this.doneTasks = [];
     }
 
@@ -40,11 +40,44 @@ export default class TaskCore {
      */
     async getNotDoneTasks(user: string, category : string) : Promise<any> {
         const response = taskService.getUserNotdoneTasksFromCategory(user,category);
-        response.success(((res) => this.tasks = res));
+        response.success(((res) => this.notDoneTasks = res));
 
         await response.jsonPromise();
-        return new Promise((resolve) => resolve(this.tasks));
+        return new Promise((resolve) => resolve(this.notDoneTasks));
     }
+
+
+    public async toggle(id : string) {
+        const findDone = this.doneTasks.find((t) => t.id === parseInt(id));
+        const findNotDone = this.notDoneTasks.find((t) => t.id === parseInt(id));
+
+        if(!findDone && !findNotDone){
+            alert({
+                message : "No se pudo cambiar",
+                icon : "block"
+            });
+
+            return;
+        }
+
+        if(findDone) {
+            this.doneTasks.slice(this.doneTasks.indexOf(findDone),1);
+            this.notDoneTasks.push(findDone);
+        }  
+        
+        if(findNotDone) {
+            this.notDoneTasks.slice(this.notDoneTasks.indexOf(findNotDone),1);
+            this.doneTasks.push(findNotDone);
+        }
+
+
+        alert({
+            message : "Se pudo cambiar",
+            icon : "check"
+        });
+
+    }
+
 
     /**
      * Get categories for a user

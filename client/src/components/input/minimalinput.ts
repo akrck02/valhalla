@@ -32,17 +32,16 @@ export default class MinimalInput extends UIComponent {
     public onType(callback : (text : string) => void) {
 
         setEvents(this.element,{
-            "keyup" : (event) => {
-
-                
+            "keydown" : () => {
+                this.element.classList.remove("empty");
+            },
+            "keyup" : () => {
                 if(this.element.innerText.length == 0){
                     this.element.classList.add("empty");
                 } else {
                     this.element.classList.remove("empty");
                 }
                 callback(this.text);
-
-                
             }
         })
 
