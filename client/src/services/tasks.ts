@@ -177,6 +177,27 @@ export class taskService {
     }
 
     /**
+     * Delete some tasks
+     * @param task The tasks to delete
+     * @returns The tasks deleted
+     */
+    static deleteUserTasks(tasks: ITask[]) : Response { 
+
+        console.log(tasks);
+        
+
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: Configurations.API.DELETE_USER_TASKS,
+            parameters: {
+                tasks: tasks
+            },
+        });
+    
+        return response;
+    }
+
+    /**
      * Get a task
      * @param taskId The id of the task to get 
      * @returns The task 
@@ -196,7 +217,7 @@ export class taskService {
     /**
      * Update a task
      * @param task 
-     * @returns The task updated
+     * @returns The if the task was updated
      */
     static updateUserTask(task: ITask) : Response {
         const response = efetch({
@@ -204,6 +225,41 @@ export class taskService {
             url: Configurations.API.UPDATE_USER_TASK,
             parameters: {
                 task: task
+            },
+        });
+
+        return response;
+    }
+
+    /**
+     * Update a task done status
+     * @param task 
+     * @returns The if the task was updated
+     */
+    static updateUserTaskDone(task: ITask) : Response {
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: Configurations.API.UPDATE_USER_TASK_DONE,
+            parameters: {
+                task: task
+            },
+        });
+
+        return response;
+    }
+
+
+     /**
+     * Update a task done status
+     * @param task 
+     * @returns The if the task was updated
+     */
+    static updateUserTasksDone(tasks: ITask[]) : Response {
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: Configurations.API.UPDATE_USER_TASKS_DONE,
+            parameters: {
+                tasks: tasks
             },
         });
 

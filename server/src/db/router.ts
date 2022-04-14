@@ -20,7 +20,10 @@ export class Router {
             "get/user/task/categories" : Tasks.getUserTaskCategories,
             "insert/user/task" : Tasks.insertUserTask,
             "delete/user/task" : Tasks.deleteUserTask,
+            "delete/user/tasks" : Tasks.deleteUserTasks,
             "update/user/task" : Tasks.updateUserTask,
+            "update/user/task/done" : Tasks.updateUserTaskDone,
+            "update/user/tasks/done" : Tasks.updateUserTasksDone,
             "search/user/tasks/by/name" : Tasks.searchTasksByName,
         }
     }

@@ -11,10 +11,12 @@ import ConfigurationView from "./configuration/configurationView.ui.js";
 import ErrorV from "./error/errorV.js";
 import ProjectsV from "./projects/projects.js";
 import SearchView from "./search/searchView.ui.js";
-import NewTaskView from "./tasks/new/newTaskView.ui.js";
+import NewTaskView from "./new-tasks/newTaskView.ui.js";
 import TasksView from "./tasks/tasksView.ui.js";
 import TeamsV from "./teams/teams.js";
 import TerminalV from "./terminal/terminal.js";
+import DummyV from "./dummy/dummyView.ui.js";
+import ViewerV from "./viewer/viewer.ui.js";
 
 export default class Router {
 
@@ -30,6 +32,7 @@ export default class Router {
         this.parent = document.getElementById("view-container") as HTMLElement;
         this.container = new UIComponent({
             type: "div",
+            id: "view-container-box",
             styles: {
                 width: "calc(100% - 3rem)",
                 height: "100%",
@@ -98,8 +101,16 @@ export default class Router {
                     new AboutView().show(params.splice(1), this.container);
                     this.sidebar.setSelected(4);
                     break;
+                case "viewer":
+                    new ViewerV().show(params.splice(1), this.container);
+                    this.sidebar.setSelected(5);
+                    break;
                 case "error":
                     new ErrorV().show(params.splice(1), this.container);
+                    break;
+                case "dummy":
+                    new DummyV().show(params.splice(1), this.container);
+                    this.sidebar.setSelected(5);
                     break;
                 default:
                     location.href = Configurations.VIEWS.ERROR;

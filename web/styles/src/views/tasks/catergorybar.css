@@ -2,10 +2,15 @@
 div#category-bar {
     width: 20em;
     height: 100%;
-    padding: 1rem 1.7rem;
+    padding: 1.25rem 0 0 1rem;
     border-right: .1rem solid rgba(0, 0, 0, .05);
     transition: width var(--medium), opacity var(--slow);
     backdrop-filter: blur(1rem);
+  
+}
+div#category-bar div#category-bar-menu {
+    overflow: auto;
+    padding: 0 0 2rem 1rem;
 }
 
 div#category-bar h1#category-bar-title {

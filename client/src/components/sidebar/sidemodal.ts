@@ -77,7 +77,10 @@ export class SideModal extends UIComponent {
         this.description.element.innerHTML = App.getBundle().sync.OFFLINE_EXPLANATION;
         this.action.element.innerHTML = App.getBundle().sync.SYNC;
         this.action.element.onclick = () => {
-            alert(App.getBundle().system.NOT_IMPLEMENTED_YET);
+            alert({ 
+                message : App.getBundle().system.NOT_IMPLEMENTED_YET,
+                icon : 'info'
+            });
         }
     }
 

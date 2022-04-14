@@ -4,8 +4,10 @@ export const TaskBundleEs = {
     CREATE_YOUR_FIRST_TASK: "Crea tu primera tarea!",
     NO_TASKS_FOUND : "No se encontraron tareas",
     ALL_TASKS_COMPLETED: "Enhorabuena, has completado todas las tareas",
+    TASK_DELETED_SUCCESSFULLY: "Tarea eliminada con éxito",
     TODAY : "hoy",
     TOMORROW : "mañana",
     NOW: "ahora",
     OTHERS: "Sin categoria",
+    COMPLETED: "Completadas",
 }

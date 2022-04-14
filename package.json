@@ -5,6 +5,7 @@
   "main": "./server/out/electron.js",
   "scripts": {
     "start": "electron .",
+    "compile": "npm run compile-server & npm run compile-client",
     "compile-server": "tsc --project ./server/",
     "compile-server-watch": "tsc --project ./server/ -w",
     "compile-client": "tsc --project ./client/",

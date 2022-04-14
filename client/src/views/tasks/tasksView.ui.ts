@@ -1,6 +1,7 @@
 
 import { App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
+import { ITask } from "../../core/data/interfaces/task.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../services/tasks.js";
@@ -13,6 +14,7 @@ export default class TasksView extends UIComponent {
 
     private wrapper : UIComponent;
     private toolbar : UIComponent;
+
     private doneContainer: UIComponent;
     private taskContainer: UIComponent;
 
@@ -26,9 +28,7 @@ export default class TasksView extends UIComponent {
                 height: "100%",
                 backdropFilter: "blur(1rem)",
             },
-            data: {
-                selected : ""
-            }
+            data: { selected : "" }
         });
 
         this.wrapper = new UIComponent({
@@ -47,7 +47,7 @@ export default class TasksView extends UIComponent {
      * @param container The container to draw the view on
      * @param configurations The configurations of the app
      */
-    public show(params: string[], container: UIComponent): void {
+    public show(params: string[], container: UIComponent | HTMLElement): void {
 
         this.wrapper.clean();
 
@@ -176,6 +176,7 @@ export default class TasksView extends UIComponent {
             setTimeout(() => this.core.goToCategory(this.core.getSelectedCategory()), 350);
         });
 
+        // Toggle muliple selection
         check.element.addEventListener("click", () => {
            
             if(this.element.classList.contains("select")) {
@@ -183,8 +184,38 @@ export default class TasksView extends UIComponent {
             } else {
                 this.element.classList.add("select");
             }
+
         });
 
+        // Toggle done status on multiple tasks
+        done.element.addEventListener("click", async () => {
+
+            const inputs = document.querySelectorAll(".task-box input[type=checkbox]:checked");            
+            let ids = [];
+
+            for(let i = 0; i < inputs.length; i++) {
+                const input = inputs[i];
+                ids.push((input as HTMLInputElement).value);
+            }
+
+            await this.core.toogleTasks(ids);
+            setTimeout(() => this.core.goToCategory(this.core.getSelectedCategory()), 350);
+        });
+
+
+        // Delete multiple tasks 
+        deleteTask.element.addEventListener("click", async () => {
+            const inputs = document.querySelectorAll(".task-box input[type=checkbox]:checked");
+            let ids = [];
+            
+            for(let i = 0; i < inputs.length; i++) {
+                const input = inputs[i];
+                ids.push((input as HTMLInputElement).value);
+            }
+
+            await this.core.deleteUserTasks(ids);
+            setTimeout(() => this.core.goToCategory(this.core.getSelectedCategory()), 350);
+        });
 
         this.toolbar.appendChild(done);
         this.toolbar.appendChild(deleteTask);
@@ -193,7 +224,6 @@ export default class TasksView extends UIComponent {
         this.toolbar.appendChild(reload);
 
     }
-
 
     /**
      * Show the not done tasks
@@ -227,7 +257,7 @@ export default class TasksView extends UIComponent {
         const doneTasks = await this.core.getDoneTasks(Configurations.getUserName(), selected);
         const doneTitle = new UIComponent({
             type: "h1",
-            text: "Completed &nbsp;" + getMaterialIcon("check_all", { fill: "#fff", size: "1.15em" }).toHTML(),
+            text:  App.getBundle().tasks.COMPLETED  + "&nbsp;" + getMaterialIcon("check_all", { fill: "#fff", size: "1.15em" }).toHTML(),
             classes: ["box-row", "box-y-center", "box-x-start"],
             styles: {
                 opacity: "0.8",
@@ -235,7 +265,7 @@ export default class TasksView extends UIComponent {
                 width: "100%",
                 textAlign: "left",
                 padding: "1rem 0",
-            }
+            },
         });
 
         if (doneTasks.length > 0) {
@@ -261,6 +291,9 @@ export default class TasksView extends UIComponent {
         const taskBox = new UIComponent({
             type: "div",
             classes: ["box-row", "task-box"],
+            data : {
+                id : currentTask.id
+            }
         });
 
         //switch control
@@ -280,7 +313,10 @@ export default class TasksView extends UIComponent {
 
         const checkbox = new UIComponent({
             type : "input", 
-            attributes :{ type : "checkbox"}
+            attributes :{
+                type : "checkbox",
+                value : currentTask.id
+            }
         });
 
         switchControl.appendChild(checkbox);
@@ -332,8 +368,10 @@ export default class TasksView extends UIComponent {
 
         edit.element.onclick = () => App.redirect(Configurations.VIEWS.NEW_TASK, ["edit",currentTask.id]);
         done.element.onclick = () => {
+
             currentTask.done = currentTask.done == 1 ? 0 : 1;
-            taskService.updateUserTask(currentTask);
+            const res = taskService.updateUserTaskDone(currentTask);
+            res.json();
 
             if(currentTask.done == 1) {
                 this.taskContainer.removeChild(taskBox);
@@ -344,10 +382,9 @@ export default class TasksView extends UIComponent {
                 this.taskContainer.appendChild(taskBox);
                 taskBox.element.classList.remove("done");
             }
-           
 
-            //App.redirect(Configurations.VIEWS.TASKS,["noparams"]);
-            //App.redirect(Configurations.VIEWS.TASKS,[]);
+            this.core.toggle(currentTask.id)
+           
         }
 
         deleteTask.element.onclick = async () => {
@@ -356,8 +393,12 @@ export default class TasksView extends UIComponent {
             if (document.querySelectorAll(".task-box").length == 0) {
                 container.appendChild(this.buildNotTaskFoundErrorMessage());
             }
-        };
 
+            alert({
+                message: App.getBundle().tasks.TASK_DELETED_SUCCESSFULLY,
+                icon: 'delete'
+            })
+        };
 
         toolbar.appendChild(edit);
         toolbar.appendChild(done);
@@ -387,26 +428,25 @@ export default class TasksView extends UIComponent {
     }
 
 
-     /**
+    /**
      * Create a message to show when all the task are completed
      * @returns The message as a UIComponent
      */
-         private buildAllTaskCompletedMessage(): UIComponent {
-            return new UIComponent({
-                type: "h2",
-                classes: ["box-row", "box-center"],
-                text: App.getBundle().tasks.ALL_TASKS_COMPLETED + " &nbsp;<span>😌</span>",
-                styles: {
-                    opacity: "0.8",
-                    width: "calc(100% - 10rem)",
-                    height: "5rem",
-                    padding : "1rem",
-                    marginBottom : "1rem",
-                    borderRadius : ".55rem",
-                    //background: "rgba(255,255,255,.065)",
-                }
-            });
-        }
+    private buildAllTaskCompletedMessage(): UIComponent {
+        return new UIComponent({
+            type: "h2",
+            classes: ["box-row", "box-center"],
+            text: App.getBundle().tasks.ALL_TASKS_COMPLETED + " &nbsp;<span>😌</span>",
+            styles: {
+                opacity: "0.8",
+                width: "calc(100% - 10rem)",
+                height: "5rem",
+                padding : "1rem",
+                marginBottom : "1rem",
+                borderRadius : ".55rem",
+            }
+        });
+    }
 
 
 }

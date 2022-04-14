@@ -15,7 +15,7 @@ export class Tasks implements HTTPResponse {
      * @param res The HTTP response
      * @returns a promise
      */
-    public static searchTasksByName (db: Database, req: Request, res: Response): Promise<any> {
+    public static searchTasksByName(db: Database, req: Request, res: Response): Promise<any> {
         const username = req?.body?.user;
         const searcher = req?.body?.searcher;
 
@@ -86,7 +86,7 @@ export class Tasks implements HTTPResponse {
      * @param res The HTTP response
      * @return a promise
      */
-     public static getUserNotDoneTasks(db: Database, req: Request, res: Response): Promise<any> {
+    public static getUserNotDoneTasks(db: Database, req: Request, res: Response): Promise<any> {
 
         const username = req?.body?.user;
 
@@ -194,7 +194,7 @@ export class Tasks implements HTTPResponse {
      * @param res The HTTP response
      * @returns a promise
      */
-     public static getUserNotDoneTasksFromCategory(db: Database, req: Request, res: Response): Promise<any> {
+    public static getUserNotDoneTasksFromCategory(db: Database, req: Request, res: Response): Promise<any> {
 
         const username = req?.body?.user;
         const category = req?.body?.category;
@@ -289,11 +289,11 @@ export class Tasks implements HTTPResponse {
         try {
             const task: ITask = req?.body?.task;
 
-            if(!task.done) {
+            if (!task.done) {
                 task.done = 0;
             }
 
-            if(!task.allDay) {
+            if (!task.allDay) {
                 task.allDay = 0;
             }
 
@@ -370,6 +370,45 @@ export class Tasks implements HTTPResponse {
         }
     }
 
+    /**
+     * Update the user tasks
+     * @param db The database connection
+     * @param req The HTTP request
+     * @param res The HTTP response
+     * @returns a promise
+     */
+    public static async deleteUserTasks(db: Database, req: Request, res: Response): Promise<any> {
+        try {
+            const tasks: ITask[] = req?.body?.tasks;
+            const taskDeleted: string[] = [];
+
+            tasks.forEach(async (task: ITask) => {
+                if (await TaskModel.deleteUserTask(db, task)) {
+                    if (task.name) {
+                        await LabelModel.deleteUserTaskLabels(db, task);
+                        taskDeleted.push(task.name);
+                    }
+                }
+            });
+
+            return new Promise((resolve) =>
+                resolve({
+                    status: "success",
+                    reason: "Deleted tasks " + taskDeleted.join(", "),
+                    tasks: taskDeleted
+                })
+            );
+        } catch (error) {
+            console.error(error);
+            return new Promise((resolve) =>
+                resolve({
+                    status: "failed",
+                    reason: "Missing parameters"
+                })
+            );
+        }
+    }
+
 
     /**
      * Update the user task
@@ -392,16 +431,16 @@ export class Tasks implements HTTPResponse {
             }
 
 
-            await LabelModel.deleteUserTaskLabels(db,task);
+            await LabelModel.deleteUserTaskLabels(db, task);
 
             task.labels?.forEach(async (key: string) => {
                 await LabelModel.setLabelToTask(db, task.id + "" || "", key);
             });
 
             if (await TaskModel.updateUserTask(db, task)) {
-                
 
-                
+
+
                 return new Promise((resolve) =>
                     resolve({
                         status: "success",
@@ -427,5 +466,104 @@ export class Tasks implements HTTPResponse {
             );
         }
     }
+
+    /**
+     * Update the user task done status
+     * @param db The database connection
+     * @param req The HTTP request
+     * @param res The HTTP response
+     * @returns a promise
+     */
+    public static async updateUserTaskDone(db: Database, req: Request, res: Response): Promise<any> {
+
+        try {
+            const task: ITask = req?.body?.task;
+            if (!task || task.done == undefined) {
+                return new Promise((resolve) =>
+                    resolve({
+                        status: "failed",
+                        reason: "Missing parameters"
+                    })
+                );
+            }
+
+            if (await TaskModel.updateUserTask(db, task)) {
+                return new Promise((resolve) =>
+                    resolve({
+                        status: "success",
+                        reason: "User task successfully updated"
+                    })
+                );
+            }
+
+            return new Promise((resolve) =>
+                resolve({
+                    status: "Error",
+                    reason: "Task wasn't updated"
+                })
+            );
+
+        } catch (error) {
+            console.error(error);
+            return new Promise((resolve) =>
+                resolve({
+                    status: "failed",
+                    reason: "Missing parameters"
+                })
+            );
+        }
+    }
+
+    /**
+ * Update the user task done status
+ * @param db The database connection
+ * @param req The HTTP request
+ * @param res The HTTP response
+ * @returns a promise
+ */
+    public static async updateUserTasksDone(db: Database, req: Request, res: Response): Promise<any> {
+
+        try {
+            const tasks: ITask[] = req?.body?.tasks;
+            if (!tasks) {
+                return new Promise((resolve) =>
+                    resolve({
+                        status: "failed",
+                        reason: "Missing parameters"
+                    })
+                );
+            }
+
+            let updatedTaskNames: string[] = [];
+
+            await tasks.forEach(async (task: ITask) => {
+
+                if (await TaskModel.updateUserTask(db, task)) {
+                    if (task.name) {
+                        updatedTaskNames.push(task.name);
+                    }
+                }
+
+            });
+
+            return new Promise((resolve) =>
+                resolve({
+                    status: "Success",
+                    reason: "Updated tasks " + updatedTaskNames.join(", "),
+                    tasks: updatedTaskNames
+                })
+            );
+
+        } catch (error) {
+            console.error(error);
+            return new Promise((resolve) =>
+                resolve({
+                    status: "failed",
+                    reason: "Missing parameters"
+                })
+            );
+        }
+    }
+
 
 }
