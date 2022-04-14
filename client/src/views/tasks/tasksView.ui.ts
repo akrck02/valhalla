@@ -67,7 +67,7 @@ export default class TasksView extends UIComponent {
         });
 
         const categoryBar = new CategoryBar(
-            params[0],
+            params[0] || Configurations.getConfigVariable("TASKS_SELECTED_CATEGORY"),
             (selected) => this.showTasks(selected),
             () => this.core.newTask()
         );

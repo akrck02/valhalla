@@ -30,7 +30,7 @@ export default class NewTaskCore {
             start: DateText.toSQLiteDate(new Date()),
             end: DateText.toSQLiteDate(new Date()),
             author: "",
-            labels: [App.getBundle().newTask.TODAY],
+            labels: [Configurations.getConfigVariable("TASKS_SELECTED_CATEGORY") || App.getBundle().newTask.TODAY],
         };
 
         return task;
