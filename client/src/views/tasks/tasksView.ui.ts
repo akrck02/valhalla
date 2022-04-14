@@ -47,7 +47,7 @@ export default class TasksView extends UIComponent {
      * @param container The container to draw the view on
      * @param configurations The configurations of the app
      */
-    public show(params: string[], container: UIComponent): void {
+    public show(params: string[], container: UIComponent | HTMLElement): void {
 
         this.wrapper.clean();
 
@@ -176,6 +176,7 @@ export default class TasksView extends UIComponent {
             setTimeout(() => this.core.goToCategory(this.core.getSelectedCategory()), 350);
         });
 
+        // Toggle muliple selection
         check.element.addEventListener("click", () => {
            
             if(this.element.classList.contains("select")) {
@@ -186,6 +187,35 @@ export default class TasksView extends UIComponent {
 
         });
 
+        // Toggle done status on multiple tasks
+        done.element.addEventListener("click", async () => {
+
+            const inputs = document.querySelectorAll(".task-box input[type=checkbox]:checked");            
+            let ids = [];
+
+            for(let i = 0; i < inputs.length; i++) {
+                const input = inputs[i];
+                ids.push((input as HTMLInputElement).value);
+            }
+
+            await this.core.toogleTasks(ids);
+            setTimeout(() => this.core.goToCategory(this.core.getSelectedCategory()), 350);
+        });
+
+
+        // Delete multiple tasks 
+        deleteTask.element.addEventListener("click", async () => {
+            const inputs = document.querySelectorAll(".task-box input[type=checkbox]:checked");
+            let ids = [];
+            
+            for(let i = 0; i < inputs.length; i++) {
+                const input = inputs[i];
+                ids.push((input as HTMLInputElement).value);
+            }
+
+            await this.core.deleteUserTasks(ids);
+            setTimeout(() => this.core.goToCategory(this.core.getSelectedCategory()), 350);
+        });
 
         this.toolbar.appendChild(done);
         this.toolbar.appendChild(deleteTask);
@@ -227,7 +257,7 @@ export default class TasksView extends UIComponent {
         const doneTasks = await this.core.getDoneTasks(Configurations.getUserName(), selected);
         const doneTitle = new UIComponent({
             type: "h1",
-            text: "Completed &nbsp;" + getMaterialIcon("check_all", { fill: "#fff", size: "1.15em" }).toHTML(),
+            text:  App.getBundle().tasks.COMPLETED  + "&nbsp;" + getMaterialIcon("check_all", { fill: "#fff", size: "1.15em" }).toHTML(),
             classes: ["box-row", "box-y-center", "box-x-start"],
             styles: {
                 opacity: "0.8",
@@ -283,7 +313,10 @@ export default class TasksView extends UIComponent {
 
         const checkbox = new UIComponent({
             type : "input", 
-            attributes :{ type : "checkbox"}
+            attributes :{
+                type : "checkbox",
+                value : currentTask.id
+            }
         });
 
         switchControl.appendChild(checkbox);

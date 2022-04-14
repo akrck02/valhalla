@@ -179,7 +179,7 @@ header#os-navbar div#search #search-modal::before {
     z-index: -1;
   }
 
-header#os-navbar div#search #search-modal.hidden{
+header#os-navbar div#search #search-modal:not(:hover).hidden{
     opacity: 0;
     display: none;
 }

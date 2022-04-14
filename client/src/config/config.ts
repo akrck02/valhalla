@@ -23,6 +23,7 @@ export class Configurations {
     };
 
     public static PATHS = {
+        WEB : "../web/",
         ROOT : "../client/",
         LOGS : "../client/logs/",
         RESOURCES : "../client/resources/",
@@ -43,7 +44,9 @@ export class Configurations {
         CONFIGURATION: "../web/index.html#/configuration/",
         TERMINAL: "../web/index.html#/terminal/",
         ABOUT: "../web/index.html#/about/",
+        VIEWER: "../web/index.html#/viewer/",
         ERROR: "../web/index.html#/error/",
+        DUMMY: "../web/index.html#/dummy/",
     };
     
     public static API = {
@@ -59,8 +62,10 @@ export class Configurations {
         GET_USER_TASK_CATEGORIES: "http://127.0.0.1:3333/api/v1/get/user/task/categories/",
         INSERT_USER_TASK: "http://127.0.0.1:3333/api/v1/insert/user/task/",
         DELETE_USER_TASK: "http://127.0.0.1:3333/api/v1/delete/user/task/",
+        DELETE_USER_TASKS: "http://127.0.0.1:3333/api/v1/delete/user/tasks/",
         UPDATE_USER_TASK: "http://127.0.0.1:3333/api/v1/update/user/task/",
         UPDATE_USER_TASK_DONE: "http://127.0.0.1:3333/api/v1/update/user/task/done/",
+        UPDATE_USER_TASKS_DONE: "http://127.0.0.1:3333/api/v1/update/user/tasks/done/",
         SEARCH_USER_TASKS_BY_NAME: "http://127.0.0.1:3333/api/v1/search/user/tasks/by/name",
     };
 

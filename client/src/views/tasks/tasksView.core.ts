@@ -8,11 +8,11 @@ import TasksView from "./tasksView.ui.js";
 
 export default class TaskCore {
 
-    private view : TasksView;
-    private notDoneTasks : ITask[];
-    private doneTasks : ITask[];
+    private view: TasksView;
+    private notDoneTasks: ITask[];
+    private doneTasks: ITask[];
 
-    constructor( view : TasksView) {
+    constructor(view: TasksView) {
         this.view = view;
         this.notDoneTasks = [];
         this.doneTasks = [];
@@ -24,8 +24,8 @@ export default class TaskCore {
      * @param category Category to get tasks for
      * @returns a promise that resolves to an array of tasks
      */
-    async getDoneTasks(user: string, category : string) : Promise<any> {
-        const response = taskService.getUserDoneTasksFromCategory(user,category);
+    async getDoneTasks(user: string, category: string): Promise<any> {
+        const response = taskService.getUserDoneTasksFromCategory(user, category);
         response.success(((res) => this.doneTasks = res));
 
         await response.jsonPromise();
@@ -38,59 +38,93 @@ export default class TaskCore {
      * @param category Category to get tasks for
      * @returns a promise that resolves to an array of tasks
      */
-    async getNotDoneTasks(user: string, category : string) : Promise<any> {
-        const response = taskService.getUserNotdoneTasksFromCategory(user,category);
+    async getNotDoneTasks(user: string, category: string): Promise<any> {
+        const response = taskService.getUserNotdoneTasksFromCategory(user, category);
         response.success(((res) => this.notDoneTasks = res));
 
         await response.jsonPromise();
         return new Promise((resolve) => resolve(this.notDoneTasks));
     }
 
+    /**
+     * Find a task given an id
+     * @param id The id of the task to find
+     * @returns a promise that resolves to a task
+     */
+    public findTask(id: number) : ITask {
+        return this.notDoneTasks.find(task => task.id === id) || this.doneTasks.find(task => task.id === id);
+    }
 
-    public async toggle(id : string) {
+
+    /**
+     * Toggle the "done" status of a task
+     * @param id The id of the task to toggle
+     */
+    public async toggle(id: string) {
         const findDone = this.doneTasks.find((t) => t.id === parseInt(id));
         const findNotDone = this.notDoneTasks.find((t) => t.id === parseInt(id));
 
-        if(!findDone && !findNotDone){
+        if (!findDone && !findNotDone) {
             alert({
-                message : "No se pudo cambiar",
-                icon : "block"
+                message: "Error",
+                icon: "block"
             });
 
             return;
         }
 
-        if(findDone) {
-            this.doneTasks.slice(this.doneTasks.indexOf(findDone),1);
+        if (findDone) {
+            findDone.done = 0;
+            this.doneTasks.slice(this.doneTasks.indexOf(findDone), 1);
             this.notDoneTasks.push(findDone);
-        }  
-        
-        if(findNotDone) {
-            this.notDoneTasks.slice(this.notDoneTasks.indexOf(findNotDone),1);
+        }
+
+        if (findNotDone) {
+            findNotDone.done = 1;
+            this.notDoneTasks.slice(this.notDoneTasks.indexOf(findNotDone), 1);
             this.doneTasks.push(findNotDone);
         }
 
-
-        alert({
-            message : "Se pudo cambiar",
-            icon : "check"
-        });
-
     }
 
+    /**
+     * Toggle multiple task done status in the view 
+     * @param tasks The tasks to toggle
+     */
+    public async toogleTasks(tasks: string[]) {
+
+        const taskObjects = [];
+        await tasks.forEach(async (task) => {
+            const taskObject = await this.findTask(parseInt(task));
+
+            if (taskObject) {
+                taskObjects.push(taskObject);
+                await this.toggle(task);
+            }
+        });
+
+        const response = taskService.updateUserTasksDone(taskObjects);
+        let responseJson: any;
+
+        response.success(json => {
+            responseJson = json;
+        })
+        await response.jsonPromise();
+
+    }
 
     /**
      * Get categories for a user
      * @param user User to get categories for
      * @returns a promise that resolves to an array of categories
      */
-    async getCategories(user: string) : Promise<any> {
+    async getCategories(user: string): Promise<any> {
         let categories = [];
         const response = taskService.getUserTaskCategories(user);
         response.success(((res) => { categories = res; }));
-        
+
         await response.jsonPromise();
-        return new Promise((resolve) => {resolve(categories)});
+        return new Promise((resolve) => { resolve(categories) });
     }
 
     /**
@@ -98,11 +132,23 @@ export default class TaskCore {
      * @param id the id of the task
      * @returns a promise that resolves to an array of categories
      */
-     async deleteUserTask(id: number) : Promise<any> {
+    async deleteUserTask(id: number): Promise<any> {
         const response = taskService.deleteUserTask({ id: id });
-        
+
         await response.jsonPromise();
-        return new Promise((resolve) => {resolve({})});
+        return new Promise((resolve) => { resolve({}) });
+    }
+
+    /**
+     * Get categories for a user
+     * @param id the id of the task
+     * @returns a promise that resolves to an array of categories
+     */
+     async deleteUserTasks(ids: number[]): Promise<any> {
+        const response = taskService.deleteUserTasks(ids.map(id => { return { id: id } }));
+
+        await response.jsonPromise();
+        return new Promise((resolve) => { resolve({}) });
     }
 
 
@@ -133,7 +179,7 @@ export default class TaskCore {
         } else {
 
             today.setDate(today.getDate() + 1);
-            if (date.toString() === today.toString()) { return App.getBundle().tasks.TOMORROW; } 
+            if (date.toString() === today.toString()) { return App.getBundle().tasks.TOMORROW; }
             else { return DateText.toLocalizedDateString(date) }
         }
     }
@@ -151,7 +197,7 @@ export default class TaskCore {
      * @param category The category to navigate to
      */
     public goToCategory(category: string) {
-        
+
         //Assure that the view is loaded loading a new view and then loading the original view
         location.href = Configurations.VIEWS.NEW_TASK;
         location.href = Configurations.VIEWS.TASKS + category;
@@ -162,7 +208,7 @@ export default class TaskCore {
      * Set the selected category of the view
      * @param selected The selected category
      */
-    public setSelectedCategory(selected : string) {
+    public setSelectedCategory(selected: string) {
         this.view.element.dataset.selected = selected;
     }
 

@@ -144,6 +144,30 @@ export class Sidebar extends UIComponent {
             },
         });
 
+        const viewer = new UIComponent({
+            type: "a",
+            classes: ["sidebar-item","box-center"],
+            text: getMaterialIcon("article",{
+                size: "1.25rem",
+                fill: "#404040",
+            }).toHTML(),
+            attributes: {
+                href: Configurations.VIEWS.VIEWER,
+            },
+        })
+
+        const dummy = new UIComponent({
+            type: "a",
+            classes: ["sidebar-item","box-center"],
+            text: getMaterialIcon("science",{
+                size: "1.25rem",
+                fill: "#404040",
+            }).toHTML(),
+            attributes: {
+                href: Configurations.VIEWS.DUMMY,
+            },
+        });
+
         this.elements = [tasks, calendar, search, configuration, about];
 
         if(false && Configurations.getConfigVariable("GANDALF")){

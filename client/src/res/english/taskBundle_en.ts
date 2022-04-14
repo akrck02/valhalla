@@ -9,4 +9,5 @@ export const TaskBundleEn = {
     TOMORROW : "tomorrow",
     NOW: "now",
     OTHERS: "No category",
+    COMPLETED: "Completed",
 }

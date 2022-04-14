@@ -3,7 +3,7 @@ import { App } from "../../../app.js";
 import { Configurations } from "../../../config/config.js";
 import { ITask } from "../../../core/data/interfaces/task.js";
 import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
-import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
+import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 
 export class SearchModal extends UIComponent {
 
@@ -61,6 +61,11 @@ export class SearchModal extends UIComponent {
                 classes: ["task-entry"],
                 id: "more",
                 text: App.getBundle().os.MORE + "...",
+                events: {
+                    click: () => {
+                        App.redirect(Configurations.VIEWS.SEARCH,[""]);
+                    }
+                }
             })
 
             const icon = getMaterialIcon("search",{fill: "white", size:"1.5rem"});
