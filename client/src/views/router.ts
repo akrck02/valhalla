@@ -17,6 +17,7 @@ import TeamsV from "./teams/teams.js";
 import TerminalV from "./terminal/terminal.js";
 import DummyV from "./dummy/dummyView.ui.js";
 import ViewerV from "./viewer/viewer.ui.js";
+import ShowTaskView from "./show-task/showTask.ui.js";
 
 export default class Router {
 
@@ -65,6 +66,9 @@ export default class Router {
                 case "tasks":
                     new TasksView().show(params.splice(1), this.container);    
                     this.sidebar.setSelected(0);
+                    break;
+                case "task":
+                    new ShowTaskView().show(params.splice(1), this.container);    
                     break;
                 case "new-task":
                     new NewTaskView().show(params.splice(1), this.container);    

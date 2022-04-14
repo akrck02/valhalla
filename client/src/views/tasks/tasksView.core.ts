@@ -203,6 +203,18 @@ export default class TaskCore {
         location.href = Configurations.VIEWS.TASKS + category;
     }
 
+    /**
+     * Go to a given task
+     * @param task The task to navigate to
+     */
+     public goToTask(task: string) {
+
+        //Assure that the view is loaded loading a new view and then loading the original view
+        location.href = Configurations.VIEWS.NEW_TASK;
+        location.href = Configurations.VIEWS.TASK + task;
+    }
+
+
 
     /**
      * Set the selected category of the view

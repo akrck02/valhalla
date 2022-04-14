@@ -330,6 +330,10 @@ export default class TasksView extends UIComponent {
             classes: ["box-row", "box-y-center", "box-x-between", "task"],
         });
 
+        task.element.onclick = () => {
+            this.core.goToTask(currentTask.id);
+        };
+
         if(currentTask.done == "1") {
             taskBox.element.classList.add("done");
         }

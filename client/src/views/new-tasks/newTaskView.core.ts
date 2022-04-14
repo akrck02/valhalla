@@ -201,7 +201,7 @@ export default class NewTaskCore {
     public async getRecentLabels() : Promise<any[]>{
         let labels = [];
         const response = taskService.getUserTaskCategories(Configurations.getUserName());
-        response.success(res => labels = res.slice(0, 3));
+        response.success(res => labels = res);
         await response.jsonPromise();        
         return new Promise(suc => suc(labels));
     }

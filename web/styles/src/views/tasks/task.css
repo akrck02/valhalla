@@ -48,11 +48,11 @@ view#tasks .task-box .task {
     width: calc(100% );
     padding: 1rem;
     border-radius: 0.55rem;
-    height: 3rem;
+    min-height: 3rem;
     background: rgba(0,0,0,0.035);
     opacity: 0;
     cursor: pointer;
-    transition: opacity var(--slow), width var(--medium);
+    transition: opacity var(--slow), width var(--medium), height var(--fast);
 }
 
 :root[data-theme=dark] view#tasks .task-box  .task {

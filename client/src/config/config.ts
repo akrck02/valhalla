@@ -36,6 +36,7 @@ export class Configurations {
     public static VIEWS = {
         BASE_URL: "../web/index.html#/",
         TASKS: "../web/index.html#/tasks/",
+        TASK: "../web/index.html#/task/",
         NEW_TASK: "../web/index.html#/new-task/",
         CALENDAR: "../web/index.html#/calendar/",
         TEAMS: "../web/index.html#/teams/",

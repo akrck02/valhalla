@@ -14,7 +14,7 @@ export default class LabelContainer extends UIComponent {
     public constructor(core : NewTaskCore) {
         super({
             classes: ["box-row","box-warp"],
-            id: "tag-container"
+            id: "tag-container",
         }); 
 
         this.moreButton = this.createMoreButton();
@@ -66,7 +66,7 @@ export default class LabelContainer extends UIComponent {
                     icon: 'block'
                 });
 
-                this.removeLabel(labelButton.getLabel());                
+                this.removeLabel(labelButton.getLabel());               
             }
             this.update()
         
