@@ -22,6 +22,7 @@
       "./src/system.ts",
 
       "./src/utils/time.ts",
+      "./src/utils/string.ts",
       
       "./src/res/textBundle.ts",
       "./src/res/english/createBundle_en.ts",

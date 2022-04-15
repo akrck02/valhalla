@@ -17,8 +17,9 @@ export default class ShowTaskView extends UIComponent {
             id: "task",
             classes: ["box-column"],
             styles : {
-                width : "100%",
-                height : "100%",
+                minWidth : "100%",
+                minHeight : "100%",
+                position: "relative",
             }
         });
 
@@ -61,7 +62,7 @@ export default class ShowTaskView extends UIComponent {
             setStyles(this.box.element, {
                 opacity : "1",
             });;   
-        }, 250);
+        }, 100);
     }
 
 

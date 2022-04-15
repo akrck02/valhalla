@@ -1,43 +1,158 @@
 import { APP, App } from "../../app.js";
+import { Configurations } from "../../config/config.js";
+import { StringUtils } from "../../core/data/integrity/string.js";
+import { ITask } from "../../core/data/interfaces/task.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
-import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { sleep } from "../../lib/gtd-ts/sync/timetools.js";
+import { setEvents, setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import SearchCore from "./searchView.core.js";
 
 export default class SearchView extends UIComponent {
+
+    private core : SearchCore;
+
+    private resultsForMessage : UIComponent; 
+    private taskContainer : UIComponent;
+    private categoryContainer : UIComponent;
 
 
     constructor() {
         super({
             type: "view",
             id: "search",
-            classes: ["box-column", "box-y-center"],
+            classes: ["box-column"],
+            styles: {
+                padding: "1rem 3rem",
+                overflowY: "auto",
+            }
         });
+
+        this.core = new SearchCore();
     }
 
 
     public show(params : string[], container : UIComponent): void {
     
         APP.router.osNavbar.hideSearchBar();
+        let search = params[0];
 
+        if(!search) {
+            search = Configurations.getConfigVariable("LAST_SEARCH");
+        }
+
+        Configurations.addConfigVariable("LAST_SEARCH", search);
+
+        const topBar = new UIComponent({
+            type: "div",
+            classes: ["box-column", "box-x-start", "box-y-center"],
+            styles : {
+                paddingBottom: "1rem",
+                wordBreak: "break-word"
+            }
+        });
+
+        this.showSearchbar(search, topBar);
+
+        const columnContainer = new UIComponent({
+            type: "div",
+            classes: ["box-row"],
+            styles: {
+                padding: "2rem 0rem",
+            }
+        });
+
+        const columnOne = new UIComponent({
+            type: "div",
+            classes: ["box-column"],
+            styles: {
+                width: "50%",
+                height: "100%",
+                padding: "0 1rem",
+            }
+        });
+
+        const taskTitle = new UIComponent({
+            type: "div",
+            text: App.getBundle().os.TASKS + ":",
+            classes: ["box-row", "box-x-start", "box-y-center"],
+            styles: {
+                width: "100%",
+                fontSize: "1rem",
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                marginBottom: "1rem",
+            }
+        });
+
+        this.taskContainer = new UIComponent({
+            type: "div",
+            classes: ["box-column"],
+        });
+
+        this.core.getTasks(search, tasks => {
+            this.showTasks(tasks, this.taskContainer);
+        });
+
+        columnOne.appendChild(taskTitle);
+        columnOne.appendChild(this.taskContainer);
+
+
+        const columnTwo = new UIComponent({
+            type: "div",
+            classes: ["box-column"],    
+            styles: {
+                width: "50%",
+                height: "100%",
+                padding: "0 1rem",
+            }
+        });
+
+        const categoriesTitle = new UIComponent({
+            type: "div",
+            text: App.getBundle().os.CATEGORIES + ":",
+            classes: ["box-row", "box-x-start", "box-y-center"],
+            styles: {
+                width: "100%",
+                fontSize: "1rem",
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                marginBottom: "1rem",
+            }
+        });
+
+        columnTwo.appendChild(categoriesTitle);
+
+        columnContainer.appendChild(columnOne);
+        columnContainer.appendChild(columnTwo);
+
+        this.appendChild(topBar);
+        this.appendChild(columnContainer);
+        this.appendTo(container);
+    }
+
+    public showSearchbar(search : string = '', container : UIComponent): void {
         const bar = new UIComponent({
             type: "div",
             classes: ["box-row", "box-x-center", "box-y-center"],
             styles: {
                 width: "40%",
-                height: "3rem",
-                backgroundColor: "rgba(255,255,255,0.1)",
-                padding: "0rem 0.5rem",
-                borderRadius: "0.5rem",
-                opacity: "0.75",
-                marginTop: "10%",
+                height: "2.7rem",
+                backgroundColor: "rgba(255,255,255,0.05)",
+                padding: "0rem 1rem",
+                borderRadius: "0.35rem",
+                opacity: "1",
+                margin: "1rem 0",
             },
         });
 
         const input = new UIComponent({
             type: "input",
             classes: ["box-row", "box-x-center", "box-y-center"],
+            id: "search-view-input",
             attributes: {
                 type: "text",
                 placeholder: App.getBundle().os.SEARCHBAR_PLACEHOLDER,
+                value: search || "",
             },
             styles: {
                 width: "100%",
@@ -51,16 +166,141 @@ export default class SearchView extends UIComponent {
             },
         });
 
-        const button = getMaterialIcon("search", {
-            size: "1.85rem",
-            fill: "#fff",
+        setEvents(input.element, {
+            keyup: (e) => {
+                const value = (input.element as HTMLInputElement).value;
+                this.resultsForMessage.element.innerHTML = App.getBundle().os.SEARCH_RESULTS_FOR.replace("{$1}", value);
+                Configurations.addConfigVariable("LAST_SEARCH", value);
+
+                this.core.getTasks(value, tasks => {
+                    this.showTasks(tasks, this.taskContainer);
+                });
+            },
+            keydown: (e) => {
+                this.taskContainer.clean();
+            }
         });
 
-        this.appendChild(bar);
+        const button = getMaterialIcon("search", {
+            size: "1.5rem",
+            fill: "#fff",
+        });
         bar.appendChild(input);
         bar.appendChild(button);
+
+       
+        this.resultsForMessage = new UIComponent({
+            text: App.getBundle().os.SEARCH_RESULTS_FOR.replace("{$1}", search),
+            styles : {
+                width: "40%",
+                fontSize: ".9rem",
+                padding: "0 1.3rem",
+            }
+        });
+
+        container.appendChild(bar);
+        container.appendChild(this.resultsForMessage);
+    }
+
+    public async showTasks(tasks : ITask[], container: UIComponent): Promise<void> {
+
+        const value = (document.getElementById("search-view-input") as HTMLInputElement).value;
+        tasks = SearchCore.orderTasksByLevenshteinDistance(value, tasks);
+
+        setStyles(container.element, {
+            transition: "none",
+            opacity: "0",
+        });
+
+
+        await sleep(100)
+        container.clean()
+        setStyles(container.element, {
+            transition: "opacity var(--medium)",
+            opacity: "1",
+        });
         
-        this.appendTo(container);
+        if(tasks.length == 0) {
+            const noResults = new UIComponent({
+                text: App.getBundle().os.NO_RESULTS,
+                styles: {
+                    width: "100%",
+                    fontSize: "1rem",
+                    textAlign: "center",
+                    marginTop: "1rem",
+                }   
+            });
+            container.appendChild(noResults);
+            return;
+        }
+
+        tasks.forEach(task => {
+            const taskItem = new UIComponent({
+                type: "div",
+                classes: ["box-row", "box-x-start", "box-y-center"],
+                styles: {
+                    width: "100%",
+                    height: "3rem",
+                    backgroundColor: "rgba(255,255,255,0.0175)",
+                    marginBottom: ".7rem",
+                    borderRadius: "0.25rem",
+                    padding: "1rem",
+                    cursor: "pointer",
+                },
+                events: {
+                    click: () => {
+                       App.redirect(Configurations.VIEWS.TASK, [task.id + ""]);
+                    }
+                }
+            });
+
+
+            const icon = getMaterialIcon(task.done == 1 ?  "task_alt" : "radio_button_unchecked", {
+                size: "1.25rem",
+                fill: "#fff",
+            });
+
+            setStyles(icon.element, {
+                marginRight: "1rem",
+            });
+
+            const taskTitle = new UIComponent({
+                type: "div",
+                text: task.name,
+                classes: ["box-row", "box-x-start", "box-y-center"],
+                styles: {
+                    fontSize: ".8rem",
+                    color: "#ffffffa0",
+                }
+            });
+         
+            if(value != "") {
+                const matching = StringUtils.getMatching(task.name || "", value);
+                taskTitle.element.innerHTML = taskTitle.element.innerHTML.replace(matching, `<span class="bold" style="padding: 0 .4rem; color: #fff">${matching}</span>`);
+            }   
+            taskItem.appendChild(icon);
+            taskItem.appendChild(taskTitle);
+
+            container.appendChild(taskItem);
+        });
+
+    
+
+    }
+
+    public showTeams(teams : any[]): void {
+        throw new Error("Method not implemented.");
+    }
+
+    public showCategories(categories : any[]): void {
+        throw new Error("Method not implemented.");
+    }
+
+    public showNotes(notes : any[]): void {
+        throw new Error("Method not implemented.");
+    }
+
+    public showNoResults(): void {
     }
 
 }

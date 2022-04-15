@@ -55,10 +55,33 @@ export default class AboutView extends UIComponent {
 
         const os = new UIComponent({
             type: "h2",
-            classes: ["box-row", "box-x-center", "box-y-center"],
+            classes: ["box-column", "box-x-center", "box-y-center"],
             text: App.getBundle().about.RUNNING_ON + " " + getOs(),
+            styles: {
+                marginTop: "1rem",
+            }
         });
 
+        const cpu = new UIComponent({
+            type: "span",
+            text: require("os").cpus()[0].model,
+            styles: {
+                fontSize: ".85rem",
+                marginTop: ".5rem" 
+            }
+        });
+
+        os.appendChild(cpu);
+
+        const memory = new UIComponent({
+            type: "span",
+            text: "RAM: " + (require("os").totalmem() / 1024 / 1024 / 1024).toFixed(2) + " GB",
+            styles: { fontSize: ".85rem", marginTop: ".5rem" }
+        });
+
+
+        os.appendChild(memory);
+        
 
         const description = new UIComponent({
             type: "p",

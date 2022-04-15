@@ -2,6 +2,7 @@ import Model from "./model.js";
 import { Database } from "../db";
 import { ITask } from "../classes/task.js";
 import Labels from "./labels.js";
+import { StringUtils } from "../../utils/string.js";
 
 
 export default class Tasks implements Model {
@@ -13,11 +14,12 @@ export default class Tasks implements Model {
      * @param searcher The text to search for
      * @returns The query result
      */
-    public static searchTasksByName(db: Database, username: string, searcher : string): Promise<any> {
-        searcher = "%" + searcher + "%";
-        const SQL = "SELECT * FROM task WHERE author = ? AND name LIKE ?";
-        const response  = db.db.all(SQL, username, searcher );
-        return response;
+    public static async searchTasksByName(db: Database, username: string, searcher : string): Promise<any> {
+        const SQL = "SELECT * FROM task WHERE author = ?";
+        let response = await db.db.all(SQL, username);
+    
+        response = response.filter( (task : ITask) => StringUtils.containsMatching(task.name || "", searcher));       
+        return new Promise(success => success(response));
     }
 
 

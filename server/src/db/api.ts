@@ -57,6 +57,7 @@ export class API {
                     res.send(data)
                 })
                 .catch((err: any) => {
+                    console.log("error",err);
                     res.statusCode = 500;
                     res.send({
                     "status": "failed",

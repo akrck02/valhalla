@@ -1,21 +1,58 @@
 import { setInterval } from "timers/promises";
 import { App } from "../../../app.js";
 import { Configurations } from "../../../config/config.js";
+import { StringUtils } from "../../../core/data/integrity/string.js";
 import { ITask } from "../../../core/data/interfaces/task.js";
 import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
 import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
+import SearchCore from "../../../views/search/searchView.core.js";
 
 export class SearchModal extends UIComponent {
 
     private tasks : ITask[];
+    private entries : UIComponent[];
+    private selected : number;
 
     constructor() {
         super({id: "search-modal",classes: ["hidden"]});
+        this.entries = [];
+        this.selected = -1;
+        this.element.dataset.selecting="false";
     }
 
     public setTasks(tasks : ITask[]) {
         this.tasks = tasks;
     }
+
+    public selectNext() {
+        this.selected++;
+        this.element.dataset.selecting="true";        
+
+        if (this.selected <= -1 || this.selected >= this.entries.length){
+            this.selected = 0;
+        } 
+                
+        this.entries[this.selected].element.focus();
+        return this.selected;
+    }
+
+    public selectPrevious() {
+        this.selected--;
+        this.element.dataset.selecting="true";
+
+        if (this.selected <= -1) {
+            this.element.dataset.selecting="false";
+
+            const input = document.getElementById("search-input") as HTMLInputElement;
+            input.value = "";
+            input.focus();
+
+            return;
+        }
+    
+        this.entries[this.selected].element.focus();
+   
+    }   
 
     public show() {
         this.element.classList.remove("hidden");
@@ -27,6 +64,7 @@ export class SearchModal extends UIComponent {
 
     public update() {
         this.clean();
+        this.entries = [];
 
         if(this.tasks.length == 0) {
             this.noResults();
@@ -34,7 +72,9 @@ export class SearchModal extends UIComponent {
         }
 
         this.show();
-        this.tasks;
+
+        const value = (document.getElementById("search-input") as HTMLInputElement).value;
+        this.tasks = SearchCore.orderTasksByLevenshteinDistance(value, this.tasks);
         
         const max = this.tasks.length <= 3 ? this.tasks.length : 3;
 
@@ -51,8 +91,32 @@ export class SearchModal extends UIComponent {
             const taskEntry = new UIComponent({
                 classes: ["task-entry","box-row", "box-y-center"],
                 text: icon.toHTML() + "&nbsp;&nbsp;&nbsp;" + task.name,
+                events : {
+                    click: () => {
+                        App.redirect(Configurations.VIEWS.TASK,["" + task.id]);
+                    }
+                },
+                attributes : {
+                    tabindex : "-1"
+                },
+                styles : {
+                    color: "#ffffffe0",
+                    wordWrap: "break-word",
+                    textOverflow: "ellipsis",
+                }
             })
 
+           
+         
+            if(value != "") {
+                const matching = StringUtils.getMatching(task.name || "", value);
+                if(matching.length > 0) {
+                   taskEntry.element.innerHTML = taskEntry.element.innerHTML.replace(matching, `<span class="bold" style="padding: 0 .4rem; color: #fff">${matching}</span>`);
+                }   
+            }
+            this.defaultMovement(taskEntry);
+
+            this.entries.push(taskEntry);
             this.appendChild(taskEntry);
         }
 
@@ -63,14 +127,21 @@ export class SearchModal extends UIComponent {
                 text: App.getBundle().os.MORE + "...",
                 events: {
                     click: () => {
-                        App.redirect(Configurations.VIEWS.SEARCH,[""]);
-                    }
+                        const input = document.getElementById("search-input") as HTMLInputElement;
+                        App.redirect(Configurations.VIEWS.SEARCH,[input.value]);
+                    },
+                },
+                attributes : {
+                    tabindex : "-1"
                 }
             })
+
+            this.defaultMovement(more);
 
             const icon = getMaterialIcon("search",{fill: "white", size:"1.5rem"});
             more.appendChild(icon);
             this.appendChild(more);
+            this.entries.push(more);
         }
         
     }
@@ -94,5 +165,27 @@ export class SearchModal extends UIComponent {
        
         noResults.appendChild(icon);
         this.appendChild(noResults);
+    }
+
+
+    defaultMovement(comp : UIComponent){
+        setEvents(comp.element, {
+            keydown: (e : any) => {
+
+                if(e.keyCode == 38) {
+                    this.selectPrevious();
+                }
+
+                if(e.keyCode == 40) {
+                    this.selectNext();
+                }
+
+                if(e.key === 'Enter'){
+                    comp.element.click();
+                    this.element.dataset.selecting = "false";
+                }
+
+            }
+        })
     }
 }
