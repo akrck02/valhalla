@@ -47,9 +47,15 @@ export default class SearchView extends UIComponent {
             classes: ["box-column", "box-x-start", "box-y-center"],
             styles : {
                 paddingBottom: "1rem",
-                wordBreak: "break-word"
+                wordBreak: "break-word",
+                opacity: "0",
+                transition: "opacity var(--medium)",
             }
         });
+
+        setTimeout(() => {
+            topBar.element.style.opacity = "1";
+        }, 100);
 
         this.showSearchbar(search, topBar);
 
@@ -120,7 +126,18 @@ export default class SearchView extends UIComponent {
             }
         });
 
+        this.categoryContainer = new UIComponent({
+            type: "div",
+            classes: ["box-column"],
+        });
+
         columnTwo.appendChild(categoriesTitle);
+        columnTwo.appendChild(this.categoryContainer);
+
+        this.core.getCategories(search, categories => {
+            this.showCategories(categories, this.categoryContainer);
+        });
+
 
         columnContainer.appendChild(columnOne);
         columnContainer.appendChild(columnTwo);
@@ -175,6 +192,11 @@ export default class SearchView extends UIComponent {
                 this.core.getTasks(value, tasks => {
                     this.showTasks(tasks, this.taskContainer);
                 });
+
+                this.core.getCategories(value, categories => {
+                    this.showCategories(categories, this.categoryContainer);
+                });
+
             },
             keydown: (e) => {
                 this.taskContainer.clean();
@@ -292,8 +314,90 @@ export default class SearchView extends UIComponent {
         throw new Error("Method not implemented.");
     }
 
-    public showCategories(categories : any[]): void {
-        throw new Error("Method not implemented.");
+    public async showCategories(categories : any[], container : UIComponent): Promise<void> {
+        
+        const value = (document.getElementById("search-view-input") as HTMLInputElement).value;
+        categories = SearchCore.orderCategoriesByLevenshteinDistance(value,categories);
+
+        setStyles(container.element, {
+            transition: "none",
+            opacity: "0",
+        });
+
+        await sleep(100)
+        container.clean()
+
+        setStyles(container.element, {
+            transition: "opacity var(--medium)",
+            opacity: "1",
+        });
+        
+        if(categories.length == 0) {
+            const noResults = new UIComponent({
+                text: App.getBundle().os.NO_RESULTS,
+                styles: {
+                    width: "100%",
+                    fontSize: "1rem",
+                    textAlign: "center",
+                    marginTop: "1rem",
+                }   
+            });
+            container.appendChild(noResults);
+            return;
+        }
+
+        categories.forEach(category => {
+            const categoryItem = new UIComponent({
+                type: "div",
+                classes: ["box-row", "box-x-start", "box-y-center"],
+                styles: {
+                    width: "100%",
+                    height: "3rem",
+                    backgroundColor: "rgba(255,255,255,0.0175)",
+                    marginBottom: ".7rem",
+                    borderRadius: "0.25rem",
+                    padding: "1rem",
+                    cursor: "pointer",
+                },
+                events: {
+                    click: () => {
+                       App.redirect(Configurations.VIEWS.TASKS, [category.label]);
+                    }
+                }
+            });
+
+
+            const icon = getMaterialIcon("tag", {
+                size: "1.25rem",
+                fill: "#fff",
+            });
+
+            setStyles(icon.element, {
+                marginRight: "1rem",
+            });
+
+            const categoryTitle = new UIComponent({
+                type: "div",
+                text: category.label,
+                classes: ["box-row", "box-x-start", "box-y-center"],
+                styles: {
+                    fontSize: ".8rem",
+                    color: "#ffffffa0",
+                }
+            });
+         
+            
+            if(value != "") {
+                const matching = StringUtils.getMatching(category.label, value);
+                categoryTitle.element.innerHTML = categoryTitle.element.innerHTML.replace(matching, `<span class="bold" style="padding: 0 .4rem; color: #fff">${matching}</span>`);
+            }   
+            categoryItem.appendChild(icon);
+            categoryItem.appendChild(categoryTitle);
+
+            container.appendChild(categoryItem);
+        });
+
+
     }
 
     public showNotes(notes : any[]): void {

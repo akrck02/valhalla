@@ -32,6 +32,28 @@ export class Tasks implements HTTPResponse {
 
     }
 
+    /**
+     * Search the user task categories by name
+     * @param db The database connection
+     * @param req The HTTP request
+     * @param res The HTTP response
+     */
+    public static searchCategoriesByName(db: Database, req: Request, res: Response): Promise<any> {
+        const username = req?.body?.user;
+        const searcher = req?.body?.searcher;
+
+        if (username == undefined || searcher == undefined) {
+            return new Promise((resolve) =>
+                resolve({
+                    status: "failed",
+                    reason: "Missing parameters"
+                })
+            );
+        }
+
+        return LabelModel.searchCategoriesByName(db, username, searcher);
+    
+    }
 
     /**
      * Get the user tasks from database

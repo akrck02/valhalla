@@ -49,7 +49,7 @@ export default class ShowTaskView extends UIComponent {
 
         const task = await this.core.getTask(parseInt(params[0]));
 
-        this.drawTitle(task.name, task.done == 1);
+        this.drawTitle(task.name, task.done == 1, task.id);
         this.drawDescription(task.description);
         this.drawLabels(task.labels);
         this.drawAssignedTo(task.author);
@@ -70,7 +70,7 @@ export default class ShowTaskView extends UIComponent {
      * Draw the title of the task
      * @param title 
      */
-    public drawTitle(title : string, done: boolean = false) {
+    public drawTitle(title : string, done: boolean = false, id: number = 0) {
 
         const titleBox = new UIComponent({
             type: "div",
@@ -80,7 +80,6 @@ export default class ShowTaskView extends UIComponent {
                 width: "100%",
                 marginTop: "4rem",
                 paddingLeft: "4rem",
-                maxWidth: "40rem"
             }
         });
 
@@ -100,10 +99,30 @@ export default class ShowTaskView extends UIComponent {
         const titleElement = new UIComponent({
             type: "h1",
             text : title,
+            styles : {
+                maxWidth: "40rem"
+            }
         });
+
+        const editIcon = getMaterialIcon("edit",{
+            size: "1.5rem",
+            fill: "#ffffffd0",
+        });
+
+        setStyles(editIcon.element, {
+            position : "absolute",
+            top : "0.5rem",
+            right : "5rem",
+            cursor : "pointer",
+        });
+
+        editIcon.element.onclick = () => {
+            App.redirect(Configurations.VIEWS.NEW_TASK,["edit", id + ""]);
+        }
 
         titleIcon.appendTo(titleBox);
         titleElement.appendTo(titleBox);
+        editIcon.appendTo(titleBox);
         this.box.appendChild(titleBox);
     }
 
@@ -145,6 +164,11 @@ export default class ShowTaskView extends UIComponent {
 
         for(const label of labels){
             const labelElement = new Label( label );
+            labelElement.element.onclick = () => {
+                App.redirect(Configurations.VIEWS.TASKS,[label]);
+            }
+
+            labelElement.element.style.cursor = "pointer";
             labelElement.appendTo(labelContainer);
         }
 

@@ -25,6 +25,25 @@ export class taskService {
 
         return response;
     }
+
+    /**
+     * Search for categories by name
+     * @param username The username of the user
+     * @param searcher The name to search for
+     * @returns The tasks found
+     */
+    static searchUserTaskCategoriesByName(username : string, searcher : string) : Response {
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: Configurations.API.SEARCH_USER_CATEGORIES_BY_NAME,
+            parameters: {
+                user: username,
+                searcher: searcher
+            },
+        });
+
+        return response;
+    }
    
     /**
      * Get the task of a user from the API

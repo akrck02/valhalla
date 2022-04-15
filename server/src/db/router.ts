@@ -25,6 +25,7 @@ export class Router {
             "update/user/task/done" : Tasks.updateUserTaskDone,
             "update/user/tasks/done" : Tasks.updateUserTasksDone,
             "search/user/tasks/by/name" : Tasks.searchTasksByName,
+            "search/user/categories/by/name" : Tasks.searchCategoriesByName,
         }
     }
 }

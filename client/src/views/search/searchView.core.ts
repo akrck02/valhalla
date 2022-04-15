@@ -21,11 +21,30 @@ export default class SearchCore {
         return response.json();
     }
 
+    getCategories(search : string = '', callback : (json) => void) {
+        const response  = taskService.searchUserTaskCategoriesByName(Configurations.getUserName(), search);
+
+        response.success(categories => {
+            callback(categories);
+        });
+
+        return response.json();
+    }
+
 
     static orderTasksByLevenshteinDistance(text: string, words: ITask[]): ITask[] {
         words = words.sort((a, b) => {
             const distA = StringUtils.levenshteinDistance(text, a.name);
             const distB = StringUtils.levenshteinDistance(text, b.name);
+            return distA - distB;
+        });
+        return words;
+    }
+
+    static orderCategoriesByLevenshteinDistance(text: string, words: {[key: string] : string}[]): ITask[] {
+        words = words.sort((a, b) => {
+            const distA = StringUtils.levenshteinDistance(text, a.label);
+            const distB = StringUtils.levenshteinDistance(text, b.label);
             return distA - distB;
         });
         return words;

@@ -68,6 +68,7 @@ export class Configurations {
         UPDATE_USER_TASK_DONE: "http://127.0.0.1:3333/api/v1/update/user/task/done/",
         UPDATE_USER_TASKS_DONE: "http://127.0.0.1:3333/api/v1/update/user/tasks/done/",
         SEARCH_USER_TASKS_BY_NAME: "http://127.0.0.1:3333/api/v1/search/user/tasks/by/name",
+        SEARCH_USER_CATEGORIES_BY_NAME: "http://127.0.0.1:3333/api/v1/search/user/categories/by/name",
     };
 
 
