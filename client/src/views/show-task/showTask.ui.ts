@@ -1,5 +1,6 @@
 import { App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
+import { DateText } from "../../core/data/integrity/dateText.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { setClasses, setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import Label from "../new-tasks/components/label.js";
@@ -51,6 +52,7 @@ export default class ShowTaskView extends UIComponent {
         this.drawDescription(task.description);
         this.drawLabels(task.labels);
         this.drawAssignedTo(task.author);
+        this.drawEventDate(task.start, task.end);
 
         this.appendChild(this.box);
         this.appendTo(container);
@@ -116,7 +118,7 @@ export default class ShowTaskView extends UIComponent {
             classes: ["box-row", "box-y-center"],
             styles: {
                 width: "100%",
-                marginTop: "1rem",
+                marginTop: "2rem",
                 paddingLeft: "4rem",
             }
         });
@@ -165,6 +167,7 @@ export default class ShowTaskView extends UIComponent {
             styles : {
                 marginTop : "1rem",
                 paddingLeft : "7.4rem",
+                maxWidth: "40rem"
             }
         });
 
@@ -199,20 +202,20 @@ export default class ShowTaskView extends UIComponent {
 
         const assignedIcon = getMaterialIcon("person_add",{
             size: "1.25rem",
-            fill:  "#fff" ,
+            fill:  "#202020" ,
         });
 
         setClasses(assignedIcon.element, ["timeline-icon"]);
         setStyles(assignedIcon.element, {
             padding: "0.35rem",
-            backgroundColor: "var(--accent-color)",
+            backgroundColor: "#ffffff",
             marginRight: "1rem",
             marginLeft: ".15rem",
         });
 
         const assignedElement = new UIComponent({
             type: "h1",
-            text : "Task assigned to " + (assignedTo == Configurations.getUserName() ? "you" : assignedTo),
+            text : App.getBundle().tasks.TASK_ASSIGNED_TO.replace("$1",(assignedTo == Configurations.getUserName() ? App.getBundle().tasks.YOU : assignedTo)),
             styles : {
                 fontSize: "1rem",
             }
@@ -222,6 +225,65 @@ export default class ShowTaskView extends UIComponent {
         assignedElement.appendTo(assignedBox);
         this.box.appendChild(assignedBox);
 
-    }   
+    }  
+    
+    
+    /**
+     * Draw the event dates of the task
+     * @param start The start date
+     * @param end The end date
+     */
+    public drawEventDate(start : string , end : string) {
+        const eventBox = new UIComponent({
+            type: "div",
+            id: "task-assigned",
+            classes: ["box-row", "box-y-center"],
+            styles: {
+                width: "100%",
+                marginTop: "2rem",
+                paddingLeft: "4rem",
+            }
+        });
+
+        const eventIcon = getMaterialIcon("event",{
+            size: "1.25rem",
+            fill:  "#202020" ,
+        });
+
+        setClasses(eventIcon.element, ["timeline-icon"]);
+        setStyles(eventIcon.element, {
+            padding: "0.35rem",
+            backgroundColor: "#ffffff",
+            marginRight: "1rem",
+            marginLeft: ".15rem",
+        });
+
+
+        let dateText = "";
+
+        if(start == end){
+            dateText =  this.core.getTimeText(new Date(start));
+        }
+
+        else {
+            dateText = this.core.getTimeText(new Date(start)) + " - " + this.core.getTimeText(new Date(end));
+        }
+
+        const eventElement = new UIComponent({
+            type: "h1",
+            text : dateText,
+            styles : {
+                fontSize: "1rem",
+            }
+        });
+
+        eventIcon.appendTo(eventBox);
+        eventElement.appendTo(eventBox);
+        this.box.appendChild(eventBox);
+
+    }  
+
+
+
 
 }

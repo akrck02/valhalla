@@ -1,6 +1,6 @@
 {
   "name": "valhalla",
-  "version": "1.0.3a",
+  "version": "1.0.5a",
   "description": "The modern productivity app",
   "main": "./server/out/electron.js",
   "scripts": {
