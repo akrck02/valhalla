@@ -59,6 +59,8 @@ export default class CategoryBar extends UIComponent {
                             this.options.forEach(e => e.element.classList.remove("selected"));
                             option.element.classList.add("selected");
                             selected = option.text;
+                            
+                            Configurations.addConfigVariable("TASKS_SELECTED_CATEGORY", selected);
 
                             callback(selected);
                         },

@@ -2,6 +2,7 @@ import UINotification, { NotificationProperties } from './components/notificatio
 import { Configurations } from './config/config.js';
 import { Keyboard } from './core/keyboard.js';
 import { ListenerSet } from './core/listenerset.js';
+import { Window } from './core/window.js';
 import { getParametersByIndex } from './lib/gtd-ts/data/urltools.js';
 import { TextBundle } from './res/textBundle.js';
 import Router from './views/router.js';
@@ -11,7 +12,6 @@ import Router from './views/router.js';
  */
 export class App {
 
-    private keyboard : Keyboard;
     private listeners : ListenerSet;
     private notification : UINotification;
     public router : Router;
@@ -19,7 +19,11 @@ export class App {
     constructor() {
         this.listeners = new ListenerSet();
         this.router = new Router(this.listeners);
-        this.keyboard = new Keyboard(this.listeners);
+
+        Keyboard.setEventListeners(this.listeners);
+        Window.setEvents();
+        Window.setZoomLevel();
+
         this.notification = new UINotification();
 
         document.body.appendChild(this.notification.element);
@@ -47,6 +51,11 @@ export class App {
     public loadFromUrl(): void {
         
         const params = getParametersByIndex(window.location.hash.slice(1).toLowerCase(),1);
+
+        //if secret key is not set, redirect to tutorial
+        if(!Configurations.getConfigVariable("secret")){
+              //App.redirect(Configurations.VIEWS.START,params);
+        }
 
         if(params[0] == ""){
             location.href = Configurations.VIEWS.TASKS;

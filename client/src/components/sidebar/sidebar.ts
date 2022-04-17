@@ -82,6 +82,18 @@ export class Sidebar extends UIComponent {
             },
         });
 
+        const notes = new UIComponent({
+            type: "a",
+            classes: ["sidebar-item","box-center"],
+            text: getMaterialIcon("sticky_note_2",{
+                size: "1.25rem",
+                fill: "#404040",
+            }).toHTML(),
+            attributes: {
+                href: Configurations.VIEWS.NOTES,
+            },
+        });
+
 
         const teams = new UIComponent({
             type: "a",
@@ -168,7 +180,7 @@ export class Sidebar extends UIComponent {
             },
         });
 
-        this.elements = [tasks, calendar, search, configuration, about];
+        this.elements = [tasks, calendar, notes, search, configuration, about];
 
         if(false && Configurations.getConfigVariable("GANDALF")){
             const hiddenTerminal = new UIComponent({

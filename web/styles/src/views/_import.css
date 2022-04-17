@@ -1,5 +1,6 @@
 @import "./calendar/_import.css";
 @import "./configurations/_import.css";
 @import "./tasks/_import.css";
+@import "./show-task/_import.css";
 @import "./about/_import.css";
 @import "./search/_import.css";

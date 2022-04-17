@@ -7,7 +7,10 @@ export const TaskBundleEs = {
     TASK_DELETED_SUCCESSFULLY: "Tarea eliminada con éxito",
     TODAY : "hoy",
     TOMORROW : "mañana",
+    YESTERDAY : "ayer",
     NOW: "ahora",
     OTHERS: "Sin categoria",
     COMPLETED: "Completadas",
+    TASK_ASSIGNED_TO: "Tarea asignada a $1",
+    YOU: "ti",
 }

@@ -290,6 +290,8 @@ export default class NewTaskView extends UIComponent {
             id: "recent-label-container",
             styles: {
                 marginLeft : "1rem",
+                overflowY: "auto",
+               
             }
         });
 
@@ -300,7 +302,18 @@ export default class NewTaskView extends UIComponent {
         });
         title.appendTo(container);
 
-        const labels = await this.core.getRecentLabels();
+
+        const labelContainerBox = new UIComponent({
+            id: "recent-label-container-box",
+            styles: {
+                overflowY: "hidden",
+                overflowX: "hidden",
+                maxHeight: "9rem",
+                width: "100%",
+            }
+        });
+
+        const labels = await (await this.core.getRecentLabels()).filter(lbl => !this.labelContainer.containsLabel(lbl.label));
         labels.forEach(label => {
 
             const labelComp = new UIComponent({
@@ -316,12 +329,13 @@ export default class NewTaskView extends UIComponent {
                     this.core.removeTag(labelComp.element.innerText);
                 });
 
-                container.removeChild(labelComp);
+                labelContainerBox.removeChild(labelComp);
             });
 
-            labelComp.appendTo(container);
+            labelComp.appendTo(labelContainerBox);
         });
         
+        container.appendChild(labelContainerBox);
 
         return new Promise(suc => suc(container));
     }

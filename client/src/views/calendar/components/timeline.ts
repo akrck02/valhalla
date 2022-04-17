@@ -75,7 +75,7 @@ export class Timeline extends UIComponent {
                     classes: ["event", "box-row", "box-x-between"],
                     events: {
                         click : () =>{
-                            location.href = Configurations.VIEWS.TASKS + "" + e.id;
+                            location.href = Configurations.VIEWS.TASK + "" + e.id;
                         }
                     }
                 })

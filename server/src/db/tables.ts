@@ -6,6 +6,8 @@ export class TableSet {
         await TableSet.createUserTable(db);
         await TableSet.createTaskTable(db);
         await TableSet.createUserTaskTable(db);
+        await TableSet.createUserNoteTable(db);
+        await TableSet.createUserTaskNoteTable(db);
 
     }
 
@@ -32,7 +34,8 @@ export class TableSet {
                 start TEXT, 
                 end TEXT,
                 allDay INTEGER, 
-                done INTEGER
+                done INTEGER,
+                FOREIGN KEY(author) REFERENCES user(username)
             )`
         );
     }
@@ -42,9 +45,36 @@ export class TableSet {
         await db.exec(
             `CREATE TABLE IF NOT EXISTS task_label (
                 taskId INTEGER NOT NULL ,
-                label TEXT
+                label TEXT,
+                FOREIGN KEY(taskId) REFERENCES task(id)
             )`
         );
+    }
+
+    static async createUserNoteTable(db : any) {
+
+        await db.exec(
+            `CREATE TABLE IF NOT EXISTS note(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                author INTEGER NOT NULL,
+                title TEXT,
+                content TEXT,
+                FOREIGN KEY(author) REFERENCES user(username)
+            )`
+        );
+    }
+
+    static async createUserTaskNoteTable(db: any) {
+
+        await db.exec(`   
+            CREATE TABLE IF NOT EXISTS task_note (
+                task INTEGER NOT NULL,
+                note INTEGER NOT NULL,
+                FOREIGN KEY(task) REFERENCES task(id),
+                FOREIGN KEY(note) REFERENCES note(id)
+            )
+        `);
+        
     }
 
 }

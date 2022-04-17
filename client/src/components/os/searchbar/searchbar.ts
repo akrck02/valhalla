@@ -32,38 +32,42 @@ export default class Searchbar extends UIComponent {
         this.appendChild(this.modal);-
 
         setEvents(this.input,{
-            keydown: () => {
+            keydown: (event) => {
+
+                //if arrow keys are pressed, do not search
+                if(event.keyCode == 37 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40) {
+                 
+                    if(event.keyCode == 38) {
+                        this.modal.selectPrevious();
+                    }
+
+                    if(event.keyCode == 40) {
+                        this.modal.selectNext();
+                    }   
+                 
+                    return;
+                }
+
                 this.modal.clean(); 
             },
             keyup: async (event) => {
+
+
+                if(event.keyCode == 38 || event.keyCode == 40) {
+                    return;
+                }
 
                 if (event.key === "Backspace" && this.input.value.trim().length == 0) {
                     this.removeTag();
                     this.modal.noResults();
                     this.mode = SEARCHBAR_MODE.SEARCH;
                     return
-                }
-
-                if(this.input.value.substring(0,3) === ">cm"){
-                    this.setTag("CM");
-                    this.setValue("");
-                    this.mode = SEARCHBAR_MODE.COMMAND;
-                    return;
-                }              
+                }  
                     
                 this.search();
 
                 const value = this.input.value;
                 if (event.key === "Enter"){
-                   
-                    switch (this.mode) {
-                        case SEARCHBAR_MODE.COMMAND:
-                            this.handler.handle(value);
-                            break;
-                        default:
-                            break;
-                    }
-
                     this.mode = SEARCHBAR_MODE.SEARCH;
                     this.removeTag();
                     this.setValue("");
@@ -93,7 +97,6 @@ export default class Searchbar extends UIComponent {
         const response = await taskService.searchUserTasksByName(Configurations.getUserName(), value);
 
         response.success(tasks => {
-            console.log(tasks);
             this.modal.setTasks( this.input.value.length == 0 ? [] : tasks);
             this.modal.update();
         });

@@ -93,9 +93,10 @@ export class DateSelector extends UIComponent {
         });
 
         monthName.appendChild(nextMonth);
-        monthName.element.innerHTML += this.current.toLocaleString("default", { month: "long" });
+        monthName.appendChild(new UIComponent({
+            text :this.current.toLocaleString("default", { month: "long" })
+        }));
         monthName.appendChild(lastMonth);
-
         bar.appendChild(monthName);
 
         //draw the year selector
@@ -141,7 +142,9 @@ export class DateSelector extends UIComponent {
         });
 
         yearName.appendChild(nextYear);
-        yearName.element.innerHTML += this.current.toLocaleString("default", { year: "numeric" });
+        yearName.appendChild(new UIComponent({
+            text : this.current.toLocaleString("default", { year: "numeric" })
+        }));
         yearName.appendChild(lastYear);
 
         bar.appendChild(yearName);

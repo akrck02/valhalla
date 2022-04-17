@@ -30,7 +30,7 @@ export default class NewTaskCore {
             start: DateText.toSQLiteDate(new Date()),
             end: DateText.toSQLiteDate(new Date()),
             author: "",
-            labels: [App.getBundle().newTask.TODAY],
+            labels: [Configurations.getConfigVariable("TASKS_SELECTED_CATEGORY") || App.getBundle().newTask.TODAY],
         };
 
         return task;
@@ -201,7 +201,7 @@ export default class NewTaskCore {
     public async getRecentLabels() : Promise<any[]>{
         let labels = [];
         const response = taskService.getUserTaskCategories(Configurations.getUserName());
-        response.success(res => labels = res.slice(0, 3));
+        response.success(res => labels = res);
         await response.jsonPromise();        
         return new Promise(suc => suc(labels));
     }

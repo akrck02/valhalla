@@ -2,6 +2,8 @@ import Model from "./model.js";
 import { Database } from "../db";
 import { ITask } from "../classes/task.js";
 import Labels from "./labels.js";
+import { StringUtils } from "../../utils/string.js";
+import { SUCCESS_FALSE, SUCCESS_TRUE } from "../../core/types.js";
 
 
 export default class Tasks implements Model {
@@ -13,11 +15,12 @@ export default class Tasks implements Model {
      * @param searcher The text to search for
      * @returns The query result
      */
-    public static searchTasksByName(db: Database, username: string, searcher : string): Promise<any> {
-        searcher = "%" + searcher + "%";
-        const SQL = "SELECT * FROM task WHERE author = ? AND name LIKE ?";
-        const response  = db.db.all(SQL, username, searcher );
-        return response;
+    public static async searchTasksByName(db: Database, username: string, searcher : string): Promise<any> {
+        const SQL = "SELECT * FROM task WHERE author = ?";
+        let response = await db.db.all(SQL, username);
+    
+        response = response.filter( (task : ITask) => StringUtils.containsMatching(task.name || "", searcher));       
+        return new Promise(success => success(response));
     }
 
 
@@ -154,17 +157,17 @@ export default class Tasks implements Model {
         )
 
         if(!response) 
-            return false;
+            return SUCCESS_FALSE;
 
         if(response.length >= 0)
-            return false;
+            return SUCCESS_FALSE;
 
         if(response.changes == 0) 
-            return false;
+            return SUCCESS_FALSE;
 
         task.labels?.forEach(tag => Labels.setLabelToTask(db, response.lastID, tag));
         
-        return true;
+        return SUCCESS_TRUE;
     }
 
 
@@ -179,15 +182,15 @@ export default class Tasks implements Model {
         const response = await db.db.run(SQL,task.id)
 
         if(!response) 
-            return false;
+            return SUCCESS_FALSE;
 
         if(response.length >= 0)
-            return false;
+            return SUCCESS_FALSE;
 
         if(response.changes == 0) 
-            return false;
+            return SUCCESS_FALSE;
 
-        return true;
+        return SUCCESS_TRUE;
     }
 
     /**
@@ -231,15 +234,15 @@ export default class Tasks implements Model {
         )
 
         if(!response)
-            return false;
+            return SUCCESS_FALSE;
 
         if(response.length >= 0)
-            return false;
+            return SUCCESS_FALSE;
 
         if(response.changes == 0)
-            return false;
+            return SUCCESS_FALSE;
 
-        return true;
+        return SUCCESS_TRUE;
     }
 
 
@@ -258,15 +261,15 @@ export default class Tasks implements Model {
         )
 
         if(!response)
-            return false;
+            return SUCCESS_FALSE;
 
         if(response.length >= 0)
-            return false;
+            return SUCCESS_FALSE;
 
         if(response.changes == 0)
-            return false;
+            return SUCCESS_FALSE;
 
-        return true;
+        return SUCCESS_TRUE;
     }
     
 }

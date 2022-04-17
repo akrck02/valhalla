@@ -158,30 +158,7 @@ export default class TaskCore {
      * @returns a string representing the date
      */
     public getTimeText(date: Date): string {
-
-        const today = new Date();
-
-        // if today and 6 hours or less
-        if (date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate() && date.getHours() <= today.getHours() + 6) {
-            const diff = date.getHours() - today.getHours();
-
-            if (diff <= 6) {
-                if (diff > 0) return `${diff}h`;
-                //else return App.getBundle().tasks.NOW;
-            }
-        }
-
-        today.setHours(0, 0, 0, 0);
-        date.setHours(0, 0, 0, 0);
-
-        if (today.toString() === date.toString()) {
-            return App.getBundle().tasks.TODAY;
-        } else {
-
-            today.setDate(today.getDate() + 1);
-            if (date.toString() === today.toString()) { return App.getBundle().tasks.TOMORROW; }
-            else { return DateText.toLocalizedDateString(date) }
-        }
+        return DateText.getTimeText(date);
     }
 
     /**
@@ -202,6 +179,18 @@ export default class TaskCore {
         location.href = Configurations.VIEWS.NEW_TASK;
         location.href = Configurations.VIEWS.TASKS + category;
     }
+
+    /**
+     * Go to a given task
+     * @param task The task to navigate to
+     */
+     public goToTask(task: string) {
+
+        //Assure that the view is loaded loading a new view and then loading the original view
+        location.href = Configurations.VIEWS.NEW_TASK;
+        location.href = Configurations.VIEWS.TASK + task;
+    }
+
 
 
     /**

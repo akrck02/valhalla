@@ -6,7 +6,7 @@ import { ITask } from "../classes/task";
 import LabelModel from "../model/labels";
 
 
-export class Tasks implements HTTPResponse {
+export class TasksResponse implements HTTPResponse {
 
     /**
      * Update a user task
@@ -32,6 +32,28 @@ export class Tasks implements HTTPResponse {
 
     }
 
+    /**
+     * Search the user task categories by name
+     * @param db The database connection
+     * @param req The HTTP request
+     * @param res The HTTP response
+     */
+    public static searchCategoriesByName(db: Database, req: Request, res: Response): Promise<any> {
+        const username = req?.body?.user;
+        const searcher = req?.body?.searcher;
+
+        if (username == undefined || searcher == undefined) {
+            return new Promise((resolve) =>
+                resolve({
+                    status: "failed",
+                    reason: "Missing parameters"
+                })
+            );
+        }
+
+        return LabelModel.searchCategoriesByName(db, username, searcher);
+    
+    }
 
     /**
      * Get the user tasks from database
@@ -343,7 +365,7 @@ export class Tasks implements HTTPResponse {
     public static async deleteUserTask(db: Database, req: Request, res: Response): Promise<any> {
         try {
             const task: ITask = req?.body?.task;
-            if (await TaskModel.deleteUserTask(db, task)) {
+            if ((await TaskModel.deleteUserTask(db, task)).success) {
                 await LabelModel.deleteUserTaskLabels(db, task);
                 return new Promise((resolve) =>
                     resolve({
@@ -383,7 +405,7 @@ export class Tasks implements HTTPResponse {
             const taskDeleted: string[] = [];
 
             tasks.forEach(async (task: ITask) => {
-                if (await TaskModel.deleteUserTask(db, task)) {
+                if ((await TaskModel.deleteUserTask(db, task)).success) {
                     if (task.name) {
                         await LabelModel.deleteUserTaskLabels(db, task);
                         taskDeleted.push(task.name);
@@ -437,7 +459,7 @@ export class Tasks implements HTTPResponse {
                 await LabelModel.setLabelToTask(db, task.id + "" || "", key);
             });
 
-            if (await TaskModel.updateUserTask(db, task)) {
+            if ((await TaskModel.updateUserTask(db, task)).success) {
 
 
 
@@ -487,7 +509,7 @@ export class Tasks implements HTTPResponse {
                 );
             }
 
-            if (await TaskModel.updateUserTask(db, task)) {
+            if ((await TaskModel.updateUserTask(db, task)).success) {
                 return new Promise((resolve) =>
                     resolve({
                         status: "success",
@@ -538,7 +560,7 @@ export class Tasks implements HTTPResponse {
 
             await tasks.forEach(async (task: ITask) => {
 
-                if (await TaskModel.updateUserTask(db, task)) {
+                if ((await TaskModel.updateUserTask(db, task)).success) {
                     if (task.name) {
                         updatedTaskNames.push(task.name);
                     }

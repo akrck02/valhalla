@@ -184,6 +184,12 @@ header#os-navbar div#search #search-modal:not(:hover).hidden{
     display: none;
 }
 
+header#os-navbar div#search #search-modal[data-selecting=true].hidden{
+    opacity: 1 !important;
+    display: block !important;
+}
+
+
 header#os-navbar div#search #search-modal .task-entry {
     padding: 1rem;
     /*border-bottom: 1px solid rgba(255,255,255,.025);*/
@@ -211,6 +217,6 @@ header#os-navbar div#search #search-modal .task-entry#no-results{
     padding: 0.6rem 1rem;
 }
 
-header#os-navbar div#search #search-modal .task-entry:hover {
+header#os-navbar div#search #search-modal .task-entry:hover,header#os-navbar div#search #search-modal .task-entry:focus {
     background: rgba(255,255,255,.05);
 }

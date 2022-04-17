@@ -1,4 +1,6 @@
 
+import { SUCCESS_FALSE, SUCCESS_TRUE } from "../../core/types";
+import { StringUtils } from "../../utils/string";
 import { ITask } from "../classes/task";
 import { Database } from "../db";
 import Model from "./model";
@@ -17,15 +19,15 @@ export default class Labels implements Model {
         const response = await db.db.run(SQL,task.id)
 
         if(!response)
-            return false;
+            return SUCCESS_FALSE;
 
         if(response.length >= 0)
-            return false;
+            return SUCCESS_FALSE;
 
         if(response.changes == 0)
-            return false;
+            return SUCCESS_FALSE;
 
-        return true;
+        return SUCCESS_TRUE;
     }
 
 
@@ -39,6 +41,21 @@ export default class Labels implements Model {
         const SQL = "SELECT label FROM task_label WHERE taskId = ? ORDER BY label";
         const response = db.db.all(SQL,id);
         return response;
+    }
+
+    /**
+     * Get the task matching the given name text 
+     * @param db  The database connection
+     * @param username The user to search for
+     * @param searcher The text to search for
+     * @returns The query result
+     */
+     public static async searchCategoriesByName(db: Database, username: string, searcher : string): Promise<any> {
+        const SQL = "SELECT DISTINCT(label) FROM task_label WHERE taskId IN (SELECT id FROM task WHERE author = ?)";
+        let response = await db.db.all(SQL, username);
+    
+        response = response.filter( (label : {[key : string] : string}) => StringUtils.containsMatching(label.label || "", searcher));       
+        return new Promise(success => success(response));
     }
 
     /**

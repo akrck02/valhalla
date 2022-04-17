@@ -4,7 +4,7 @@ console.log("Renderer is working!");
 /*Disable zoom*/
 const webFrame = require('electron').webFrame;
 webFrame.setZoomLevel(1);
-webFrame.setVisualZoomLevelLimits(1, 2);
+//webFrame.setVisualZoomLevelLimits(1, 2);
 //webFrame.setLayoutZoomLevelLimits(1, 2);
 
 const win = remote.getCurrentWindow(); 

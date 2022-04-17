@@ -17,6 +17,9 @@ import TeamsV from "./teams/teams.js";
 import TerminalV from "./terminal/terminal.js";
 import DummyV from "./dummy/dummyView.ui.js";
 import ViewerV from "./viewer/viewer.ui.js";
+import ShowTaskView from "./show-task/showTask.ui.js";
+import StartView from "./start/startView.ui.js";
+import NotesView from "./notes/notesView.ui.js";
 
 export default class Router {
 
@@ -60,11 +63,18 @@ export default class Router {
             this.variablePanel.addViewVariables({});
 
             switch (params[0]) {
+                case "start":
+                    new StartView().show(params.splice(1), this.container);
+                    break;
                 case undefined:
                 case "":
                 case "tasks":
                     new TasksView().show(params.splice(1), this.container);    
                     this.sidebar.setSelected(0);
+                    break;
+                case "task":
+                    new ShowTaskView().show(params.splice(1), this.container);    
+                    this.sidebar.setSelected(-1);
                     break;
                 case "new-task":
                     new NewTaskView().show(params.splice(1), this.container);    
@@ -74,43 +84,46 @@ export default class Router {
                     new CalendarView().show(params.splice(1), this.container);
                     this.sidebar.setSelected(1);
                     break;
+                case "notes": 
+                    new NotesView().show(params.splice(1), this.container)
+                    this.sidebar.setSelected(2);
+                    break;
                 case "teams":
                     new TeamsV().show(params.splice(1), this.container);
-                    this.sidebar.setSelected(2);
+                    this.sidebar.setSelected(-1);
                     break;
                 case "projects":
                     new ProjectsV().show(params.splice(1), this.container);
-                    this.sidebar.setSelected(3);
+                    this.sidebar.setSelected(-1);
                     break;
 
                 case "search":
                     new SearchView().show(params.splice(1), this.container);
-                    this.sidebar.setSelected(2);
+                    this.sidebar.setSelected(3);
                     break;
 
                 case "configuration":
                     new ConfigurationView().show(params.splice(1), this.container);
-                    //this.sidebar.setSelected(4);
-                    this.sidebar.setSelected(3);
+                    this.sidebar.setSelected(4);
                     break;
                 case "terminal":
                     new TerminalV().show(params.splice(1), this.container);
-                    this.sidebar.setSelected(5);
+                    this.sidebar.setSelected(-1);
                     break;
                 case "about":
                     new AboutView().show(params.splice(1), this.container);
-                    this.sidebar.setSelected(4);
+                    this.sidebar.setSelected(5);
                     break;
                 case "viewer":
                     new ViewerV().show(params.splice(1), this.container);
-                    this.sidebar.setSelected(5);
+                    this.sidebar.setSelected(-1);
                     break;
                 case "error":
                     new ErrorV().show(params.splice(1), this.container);
                     break;
                 case "dummy":
                     new DummyV().show(params.splice(1), this.container);
-                    this.sidebar.setSelected(5);
+                    this.sidebar.setSelected(-1);
                     break;
                 default:
                     location.href = Configurations.VIEWS.ERROR;
