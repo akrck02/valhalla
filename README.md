@@ -1,4 +1,4 @@
-![Alt text](./readme/Banner.png)
+![Banner](./readme/Banner.png)
 
 # 💻 | Valhalla - The modern productivity app 
 Valhalla is a productivity app that helps you manage your tasks and projects.
@@ -9,6 +9,10 @@ Valhalla is a productivity app that helps you manage your tasks and projects.
 
 
 For more information, please visit [our page.](https://akrck02.github.io/#/software/Vallhalla)
+
+![Banner](./readme/Screenshot1.png)
+
+![Banner](./readme/Screenshot2.png)
 
 <br>
 
