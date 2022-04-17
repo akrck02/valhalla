@@ -72,9 +72,9 @@ div#view-container {
     overflow: hidden;
     align-items: center;
     justify-content: start;
-    height: calc(100vh - 2.5rem);
-    width: 100vw;
-    max-width: 100vw;
+    height: calc(100% - 2.5rem);
+    width: 100%;
+    max-width: 100%;
 
 }
 
