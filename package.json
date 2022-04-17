@@ -2,9 +2,10 @@
   "name": "valhalla",
   "version": "1.0.5a",
   "description": "The modern productivity app",
-  "main": "./server/out/electron.js",
+  "main": "./server/out/electron-start.js",
   "scripts": {
     "start": "electron .",
+    "start-server": "node ./server/out/server.js",
     "compile": "npm run compile-server & npm run compile-client",
     "compile-server": "tsc --project ./server/",
     "compile-server-watch": "tsc --project ./server/ -w",

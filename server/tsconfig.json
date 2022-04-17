@@ -18,8 +18,12 @@
     "files": [
       "./src/custom.d.ts",
       "./src/electron.ts",
+      "./src/electron-start.ts",
       "./src/renderer.ts",
       "./src/system.ts",
+      "./src/server.ts",
+      
+      "./src/core/types.ts",
 
       "./src/utils/time.ts",
       "./src/utils/string.ts",
@@ -37,13 +41,16 @@
 
       "./src/db/classes/user.ts",
       "./src/db/classes/task.ts",
+      "./src/db/classes/note.ts",
 
       "./src/db/model/model.ts",
       "./src/db/model/tasks.ts",
       "./src/db/model/labels.ts",
+      "./src/db/model/notes.ts",
       
       "./src/db/commands/httpResponse.ts",
       "./src/db/commands/tasks.ts",
+      "./src/db/commands/notes.ts",
       "./src/db/commands/user.ts"
     ]
   }

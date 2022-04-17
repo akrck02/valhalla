@@ -1,4 +1,5 @@
 
+import { SUCCESS_FALSE, SUCCESS_TRUE } from "../../core/types";
 import { StringUtils } from "../../utils/string";
 import { ITask } from "../classes/task";
 import { Database } from "../db";
@@ -18,15 +19,15 @@ export default class Labels implements Model {
         const response = await db.db.run(SQL,task.id)
 
         if(!response)
-            return false;
+            return SUCCESS_FALSE;
 
         if(response.length >= 0)
-            return false;
+            return SUCCESS_FALSE;
 
         if(response.changes == 0)
-            return false;
+            return SUCCESS_FALSE;
 
-        return true;
+        return SUCCESS_TRUE;
     }
 
 

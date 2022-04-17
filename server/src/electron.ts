@@ -6,7 +6,7 @@ import { Database } from "./db/db";
 // Modules to control application life and create native browser window
 const { app, shell, BrowserWindow } = require("electron");
 
-class ElectronApp {
+export class ElectronApp {
 
   private database?: Database;
   private api?: API;
@@ -16,10 +16,14 @@ class ElectronApp {
   }
 
   public async start() {
+    await this.startServer();
+    await this.setEvents();
+  }
+
+  public async startServer(){
     this.title();
     await this.startDatabase();
     await this.startAPI();
-    await this.setEvents();
   }
 
   public title() {
@@ -58,8 +62,8 @@ class ElectronApp {
 
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-      minWidth: 1280,
-      minHeight: 720,
+      minWidth: 1280 / 2,
+      minHeight: 720 / 2,
       frame: false,
       show: false,
       backgroundColor: "#fafafa",
@@ -81,8 +85,6 @@ class ElectronApp {
     const url = path.join(global.root, "/web/index.html");
     mainWindow.loadFile(url);
     console.log("Electron", "Opening HTML: " + url);
-
-
 
     let loading = new BrowserWindow({
       show: false, 
@@ -144,5 +146,7 @@ console.log = (...msg) => {
 }
 
 //Start new instance of the application
+/*
 const electronApp = new ElectronApp();
 electronApp.start();
+*/

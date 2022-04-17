@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Database } from "./db";
-import { Tasks } from "./commands/tasks";
+import { TasksResponse } from "./commands/tasks";
+import { NotesResponse } from "./commands/notes";
 
 export class Router {
 
@@ -9,23 +10,38 @@ export class Router {
 
     public constructor() {
         this.PATHS = {
-            "get/user/tasks" : Tasks.getUserTasks,
-            "get/user/done/tasks" : Tasks.getUserDoneTasks,
-            "get/user/not/done/tasks" : Tasks.getUserNotDoneTasks,
-            "get/user/task" : Tasks.getUserTask,
-            "get/user/month/tasks" : Tasks.getUserMonthTasks,
-            "get/user/tasks/from/category" : Tasks.getUserTasksFromCategory,
-            "get/user/done/tasks/from/category" : Tasks.getUserDoneTasksFromCategory,
-            "get/user/not/done/tasks/from/category" : Tasks.getUserNotDoneTasksFromCategory,
-            "get/user/task/categories" : Tasks.getUserTaskCategories,
-            "insert/user/task" : Tasks.insertUserTask,
-            "delete/user/task" : Tasks.deleteUserTask,
-            "delete/user/tasks" : Tasks.deleteUserTasks,
-            "update/user/task" : Tasks.updateUserTask,
-            "update/user/task/done" : Tasks.updateUserTaskDone,
-            "update/user/tasks/done" : Tasks.updateUserTasksDone,
-            "search/user/tasks/by/name" : Tasks.searchTasksByName,
-            "search/user/categories/by/name" : Tasks.searchCategoriesByName,
+
+            // GET METHODS
+            "get/user/tasks" : TasksResponse.getUserTasks,
+            "get/user/notes" : NotesResponse.getUserNotes,
+            "get/user/done/tasks" : TasksResponse.getUserDoneTasks,
+            "get/user/not/done/tasks" : TasksResponse.getUserNotDoneTasks,
+            "get/user/task" : TasksResponse.getUserTask,
+            "get/user/month/tasks" : TasksResponse.getUserMonthTasks,
+            "get/user/tasks/from/category" : TasksResponse.getUserTasksFromCategory,
+            "get/user/done/tasks/from/category" : TasksResponse.getUserDoneTasksFromCategory,
+            "get/user/not/done/tasks/from/category" : TasksResponse.getUserNotDoneTasksFromCategory,
+            "get/user/task/categories" : TasksResponse.getUserTaskCategories,
+            
+            // INSERT METHODS
+            "insert/user/task" : TasksResponse.insertUserTask,
+            "insert/user/note" : NotesResponse.insertUserNote,
+
+            // DELETE METHODS
+            "delete/user/task" : TasksResponse.deleteUserTask,
+            "delete/user/tasks" : TasksResponse.deleteUserTasks,
+            
+            // UPDATE METHODS
+            "update/user/task" : TasksResponse.updateUserTask,
+            "update/user/task/done" : TasksResponse.updateUserTaskDone,
+            "update/user/tasks/done" : TasksResponse.updateUserTasksDone,
+
+            // SEARCH METHODS
+            "search/user/tasks/by/name" : TasksResponse.searchTasksByName,
+            "search/user/categories/by/name" : TasksResponse.searchCategoriesByName,
+
+            // ASSIGN METHODS
+            "assign/note/to/task" : NotesResponse.assignNoteToTask,
         }
     }
 }
