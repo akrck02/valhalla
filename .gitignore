@@ -6,3 +6,5 @@
 /client/out/
 /db/
 /dist/
+
+/web/pdfjs
