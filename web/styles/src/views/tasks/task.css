@@ -87,7 +87,7 @@ view#tasks:not(.select) .task-box:hover .task-toolbar {
 
 view#tasks:not(.select) .task-box:hover .task {
     position: relative;
-    width: calc(100% - 10rem);
+    width: calc(100% - 8rem);
 }
 
 view#tasks .task-box:hover .task-toolbar div{
