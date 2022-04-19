@@ -443,11 +443,12 @@ export default class TasksView extends UIComponent {
             text: App.getBundle().tasks.ALL_TASKS_COMPLETED + " &nbsp;<span>😌</span>",
             styles: {
                 opacity: "0.8",
-                width: "calc(100% - 10rem)",
+                width: "100%",
                 height: "5rem",
                 padding : "1rem",
                 marginBottom : "1rem",
                 borderRadius : ".55rem",
+                background : "rgba(255,255,255,.06)"
             }
         });
     }

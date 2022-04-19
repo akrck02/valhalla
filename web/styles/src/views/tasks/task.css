@@ -72,15 +72,17 @@ view#tasks .task-toolbar {
     width: 0px;
     visibility: hidden;
     height: 100%;
-    padding: 0rem 1rem;
+   
     opacity: 0;
+    padding: 0;
 }   
 
 view#tasks:not(.select) .task-box:hover .task-toolbar {
     width: 4rem;
     visibility: visible;
-    transition: visibility var(--fast), width var(--medium), opacity var(--slow);
+    transition: visibility var(--fast),  padding var(--fast), width var(--medium), opacity var(--slow);
     opacity: 1;
+    padding: 0rem 1rem;
 }
 
 view#tasks:not(.select) .task-box:hover .task {
