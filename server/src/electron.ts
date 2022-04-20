@@ -64,6 +64,8 @@ export class ElectronApp {
     const mainWindow = new BrowserWindow({
       minWidth: 1280 / 2,
       minHeight: 720 / 2,
+      height: 1080,
+      width: 1920, 
       frame: false,
       show: false,
       backgroundColor: "#fafafa",
@@ -93,15 +95,15 @@ export class ElectronApp {
       height: 720,
     });
       mainWindow.webContents.once('dom-ready', () => {
-      setTimeout(() => {
-       
-        mainWindow.show()
-        mainWindow.center()
 
-        loading.hide()
-        loading.close()
-      }, 1500);
+        setTimeout(() => {
+          mainWindow.center()
+          mainWindow.show()
     
+          loading.hide();
+          loading.close();
+        }, 500);
+
     })
 
     loading.loadFile(path.join(global.root,'/web/loading.html'))
@@ -145,8 +147,3 @@ console.log = (...msg) => {
   console.info("[" + msg[0] + "] " + msg.slice(1));
 }
 
-//Start new instance of the application
-/*
-const electronApp = new ElectronApp();
-electronApp.start();
-*/

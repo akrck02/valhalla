@@ -1,3 +1,4 @@
+import e from "express";
 import { ListenerSet } from "./listenerset.js";
 
 export class Keyboard {
@@ -22,6 +23,10 @@ export class Keyboard {
             // SHIFT + W
             if (event.altKey && event.shiftKey && event.code === 'KeyW') 
                 listeners.getAppearenceListener().nextWallpaper();
+
+             // SHIFT + W
+            if (event.ctrlKey && event.code === 'Period') 
+                listeners.getExpertListener().commandPrompt();
 
 
             // SHIFT + M

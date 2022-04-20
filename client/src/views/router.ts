@@ -20,6 +20,7 @@ import ViewerV from "./viewer/viewer.ui.js";
 import ShowTaskView from "./show-task/showTask.ui.js";
 import StartView from "./start/startView.ui.js";
 import NotesView from "./notes/notesView.ui.js";
+import Modal from "../components/modal/modal.js";
 
 export default class Router {
 
@@ -27,7 +28,9 @@ export default class Router {
     public osNavbar : OsNavbar;
     public sidebar : Sidebar;
     public variablePanel : VariablePanel;
+    public modal : Modal;
     public container : UIComponent;
+
 
     constructor(listeners : ListenerSet) {
 
@@ -46,9 +49,12 @@ export default class Router {
         this.variablePanel.start();
 
         this.sidebar = new Sidebar();
+        this.modal = new Modal();
+
         this.sidebar.appendTo(this.parent);
         this.container.appendTo(this.parent);
         this.variablePanel.appendTo(this.parent);
+        this.modal.appendTo(this.parent);
     }
     /**
      * Load a view

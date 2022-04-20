@@ -3,7 +3,7 @@
 # 💻 | Valhalla - The modern productivity app 
 Valhalla is a productivity app that helps you manage your tasks and projects.
 
-💙 | The user experience is important for us, so we've designed the app to be as intuitive and intuitive as possible.
+💙 | The user experience is important for us, so we've designed the app to be as intuitive as possible.
 
 🔐 | No internet connection required, valhalla can be used in "offline" mode so your personal information stay secure on your computer and only accessible for you. 
 

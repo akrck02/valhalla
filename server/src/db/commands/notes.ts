@@ -101,10 +101,7 @@ export class NotesResponse implements HTTPResponse {
             return new Promise((resolve) =>
                 resolve({ status: "failed", reason: "Internal server error"})
             );
-        }
-
-    
-    
+        }   
     }
 
 }

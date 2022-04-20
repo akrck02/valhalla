@@ -54,7 +54,10 @@ export class Configurations {
     
     public static API = {
         URL : "http://127.0.0.1:3333/api/v1/",
+       
+        // GET METHODS
         GET_USER_TASKS : "http://127.0.0.1:3333/api/v1/get/user/tasks/",
+        GET_USER_NOTES : "http://127.0.0.1:3333/api/v1/get/user/notes/",
         GET_USER_DONE_TASKS : "http://127.0.0.1:3333/api/v1/get/user/done/tasks/",
         GET_USER_NOT_DONE_TASKS : "http://127.0.0.1:3333/api/v1/get/user/not/done/tasks/",
         GET_USER_TASK :  "http://127.0.0.1:3333/api/v1/get/user/task/",
@@ -63,14 +66,26 @@ export class Configurations {
         GET_USER_DONE_TASKS_FROM_CATEGORY: "http://127.0.0.1:3333/api/v1/get/user/done/tasks/from/category/",
         GET_USER_NOT_DONE_TASKS_FROM_CATEGORY: "http://127.0.0.1:3333/api/v1/get/user/not/done/tasks/from/category/",
         GET_USER_TASK_CATEGORIES: "http://127.0.0.1:3333/api/v1/get/user/task/categories/",
+        
+        // INSERT METHODS
         INSERT_USER_TASK: "http://127.0.0.1:3333/api/v1/insert/user/task/",
+        INSERT_USER_NOTE: "http://127.0.0.1:3333/api/v1/insert/user/note/",
+        
+        // DELETE METHODS
         DELETE_USER_TASK: "http://127.0.0.1:3333/api/v1/delete/user/task/",
         DELETE_USER_TASKS: "http://127.0.0.1:3333/api/v1/delete/user/tasks/",
+        
+        // UPDATE METHODS
         UPDATE_USER_TASK: "http://127.0.0.1:3333/api/v1/update/user/task/",
         UPDATE_USER_TASK_DONE: "http://127.0.0.1:3333/api/v1/update/user/task/done/",
         UPDATE_USER_TASKS_DONE: "http://127.0.0.1:3333/api/v1/update/user/tasks/done/",
+        
+        // SEARCH METHODS
         SEARCH_USER_TASKS_BY_NAME: "http://127.0.0.1:3333/api/v1/search/user/tasks/by/name",
         SEARCH_USER_CATEGORIES_BY_NAME: "http://127.0.0.1:3333/api/v1/search/user/categories/by/name",
+
+        // ASSIGN METHODS
+        ASSIGN_NOTE_TO_TASK : "assign/note/to/task"
     };
 
 
