@@ -1,7 +1,11 @@
+import { APP } from "../../app.js";
+import { CommandHandler } from "../../core/commands/command.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
-import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { setEvents, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 
 export default class CommandPrompt extends UIComponent {
+
+    private handler : CommandHandler;
 
     public constructor() {
         super({
@@ -13,6 +17,8 @@ export default class CommandPrompt extends UIComponent {
                 padding: "2rem",
             }
         });
+
+        this.handler = new CommandHandler(APP.listeners);
 
 
         const title = new UIComponent({
@@ -41,10 +47,23 @@ export default class CommandPrompt extends UIComponent {
             }
         });
 
+        setEvents(input.element,{
+            keyup: (e) => this.handleCommands(e, input)
+        })
+
         title.appendTo(this);
         icon.appendTo(title);
 
         input.appendTo(this);
+    }
+
+
+    handleCommands(e: Event, input: UIComponent) {
+
+        if(e.key == "Enter") {
+            e.preventDefault();
+            this.handler.handle((input.element as HTMLInputElement).value);
+        }
     }
 
 }

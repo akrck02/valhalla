@@ -1,11 +1,12 @@
 import { setInterval } from "timers/promises";
-import { App } from "../../../app.js";
+import { APP, App } from "../../../app.js";
 import { Configurations } from "../../../config/config.js";
 import { StringUtils } from "../../../core/data/integrity/string.js";
 import { ITask } from "../../../core/data/interfaces/task.js";
 import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
-import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
+import { setEvents, setStyles, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 import SearchCore from "../../../views/search/searchView.core.js";
+import SearchView from "../../../views/search/searchView.ui.js";
 
 export class SearchModal extends UIComponent {
 

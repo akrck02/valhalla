@@ -1,4 +1,3 @@
-import e from "express";
 import { ListenerSet } from "./listenerset.js";
 
 export class Keyboard {

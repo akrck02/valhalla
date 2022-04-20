@@ -12,7 +12,7 @@ import Router from './views/router.js';
  */
 export class App {
 
-    private listeners : ListenerSet;
+    public listeners : ListenerSet;
     private notification : UINotification;
     public router : Router;
 

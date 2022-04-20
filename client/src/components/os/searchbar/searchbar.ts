@@ -4,6 +4,7 @@ import { CommandHandler } from "../../../core/commands/command.js";
 import { ListenerSet } from "../../../core/listenerset.js";
 import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../../services/tasks.js";
+import SearchView from "../../../views/search/searchView.ui.js";
 import { SearchModal } from "./searchmodal.js";
 
 
