@@ -411,7 +411,7 @@ export default class TasksView extends UIComponent {
         
         setTimeout(() => {
             task.element.style.opacity = "1";
-        }, 100);
+        },  Configurations.areAnimationsEnabled()? 100 : 0);
 
         return taskBox;
     } 

@@ -31,7 +31,6 @@ export default class Router {
     public modal : Modal;
     public container : UIComponent;
 
-
     constructor(listeners : ListenerSet) {
 
         this.osNavbar = new OsNavbar(listeners);

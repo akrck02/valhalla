@@ -107,6 +107,11 @@ export class Configurations {
         if(!Configurations.getConfigVariable("OAUTH")) {
             Configurations.addConfigVariable("OAUTH", "#");
         }
+
+
+        if(!Configurations.getConfigVariable("ANIMATIONS")) {
+            this.setAnimations(true);
+        }
     }
 
     /**
@@ -152,7 +157,6 @@ export class Configurations {
         document.documentElement.dataset.theme = theme;
     }
 
-
     public static getTheme() {
         return Configurations.getConfigVariable("THEME");
     }
@@ -165,6 +169,22 @@ export class Configurations {
         return Configurations.getTheme() === "dark";
     }
 
+    /**
+     * Set the animations on/off
+     * @param animations true to enable animations
+     */
+    public static setAnimations(animations : boolean) {
+        document.documentElement.dataset.animations = animations ? "true" : "false";
+        this.addConfigVariable("ANIMATIONS", animations);
+    }
+
+    /**
+     * Get if the animations are enabled
+     * @returns true if the animations are enableds
+     */
+    public static areAnimationsEnabled() {
+        return Configurations.getConfigVariable("ANIMATIONS") + "" === "true";
+    }
 
     /**
      * Set the variable panel visibile

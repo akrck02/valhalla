@@ -1,4 +1,5 @@
 import { App } from "../../../app.js";
+import { Configurations } from "../../../config/config.js";
 import { DateText } from "../../../core/data/integrity/dateText.js";
 import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 
@@ -178,6 +179,10 @@ export class Calendar extends UIComponent {
 
             let time = even ? 100 : 200;
             time += Math.random() * 50;
+
+            if(Configurations.areAnimationsEnabled() == false){
+                time = 0;
+            }
 
             setTimeout(() => {
                 row.element.classList.add("visible");

@@ -20,18 +20,18 @@ export class App {
         this.listeners = new ListenerSet();
         this.router = new Router(this.listeners);
 
+        // Create event listeners
         Keyboard.setEventListeners(this.listeners);
         Window.setEvents();
+
+        // Adjust zoom 
         Window.setZoomLevel();
 
+        // Set the notification element
         this.notification = new UINotification();
         document.body.appendChild(this.notification.element);
 
-        if(Configurations.hasWallpaper()) {
-            document.documentElement.dataset.wallpaper = "true";
-        }
-
-
+        // Override the default notification function
         window.alert = (properties : NotificationProperties) => {
             this.notification.setContent(properties);
             this.notification.show(properties.time);
@@ -46,7 +46,17 @@ export class App {
 
         };
 
+        // if has a wallpaper, set the html variable
+        if(Configurations.hasWallpaper()) {
+            document.documentElement.dataset.wallpaper = "true";
+        }
+
+        // if has animation, set the html variable
+        Configurations.setAnimations(Configurations.areAnimationsEnabled());
+
+        // Log that the app is loaded
         console.log(Configurations.BASE.APP_NAME + " " + Configurations.BASE.APP_VERSION + " is loaded!");
+
     }
 
     /**
