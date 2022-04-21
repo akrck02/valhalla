@@ -75,6 +75,7 @@ div#view-container {
     height: calc(100% - 2.5rem);
     width: 100%;
     max-width: 100%;
+    backdrop-filter: blur(1rem);
 
 }
 
