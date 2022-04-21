@@ -1,5 +1,6 @@
 import { ListenerSet } from "../listenerset.js";
 import { HiddenTerminal } from "./hidden/easteregg.js";
+import { NoteNewCommand } from "./system/notes.js";
 import { TaskNewCommand } from "./system/tasks.js";
 import { WallpaperNextCommand, WallpaperPreviousCommand } from "./ui/wallpapers.js"
 
@@ -22,6 +23,7 @@ export class CommandHandler {
         this.commands.push(WallpaperPreviousCommand);
         this.commands.push(HiddenTerminal);
         this.commands.push(TaskNewCommand);
+        this.commands.push(NoteNewCommand);
     }
 
     public handle(predicate : string) {

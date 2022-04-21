@@ -34,7 +34,9 @@ view#notes #note-container {
 
 view#notes #note-container .sticky-note {
     min-width: 10rem;
-    height: 10rem;
+    max-width: 15rem;
+    min-height: 10rem;
+    
     padding: 1rem;
     margin: 0.5rem;
     margin-bottom: 2rem;
@@ -52,11 +54,13 @@ view#notes #note-container .sticky-note:hover {
 
 view#notes #note-container .sticky-note .title{
     font-size: 1rem;
+    word-break: break-word;
     font-weight: bold;
     text-transform: uppercase;
 }
 
 view#notes #note-container .sticky-note .content {
+    word-break: break-word;
     font-size: 0.8rem;
     margin-top: 1rem;
 }

@@ -58,7 +58,7 @@ export default class CommandPrompt extends UIComponent {
     }
 
 
-    handleCommands(e: Event, input: UIComponent) {
+    handleCommands(e: InputEventInit, input: UIComponent) {
 
         if(e.key == "Enter") {
             e.preventDefault();
