@@ -1,6 +1,10 @@
+import { App, APP } from "../../../app.js";
 import MinimalInput from "../../../components/input/minimalinput.js";
+import { Configurations } from "../../../config/config.js";
+import { INote } from "../../../core/data/interfaces/note.js";
 import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
-import { setStyles, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
+import { setEvents, setStyles, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
+import { NoteService } from "../../../services/notes.js";
 
 export default class NewNoteModal extends UIComponent {
 
@@ -8,8 +12,7 @@ export default class NewNoteModal extends UIComponent {
         super({
             type: "div",
             styles : {
-                width : "30rem",
-                
+                width : "30rem",                
             }
         });
 
@@ -67,6 +70,32 @@ export default class NewNoteModal extends UIComponent {
         });
 
         save.appendChild(saveIcon);
+
+        setEvents(save.element, {
+            click : () => {
+
+                const note : INote = {
+                    author: Configurations.getUserName(),
+                    title: name.element.innerText || "",
+                    content: textarea.element.innerText ||"",
+                }
+
+
+                const response = NoteService.insertUserNote(note);
+                response.success((res) => {
+                    if(res.status == "success"){
+                        alert({
+                            icon: "save",
+                            message: "Task saved successfully"
+                        });
+                    }
+                });
+                response.json();
+
+                APP.router.modal.hide();
+                App.redirect(Configurations.VIEWS.NOTES,[],true);
+            }
+        });
 
 
         const imageIcon = getMaterialIcon("image",{

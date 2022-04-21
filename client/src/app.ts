@@ -81,7 +81,12 @@ export class App {
      * @param url The URL to be redirected to
      * @param params The parameter Array
      */
-    public static redirect(url: string, params: string[]) {
+    public static redirect(url: string, params: string[], force :boolean = false) {
+
+        if(force) {
+            location.href = Configurations.VIEWS.DUMMY;
+        }
+        
         url += params.join("/");
         location.href = url;
     }
