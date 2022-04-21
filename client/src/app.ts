@@ -25,8 +25,12 @@ export class App {
         Window.setZoomLevel();
 
         this.notification = new UINotification();
-
         document.body.appendChild(this.notification.element);
+
+        if(Configurations.hasWallpaper()) {
+            document.documentElement.dataset.wallpaper = "true";
+        }
+
 
         window.alert = (properties : NotificationProperties) => {
             this.notification.setContent(properties);

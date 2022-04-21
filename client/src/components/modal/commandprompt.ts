@@ -1,4 +1,5 @@
-import { APP } from "../../app.js";
+import { App, APP } from "../../app.js";
+import { Configurations } from "../../config/config.js";
 import { CommandHandler } from "../../core/commands/command.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { setEvents, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
@@ -61,10 +62,17 @@ export default class CommandPrompt extends UIComponent {
 
         if(e.key == "Enter") {
             e.preventDefault();
+
+            if((input.element as HTMLInputElement).value.trim() == "exit") {
+                APP.router.modal.hide();
+                (input.element as HTMLInputElement).value = "";
+                
+                return;
+            }
+
             this.handler.handle((input.element as HTMLInputElement).value);      
             (input.element as HTMLInputElement).value = "";
         }
-
     
     }
 

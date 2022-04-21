@@ -232,12 +232,16 @@ export class Configurations {
      * @param wallpaper the wallpaper to set
      */
     public static setWallpaper(wallpaper: string) {
+       
         
         if(!wallpaper){
             this.addConfigVariable("WALLPAPER", wallpaper);
             setStyles(document.body,{"background-image": "none"});
+            document.documentElement.dataset.wallpaper = undefined;
             return;
         }
+
+        document.documentElement.dataset.wallpaper = "true";
 
         this.setTheme("dark");
         this.addConfigVariable("WALLPAPER", wallpaper);

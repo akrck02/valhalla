@@ -91,7 +91,6 @@ export class SearchModal extends UIComponent {
             
             const taskEntry = new UIComponent({
                 classes: ["task-entry","box-row", "box-y-center"],
-                text: icon.toHTML() + "&nbsp;&nbsp;&nbsp;" + task.name,
                 events : {
                     click: () => {
                         App.redirect(Configurations.VIEWS.TASK,["" + task.id]);
@@ -107,14 +106,25 @@ export class SearchModal extends UIComponent {
                 }
             })
 
-           
+            taskEntry.appendChild(icon);
          
             if(value != "") {
                 const matching = StringUtils.getMatching(task.name || "", value);
                 if(matching.length > 0) {
-                   taskEntry.element.innerHTML = taskEntry.element.innerHTML.replace(matching, `<span class="bold" style="padding: 0 .4rem; color: #fff">${matching}</span>`);
+                    task.name = task.name.replace(matching, `<span class="bold" color: #fff">${matching}</span>`);
                 }   
             }
+
+            const taskNameComponent = new UIComponent({
+                classes: ["task-name"],
+                text: task.name,
+                styles: {
+                    marginLeft: "0.5rem"
+                }
+            })
+
+            taskEntry.appendChild(taskNameComponent);
+
             this.defaultMovement(taskEntry);
 
             this.entries.push(taskEntry);

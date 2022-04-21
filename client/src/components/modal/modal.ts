@@ -1,3 +1,4 @@
+import { Configurations } from "../../config/config.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 
 export default class Modal extends UIComponent {
@@ -19,28 +20,13 @@ export default class Modal extends UIComponent {
                 display : "none",
                 opacity : "0",
                 transition:  "opacity var(--fast), backdrop-filter var(--fast)",
-                zIndex: "1000",
-                boxShadow: "rgb(0 0 0 / 4%) 0px 0.1rem 1rem",
-                
+                zIndex: "1000",                
             }
         });
 
         this.blackScreen = new UIComponent({
             type: "div",
             id: "modal-blackscreen",
-            styles: {
-                position: "fixed",
-                top: "0",
-                left: "0",
-                width: "100%",
-                height: "100%",
-                background: "rgba(0,0,0,.55)",
-                display: "none",
-                opacity: "0",
-                transition: "opacity var(--medium)",
-                zIndex: "1",
-                backdropFilter : "blur(.3rem)"
-            }
         });
 
         this.element.onkeydown = (e) => {
@@ -51,7 +37,7 @@ export default class Modal extends UIComponent {
 
         }
 
-        this.blackScreen.appendTo(document.getElementById("view-container"));
+        this.blackScreen.appendTo(document.body);
         this.showing = false;
     }
 

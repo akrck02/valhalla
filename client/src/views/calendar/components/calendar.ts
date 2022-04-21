@@ -1,5 +1,6 @@
+import { App } from "../../../app.js";
 import { DateText } from "../../../core/data/integrity/dateText.js";
-import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
+import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 
 export class Calendar extends UIComponent {
 
@@ -84,7 +85,7 @@ export class Calendar extends UIComponent {
                 classes: isToday? ["day","today"] : ["day"],
                 styles: {
                     overflow: "hidden",
-                }
+                },
             })
 
             const dayText = new UIComponent({
@@ -102,6 +103,15 @@ export class Calendar extends UIComponent {
                 DateText.normalize(realday,2)
             ]
             
+            setEvents(day.element, {
+                click: () => {
+                    alert({
+                        icon: "info",
+                        message: App.getBundle().system.NOT_IMPLEMENTED_YET,
+                    });
+                }
+            });
+
             if(events) {
                 let index = 0;
                 events.forEach(event  => {

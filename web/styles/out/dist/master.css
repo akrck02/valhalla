@@ -613,11 +613,11 @@ body.loading::after {
 animation: loader .5s;
 }
 *::-webkit-scrollbar {
-width: .35rem;
+width: 1rem;
 background-color: transparent;
 }
 *::-webkit-scrollbar:hover {
-width: .35rem;
+width: 1rem;
 }
 *::-webkit-scrollbar-thumb {
 background: rgba(0, 0, 0, .15);

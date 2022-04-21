@@ -67,6 +67,8 @@ export default class CategoryBar extends UIComponent {
                     },
                     styles: {
                         color : "rgba(0,0,0,.0)",
+                        wordBreak: "break-word"
+                        
                     }
                 });
 

@@ -54,7 +54,7 @@ export default class Router {
         this.sidebar.appendTo(this.parent);
         this.container.appendTo(this.parent);
         this.variablePanel.appendTo(this.parent);
-        this.modal.appendTo(this.parent);
+        this.modal.appendTo(document.body);
     }
     /**
      * Load a view
