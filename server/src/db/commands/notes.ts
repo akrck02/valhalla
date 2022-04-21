@@ -15,6 +15,9 @@ export class NotesResponse implements HTTPResponse {
         try {
             const note: INote = req?.body?.note;
 
+            console.log(note);
+            
+
             if (!note || !note.author) {
                 return new Promise((resolve) =>
                     resolve({ status: "failed", reason: "Missing parameters"})

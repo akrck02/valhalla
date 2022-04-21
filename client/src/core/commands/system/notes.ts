@@ -17,15 +17,19 @@ export const NoteNewCommand : Command = {
             content: message
         });
 
+        res.success((response) => {
+            alert({
+                icon : "terminal",
+                title: title,
+                message : response.reason
+            });
+        })
+
         res.json();
 
         
 
-        alert({
-            icon : "terminal",
-            title: title,
-            message : message
-        });
+     
     }
     
 }

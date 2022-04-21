@@ -53,17 +53,19 @@ export default class CommandPrompt extends UIComponent {
 
         title.appendTo(this);
         icon.appendTo(title);
-
         input.appendTo(this);
     }
 
 
-    handleCommands(e: InputEventInit, input: UIComponent) {
+    handleCommands(e: any, input: UIComponent) {
 
         if(e.key == "Enter") {
             e.preventDefault();
-            this.handler.handle((input.element as HTMLInputElement).value);
+            this.handler.handle((input.element as HTMLInputElement).value);      
+            (input.element as HTMLInputElement).value = "";
         }
+
+    
     }
 
 }

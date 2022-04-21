@@ -20,9 +20,12 @@ export class NoteService {
 
     static insertUserNote(note : INote){
         note.author = note.author || Configurations.getUserName(); 
+
+        console.log(note);
+        
         const response = efetch({
             method: HTTPS_METHOD.POST,
-            url: Configurations.API.GET_USER_NOTES,
+            url: Configurations.API.INSERT_USER_NOTE,
             parameters: {
                 note: note
             },
