@@ -41,8 +41,8 @@ jobs:
         title: ${{ steps.version.outputs.version }}-${{ github.sha }}
         files: |
           LICENSE
-          *.exe
-          *.appImage
+          dist/*.exe
+          dist/*.appImage
 
 
 
