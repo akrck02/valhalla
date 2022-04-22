@@ -42,7 +42,7 @@ jobs:
         files: |
           LICENSE
           dist/*.exe
-          dist/*.appImage
+          dist/*.AppImage
 
 
 
