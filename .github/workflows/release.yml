@@ -1,14 +1,21 @@
-  - name: version
-    run: node version.js
-    id: version
-  - name: release
-    uses: actions/create-release@v1
-    id: create_release
-    with:
-      draft: false
-      prerelease: false
-      release_name: ${{ steps.version.outputs.version }}
-      tag_name: ${{ steps.version.outputs.version }}-${{ github.ref }}
-      body_path: CHANGELOG.md
-    env:
-      GITHUB_TOKEN: ${{ github.token }}
+name: Publish Release
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Create a Release
+      uses: elgohr/Github-Release-Action@v4
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        title: testRelese
+
+
+
+
+
