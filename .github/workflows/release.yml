@@ -17,14 +17,14 @@ jobs:
       id: version
  
     - name: Create a Release
-      uses: elgohr/Github-Release-Action@v4
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+    - uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        title: ${{ steps.version.outputs.version }}-${{ github.sha }}
+        repo_token: ${{ github.token }}
+        automatic_release_tag: "latest"
         prerelease: true
-
-
+        title: ${{ steps.version.outputs.version }}-${{ github.sha }}
+        files: |
+          LICENSE
 
 
 
