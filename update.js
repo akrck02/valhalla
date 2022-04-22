@@ -85,8 +85,6 @@ function main(type, env, prefix, update = true){
     const configString = fs.readFileSync(configFile, "utf8");
     fs.closeSync(configFile);
 
-
-    console.log(configString);
     // update 
     let configStringUpdated = "";
     
