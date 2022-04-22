@@ -21,7 +21,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
-        title: testRelese
+        title: ${{ steps.version.outputs.version }}-${{ github.ref }}
 
 
 
