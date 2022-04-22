@@ -29,8 +29,11 @@ jobs:
         sudo apt-get install -y --install-recommends winehq-devel
         sudo apt-get install -y fakeroot
 
+    - name: Change to production mode
+      run: npm run prod
+
     - name: Create binaries
-      run: npm run prod && npm run update
+      run: npm run update
 
     - name: Create a Release of commit
       uses: "marvinpinto/action-automatic-releases@latest"
