@@ -32,7 +32,7 @@ jobs:
     - name: Create binaries
       run: npm run update
 
-    - name: Create a Release
+    - name: Create a Release "latest"
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: ${{ github.token }}
@@ -43,6 +43,18 @@ jobs:
           LICENSE
           dist/*.exe
           dist/*.AppImage
+
+    - name: Create a Release of commit
+          uses: "marvinpinto/action-automatic-releases@latest"
+          with:
+            repo_token: ${{ github.token }}
+            automatic_release_tag: ${{ steps.version.outputs.version }}-${{ github.sha }}
+            prerelease: true
+            title: ${{ steps.version.outputs.version }}-${{ github.sha }}
+            files: |
+              LICENSE
+              dist/*.exe
+              dist/*.AppImage
 
 
 
