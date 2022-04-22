@@ -22,6 +22,7 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       with:
         title: ${{ steps.version.outputs.version }}-${{ github.sha }}
+        prerelease: true
 
 
 
