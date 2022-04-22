@@ -11,11 +11,13 @@
         "package.json",
         "electron.js",
         "version.json",
-        "client/**/*",
+        "client/out/**/*",
+        "client/resources/**/*",
+        "server/out/**/*",
         "resources/**/*",
-        "server/**/*",
-        "web/**/*",
-        "db/**/*"
+        "web/loading.html",
+        "web/index.html",
+        "web/styles/out/**/*"
     ],
     "mac": {
         "target": "dmg",

@@ -16,7 +16,7 @@ export class Configurations {
         HOST: "127.0.0.1",
         PORT: 80,
         URL: location.href,
-        ENVIROMENT: ENVIROMENT.DEVELOPMENT,
+        ENVIRONMENT: ENVIROMENT.DEVELOPMENT,
         DEBUG: true,
         LOG_LEVEL: "debug",
         LOG_FILE: "app.log",
@@ -97,6 +97,7 @@ export class Configurations {
         await ConfigService.getAppConfig().success(json => {
             this.BASE.APP_NAME = json.APP_NAME;
             this.BASE.APP_VERSION = json.VERSION;
+            this.BASE.ENVIRONMENT = json.ENVIRONMENT;
             
         }).jsonPromise()
 
@@ -204,7 +205,7 @@ export class Configurations {
      */
     public static toggleVariablePanel() {
 
-        if(Configurations.BASE.ENVIROMENT !== ENVIROMENT.DEVELOPMENT)
+        if(Configurations.BASE.ENVIRONMENT !== ENVIROMENT.DEVELOPMENT)
             return; 
 
         this.setVariablePanelVisible(!Configurations.getConfigVariable('VARIABLES_VISIBLE'));

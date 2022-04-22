@@ -100,7 +100,7 @@ export class VariablePanel extends UIComponent {
         this.createVariableTable({
             "APP_NAME": baseConfig.APP_NAME,
             "APP_VERSION": baseConfig.APP_VERSION,
-            "ENVIROMENT": baseConfig.ENVIROMENT,
+            "ENVIROMENT": baseConfig.ENVIRONMENT,
             "DEBUG": baseConfig.DEBUG,
             "LOG_LEVEL": baseConfig.LOG_LEVEL,
             "THEME": Configurations.getTheme(),

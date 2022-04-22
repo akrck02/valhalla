@@ -1,47 +1,69 @@
 {
-  "name": "valhalla",
-  "version": "1.0.5a",
-  "description": "The modern productivity app",
-  "main": "./server/out/electron-start.js",
-  "scripts": {
-    "start": "electron .",
-    "start-server": "node ./server/out/server.js",
-    "compile": "npm run compile-server & npm run compile-client",
-    "compile-server": "tsc --project ./server/",
-    "compile-server-watch": "tsc --project ./server/ -w",
-    "compile-client": "tsc --project ./client/",
-    "compile-client-watch": "tsc --project ./client/ -w",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder",
-    "dist-win": "electron-builder --win",
-    "pack-styles": "java -jar lit-v1.0b2.jar",
-    "pack-client": "rollup client/temp/src/app.js --file client/out/app.js --format iife"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/akrck02/Valhalla.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/akrck02/Valhalla/issues"
-  },
-  "homepage": "https://github.com/akrck02/Valhalla#readme",
-  "devDependencies": {
-    "electron": "^13.1.7",
-    "electron-builder": "^22.11.7",
-    "rollup": "^2.70.1",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.2"
-  },
-  "dependencies": {
-    "@types/express": "^4.17.13",
-    "@types/node": "^16.11.19",
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "mime": "^2.5.2",
-    "sqlite": "^4.0.23",
-    "sqlite3": "^5.0.2"
-  }
+    "name": "valhalla",
+    "version": "v1.0.5b",
+    "description": "The modern productivity app",
+    "main": "./server/out/electron-start.js",
+    "scripts": {
+        "start": "electron .",
+        "start-server": "node ./server/out/server.js",
+        "compile": "npm run compile-server & npm run compile-client",
+        "compile-server": "tsc --project ./server/",
+        "compile-server-watch": "tsc --project ./server/ -w",
+        "compile-client": "tsc --project ./client/",
+        "compile-client-watch": "tsc --project ./client/ -w",
+        "dist": "npm run dist-linux & npm run dist-win",
+        "dist-linux": "electron-builder",
+        "dist-win": "electron-builder --win",
+        "pack-styles": "java -jar lit-v1.0b2.jar",
+        "pack-client": "rollup client/temp/src/app.js --file client/out/app.js --format iife",
+        "pack": "npm run pack-client & npm run pack-styles",
+        "update": "npm run compile && npm run pack && npm run dist",
+        "update-patch-dev-alpha": "node update.js patch -d a && npm run update",
+        "update-patch-dev-beta": "node update.js patch -d b && npm run update",
+        "update-patch-dev": "node update.js patch -d b && npm run update",
+        "update-patch-prod-alpha": "node update.js patch -p a && npm run update",
+        "update-patch-prod-beta": "node update.js patch -p b && npm run update",
+        "update-patch-prod": "node update.js patch -p b && npm run update",
+        "update-minor-dev-alpha": "node update.js minor -d a && npm run update",
+        "update-minor-dev-beta": "node update.js minor -d b && npm run update",
+        "update-minor-dev": "node update.js minor -d b && npm run update",
+        "update-minor-prod-alpha": "node update.js minor -p a && npm run update",
+        "update-minor-prod-beta": "node update.js minor -p b && npm run update",
+        "update-minor-prod": "node update.js minor -p b && npm run update",
+        "update-major-dev-alpha": "node update.js major -d a && npm run update",
+        "update-major-dev-beta": "node update.js major -d b && npm run update",
+        "update-major-dev": "node update.js major -d b && npm run update",
+        "update-major-prod-alpha": "node update.js major -p a && npm run update",
+        "update-major-prod-beta": "node update.js major -p b && npm run update",
+        "update-major-prod": "node update.js major -p b && npm run update",
+        "dev": "node update.js - -d - false",
+        "prod": "node update.js - -p - false"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/akrck02/Valhalla.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/akrck02/Valhalla/issues"
+    },
+    "homepage": "https://github.com/akrck02/Valhalla#readme",
+    "devDependencies": {
+        "electron": "^13.1.7",
+        "electron-builder": "^22.11.7",
+        "rollup": "^2.70.1",
+        "ts-node": "^10.4.0",
+        "typescript": "^4.5.2"
+    },
+    "dependencies": {
+        "@types/express": "^4.17.13",
+        "@types/node": "^16.11.19",
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "mime": "^2.5.2",
+        "sqlite": "^4.0.23",
+        "sqlite3": "^5.0.2"
+    }
 }

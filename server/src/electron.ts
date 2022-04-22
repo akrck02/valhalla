@@ -2,6 +2,7 @@ import path from "path";
 import { API } from "./db/api";
 import fs from "fs";
 import { Database } from "./db/db";
+import { ENVIRONMENT, getVersionParameters } from "./system";
 
 // Modules to control application life and create native browser window
 const { app, shell, BrowserWindow } = require("electron");
@@ -83,8 +84,20 @@ export class ElectronApp {
       
     });
 
+    // get the version parameters 
+    const versionParameters = getVersionParameters();
+    console.log("VERSION", versionParameters.VERSION);
+    console.log("ENVIRONMENT", versionParameters.ENVIRONMENT);
+    
+    let indexFile = "index.html";
+    let loadingFile = "loading.html";
+
+    if (versionParameters.ENVIRONMENT == ENVIRONMENT.PRODUCTION) {
+      indexFile = "index-prod.html";
+      loadingFile = "loading-prod.html";
+    } 
     // and load the index.html of the app.
-    const url = path.join(global.root, "/web/index.html");
+    const url = path.join(global.root, "/web/" + indexFile);
     mainWindow.loadFile(url);
     console.log("Electron", "Opening HTML: " + url);
 
@@ -106,7 +119,7 @@ export class ElectronApp {
 
     })
 
-    loading.loadFile(path.join(global.root,'/web/loading.html'))
+    loading.loadFile(path.join(global.root,'/web/' + loadingFile));
     loading.show()
   }
 
