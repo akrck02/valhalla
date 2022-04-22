@@ -21,7 +21,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
-        title: ${{ steps.version.outputs.version }}-${{ github.ref }}
+        title: ${{join(steps.version.outputs.*, '\n')}}-${{ github.sha }}
 
 
 
