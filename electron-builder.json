@@ -15,8 +15,8 @@
         "client/resources/**/*",
         "server/out/**/*",
         "resources/**/*",
-        "web/loading.html",
-        "web/index.html",
+        "web/loading-prod.html",
+        "web/index-prod.html",
         "web/styles/out/**/*"
     ],
     "mac": {
