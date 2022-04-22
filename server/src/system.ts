@@ -8,7 +8,7 @@ export function getLang() : string  {
 export function getVersionParameters(){
     const fs = require("fs");
     
-    const versionFile = fs.readFileSync("./version.json", "utf8");
+    const versionFile = fs.readFileSync("version.json", "utf8");
     const versionJson = JSON.parse(versionFile);
     return versionJson;
 }
