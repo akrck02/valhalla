@@ -30,8 +30,7 @@ jobs:
         sudo apt-get install -y fakeroot
 
     - name: Create binaries
-      run: npm run prod
-      run: npm run update
+      run: npm run prod && npm run update
 
     - name: Create a Release "latest"
       uses: "marvinpinto/action-automatic-releases@latest"
