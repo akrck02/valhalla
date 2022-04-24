@@ -7,7 +7,11 @@
     padding: .5rem;
     background: rgba(255, 255, 255, .05);
     transition: opacity var(--slow);
-    color:rgba(255, 255, 255, 1)
+    color:rgba(255, 255, 255, 1);
+    font-family: inherit;
+    border-radius: .35rem !important;
+    transition: background var(--fast), border-color var(--fast) !important;
+    border: .2rem solid rgba(255, 255, 255, 0) !important;
 }
 
 .minimal-input.empty {
@@ -30,3 +34,8 @@
     transition: opacity var(--fast);
 }
 
+.minimal-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, .05) !important;
+    border-color: rgba(255, 255, 255, .1) !important;
+}

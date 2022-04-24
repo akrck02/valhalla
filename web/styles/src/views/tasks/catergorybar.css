@@ -67,6 +67,7 @@ div#category-bar button#new {
     width: 3rem;
     border-radius: 35rem;
     position: absolute;
+    z-index: 1;
     bottom: 1rem;
     right: 1rem;
     transition: background var(--fast), transform var(--fast);

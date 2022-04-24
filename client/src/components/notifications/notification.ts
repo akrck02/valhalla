@@ -33,7 +33,8 @@ export default class UINotification extends UIComponent {
                 borderRadius: ".35rem",
                 transition: ".5s",
                 padding: "1.5rem",
-                opacity : "0"
+                opacity : "0",
+                zIndex: "1000",
             }
         })
 

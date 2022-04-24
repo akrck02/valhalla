@@ -107,7 +107,7 @@ header#os-navbar div#search {
 }
 
 :root[data-theme=dark] header#os-navbar div#search{
-    background: rgba(255, 255, 255, .05);
+    background: rgba(255, 255, 255, .035);
     color: #FFFFFF;
 }
 

@@ -57,6 +57,16 @@ export default class Modal extends UIComponent {
             this.blackScreen.element.style.opacity = "1";
             this.element.style.opacity = "1"
             this.element.focus();
+
+            let focusableElement = this.element.querySelector("input");
+            if(!focusableElement) {
+                this.element.querySelector("textarea")?.focus();
+            } else {
+                focusableElement.focus();
+            }
+
+            
+
         }, 250);
 
     }

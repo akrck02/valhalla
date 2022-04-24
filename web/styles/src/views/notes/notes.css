@@ -36,8 +36,11 @@ view#notes #note-container .sticky-note {
     min-width: 10rem;
     max-width: 15rem;
     min-height: 10rem;
+
+    height: fit-content;
     
     padding: 1rem;
+    padding-bottom: 3rem;
     margin: 0.5rem;
     margin-bottom: 2rem;
     border-radius: 0.35rem;
@@ -63,4 +66,20 @@ view#notes #note-container .sticky-note .content {
     word-break: break-word;
     font-size: 0.8rem;
     margin-top: 1rem;
+}
+
+view#notes #note-container .sticky-note .icon-button {
+    position: absolute;
+    bottom: 1rem;
+    opacity: 0;
+    transition: opacity var(--slow);
+}
+
+view#notes #note-container .sticky-note:hover .icon-button {
+   opacity: .6;
+}
+
+view#notes #note-container .sticky-note .icon-button:hover {
+    transition: opacity var(--fast);
+    opacity: 1;
 }

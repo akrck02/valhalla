@@ -27,6 +27,9 @@ export class App {
         // Adjust zoom 
         Window.setZoomLevel();
 
+        // Set the language
+        Configurations.addConfigVariable("LANG", "es");
+
         // Set the notification element
         this.notification = new UINotification();
         document.body.appendChild(this.notification.element);
@@ -87,7 +90,15 @@ export class App {
      * @returns 
      */
     public static getBundle() : any {
-        return TextBundle.get(navigator.language);
+
+        let lang = Configurations.getConfigVariable("LANG");
+        
+        if(!lang) {
+            lang = navigator.language;
+        }
+
+
+        return TextBundle.get(lang);
     }
 
     /**

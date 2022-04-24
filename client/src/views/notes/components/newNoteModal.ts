@@ -18,7 +18,7 @@ export default class NewNoteModal extends UIComponent {
 
         const title = new UIComponent({
             type: "h1",
-            text: "New Note",
+            text: App.getBundle().notes.NEW_NOTE,
             classes: ["box-x-between","box-y-center"],
             styles : {
                 marginBottom : "1.5rem",
@@ -32,15 +32,16 @@ export default class NewNoteModal extends UIComponent {
 
         icon.appendTo(title);
 
-        const name = new MinimalInput("h1","","Write here the note title");
+        const name = new MinimalInput("",App.getBundle().notes.WRITE_HERE_THE_NOTE_TITLE);
         setStyles(name.element,{
             marginBottom : "1rem",
             width: "100%",
             borderRadius: ".35rem",
-            height: "auto"
+            height: "auto",
+            fontSize: "1rem",
         })
 
-        const textarea = new MinimalInput("p","","Add your note here");
+        const textarea = new MinimalInput("",App.getBundle().notes.ADD_YOUR_NOTE_HERE,true);
         setStyles(textarea.element,{
             marginBottom : "0.5rem",
             backdropFilter: "none",
@@ -49,19 +50,27 @@ export default class NewNoteModal extends UIComponent {
             height: "10rem",
         })
 
+        // Buttons
+        const buttonBar = new UIComponent({
+            type: "div",
+            classes: ["box-x-between","box-y-center"],
+        });
+
+        // Save button
         const save = new UIComponent({
             type: "button",
             text: "Save",
             classes: ["box-center"],
             styles: {
-                padding: "1rem 1.5rem",
+                padding: ".75rem 1rem",
                 background: "rgba(255,255,255,.05)",
-                fontSize : "1rem",
+                fontSize : ".9rem",
+                marginLeft: "0rem",
             }
         }); 
 
         const saveIcon = getMaterialIcon("save",{
-            size : "1.25rem",
+            size : "1rem",
             fill : "#fff",
         });
 
@@ -97,18 +106,41 @@ export default class NewNoteModal extends UIComponent {
             }
         });
 
+        // Cancel button
+        const cancel = new UIComponent({
+            type: "button",
+            text: "Cancel",
+            classes: ["box-center"],
+            styles: {
+                padding: ".75rem 1rem",
+                boxShadow: "none",
+                background: "rgba(255,255,255,.0)",
+                fontSize : ".9rem",
+                marginLeft: "0rem",
+            }
+        });
+
+        setEvents(cancel.element, {
+            click : () => {
+                APP.router.modal.hide();
+            }
+        });
+        
 
         const imageIcon = getMaterialIcon("image",{
             size : "1.25rem",
             fill : "#fff",
         });
 
+        buttonBar.appendChild(cancel);
+        buttonBar.appendChild(save);
+      
 
         this.appendChild(title);
         this.appendChild(name);
         this.appendChild(textarea);
-        this.appendChild(save);
-        this.appendChild(imageIcon);
+        this.appendChild(buttonBar);
+        //this.appendChild(imageIcon);
     }
 
 }

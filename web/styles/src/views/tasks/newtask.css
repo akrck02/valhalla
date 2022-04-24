@@ -1,11 +1,10 @@
 view#new-task {
     width: 100%;
     height: 100%;
-    padding: 1.5rem 0rem 1.5rem 5rem;
+    padding: 1.5rem 0rem;
     display: flex;
     flex-direction: row;
     justify-content: start;    
-    backdrop-filter: blur(1rem);
 }
 
 
@@ -15,23 +14,26 @@ view#new-task div#new-task-container {
 }
 
 view#new-task div.task-name-row,
-view#new-task p#task-description {
+view#new-task #task-description {
     margin: .5rem 0;
     padding: 1rem;
     border-radius: .35rem;
-    max-width: 38rem;
+    max-width: 38rem !important;
+    border: none;
     transition: background var(--fast) ;
 }
 
-view#new-task p#task-description::before {
+view#new-task #task-description::before {
     padding: 1rem;
 }
 
-view#new-task h1#task-name {
+view#new-task #task-name {
     overflow-x: auto;
     height:100%;
     max-height: 3.5rem;
+    font-size: 1.5rem;
     width: 30rem;
+    border: none;
     background: transparent;
     margin-left: .5rem;
     cursor: text;
@@ -44,16 +46,15 @@ view#new-task div.task-name-row svg {
     fill: var(--text-color);
 }
 
-view#new-task p#task-description {
+view#new-task #task-description {
     height: 15rem;
     width: 100%;
     margin: 1rem 1rem;
     overflow-y: auto;
     background: rgba(0, 0, 0, .025);
-
 }
 
-:root[data-theme=dark] view#new-task p#task-description{
+:root[data-theme=dark] view#new-task #task-description{
     background: rgba(255, 255, 255, .05);
 }
 
@@ -146,8 +147,7 @@ view#new-task div#tag-container button#new-tag svg {
     background: rgba(255, 255, 255, .065);
 }
 
-
-view#new-task button#save-task {
+view#new-task button.icon-button {
     padding: .75rem 1rem;
     background: rgba(0,0,0,.05);
     font-weight: bold;
@@ -159,23 +159,23 @@ view#new-task button#save-task {
 }
 
 
-:root[data-theme=dark] view#new-task button#save-task {
+:root[data-theme=dark] view#new-task button.icon-button{
     background: rgba(255,255,255,.05);
 }
 
-view#new-task button#save-task svg {
-    margin-right: .5rem;
+view#new-task button.icon-button svg {
+    margin-left: .5rem;
     fill: var(--text-color)
 } 
 
-view#new-task button#save-task:hover,
-view#new-task button#save-task:focus {
+view#new-task button.icon-button:hover,
+view#new-task button.icon-button:focus {
     background: rgba(0,0,0,.10);
     color: var(--text-color) !important;
 }
 
-:root[data-theme=dark] view#new-task button#save-task:hover,
-:root[data-theme=dark] view#new-task button#save-task:focus {
+:root[data-theme=dark] view#new-task button.icon-button:hover,
+:root[data-theme=dark] view#new-task button.icon-button:focus {
     background: rgba(255,255,255,.1);
 }
 

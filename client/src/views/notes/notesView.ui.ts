@@ -1,6 +1,7 @@
 import { APP, App } from "../../app.js";
+import Utils from "../../core/utils.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
-import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { setClasses, setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import NewNoteModal from "./components/newNoteModal.js";
 import NotesCore from "./notesView.core.js";
 
@@ -26,7 +27,7 @@ export default class NotesView extends UIComponent {
         const title = new UIComponent({
             type : "h1",
             id : "title",
-            text : "Notes:",
+            text : App.getBundle().notes.NOTES + ":",
             classes : ["box-x-between", "box-y-center", "box-row"],
         });
 
@@ -37,8 +38,19 @@ export default class NotesView extends UIComponent {
         });
         title.appendChild(toolbar);
 
-        const addNote = getMaterialIcon("plus",{size: "1.25rem", fill: "#fff"})
+        const addNote = getMaterialIcon("plus",{size: "1.5rem", fill: "#fff"})
         addNote.element.classList.add("icon-button");
+
+        setStyles(addNote.element, {
+            position: "absolute",
+            bottom: "2.5rem",
+            right: "2.5rem",
+            padding: ".75rem",
+            background: "rgba(255,255,255,0.15)",
+            borderRadius: "100rem",
+            cursor: "pointer",
+
+        })
 
         addNote.element.addEventListener("click", () => {
             APP.router.modal.setContent(new NewNoteModal());
@@ -46,7 +58,7 @@ export default class NotesView extends UIComponent {
         });
 
 
-        toolbar.appendChild(addNote);
+        this.appendChild(addNote);
 
         this.appendChild(title);
 
@@ -80,9 +92,24 @@ export default class NotesView extends UIComponent {
                 classes: ["content"],
             })
 
+            const copy = getMaterialIcon("content_copy", {size: "1.25rem", fill: "#fff"});
+            setClasses(copy.element,["icon-button"]);
+            setStyles(copy.element, {right: "1rem"})
+            copy.element.addEventListener("click", () => Utils.copyToClipboard(note.content));
+
+            const deleteNote = getMaterialIcon("delete", {size: "1.25rem", fill: "#fff"});
+            setClasses(deleteNote.element,["icon-button"]);
+            setStyles(deleteNote.element, {right: "3rem"})
+            deleteNote.element.addEventListener("click", () => {});
+
+
             stickyNote.appendChild(noteTitle);
             stickyNote.appendChild(noteContent);
+            stickyNote.appendChild(copy);
+            stickyNote.appendChild(deleteNote);
+
             noteContainer.appendChild(stickyNote);
+            
 
             setTimeout(() => noteContainer.element.style.opacity = "1", 100);
             this.appendChild(noteContainer);
