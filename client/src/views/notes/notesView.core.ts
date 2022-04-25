@@ -1,3 +1,4 @@
+import { App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
 import { NoteService } from "../../services/notes.js";
 
@@ -8,8 +9,8 @@ export default class NotesCore {
 
         let notes = {}; 
         const response  = NoteService.getUserNotes(Configurations.getUserName());
-        response.success((json) =>{
-            notes = json;
+        response.success((data) =>{
+            notes = data;
         });
         
         await response.jsonPromise();
@@ -17,6 +18,22 @@ export default class NotesCore {
         return notes;
     }
 
+
+    public deleteUserNote(id : number) {
+        const response = NoteService.deleteUserNote(id);
+        response.success((data) => {
+
+            alert({
+                icon : "delete",
+                message : JSON.stringify(data)
+            });
+
+            setTimeout(() => App.redirect(Configurations.VIEWS.NOTES,[],true), 200);
+            
+        })
+
+        response.json();
+    }
 
 
 }

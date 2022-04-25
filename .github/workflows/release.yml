@@ -39,7 +39,7 @@ jobs:
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: ${{ github.token }}
-        automatic_release_tag: ${{ steps.version.outputs.version }}-${{ github.sha }}
+        automatic_release_tag: dev-latest
         prerelease: true
         title: ${{ steps.version.outputs.version }}-${{ github.sha }}
         files: |

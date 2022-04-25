@@ -72,6 +72,7 @@ export class Configurations {
         INSERT_USER_NOTE: "http://127.0.0.1:3333/api/v1/insert/user/note/",
         
         // DELETE METHODS
+        DELETE_USER_NOTE: "http://127.0.0.1:3333/api/v1/delete/user/note/",
         DELETE_USER_TASK: "http://127.0.0.1:3333/api/v1/delete/user/task/",
         DELETE_USER_TASKS: "http://127.0.0.1:3333/api/v1/delete/user/tasks/",
         

@@ -18,16 +18,27 @@ export class NoteService {
     }
 
 
-    static insertUserNote(note : INote){
+    static insertUserNote(note : INote) : Response {
         note.author = note.author || Configurations.getUserName(); 
 
-        console.log(note);
-        
         const response = efetch({
             method: HTTPS_METHOD.POST,
             url: Configurations.API.INSERT_USER_NOTE,
             parameters: {
                 note: note
+            },
+        });
+
+        return response;
+    }
+
+    static deleteUserNote(id : number) : Response {
+        
+        const response = efetch({
+            method: HTTPS_METHOD.POST,
+            url: Configurations.API.DELETE_USER_NOTE,
+            parameters: {
+                id: id
             },
         });
 

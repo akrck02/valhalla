@@ -28,6 +28,7 @@ export class Router {
             "insert/user/note" : NotesResponse.insertUserNote,
 
             // DELETE METHODS
+            "delete/user/note" : NotesResponse.deleteUserNote,
             "delete/user/task" : TasksResponse.deleteUserTask,
             "delete/user/tasks" : TasksResponse.deleteUserTasks,
             

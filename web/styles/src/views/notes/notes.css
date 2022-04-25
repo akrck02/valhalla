@@ -26,13 +26,13 @@ view#notes h1#title #toolbar .icon-button:hover {
     background: rgba(255, 255, 255, 0.13);
 }
 
-view#notes #note-container {
+view#notes .note-container {
     width : 100%;
     opacity: 0;
     transition: opacity var(--slow);
 }
 
-view#notes #note-container .sticky-note {
+view#notes .note-container .sticky-note {
     min-width: 10rem;
     max-width: 15rem;
     min-height: 10rem;
@@ -50,36 +50,36 @@ view#notes #note-container .sticky-note {
     transition: transform var(--medium);
 }
 
-view#notes #note-container .sticky-note:hover {
+view#notes .note-container .sticky-note:hover {
     background-color: rgba(255, 255, 255, 0.15);
     transform: translateY(1rem) rotate(0deg) scale(1.1) !important;
 }
 
-view#notes #note-container .sticky-note .title{
+view#notes .note-container .sticky-note .title{
     font-size: 1rem;
     word-break: break-word;
     font-weight: bold;
     text-transform: uppercase;
 }
 
-view#notes #note-container .sticky-note .content {
+view#notes .note-container .sticky-note .content {
     word-break: break-word;
     font-size: 0.8rem;
     margin-top: 1rem;
 }
 
-view#notes #note-container .sticky-note .icon-button {
+view#notes .note-container .sticky-note .icon-button {
     position: absolute;
     bottom: 1rem;
     opacity: 0;
     transition: opacity var(--slow);
 }
 
-view#notes #note-container .sticky-note:hover .icon-button {
+view#notes .note-container .sticky-note:hover .icon-button {
    opacity: .6;
 }
 
-view#notes #note-container .sticky-note .icon-button:hover {
+view#notes .note-container .sticky-note .icon-button:hover {
     transition: opacity var(--fast);
     opacity: 1;
 }

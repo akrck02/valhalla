@@ -52,7 +52,7 @@ export default class Notes implements Model {
      * @param noteId The note ID
      * @returns if the note was deleted
      */
-    public static async deleteNote(db: Database, noteId : string){
+    public static async deleteUserNote(db: Database, noteId : string){
         const SQL = "DELETE FROM note WHERE id = ?";
 
         const response = await db.db.run(SQL,

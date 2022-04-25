@@ -2,6 +2,7 @@ import { APP, App } from "../../app.js";
 import Utils from "../../core/utils.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { setClasses, setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { NoteService } from "../../services/notes.js";
 import NewNoteModal from "./components/newNoteModal.js";
 import NotesCore from "./notesView.core.js";
 
@@ -64,8 +65,7 @@ export default class NotesView extends UIComponent {
 
         const noteContainer = new UIComponent({
             type : "div",
-            classes : ["box-row","box-warp"],
-            id: "note-container",
+            classes : ["box-row","box-warp", "note-container"],
         });
 
         const notes = await this.core.getUserNotes();
@@ -77,6 +77,9 @@ export default class NotesView extends UIComponent {
                 classes: ["sticky-note"],
                 styles: {
                     transform : "rotate(" + (-2.5 + Math.random() * 5) + "deg) translateY(2rem)",
+                },
+                data : {
+                    id : note.id
                 }
             })
 
@@ -100,7 +103,7 @@ export default class NotesView extends UIComponent {
             const deleteNote = getMaterialIcon("delete", {size: "1.25rem", fill: "#fff"});
             setClasses(deleteNote.element,["icon-button"]);
             setStyles(deleteNote.element, {right: "3rem"})
-            deleteNote.element.addEventListener("click", () => {});
+            deleteNote.element.addEventListener("click", () => this.core.deleteUserNote(note.id));
 
 
             stickyNote.appendChild(noteTitle);
