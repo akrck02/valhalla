@@ -39,13 +39,11 @@ jobs:
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: ${{ github.token }}
-        automatic_release_tag: latest
+        automatic_release_tag: v${{ steps.version.outputs.version }}
         prerelease: true
         title: ${{ steps.version.outputs.version }}
         files: |
           LICENSE
           dist/*.exe
           dist/*.AppImage
-
-
 
