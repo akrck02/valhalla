@@ -85,8 +85,8 @@ export default class NewNoteModal extends UIComponent {
 
                 const note : INote = {
                     author: Configurations.getUserName(),
-                    title: name.element.innerText || "",
-                    content: textarea.element.innerText ||"",
+                    title: (name.element as HTMLInputElement).value || "",
+                    content: (textarea.element as HTMLInputElement).value ||"",
                 }
 
 
