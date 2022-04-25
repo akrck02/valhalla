@@ -1,9 +1,9 @@
+import { App } from "../../../app.js";
+import { Configurations } from "../../../config/config.js";
 import { DateText } from "../../../core/data/integrity/dateText.js";
-import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
+import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 
 export class Calendar extends UIComponent {
-
-
     constructor(){
         super({
             type: "div",
@@ -17,6 +17,9 @@ export class Calendar extends UIComponent {
     }
 
     public draw( current : Date , tasks : any ) {
+
+        const today = new Date();
+        const isThisMonth = today.getFullYear() == current.getFullYear() && today.getMonth() == current.getMonth();
 
         const year = current.getFullYear();
         const month = current.getMonth();
@@ -32,12 +35,23 @@ export class Calendar extends UIComponent {
         const title = new UIComponent({
             type: "h1",
             id: "title",
+            classes: ["box-x-between","box-y-center"],
             text: DateText.month(month) + " " + year,
             styles: {
-                padding: "0 0 2rem 0"
+                padding: "0 .5rem 2rem .5rem"
             }
         });
 
+        if(isThisMonth){
+            const dayName = new UIComponent({
+                type: "div",
+                id: "day-name",
+                classes: ["box-row"],
+                text : DateText.weekDay(today.getDay()) + ", " + today.getDate()  ,
+            });
+
+            title.appendChild(dayName);
+        }
         const calendar = new UIComponent({
             type: "div",
             id: "calendar",
@@ -77,14 +91,13 @@ export class Calendar extends UIComponent {
 
             
             //if year is this year and month is this month and day is today
-            const today = new Date();
             const isToday = today.getFullYear() == year && today.getMonth() == month && realday == today.getDate();
 
             const day = new UIComponent({
                 classes: isToday? ["day","today"] : ["day"],
                 styles: {
                     overflow: "hidden",
-                }
+                },
             })
 
             const dayText = new UIComponent({
@@ -102,6 +115,15 @@ export class Calendar extends UIComponent {
                 DateText.normalize(realday,2)
             ]
             
+            setEvents(day.element, {
+                click: () => {
+                    alert({
+                        icon: "info",
+                        message: App.getBundle().system.NOT_IMPLEMENTED_YET,
+                    });
+                }
+            });
+
             if(events) {
                 let index = 0;
                 events.forEach(event  => {
@@ -168,6 +190,10 @@ export class Calendar extends UIComponent {
 
             let time = even ? 100 : 200;
             time += Math.random() * 50;
+
+            if(Configurations.areAnimationsEnabled() == false){
+                time = 0;
+            }
 
             setTimeout(() => {
                 row.element.classList.add("visible");

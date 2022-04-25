@@ -3,6 +3,7 @@ import { INote } from "../classes/note";
 import { Database } from "../db";
 import NotesModel from "../model/notes";
 import HTTPResponse from "./httpResponse";
+import { MISSING_PARAMETERS_ERROR } from "../core/types";
 
 export class NotesResponse implements HTTPResponse {
     
@@ -16,9 +17,7 @@ export class NotesResponse implements HTTPResponse {
             const note: INote = req?.body?.note;
 
             if (!note || !note.author) {
-                return new Promise((resolve) =>
-                    resolve({ status: "failed", reason: "Missing parameters"})
-                );
+                return new Promise((resolve) => resolve(MISSING_PARAMETERS_ERROR));
             }
 
             if (await NotesModel.insertUserNote(db, note)) {
@@ -28,7 +27,7 @@ export class NotesResponse implements HTTPResponse {
             }
 
         } catch (error) {
-            console.error(error);
+            console.error("error", error);
             return new Promise((resolve) =>
                 resolve({ status: "failed", reason: "Note wasn't inserted"})
             );
@@ -47,15 +46,13 @@ export class NotesResponse implements HTTPResponse {
             const user = req?.body?.user
 
             if(!user) {
-                return new Promise((resolve) =>
-                    resolve({ status: "failed", reason: "Missing parameters"})
-                );
+                return new Promise((resolve) => resolve({ status: "failed", reason: "Missing parameters"}));
             }
 
             return NotesModel.getuserNotes(db, user);
 
         } catch(error) {
-            console.error(error);
+            console.error("error",error);
             return new Promise((resolve) =>
                 resolve({ status: "failed", reason: "Internal server error"})
             );
@@ -66,7 +63,26 @@ export class NotesResponse implements HTTPResponse {
     
 
     public static async deleteUserNote(db: Database, req: Request, res: Response): Promise<any> {
+        try {
 
+            const id: string = req?.body?.id;
+
+            if (!id) {
+                return new Promise((resolve) => resolve(MISSING_PARAMETERS_ERROR));
+            }
+
+            if (await NotesModel.deleteUserNote(db, id)) {
+                return new Promise((resolve) =>
+                    resolve({status: "success", reason: "User note successfully deleted"})
+                );
+            }
+
+        } catch (error) {
+            console.error("error", error);
+            return new Promise((resolve) =>
+                resolve({ status: "failed", reason: "Note wasn't inserted"})
+            );
+        }
     };
 
     
@@ -89,9 +105,7 @@ export class NotesResponse implements HTTPResponse {
             const note = req?.body?.note
 
             if(!task || !note) {
-                return new Promise((resolve) =>
-                    resolve({ status: "failed", reason: "Missing parameters"})
-                );
+                return new Promise((resolve) => resolve(MISSING_PARAMETERS_ERROR));
             }
 
             return NotesModel.assignNoteToTask(db, note, task);
@@ -101,10 +115,7 @@ export class NotesResponse implements HTTPResponse {
             return new Promise((resolve) =>
                 resolve({ status: "failed", reason: "Internal server error"})
             );
-        }
-
-    
-    
+        }   
     }
 
 }

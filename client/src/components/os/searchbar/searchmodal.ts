@@ -1,11 +1,12 @@
 import { setInterval } from "timers/promises";
-import { App } from "../../../app.js";
+import { APP, App } from "../../../app.js";
 import { Configurations } from "../../../config/config.js";
 import { StringUtils } from "../../../core/data/integrity/string.js";
 import { ITask } from "../../../core/data/interfaces/task.js";
 import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
-import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
+import { setEvents, setStyles, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 import SearchCore from "../../../views/search/searchView.core.js";
+import SearchView from "../../../views/search/searchView.ui.js";
 
 export class SearchModal extends UIComponent {
 
@@ -90,7 +91,6 @@ export class SearchModal extends UIComponent {
             
             const taskEntry = new UIComponent({
                 classes: ["task-entry","box-row", "box-y-center"],
-                text: icon.toHTML() + "&nbsp;&nbsp;&nbsp;" + task.name,
                 events : {
                     click: () => {
                         App.redirect(Configurations.VIEWS.TASK,["" + task.id]);
@@ -106,14 +106,25 @@ export class SearchModal extends UIComponent {
                 }
             })
 
-           
+            taskEntry.appendChild(icon);
          
             if(value != "") {
                 const matching = StringUtils.getMatching(task.name || "", value);
                 if(matching.length > 0) {
-                   taskEntry.element.innerHTML = taskEntry.element.innerHTML.replace(matching, `<span class="bold" style="padding: 0 .4rem; color: #fff">${matching}</span>`);
+                    task.name = task.name.replace(matching, `<span class="bold" color: #fff">${matching}</span>`);
                 }   
             }
+
+            const taskNameComponent = new UIComponent({
+                classes: ["task-name"],
+                text: task.name,
+                styles: {
+                    marginLeft: "0.5rem"
+                }
+            })
+
+            taskEntry.appendChild(taskNameComponent);
+
             this.defaultMovement(taskEntry);
 
             this.entries.push(taskEntry);

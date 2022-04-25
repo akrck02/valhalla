@@ -23,6 +23,10 @@ export class Keyboard {
             if (event.altKey && event.shiftKey && event.code === 'KeyW') 
                 listeners.getAppearenceListener().nextWallpaper();
 
+             // SHIFT + W
+            if (event.ctrlKey && event.code === 'Period') 
+                listeners.getExpertListener().commandPrompt();
+
 
             // SHIFT + M
             //if (event.altKey && event.shiftKey && event.code === 'KeyM') 

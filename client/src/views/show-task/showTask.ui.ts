@@ -1,9 +1,10 @@
-import { App } from "../../app.js";
+import { APP, App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
 import { DateText } from "../../core/data/integrity/dateText.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { setClasses, setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import Label from "../new-tasks/components/label.js";
+import NewTaskView from "../new-tasks/newTaskView.ui.js";
 import ShowTaskCore from "./showTask.core.js";
 
 export default class ShowTaskView extends UIComponent {
@@ -117,7 +118,12 @@ export default class ShowTaskView extends UIComponent {
         });
 
         editIcon.element.onclick = () => {
-            App.redirect(Configurations.VIEWS.NEW_TASK,["edit", id + ""]);
+            const taskView = new NewTaskView();
+
+            APP.router.modal.clean();
+            taskView.show(["edit",id + ""],APP.router.modal);
+            
+            APP.router.modal.show();
         }
 
         titleIcon.appendTo(titleBox);

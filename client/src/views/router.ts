@@ -1,4 +1,3 @@
-import { APP } from "../app.js";
 import OsNavbar from "../components/os/osnavbar.js";
 import { Sidebar } from "../components/sidebar/sidebar.js";
 import { VariablePanel } from "../components/variables/variablePanel.js";
@@ -11,7 +10,6 @@ import ConfigurationView from "./configuration/configurationView.ui.js";
 import ErrorV from "./error/errorV.js";
 import ProjectsV from "./projects/projects.js";
 import SearchView from "./search/searchView.ui.js";
-import NewTaskView from "./new-tasks/newTaskView.ui.js";
 import TasksView from "./tasks/tasksView.ui.js";
 import TeamsV from "./teams/teams.js";
 import TerminalV from "./terminal/terminal.js";
@@ -20,6 +18,7 @@ import ViewerV from "./viewer/viewer.ui.js";
 import ShowTaskView from "./show-task/showTask.ui.js";
 import StartView from "./start/startView.ui.js";
 import NotesView from "./notes/notesView.ui.js";
+import Modal from "../components/modal/modal.js";
 
 export default class Router {
 
@@ -27,6 +26,7 @@ export default class Router {
     public osNavbar : OsNavbar;
     public sidebar : Sidebar;
     public variablePanel : VariablePanel;
+    public modal : Modal;
     public container : UIComponent;
 
     constructor(listeners : ListenerSet) {
@@ -46,9 +46,12 @@ export default class Router {
         this.variablePanel.start();
 
         this.sidebar = new Sidebar();
+        this.modal = new Modal();
+
         this.sidebar.appendTo(this.parent);
         this.container.appendTo(this.parent);
         this.variablePanel.appendTo(this.parent);
+        this.modal.appendTo(document.body);
     }
     /**
      * Load a view
@@ -75,10 +78,6 @@ export default class Router {
                 case "task":
                     new ShowTaskView().show(params.splice(1), this.container);    
                     this.sidebar.setSelected(-1);
-                    break;
-                case "new-task":
-                    new NewTaskView().show(params.splice(1), this.container);    
-                    this.sidebar.setSelected(0);
                     break;
                 case "calendar":
                     new CalendarView().show(params.splice(1), this.container);

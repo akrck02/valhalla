@@ -2,7 +2,7 @@ import { APP, App } from "../../../app.js";
 import { Configurations } from "../../../config/config.js";
 import { DateText } from "../../../core/data/integrity/dateText.js";
 import { getMaterialIcon } from "../../../lib/gtd-ts/material/materialicons.js";
-import { UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
+import { setStyles, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 
 export class Timeline extends UIComponent {
 
@@ -63,10 +63,16 @@ export class Timeline extends UIComponent {
                 let text = e.name; 
                 
                 if(e.done == "1") {
-                    text += getMaterialIcon("check" , {
+                    const tick = getMaterialIcon("check" , {
                         size: "1rem",
                         fill: "#fff"
-                    }).toHTML(); 
+                    });
+                    
+                    setStyles(tick.element, {
+                        marginLeft: "1rem"
+                    });
+
+                    text += tick.toHTML();
                 }
 
                 const event = new UIComponent({

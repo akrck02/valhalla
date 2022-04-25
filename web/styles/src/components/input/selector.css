@@ -4,11 +4,11 @@ div#date-selector {
     padding: 0;
     justify-self: center;
     width: 100%;
+    min-width: 35rem;
     height: 100%;
     border-radius: .5rem;
     opacity: 0;
     transition: opacity var(--fast);
-    backdrop-filter: blur(40rem);
     background-color: rgba(255,255,255,.0);
 }
 

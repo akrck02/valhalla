@@ -52,7 +52,7 @@ export default class CalendarView extends UIComponent {
 
         setTimeout(() => {
             this.calendarContainer.element.style.opacity = "1";
-        }, 100);
+        }, Configurations.areAnimationsEnabled()? 100 : 0);
 
     }
 

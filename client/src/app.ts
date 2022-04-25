@@ -12,7 +12,7 @@ import Router from './views/router.js';
  */
 export class App {
 
-    private listeners : ListenerSet;
+    public listeners : ListenerSet;
     private notification : UINotification;
     public router : Router;
 
@@ -20,14 +20,21 @@ export class App {
         this.listeners = new ListenerSet();
         this.router = new Router(this.listeners);
 
+        // Create event listeners
         Keyboard.setEventListeners(this.listeners);
         Window.setEvents();
+
+        // Adjust zoom 
         Window.setZoomLevel();
 
-        this.notification = new UINotification();
+        // Set the language
+        Configurations.addConfigVariable("LANG", "es");
 
+        // Set the notification element
+        this.notification = new UINotification();
         document.body.appendChild(this.notification.element);
 
+        // Override the default notification function
         window.alert = (properties : NotificationProperties) => {
             this.notification.setContent(properties);
             this.notification.show(properties.time);
@@ -42,7 +49,17 @@ export class App {
 
         };
 
+        // if has a wallpaper, set the html variable
+        if(Configurations.hasWallpaper()) {
+            document.documentElement.dataset.wallpaper = "true";
+        }
+
+        // if has animation, set the html variable
+        Configurations.setAnimations(Configurations.areAnimationsEnabled());
+
+        // Log that the app is loaded
         console.log(Configurations.BASE.APP_NAME + " " + Configurations.BASE.APP_VERSION + " is loaded!");
+
     }
 
     /**
@@ -73,7 +90,15 @@ export class App {
      * @returns 
      */
     public static getBundle() : any {
-        return TextBundle.get(navigator.language);
+
+        let lang = Configurations.getConfigVariable("LANG");
+        
+        if(!lang) {
+            lang = navigator.language;
+        }
+
+
+        return TextBundle.get(lang);
     }
 
     /**
@@ -81,7 +106,12 @@ export class App {
      * @param url The URL to be redirected to
      * @param params The parameter Array
      */
-    public static redirect(url: string, params: string[]) {
+    public static redirect(url: string, params: string[], force :boolean = false) {
+
+        if(force) {
+            location.href = Configurations.VIEWS.DUMMY;
+        }
+        
         url += params.join("/");
         location.href = url;
     }

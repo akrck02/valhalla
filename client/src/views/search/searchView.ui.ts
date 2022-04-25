@@ -289,7 +289,6 @@ export default class SearchView extends UIComponent {
             const taskTitle = new UIComponent({
                 type: "div",
                 text: task.name,
-                classes: ["box-row", "box-x-start", "box-y-center"],
                 styles: {
                     fontSize: ".8rem",
                     color: "#ffffffa0",
@@ -298,7 +297,7 @@ export default class SearchView extends UIComponent {
          
             if(value != "") {
                 const matching = StringUtils.getMatching(task.name || "", value);
-                taskTitle.element.innerHTML = taskTitle.element.innerHTML.replace(matching, `<span class="bold" style="padding: 0 .4rem; color: #fff">${matching}</span>`);
+                taskTitle.element.innerHTML = taskTitle.element.innerHTML.replace(matching, `<span class="bold" style="color: #fff">${matching}</span>`);
             }   
             taskItem.appendChild(icon);
             taskItem.appendChild(taskTitle);

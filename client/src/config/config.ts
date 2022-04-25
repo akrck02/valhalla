@@ -16,7 +16,7 @@ export class Configurations {
         HOST: "127.0.0.1",
         PORT: 80,
         URL: location.href,
-        ENVIROMENT: ENVIROMENT.DEVELOPMENT,
+        ENVIRONMENT: ENVIROMENT.DEVELOPMENT,
         DEBUG: true,
         LOG_LEVEL: "debug",
         LOG_FILE: "app.log",
@@ -54,7 +54,10 @@ export class Configurations {
     
     public static API = {
         URL : "http://127.0.0.1:3333/api/v1/",
+       
+        // GET METHODS
         GET_USER_TASKS : "http://127.0.0.1:3333/api/v1/get/user/tasks/",
+        GET_USER_NOTES : "http://127.0.0.1:3333/api/v1/get/user/notes/",
         GET_USER_DONE_TASKS : "http://127.0.0.1:3333/api/v1/get/user/done/tasks/",
         GET_USER_NOT_DONE_TASKS : "http://127.0.0.1:3333/api/v1/get/user/not/done/tasks/",
         GET_USER_TASK :  "http://127.0.0.1:3333/api/v1/get/user/task/",
@@ -63,14 +66,27 @@ export class Configurations {
         GET_USER_DONE_TASKS_FROM_CATEGORY: "http://127.0.0.1:3333/api/v1/get/user/done/tasks/from/category/",
         GET_USER_NOT_DONE_TASKS_FROM_CATEGORY: "http://127.0.0.1:3333/api/v1/get/user/not/done/tasks/from/category/",
         GET_USER_TASK_CATEGORIES: "http://127.0.0.1:3333/api/v1/get/user/task/categories/",
+        
+        // INSERT METHODS
         INSERT_USER_TASK: "http://127.0.0.1:3333/api/v1/insert/user/task/",
+        INSERT_USER_NOTE: "http://127.0.0.1:3333/api/v1/insert/user/note/",
+        
+        // DELETE METHODS
+        DELETE_USER_NOTE: "http://127.0.0.1:3333/api/v1/delete/user/note/",
         DELETE_USER_TASK: "http://127.0.0.1:3333/api/v1/delete/user/task/",
         DELETE_USER_TASKS: "http://127.0.0.1:3333/api/v1/delete/user/tasks/",
+        
+        // UPDATE METHODS
         UPDATE_USER_TASK: "http://127.0.0.1:3333/api/v1/update/user/task/",
         UPDATE_USER_TASK_DONE: "http://127.0.0.1:3333/api/v1/update/user/task/done/",
         UPDATE_USER_TASKS_DONE: "http://127.0.0.1:3333/api/v1/update/user/tasks/done/",
+        
+        // SEARCH METHODS
         SEARCH_USER_TASKS_BY_NAME: "http://127.0.0.1:3333/api/v1/search/user/tasks/by/name",
         SEARCH_USER_CATEGORIES_BY_NAME: "http://127.0.0.1:3333/api/v1/search/user/categories/by/name",
+
+        // ASSIGN METHODS
+        ASSIGN_NOTE_TO_TASK : "assign/note/to/task"
     };
 
 
@@ -82,6 +98,7 @@ export class Configurations {
         await ConfigService.getAppConfig().success(json => {
             this.BASE.APP_NAME = json.APP_NAME;
             this.BASE.APP_VERSION = json.VERSION;
+            this.BASE.ENVIRONMENT = json.ENVIRONMENT;
             
         }).jsonPromise()
 
@@ -91,6 +108,11 @@ export class Configurations {
 
         if(!Configurations.getConfigVariable("OAUTH")) {
             Configurations.addConfigVariable("OAUTH", "#");
+        }
+
+
+        if(!Configurations.getConfigVariable("ANIMATIONS")) {
+            this.setAnimations(true);
         }
     }
 
@@ -137,7 +159,6 @@ export class Configurations {
         document.documentElement.dataset.theme = theme;
     }
 
-
     public static getTheme() {
         return Configurations.getConfigVariable("THEME");
     }
@@ -150,6 +171,22 @@ export class Configurations {
         return Configurations.getTheme() === "dark";
     }
 
+    /**
+     * Set the animations on/off
+     * @param animations true to enable animations
+     */
+    public static setAnimations(animations : boolean) {
+        document.documentElement.dataset.animations = animations ? "true" : "false";
+        this.addConfigVariable("ANIMATIONS", animations);
+    }
+
+    /**
+     * Get if the animations are enabled
+     * @returns true if the animations are enableds
+     */
+    public static areAnimationsEnabled() {
+        return Configurations.getConfigVariable("ANIMATIONS") + "" === "true";
+    }
 
     /**
      * Set the variable panel visibile
@@ -169,7 +206,7 @@ export class Configurations {
      */
     public static toggleVariablePanel() {
 
-        if(Configurations.BASE.ENVIROMENT !== ENVIROMENT.DEVELOPMENT)
+        if(Configurations.BASE.ENVIRONMENT !== ENVIROMENT.DEVELOPMENT)
             return; 
 
         this.setVariablePanelVisible(!Configurations.getConfigVariable('VARIABLES_VISIBLE'));
@@ -217,12 +254,16 @@ export class Configurations {
      * @param wallpaper the wallpaper to set
      */
     public static setWallpaper(wallpaper: string) {
+       
         
         if(!wallpaper){
             this.addConfigVariable("WALLPAPER", wallpaper);
             setStyles(document.body,{"background-image": "none"});
+            document.documentElement.dataset.wallpaper = undefined;
             return;
         }
+
+        document.documentElement.dataset.wallpaper = "true";
 
         this.setTheme("dark");
         this.addConfigVariable("WALLPAPER", wallpaper);

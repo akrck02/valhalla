@@ -1,4 +1,5 @@
-import { APP } from "../../app.js";
+import { App, APP } from "../../app.js";
+import CommandPrompt from "../../components/modal/commandprompt.js";
 import { Configurations } from "../../config/config.js";
 
 export class ExpertListener {
@@ -17,6 +18,11 @@ export class ExpertListener {
 
     public clickControl(option: number): void {
         APP.router.osNavbar.clickControl(option);
+    }
+
+    public commandPrompt(): void {
+        APP.router.modal.setContent(new CommandPrompt());
+        APP.router.modal.toggle();
     }
 
 }

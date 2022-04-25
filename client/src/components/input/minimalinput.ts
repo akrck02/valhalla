@@ -4,14 +4,18 @@ export default class MinimalInput extends UIComponent {
 
     private placeholder : string; 
 
-    constructor( type: string, text : string, placeholder : string ) {
+    constructor(text : string, placeholder : string, textarea : boolean = false) {
 
         super({
-            type: type || "div",
+            type: textarea? "textarea" : "input",
             text: text,
+            attributes:{
+                value: text,
+                placeholder: placeholder
+            },
             classes : ["minimal-input"],
-            attributes: {
-                contentEditable : "true"
+            styles : {
+                backdropFilter : "none",
             }
         })
 
@@ -36,11 +40,17 @@ export default class MinimalInput extends UIComponent {
                 this.element.classList.remove("empty");
             },
             "keyup" : () => {
-                if(this.element.innerText.length == 0){
+
+                const value = (this.element as HTMLInputElement).value;
+
+                if(value.length == 0){
                     this.element.classList.add("empty");
                 } else {
                     this.element.classList.remove("empty");
                 }
+
+                this.text = value;
+
                 callback(this.text);
             }
         })

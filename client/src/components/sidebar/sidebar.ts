@@ -212,7 +212,10 @@ export class Sidebar extends UIComponent {
             index = this.elements.length - 1;
         }
 
-        this.elements[index].element.classList.add("selected");
+
+        if(index >= 0){
+            this.elements[index].element.classList.add("selected");
+        }
     }
 
     public show(): void {

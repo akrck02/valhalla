@@ -2,6 +2,7 @@ import path from "path";
 import { API } from "./db/api";
 import fs from "fs";
 import { Database } from "./db/db";
+import { ENVIRONMENT, getVersionParameters } from "./system";
 
 // Modules to control application life and create native browser window
 const { app, shell, BrowserWindow } = require("electron");
@@ -64,6 +65,8 @@ export class ElectronApp {
     const mainWindow = new BrowserWindow({
       minWidth: 1280 / 2,
       minHeight: 720 / 2,
+      height: 1080,
+      width: 1920, 
       frame: false,
       show: false,
       backgroundColor: "#fafafa",
@@ -81,8 +84,20 @@ export class ElectronApp {
       
     });
 
+    // get the version parameters 
+    const versionParameters = getVersionParameters();
+    console.log("VERSION", versionParameters.VERSION);
+    console.log("ENVIRONMENT", versionParameters.ENVIRONMENT);
+    
+    let indexFile = "index.html";
+    let loadingFile = "loading.html";
+
+    if (versionParameters.ENVIRONMENT == ENVIRONMENT.PRODUCTION) {
+      indexFile = "index-prod.html";
+      loadingFile = "loading-prod.html";
+    } 
     // and load the index.html of the app.
-    const url = path.join(global.root, "/web/index.html");
+    const url = path.join(global.root, "/web/" + indexFile);
     mainWindow.loadFile(url);
     console.log("Electron", "Opening HTML: " + url);
 
@@ -93,18 +108,18 @@ export class ElectronApp {
       height: 720,
     });
       mainWindow.webContents.once('dom-ready', () => {
-      setTimeout(() => {
-       
-        mainWindow.show()
-        mainWindow.center()
 
-        loading.hide()
-        loading.close()
-      }, 1500);
+        setTimeout(() => {
+          mainWindow.center()
+          mainWindow.show()
     
+          loading.hide();
+          loading.close();
+        }, 500);
+
     })
 
-    loading.loadFile(path.join(global.root,'/web/loading.html'))
+    loading.loadFile(path.join(global.root,'/web/' + loadingFile));
     loading.show()
   }
 
@@ -145,8 +160,3 @@ console.log = (...msg) => {
   console.info("[" + msg[0] + "] " + msg.slice(1));
 }
 
-//Start new instance of the application
-/*
-const electronApp = new ElectronApp();
-electronApp.start();
-*/

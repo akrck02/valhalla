@@ -33,21 +33,23 @@ body.loading::after {
 }
 
 *::-webkit-scrollbar {
-    width: .35rem;
+    width: .65rem;
     background-color: transparent;
 }
 
-*::-webkit-scrollbar:hover {
-    width: .35rem;
-}
 
 *::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, .15);
-    border-radius: 3em;
+    border-radius: .15em;
+    transition: background var(--fast);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, .045) !important;
 }
 
 :root[data-theme=dark] *::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, .1);
+    background: rgba(255, 255, 255, .025);
 }
 
 @keyframes loader {
@@ -75,6 +77,7 @@ div#view-container {
     height: calc(100% - 2.5rem);
     width: 100%;
     max-width: 100%;
+    backdrop-filter: blur(1rem);
 
 }
 

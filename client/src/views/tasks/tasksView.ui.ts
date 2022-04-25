@@ -1,10 +1,12 @@
 
-import { App } from "../../app.js";
+import { APP, App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
 import { ITask } from "../../core/data/interfaces/task.js";
+import Utils from "../../core/utils.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../services/tasks.js";
+import NewTaskView from "../new-tasks/newTaskView.ui.js";
 import CategoryBar from "./components/categoryBar.js";
 import TaskCore from "./tasksView.core.js";
 
@@ -69,7 +71,13 @@ export default class TasksView extends UIComponent {
         const categoryBar = new CategoryBar(
             params[0] || Configurations.getConfigVariable("TASKS_SELECTED_CATEGORY"),
             (selected) => this.showTasks(selected),
-            () => this.core.newTask()
+            () => {
+                const taskView = new NewTaskView();
+                taskView.show([], new UIComponent({}));
+                
+                APP.router.modal.setContent(taskView);
+                APP.router.modal.show();
+            }
         );
 
         this.wrapper.appendChild(this.taskContainer);
@@ -366,11 +374,19 @@ export default class TasksView extends UIComponent {
             classes: ["box-row", "box-y-center", "box-x-between", "task-toolbar"],
         });
 
+        const copy = getMaterialIcon("content_copy", { size: "1.2rem", fill: "#fff" });
         const edit = getMaterialIcon("edit",{ size: "1.2em", fill: "white" });
         const done = getMaterialIcon( currentTask.done? "task_alt" : "radio_button_unchecked", { size: "1.2em", fill: "white" }); 
-        const deleteTask = getMaterialIcon("delete", { size: "1.2em", fill: "white" }); 
+      
+        copy.element.onclick = () => Utils.copyToClipboard(currentTask.name);
+        edit.element.onclick = () => {
+            const taskView = new NewTaskView();
 
-        edit.element.onclick = () => App.redirect(Configurations.VIEWS.NEW_TASK, ["edit",currentTask.id]);
+            APP.router.modal.clean();
+            taskView.show(["edit",currentTask.id],APP.router.modal);
+            
+            APP.router.modal.show();
+        };
         done.element.onclick = () => {
 
             currentTask.done = currentTask.done == 1 ? 0 : 1;
@@ -391,27 +407,15 @@ export default class TasksView extends UIComponent {
            
         }
 
-        deleteTask.element.onclick = async () => {
-            await this.core.deleteUserTask(currentTask.id);
-            container.removeChild(taskBox);
-            if (document.querySelectorAll(".task-box").length == 0) {
-                container.appendChild(this.buildNotTaskFoundErrorMessage());
-            }
-
-            alert({
-                message: App.getBundle().tasks.TASK_DELETED_SUCCESSFULLY,
-                icon: 'delete'
-            })
-        };
-
-        toolbar.appendChild(edit);
         toolbar.appendChild(done);
-        toolbar.appendChild(deleteTask);
+        toolbar.appendChild(copy);
+        toolbar.appendChild(edit);
+        
         toolbar.appendTo(taskBox);
         
         setTimeout(() => {
             task.element.style.opacity = "1";
-        }, 100);
+        },  Configurations.areAnimationsEnabled()? 100 : 0);
 
         return taskBox;
     } 
@@ -443,11 +447,12 @@ export default class TasksView extends UIComponent {
             text: App.getBundle().tasks.ALL_TASKS_COMPLETED + " &nbsp;<span>😌</span>",
             styles: {
                 opacity: "0.8",
-                width: "calc(100% - 10rem)",
+                width: "100%",
                 height: "5rem",
                 padding : "1rem",
                 marginBottom : "1rem",
                 borderRadius : ".55rem",
+                background : "rgba(255,255,255,.06)"
             }
         });
     }

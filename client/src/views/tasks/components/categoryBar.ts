@@ -67,6 +67,8 @@ export default class CategoryBar extends UIComponent {
                     },
                     styles: {
                         color : "rgba(0,0,0,.0)",
+                        wordBreak: "break-word"
+                        
                     }
                 });
 
@@ -91,6 +93,8 @@ export default class CategoryBar extends UIComponent {
                         margin: "2rem 0.5rem ",
                         opacity: "0",
                         transition : "opacity var(--medium)",
+                        position: "absolute",
+                        top: "0",
                     },
                 });
 

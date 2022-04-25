@@ -22,7 +22,8 @@ export default class NewTaskView extends UIComponent {
             id: "new-task",
             styles: {
                 width: "100%",
-                height: "100%"
+                height: "100%",
+                minWidth: "58rem",
             }
         });
 
@@ -71,18 +72,18 @@ export default class NewTaskView extends UIComponent {
         });
 
         const taskIcon = getMaterialIcon("task",{ size: "1.8rem", fill: "#fff"});
-        const name = new MinimalInput("h1",this.core.getTask().name,this.core.getDefaultPlaceholders().name);
+        const name = new MinimalInput(this.core.getTask().name,this.core.getDefaultPlaceholders().name);
         name.element.id = "task-name";
-        name.onType(() => this.core.setTaskName(name.element.innerText))
+        name.onType((text) => this.core.setTaskName(text))
 
         nameRow.appendChild(taskIcon);
         nameRow.appendChild(name);
 
         this.labelContainer = this.buildLabelContainer();
  
-        const description = new MinimalInput("p",this.core.getTask().description,this.core.getDefaultPlaceholders().description);
+        const description = new MinimalInput(this.core.getTask().description,this.core.getDefaultPlaceholders().description, true);
         description.element.id = "task-description";
-        description.onType(() => this.core.setTaskDescription(description.element.innerText))
+        description.onType((text) => this.core.setTaskDescription(text))
 
 
         const dateRow = new UIComponent({
@@ -95,13 +96,18 @@ export default class NewTaskView extends UIComponent {
         dateRow.appendChild(startDateRow);
         dateRow.appendChild(endDateRow);
 
+        const buttonBar = new UIComponent({
+            type: "div",
+            classes: ["box-row","box-y-center","box-x-between","button-bar"],
+        });
+
         const saveButton = new UIComponent({
             type: "button",
             text: this.core.isEditMode() ?  
-                getMaterialIcon("sync",{size: "1.2rem", fill: "#fff"}).toHTML() + "&nbsp;" +  App.getBundle().newTask.UPDATE : 
-                getMaterialIcon("check",{size: "1.2rem", fill: "#fff"}).toHTML() + "&nbsp;" +  App.getBundle().newTask.SAVE,
+                App.getBundle().newTask.UPDATE + "&nbsp;" + getMaterialIcon("sync",{size: "1.2rem", fill: "#fff"}).toHTML() : 
+                App.getBundle().newTask.SAVE + "&nbsp;" + getMaterialIcon("check",{size: "1.2rem", fill: "#fff"}).toHTML() ,
             id: "save-task",
-            classes: ["button"],
+            classes: ["icon-button"],
             events: { click: () => {
 
                 if(this.core.getTask().name.trim().length == 0){
@@ -141,22 +147,42 @@ export default class NewTaskView extends UIComponent {
                 this.appendChild(loadingTitle);
 
                 setTimeout(() => {
-                    location.href = Configurations.VIEWS.TASKS;
+                    APP.router.modal.hide();
                     alert({
                         message: this.core.isEditMode() ? App.getBundle().newTask.TASK_UPDATED_SUCCESSFULLY : App.getBundle().newTask.TASK_SAVED_SUCCESSFULLY,
                         icon: 'save'
                     })
+
+                    App.redirect(Configurations.VIEWS.TASKS,[],true);
                 }, 250 + Math.random() * 200);
             }}
         });
 
+        const cancelButton = new UIComponent({
+            type: "button",
+            text: "Cancel",
+            id: "cancel-task",
+            classes: ["icon-button"],
+            styles: {
+                background: "transparent",
+            },
+        });
+
+        cancelButton.element.addEventListener("click", () => {
+            APP.router.modal.hide();
+        });
+
         const recentLabelContainer = await this.buildRecentLabelContainer(); 
+
+        buttonBar.appendChild(cancelButton);
+        buttonBar.appendChild(saveButton);
 
         container.appendChild(nameRow);
         container.appendChild(this.labelContainer);
         container.appendChild(description);
         container.appendChild(dateRow);
-        container.appendChild(saveButton);
+        container.appendChild(buttonBar);
+
 
         this.appendChild(container);
         this.appendChild(recentLabelContainer);

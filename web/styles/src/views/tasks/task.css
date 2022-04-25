@@ -45,7 +45,7 @@ view#tasks .task-box.done .title {
 
 
 view#tasks .task-box .task {
-    width: calc(100% );
+    width: calc(100%);
     padding: 1rem;
     border-radius: 0.55rem;
     min-height: 3rem;
@@ -61,6 +61,7 @@ view#tasks .task-box .task {
 
 view#tasks .task-box .task .time {
     font-size: 0.8em;
+    margin-left: .7rem;
     color: rgba(0,0,0,0.5);
 }
 
@@ -72,20 +73,22 @@ view#tasks .task-toolbar {
     width: 0px;
     visibility: hidden;
     height: 100%;
-    padding: 0rem 1rem;
+   
     opacity: 0;
+    padding: 0;
 }   
 
 view#tasks:not(.select) .task-box:hover .task-toolbar {
-    width: 4rem;
+    width: 8rem;
     visibility: visible;
-    transition: visibility var(--fast), width var(--medium), opacity var(--slow);
+    transition: visibility var(--fast),  padding var(--fast), width var(--medium), opacity var(--slow);
     opacity: 1;
+    padding: 0rem 1rem;
 }
 
 view#tasks:not(.select) .task-box:hover .task {
     position: relative;
-    width: calc(100% - 10rem);
+    width: calc(100% - 8rem);
 }
 
 view#tasks .task-box:hover .task-toolbar div{
