@@ -299,7 +299,7 @@ export default class NewTaskView extends UIComponent {
         });
 
         allDay.appendTo(allDayLabel);
-        endDateRow.appendChild(allDayLabel)
+        //endDateRow.appendChild(allDayLabel)
 
 
         return endDateRow;

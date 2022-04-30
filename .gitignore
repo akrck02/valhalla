@@ -8,3 +8,4 @@
 /dist/
 
 /web/pdfjs
+web/styles/out/*

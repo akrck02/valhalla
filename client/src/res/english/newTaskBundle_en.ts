@@ -17,4 +17,5 @@ export const NewTaskBundleEn = {
     SELECT_A_CATEGORY : "Select a category",
     INSERT_A_TASK_NAME: "Insert a task name",
     RECENT_CATEGORIES : "Recent categories",
+    LABEL_ALREADY_EXISTS : "That label already exists."
 }

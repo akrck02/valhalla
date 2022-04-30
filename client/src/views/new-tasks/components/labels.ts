@@ -61,8 +61,8 @@ export default class LabelContainer extends UIComponent {
 
             if(this.isLabelRepeated(labelButton.getLabel())){
 
-                alert({
-                    message: 'That tag is registered.',
+                alert({ 
+                    message: App.getBundle().newTask.LABEL_ALREADY_EXISTS,
                     icon: 'block'
                 });
 

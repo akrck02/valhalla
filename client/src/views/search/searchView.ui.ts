@@ -297,7 +297,12 @@ export default class SearchView extends UIComponent {
          
             if(value != "") {
                 const matching = StringUtils.getMatching(task.name || "", value);
-                taskTitle.element.innerHTML = taskTitle.element.innerHTML.replace(matching, `<span class="bold" style="color: #fff">${matching}</span>`);
+                let title = taskTitle.element.innerText;
+               
+                matching.forEach(s =>{  
+                    if(s.toLowerCase() === title.toLowerCase()) return;
+                    taskTitle.element.innerHTML = title.replace(s, `<span class="bold" style="color: #fff">${s}</span>`);
+                })
             }   
             taskItem.appendChild(icon);
             taskItem.appendChild(taskTitle);
@@ -388,7 +393,10 @@ export default class SearchView extends UIComponent {
             
             if(value != "") {
                 const matching = StringUtils.getMatching(category.label, value);
-                categoryTitle.element.innerHTML = categoryTitle.element.innerHTML.replace(matching, `<span class="bold" style="padding: 0 .4rem; color: #fff">${matching}</span>`);
+  
+                matching.forEach(s => {
+                    categoryTitle.element.innerHTML = categoryTitle.element.innerText.replace(s, `<span class="bold" style="color: #fff">${s}</span>`);
+                })
             }   
             categoryItem.appendChild(icon);
             categoryItem.appendChild(categoryTitle);

@@ -15,5 +15,6 @@
         "server/src/renderer.ts": false,
         "web/styles/src/views": false
     },
-    "workspace.isHidden": false
+    "workspace.isHidden": false,
+    "liveServer.settings.port": 5501
 }

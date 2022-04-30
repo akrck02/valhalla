@@ -25,7 +25,7 @@ export default class NotesCore {
 
             alert({
                 icon : "delete",
-                message : JSON.stringify(data)
+                message : App.getBundle().notes.NOTE_DELETED_SUCCESSFULLY
             });
 
             setTimeout(() => App.redirect(Configurations.VIEWS.NOTES,[],true), 200);

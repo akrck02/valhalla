@@ -47,7 +47,10 @@ export class StringUtils {
      * @param tolerance The tolerance to use
      * @returns True if the text contains the searcher
      */
-    static containsMatchingWithTolerance(text: string, searcher: string, tolerance: number): boolean {
+    static containsMatchingWordWithTolerance(text: string, searcher: string, tolerance: number): boolean {
+
+        text = text.trim();
+        searcher = searcher.trim();
 
         text = StringUtils.normalized(text.toUpperCase());
         searcher = StringUtils.normalized(searcher.toUpperCase());
@@ -68,6 +71,60 @@ export class StringUtils {
         return matching;
     }
 
+    /**
+     * Get if the text contains the searcher with typo tolerance
+     * @param text The text to search in 
+     * @param searcher The text to search for
+     * @param tolerance The tolerance to use
+     * @returns True if the text contains the searcher
+     */
+    static containsMatchingWithTolerance(text: string, searcher: string, tolerance: number): boolean {
+
+        text = text.trim();
+        searcher = searcher.trim();
+
+        if(text.toUpperCase().includes(searcher.toUpperCase())) {
+			return true;
+		}
+
+        const words = searcher.split(/\s/);
+		let matching = true;
+		
+		words.forEach(word => {
+            matching = matching && this.containsMatchingWordWithTolerance(text, word, tolerance)
+        });
+
+        return matching;
+    }
+
+/**
+	 * Returns a word matching with typo tolerance
+	 * @param text The text to search in
+	 * @param searcher The word to search for
+	 * @param tolerance The tolerance to use 
+	 * @return
+	 */
+    public static getMatching(text : string, searcher : string, tolerance : number) : string[] {
+        text = text.trim();
+		searcher = searcher.trim();
+		
+		const matches : string[] = [];
+
+        if(text.toUpperCase().includes(searcher.toUpperCase())) {
+			matches.push(searcher);
+			return matches;
+		}
+
+        const words = text.split(/\s/);
+        words.forEach(word => {
+            const matching = this.getMatchingWord(text, word, tolerance);
+			if(matching != null) {
+				matches.push(matching);
+			}
+        });
+
+        return matches;
+    }
 
 	/**
 	 * Returns a word matching with typo tolerance
@@ -76,7 +133,7 @@ export class StringUtils {
 	 * @param tolerance The tolerance to use 
 	 * @return
 	 */
-     public static getMatching(text : string, searcher : string, tolerance : number) : string {
+     public static getMatchingWord(text : string, searcher : string, tolerance : number) : string {
 
 		const words = text.split(/\s/);
         let matchingWord = '';
