@@ -111,7 +111,7 @@ export class Configurations {
         }
 
 
-        if(!Configurations.getConfigVariable("ANIMATIONS")) {
+        if(Configurations.getConfigVariable("ANIMATIONS") == undefined) {
             this.setAnimations(true);
         }
     }

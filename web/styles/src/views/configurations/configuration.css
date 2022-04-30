@@ -1,3 +1,17 @@
 view#configuration {
     backdrop-filter: blur(1rem);
 }
+
+view#configuration button.lang.selected{
+    transform: scale(1);
+    background: rgba(255, 255, 255, .1) !important;
+    border-color: rgba(255, 255, 255, .0) !important;
+}
+
+
+
+view#configuration button.lang.selected{
+    transform: scale(1);
+    background: rgba(255, 255, 255, .1) !important;
+    border-color: rgba(255, 255, 255, .0) !important;
+}

@@ -16,5 +16,6 @@ export const NewTaskBundleEs = {
     NEW_LABEL: "Nueva categoria",
     SELECT_A_CATEGORY : "Selecciona una categoría",
     INSERT_A_TASK_NAME: "Inserta un nombre de tarea",
-    RECENT_CATEGORIES : "Recientes"
+    RECENT_CATEGORIES : "Recientes",
+    LABEL_ALREADY_EXISTS : "La categoría ya existe."
 }

@@ -18,6 +18,8 @@ import { SystemBundleEs } from "./spanish/systemBundle_es.js";
 import { TaskBundleEs } from "./spanish/taskBundle_es.js";
 import { NoteBundleEn } from "./english/noteBundle_en.js";
 import { NoteBundleEs } from "./spanish/noteBundle_es.js";
+import { LanguageBundleEn } from "./english/languageBundle_en.js";
+import { LanguageBundleEs } from "./spanish/languageBundle_es.js";
 
 export class TextBundle {
 
@@ -47,6 +49,7 @@ export class TextBundle {
             tasks : TaskBundleEn,
             notes : NoteBundleEn,
             sync : SyncBundleEn, 
+            lang: LanguageBundleEn,
         };
     }
 
@@ -62,6 +65,7 @@ export class TextBundle {
             tasks : TaskBundleEs,
             notes : NoteBundleEs,
             sync : SyncBundleEs,
+            lang: LanguageBundleEs,
         };
     }
 

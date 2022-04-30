@@ -7,11 +7,7 @@ export const TaskNewCommand : Command = {
     },
 
     execute(predicate : string, listeners : ListenerSet) : void {    
-        
-        alert({
-            icon : "terminal",
-            message : predicate,
-        });
+
         listeners.getTaskListener();
     }
     

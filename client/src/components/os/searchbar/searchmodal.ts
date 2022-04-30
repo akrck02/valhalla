@@ -111,7 +111,9 @@ export class SearchModal extends UIComponent {
             if(value != "") {
                 const matching = StringUtils.getMatching(task.name || "", value);
                 if(matching.length > 0) {
-                    task.name = task.name.replace(matching, `<span class="bold" color: #fff">${matching}</span>`);
+
+                    const title = task.name;
+                    task.name = title.replace(matching[0], `<span class="bold" color: #fff">${matching}</span>`);
                 }   
             }
 

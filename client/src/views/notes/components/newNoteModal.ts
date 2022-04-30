@@ -95,7 +95,7 @@ export default class NewNoteModal extends UIComponent {
                     if(res.status == "success"){
                         alert({
                             icon: "save",
-                            message: "Task saved successfully"
+                            message: App.getBundle().notes.NOTE_ADDED_SUCCESSFULLY
                         });
                     }
                 });
