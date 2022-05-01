@@ -7,4 +7,5 @@ export const ConfigurationBundleEn = {
     THEME: "Theme",
     DARK: "Dark",
     LIGHT: "Light",
+    ANIMATIONS : "Animations"
 }

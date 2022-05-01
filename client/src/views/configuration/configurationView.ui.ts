@@ -170,7 +170,7 @@ export default class ConfigurationView extends UIComponent {
 
         const animationTitle = new UIComponent({
             type: "h1",
-            text: "&nbsp;Animations:",
+            text: "&nbsp;" + App.getBundle().configuration.ANIMATIONS + ":",
             styles: {
             }
         });
@@ -182,9 +182,9 @@ export default class ConfigurationView extends UIComponent {
         animationIcon.element.style.marginRight = ";";
 
 
-        const englishButton = new UIComponent({
+        const animationsButton = new UIComponent({
             type: "button",
-            text: Configurations.areAnimationsEnabled() ? "on" : "off",
+            text: Configurations.areAnimationsEnabled() ? App.getBundle().system.YES : App.getBundle().system.NO,
             styles: {
                 margin: "0 1rem",
                 background: "rgba(255,255,255, .1)",
@@ -192,13 +192,25 @@ export default class ConfigurationView extends UIComponent {
             }
         })
 
-        setEvents(englishButton.element, {
-            click: () => { }
+        setEvents(animationsButton.element, {
+            click: () =>  {
+               
+               const animations = !Configurations.areAnimationsEnabled()
+                Configurations.setAnimations(animations);
+
+                if(animations){
+                    animationsButton.element.innerText = App.getBundle().system.YES
+                }
+                else {
+                    animationsButton.element.innerText = App.getBundle().system.NO
+                }
+               
+            }
         })
 
         animationRow.appendChild(animationIcon)
         animationRow.appendChild(animationTitle)
-        animationRow.appendChild(englishButton)
+        animationRow.appendChild(animationsButton)
 
         parent.appendChild(wallPaperTitle);
         parent.appendChild(wallpaperGallery);
@@ -257,7 +269,7 @@ export default class ConfigurationView extends UIComponent {
             }
         })
 
-        if(Configurations.getConfigVariable("LANG").toLowerCase().includes("en")) {
+        if(Configurations.getConfigVariable("LANG")?.toLowerCase().includes("en")) {
             englishButton.element.classList.add("selected");
         }
 
@@ -273,7 +285,7 @@ export default class ConfigurationView extends UIComponent {
             }
         })
 
-        if(Configurations.getConfigVariable("LANG").toLowerCase().includes("es")) {
+        if(Configurations.getConfigVariable("LANG")?.toLowerCase().includes("es")) {
             spanishButton.element.classList.add("selected");
         }
 
