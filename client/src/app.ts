@@ -113,6 +113,10 @@ export class App {
         location.href = url;
     }
 
+    public static openBrowserWindow(url : string) {
+        require("electron").shell.openExternal(url);
+    }
+
 }
 
 /**

@@ -20,6 +20,7 @@ export class Configurations {
         DEBUG: true,
         LOG_LEVEL: "debug",
         LOG_FILE: "app.log",
+        WEBSITE : "https://akrck02.github.io/#/software/valhalla"
     };
 
     public static PATHS = {

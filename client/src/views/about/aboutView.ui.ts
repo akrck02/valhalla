@@ -1,5 +1,6 @@
-import { App } from "../../app.js";
+import { APP, App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
+import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { getOs } from "../../lib/gtd-ts/web/responsivetools.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { getSocialIcon } from "../../lib/social.js";
@@ -114,8 +115,18 @@ export default class AboutView extends UIComponent {
 
         github.element.onclick = (e) => {
             e.preventDefault();
-            require("electron").shell.openExternal(github.attributes.href);
+            App.openBrowserWindow(github.attributes.href);
         };
+
+        // update check
+        const update = getMaterialIcon("update",{size:"1rem", fill: "#f1f1f1"})
+        APP.router.osNavbar.addToControls(update);
+
+        update.element.style.cursor = "pointer";
+        update.element.onclick = (e) => {
+            App.openBrowserWindow(Configurations.BASE.WEBSITE);
+        };
+
 
         logo.appendTo(box);
         title.appendTo(box);
