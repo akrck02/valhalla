@@ -65,7 +65,7 @@ export default class AboutView extends UIComponent {
 
         const cpu = new UIComponent({
             type: "span",
-            text: require("os").cpus()[0].model,
+            text: "Web version",
             styles: {
                 fontSize: ".85rem",
                 marginTop: ".5rem" 
@@ -76,7 +76,6 @@ export default class AboutView extends UIComponent {
 
         const memory = new UIComponent({
             type: "span",
-            text: "RAM: " + (require("os").totalmem() / 1024 / 1024 / 1024).toFixed(2) + " GB",
             styles: { fontSize: ".85rem", marginTop: ".5rem" }
         });
 

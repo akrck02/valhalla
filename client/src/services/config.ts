@@ -6,7 +6,7 @@ export class ConfigService {
     
     static getAppConfig() : Response {
         const response = efetch({
-            method: HTTPS_METHOD.POST,
+            method: HTTPS_METHOD.GET,
             url: "../version.json",
             parameters : {
 

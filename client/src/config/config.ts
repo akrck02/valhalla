@@ -35,22 +35,22 @@ export class Configurations {
     };
 
     public static VIEWS = {
-        BASE_URL: "../web/index.html#/",
-        START: "../web/index.html#/start/",
-        TASKS: "../web/index.html#/tasks/",
-        TASK: "../web/index.html#/task/",
-        NEW_TASK: "../web/index.html#/new-task/",
-        NOTES: "../web/index.html#/notes/",
-        CALENDAR: "../web/index.html#/calendar/",
-        TEAMS: "../web/index.html#/teams/",
-        PROJECTS: "../web/index.html#/projects/",
-        SEARCH: "../web/index.html#/search/",
-        CONFIGURATION: "../web/index.html#/configuration/",
-        TERMINAL: "../web/index.html#/terminal/",
-        ABOUT: "../web/index.html#/about/",
-        VIEWER: "../web/index.html#/viewer/",
-        ERROR: "../web/index.html#/error/",
-        DUMMY: "../web/index.html#/dummy/",
+        BASE_URL: "../web/#/",
+        START: "../web/#/start/",
+        TASKS: "../web/#/tasks/",
+        TASK: "../web/#/task/",
+        NEW_TASK: "../web/#/new-task/",
+        NOTES: "../web/#/notes/",
+        CALENDAR: "../web/#/calendar/",
+        TEAMS: "../web/#/teams/",
+        PROJECTS: "../web/#/projects/",
+        SEARCH: "../web/#/search/",
+        CONFIGURATION: "../web/#/configuration/",
+        TERMINAL: "../web/#/terminal/",
+        ABOUT: "../web/#/about/",
+        VIEWER: "../web/#/viewer/",
+        ERROR: "../web/#/error/",
+        DUMMY: "../web/#/dummy/",
     };
     
     public static API = {
