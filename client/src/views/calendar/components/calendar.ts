@@ -1,4 +1,4 @@
-import { App } from "../../../app.js";
+import { APP, App } from "../../../app.js";
 import { Configurations } from "../../../config/config.js";
 import { DateText } from "../../../core/data/integrity/dateText.js";
 import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
@@ -114,17 +114,53 @@ export class Calendar extends UIComponent {
                 DateText.normalize((month + 1) , 2) + "-" + 
                 DateText.normalize(realday,2)
             ]
-            
-            setEvents(day.element, {
-                click: () => {
-                    alert({
-                        icon: "info",
-                        message: App.getBundle().system.NOT_IMPLEMENTED_YET,
-                    });
-                }
-            });
 
             if(events) {
+                setEvents(day.element, {
+                    click: () => {
+                        const tasks = new UIComponent({
+                            classes: ["box-column"]
+                        }) 
+
+                        const dayTitle = new UIComponent({
+                            type: "h1",
+                            text : "Day :",
+                            styles: {
+                                marginBottom: "2rem"
+                            }
+                        })
+                        tasks.appendChild(dayTitle)
+                        
+                        events.forEach(event => {
+                            const eventbox = new UIComponent({
+                                type: "p",
+                                text:  event.name,
+                                classes: ["box-row","box-y-center"],
+                                styles: {
+                                    fontSize : ".75rem",
+                                    opacity: ".75",
+                                    borderLeft : ".2rem solid rgba(255,255,255,.75)" ,
+                                    marginBottom : ".5rem",
+                                    marginLeft : "-.35rem",
+                                    paddingLeft : ".5rem",
+                                    height: "2rem",
+                                    overflow: "hidden",
+                                    //whiteSpace : "nowrap",
+                                    //textOverflow : "ellipsis"
+                                }
+                            });
+                           eventbox.appendTo(tasks);
+                        })
+                        
+    
+                        APP.router.modal.setContent(tasks)
+                        APP.router.modal.show();
+    
+                    }
+                });
+
+
+
                 let index = 0;
                 events.forEach(event  => {
 
