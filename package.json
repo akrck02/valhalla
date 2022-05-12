@@ -13,7 +13,7 @@
         "compile-client-watch": "tsc --project ./client/ -w",
         "dist": "npm run dist-linux & npm run dist-win",
         "dist-linux": "electron-builder --publish=never",
-        "dist-win": "electron-builder --win --publish=never",
+        "dist-win": "electron-builder --win portable --publish=never",
         "pack-styles": "java -jar lit-v1.0b2.jar",
         "pack-client": "rollup client/temp/src/app.js --file client/out/app.js --format iife",
         "pack": "npm run pack-client & npm run pack-styles",
