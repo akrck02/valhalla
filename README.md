@@ -8,7 +8,7 @@ Valhalla is a productivity app that helps you manage your tasks and projects.
 🔐 | No internet connection required, valhalla can be used in "offline" mode so your personal information stay secure on your computer and only accessible for you. 
 
 
-For more information, please visit [our page.](https://akrck02.github.io/#/software/Vallhalla)
+For more information, please visit [our page.](https://akrck02.github.io/#/software/valhalla)
 
 ![Banner](./readme/Screenshot1.png)
 
