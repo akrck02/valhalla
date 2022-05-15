@@ -5,7 +5,7 @@ import { Database } from "./db/db";
 import { ENVIRONMENT, getVersionParameters } from "./system";
 
 // Modules to control application life and create native browser window
-const { app, shell, BrowserWindow } = require("electron");
+const { app, webFrame, BrowserWindow, ipcMain } = require("electron");
 
 export class ElectronApp {
 
@@ -19,6 +19,7 @@ export class ElectronApp {
   public async start() {
     await this.startServer();
     await this.setEvents();
+    await this.startIpcEventListeners();
   }
 
   public async startServer(){
@@ -33,7 +34,6 @@ export class ElectronApp {
     console.info("###############################################################################");
     console.info(" ");
   }
-
 
   public async startDatabase() {
 
@@ -60,6 +60,28 @@ export class ElectronApp {
       } else throw new Error("[DB-API] Database not initialized, exiting...");
   }
 
+  public startIpcEventListeners(){
+
+    // ipc events 
+    ipcMain.on('minimize', (event : any) => {
+      const webContents = event.sender
+      const win = BrowserWindow.fromWebContents(webContents)
+      win.minimize()
+    })
+
+    ipcMain.on('maximize', (event : any) => {
+      const webContents = event.sender
+      const win = BrowserWindow.fromWebContents(webContents)
+      win.maximize()
+    });
+
+    ipcMain.on('close', (event : any) => {
+      const webContents = event.sender
+      const win = BrowserWindow.fromWebContents(webContents)
+      win.close()
+    });
+  }
+
   public loadUI() {
 
     // Create the browser window.
@@ -72,18 +94,21 @@ export class ElectronApp {
       show: false,
       backgroundColor: "#fafafa",
       webPreferences: {
+        preload: path.join(__dirname, 'preload.js'),
         enableRemoteModule: true,
         nodeIntegration: true,
-        contextIsolation: false,
+        contextIsolation: true,
       },
     });
 
+    mainWindow.webContents.setVisualZoomLevelLimits(1, 1);
     mainWindow.webContents.on("new-window", function(event :Event, url: string) {
       event.preventDefault();
       // shell.openExternal("https://"  );
-      console.log("Electron", "Opening external link: " + url);
-      
+      console.log("Electron", "Opening external link: " + url);      
     });
+
+
 
     // get the version parameters 
     const versionParameters = getVersionParameters();
@@ -108,7 +133,8 @@ export class ElectronApp {
       width: 1280,
       height: 720,
     });
-      mainWindow.webContents.once('dom-ready', () => {
+    
+    mainWindow.webContents.once('dom-ready', () => {
 
         setTimeout(() => {
           mainWindow.center()
@@ -146,7 +172,6 @@ export class ElectronApp {
     });
 
   }
-
 
 }
 

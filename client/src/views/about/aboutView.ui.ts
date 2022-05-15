@@ -25,8 +25,15 @@ export default class AboutView extends UIComponent {
     }
 
         
-    public show(params: string[], container: UIComponent): void {
+    public async show(params: string[], container: UIComponent): Promise<void> {
 
+        let info;
+        
+        await (window as any).electronAPI.sysinfo((data) =>{
+            info = data;
+        });
+
+        
         const box = new UIComponent({
             type: "div",
             classes: ["box-column", "box-center"],
@@ -65,7 +72,7 @@ export default class AboutView extends UIComponent {
 
         const cpu = new UIComponent({
             type: "span",
-            text: require("os").cpus()[0].model,
+            text: info.cpu,
             styles: {
                 fontSize: ".85rem",
                 marginTop: ".5rem" 
@@ -76,10 +83,9 @@ export default class AboutView extends UIComponent {
 
         const memory = new UIComponent({
             type: "span",
-            text: "RAM: " + (require("os").totalmem() / 1024 / 1024 / 1024).toFixed(2) + " GB",
+            text: "RAM: " + info.memory,
             styles: { fontSize: ".85rem", marginTop: ".5rem" }
         });
-
 
         os.appendChild(memory);
         

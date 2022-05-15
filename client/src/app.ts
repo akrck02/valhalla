@@ -114,7 +114,7 @@ export class App {
     }
 
     public static openBrowserWindow(url : string) {
-        require("electron").shell.openExternal(url);
+        (window as any).electronAPI.openLink(url);
     }
 
 }
