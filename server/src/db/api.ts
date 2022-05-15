@@ -56,7 +56,7 @@ export class API {
         /* Start API listener */
         this.app.listen(this.port, this.hostname).on('error', (err:any) =>{
             if(err.errno == -98)
-                console.log("ERROR","The API Cannot start because the address " + this.hostname + ":" + this.port  + " is already in use");
+                console.log("ERROR","The API Cannot start because the address " + this.hostname + ":" + this.port  + " is already in usegit");
             else
                 console.log("ERROR",err);
             process.exit(1);
