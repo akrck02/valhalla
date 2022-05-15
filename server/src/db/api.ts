@@ -54,8 +54,16 @@ export class API {
         }
 
         /* Start API listener */
-        this.app.listen(this.port, this.hostname);
+        this.app.listen(this.port, this.hostname).on('error', (err:any) =>{
+            if(err.errno == -98)
+                console.log("ERROR","The API Cannot start because the address " + this.hostname + ":" + this.port  + " is already in use");
+            else
+                console.log("ERROR",err);
+            process.exit(1);
+
+        });
         console.log("DB-API","The database API is running on http://" + this.hostname  + ":" + this.port + "/" + this.router.API);
+     
     }
 
 

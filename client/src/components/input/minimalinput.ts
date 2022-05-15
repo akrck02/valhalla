@@ -33,13 +33,13 @@ export default class MinimalInput extends UIComponent {
 
 
 
-    public onType(callback : (text : string) => void) {
+    public onType(callback : (text : string) => void, ctrlEnterCallback : () => void = () => {}) {
 
         setEvents(this.element,{
             "keydown" : () => {
                 this.element.classList.remove("empty");
             },
-            "keyup" : () => {
+            "keyup" : (e) => {
 
                 const value = (this.element as HTMLInputElement).value;
 
@@ -49,8 +49,12 @@ export default class MinimalInput extends UIComponent {
                     this.element.classList.remove("empty");
                 }
 
-                this.text = value;
+                //if ctrl + enter
+                if (e.ctrlKey && e.code == 'Enter') {
+                    ctrlEnterCallback();
+                }
 
+                this.text = value;
                 callback(this.text);
             }
         })

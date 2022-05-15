@@ -53,10 +53,11 @@ export class ElectronApp {
   }
 
   public startAPI() {
-    if(this.database){      
-      this.api = new API(this.database);
-      this.api.start();
-    } else throw new Error("[DB-API] Database not initialized, exiting...");
+
+      if(this.database){      
+        this.api = new API(this.database);
+        this.api.start();
+      } else throw new Error("[DB-API] Database not initialized, exiting...");
   }
 
   public loadUI() {
