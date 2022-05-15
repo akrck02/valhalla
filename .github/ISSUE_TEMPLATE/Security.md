@@ -1,5 +1,5 @@
 ---
-name: Vulneraily
+name: Vulnerability
 about: A security breach is present
 title: "[Security]"
 labels: 'Security'
