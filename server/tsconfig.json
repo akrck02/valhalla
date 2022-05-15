@@ -20,6 +20,7 @@
       "./src/electron.ts",
       "./src/electron-start.ts",
       "./src/renderer.ts",
+      "./src/preload.ts",
       "./src/system.ts",
       "./src/server.ts",
       
