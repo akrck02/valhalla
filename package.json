@@ -45,7 +45,7 @@
     },
     "homepage": "https://github.com/akrck02/Valhalla#readme",
     "devDependencies": {
-        "electron": "^13.1.7",
+        "electron": "^13.6.6",
         "electron-builder": "^22.11.7",
         "rollup": "^2.70.1",
         "ts-node": "^10.4.0",
