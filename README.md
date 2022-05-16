@@ -75,7 +75,7 @@ Valhalla is currently supported on the following platforms:
 <div style="font-size: 1.2em display:flex;   justify-content:center; align-items: center;">
     <img style="width: 1em; height: 1rem;" src="./readme/linux_logo.png" alt="Linux logo" > 
     <b> &nbsp;|&nbsp; Linux -  <i>(Required: .appImage support)</i></b>
-</div>
+</div> 
 
 
 
