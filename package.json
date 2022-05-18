@@ -1,6 +1,6 @@
 {
     "name": "valhalla",
-    "version": "1.0.7b",
+    "version": "1.1.0b",
     "description": "The modern productivity app",
     "main": "./server/out/electron-start.js",
     "scripts": {
@@ -18,20 +18,9 @@
         "pack-client": "rollup client/temp/src/app.js --file client/out/app.js --format iife",
         "pack": "npm run pack-client & npm run pack-styles",
         "update": "npm run compile && npm run pack && npm run dist",
-        "update-patch-dev-beta": "node update.js patch -d b && npm run update",
-        "update-patch-dev": "node update.js patch -d b && npm run update",
-        "update-patch-prod-beta": "node update.js patch -p b && npm run update",
-        "update-patch-prod": "node update.js patch -p b && npm run update",
-        "update-minor-dev-beta": "node update.js minor -d b && npm run update",
-        "update-minor-dev": "node update.js minor -d b && npm run update",
-        "update-minor-prod-beta": "node update.js minor -p b && npm run update",
-        "update-minor-prod": "node update.js minor -p b && npm run update",
-        "update-major-dev-beta": "node update.js major -d b && npm run update",
-        "update-major-dev": "node update.js major -d b && npm run update",
-        "update-major-prod-beta": "node update.js major -p b && npm run update",
-        "update-major-prod": "node update.js major -p b && npm run update",
-        "dev": "node update.js - -d - false",
-        "prod": "node update.js - -p - false"
+        "set-version": "node update.js",
+        "dev": "node update.js d x.x.x false",
+        "prod": "node update.js p x.x.x false"
     },
     "repository": {
         "type": "git",
