@@ -73,8 +73,8 @@ export default class NewTaskView extends UIComponent {
 
         const taskIcon = getMaterialIcon("task",{ size: "1.8rem", fill: "#fff"});
         const name = new MinimalInput(this.core.getTask().name,this.core.getDefaultPlaceholders().name);
-        name.element.id = "task-name";
-        name.onType((text) => this.core.setTaskName(text))
+        name.element.id = "task-name"; 
+        name.onType((text) => this.core.setTaskName(text),() => this.save())
 
         nameRow.appendChild(taskIcon);
         nameRow.appendChild(name);
@@ -108,54 +108,7 @@ export default class NewTaskView extends UIComponent {
                 App.getBundle().newTask.SAVE + "&nbsp;" + getMaterialIcon("check",{size: "1.2rem", fill: "#fff"}).toHTML() ,
             id: "save-task",
             classes: ["icon-button"],
-            events: { click: () => {
-
-                if(this.core.getTask().name.trim().length == 0){
-                    alert({
-                        message : App.getBundle().newTask.INSERT_A_TASK_NAME,
-                        icon: "block"
-                    });
-                    return;
-                }
-
-                if(this.core.getTask().labels.length == 0){
-                    alert({
-                        message : App.getBundle().newTask.SELECT_A_CATEGORY,
-                        icon: "block"
-                    });
-                    return;
-                }
-
-
-                if(this.core.isEditMode()) {
-                    taskService.updateUserTask(this.core.getTask());
-                } else {
-                    taskService.insertUserTask(this.core.getTask());
-                }
-                
-                this.clean();
-                const loadingTitle = new UIComponent({
-                    type: "h1",
-                    classes: ["box-center"],
-                    text:   
-                    (this.core.isEditMode() ? App.getBundle().newTask.UPDATING_TASK : App.getBundle().newTask.SAVING_TASK ) 
-                    + " &nbsp;" + getMaterialIcon("sync",{size: "1.5rem", fill: "#fff"}).toHTML(),
-                });
-                
-                this.element.classList.add("box-center");
-                this.element.classList.add("loading");
-                this.appendChild(loadingTitle);
-
-                setTimeout(() => {
-                    APP.router.modal.hide();
-                    alert({
-                        message: this.core.isEditMode() ? App.getBundle().newTask.TASK_UPDATED_SUCCESSFULLY : App.getBundle().newTask.TASK_SAVED_SUCCESSFULLY,
-                        icon: 'save'
-                    })
-
-                    App.redirect(Configurations.VIEWS.TASKS,[],true);
-                }, 250 + Math.random() * 200);
-            }}
+            events: { click: () => this.save() }
         });
 
         const cancelButton = new UIComponent({
@@ -367,5 +320,53 @@ export default class NewTaskView extends UIComponent {
     }
 
 
+    private save() {
+
+        if(this.core.getTask().name.trim().length == 0){
+            alert({
+                message : App.getBundle().newTask.INSERT_A_TASK_NAME,
+                icon: "block"
+            });
+            return;
+        }
+
+        if(this.core.getTask().labels.length == 0){
+            alert({
+                message : App.getBundle().newTask.SELECT_A_CATEGORY,
+                icon: "block"
+            });
+            return;
+        }
+
+
+        if(this.core.isEditMode()) {
+            taskService.updateUserTask(this.core.getTask());
+        } else {
+            taskService.insertUserTask(this.core.getTask());
+        }
+        
+        this.clean();
+        const loadingTitle = new UIComponent({
+            type: "h1",
+            classes: ["box-center"],
+            text:   
+            (this.core.isEditMode() ? App.getBundle().newTask.UPDATING_TASK : App.getBundle().newTask.SAVING_TASK ) 
+            + " &nbsp;" + getMaterialIcon("sync",{size: "1.5rem", fill: "#fff"}).toHTML(),
+        });
+        
+        this.element.classList.add("box-center");
+        this.element.classList.add("loading");
+        this.appendChild(loadingTitle);
+
+        setTimeout(() => {
+            APP.router.modal.hide();
+            alert({
+                message: this.core.isEditMode() ? App.getBundle().newTask.TASK_UPDATED_SUCCESSFULLY : App.getBundle().newTask.TASK_SAVED_SUCCESSFULLY,
+                icon: 'save'
+            })
+
+            App.redirect(Configurations.VIEWS.TASKS,[],true);
+        }, 250 + Math.random() * 200);
+    }
 
 }

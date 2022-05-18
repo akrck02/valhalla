@@ -1,5 +1,6 @@
-import { App } from "../../app.js";
+import { APP, App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
+import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { getOs } from "../../lib/gtd-ts/web/responsivetools.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { getSocialIcon } from "../../lib/social.js";
@@ -24,8 +25,15 @@ export default class AboutView extends UIComponent {
     }
 
         
-    public show(params: string[], container: UIComponent): void {
+    public async show(params: string[], container: UIComponent): Promise<void> {
 
+        let info;
+        
+        await (window as any).electronAPI.sysinfo((data) =>{
+            info = data;
+        });
+
+        
         const box = new UIComponent({
             type: "div",
             classes: ["box-column", "box-center"],
@@ -64,7 +72,7 @@ export default class AboutView extends UIComponent {
 
         const cpu = new UIComponent({
             type: "span",
-            text: require("os").cpus()[0].model,
+            text: info.cpu,
             styles: {
                 fontSize: ".85rem",
                 marginTop: ".5rem" 
@@ -75,10 +83,9 @@ export default class AboutView extends UIComponent {
 
         const memory = new UIComponent({
             type: "span",
-            text: "RAM: " + (require("os").totalmem() / 1024 / 1024 / 1024).toFixed(2) + " GB",
+            text: "RAM: " + info.memory,
             styles: { fontSize: ".85rem", marginTop: ".5rem" }
         });
-
 
         os.appendChild(memory);
         
@@ -114,8 +121,18 @@ export default class AboutView extends UIComponent {
 
         github.element.onclick = (e) => {
             e.preventDefault();
-            require("electron").shell.openExternal(github.attributes.href);
+            App.openBrowserWindow(github.attributes.href);
         };
+
+        // update check
+        const update = getMaterialIcon("update",{size:"1rem", fill: "#f1f1f1"})
+        APP.router.osNavbar.addToControls(update);
+
+        update.element.style.cursor = "pointer";
+        update.element.onclick = (e) => {
+            App.openBrowserWindow(Configurations.BASE.WEBSITE);
+        };
+
 
         logo.appendTo(box);
         title.appendTo(box);
