@@ -51,6 +51,7 @@ export class Configurations {
         VIEWER: "../web/index.html#/viewer/",
         ERROR: "../web/index.html#/error/",
         DUMMY: "../web/index.html#/dummy/",
+        QR: "../web/index.html#/qr/",
     };
     
     public static API = {

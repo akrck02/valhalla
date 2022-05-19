@@ -5,4 +5,5 @@ export const SyncBundleEs = {
     ONLINE_EXPLANATION: "Tus datos serán sincronizados con tus dispositivos.",
     SYNC: "Sincronizar",
     LOGOUT: "Cerrar sesión",
+    CANNOT_CONNECT: "El servicio está apagado"
 }

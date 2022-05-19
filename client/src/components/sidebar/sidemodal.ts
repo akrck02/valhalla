@@ -78,7 +78,7 @@ export class SideModal extends UIComponent {
         this.action.element.innerHTML = App.getBundle().sync.SYNC;
         this.action.element.onclick = () => {
             alert({ 
-                message : App.getBundle().system.NOT_IMPLEMENTED_YET,
+                message : App.getBundle().sync.CANNOT_CONNECT,
                 icon : 'info'
             });
         }

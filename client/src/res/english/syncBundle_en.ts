@@ -5,4 +5,5 @@ export const SyncBundleEn = {
     ONLINE_EXPLANATION: "Your data is synced with your devices.",
     SYNC: "Sync",
     LOGOUT: "Logout",
+    CANNOT_CONNECT: "The service is not available"
 }

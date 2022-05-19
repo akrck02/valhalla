@@ -19,6 +19,7 @@ import ShowTaskView from "./show-task/showTask.ui.js";
 import StartView from "./start/startView.ui.js";
 import NotesView from "./notes/notesView.ui.js";
 import Modal from "../components/modal/modal.js";
+import QrV from "./qr/Qr.ui.js";
 
 export default class Router {
 
@@ -119,6 +120,10 @@ export default class Router {
                     break;
                 case "error":
                     new ErrorV().show(params.splice(1), this.container);
+                    break;
+                case "qr":
+                    new QrV().show(params.splice(1), this.container);
+                    this.sidebar.setSelected(6);
                     break;
                 case "dummy":
                     new DummyV().show(params.splice(1), this.container);
