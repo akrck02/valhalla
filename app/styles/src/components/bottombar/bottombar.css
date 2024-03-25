@@ -1,0 +1,61 @@
+#bottombar{
+    position:fixed;
+    width:100%;
+    bottom:0;
+    left:0;
+    min-height:5rem;
+    height: 5rem;
+    background-color:var(--background);
+    color:var(--color-text);
+    box-shadow:0 -.4rem .5rem rgba(0,0,0,0.1);
+    border-radius:1rem 1rem 0 0;
+}
+
+#bottombar .primary-button {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    color: var(--color-text);
+    box-shadow: 0 .25rem .25rem rgba(0,0,0,0.2);
+    border: none;
+    outline: none;
+    position: absolute;
+    bottom: 2.5em;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+
+#bottombar .primary-button:active {
+    transform: scale(0.9);
+}
+
+#bottombar .primary-button:focus {
+    outline: none;
+}
+
+#bottombar .secondary-button {
+    width: 30%;
+    height: 4rem;
+    border-radius: 1rem;
+    background-color: rgba(0,0,0,0);
+    position: absolute;
+    bottom: 0rem;
+    box-shadow: none;
+    color: var(--secondary-text-color);
+    font-size: .8rem;
+    transition: background-color var(--medium) ease-in-out;
+}
+
+#bottombar .secondary-button.selected {
+    background-color: var(--secondary-color);
+}
+
+#bottombar .secondary-button#income-button   {
+    left: 1rem;
+} 
+
+#bottombar .secondary-button#outcome-button  {
+    right: 1rem;
+}

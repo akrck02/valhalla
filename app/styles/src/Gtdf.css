@@ -1,0 +1,34 @@
+@import url("./BubbleUI-v3.0.0.css");
+@import url("./components/_import.css");
+@import url("./views/_import.css");
+
+:root {
+  --background-light: #e6e6e6;
+  --background-dark: #1a1a1a;
+  --background-light-you: #d2e4f9;
+  --background-dark-you: #06182d;
+}
+
+:root[data-grayscale="true"] body {
+  filter: grayscale(1);
+}
+
+body, view {
+    transition: .35s;
+    background: var(--background);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.text-error {
+  color: var(--error-color);
+}

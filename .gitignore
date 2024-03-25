@@ -1,11 +1,5 @@
-*/**/delete.*
-/node_modules/
-
-/server/out/
-/client/temp/
-/client/out/
-/db/
-/dist/
-
-/web/pdfjs
-web/styles/out/*
+.vscode
+node_modules
+app/styles/out
+out
+temp

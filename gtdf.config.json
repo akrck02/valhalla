@@ -1,0 +1,44 @@
+{
+ 
+    "base" : {
+        "app_name" : "Valhalla",
+        "app_version" : "v2.0.0b",
+        "host" : "127.0.0.1",
+        "port" : "5500",
+        "enviroment" : "development",
+        "debug" : "true",
+        "log_level" : "debug",
+        "website" : "https://akrck02.org/#/software/valhalla",
+        "author" : "akrck02"
+    },
+
+    "path" : {
+        "url" : "..",
+        "app" : "app",
+        "resources" : "resources",
+        "language" : "resources/i18n",
+        "images" : "resources/images",
+        "icons" : "resources/icons"
+    },
+
+    "views" : {
+        "url" : "app/#",
+        "login" : "login",
+        "error" : "error",
+        "home" : "home",
+        "blank" : "blank"
+    },
+
+    "api" : {
+        "url" : "http://127.0.0.1:3333/api/v1",
+        "login" : "user/login",
+        "register" : "user/register"
+    },
+
+    "variables" : {
+        "animations" : "true",
+        "language" : "es",
+        "theme" : "dark"
+    }
+
+}

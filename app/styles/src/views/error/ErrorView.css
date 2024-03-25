@@ -1,0 +1,15 @@
+view#error {
+    padding: 2rem;
+    width: 100%;
+    height: 100vh;
+}
+
+view#error img#error-img {
+    width: 20rem;
+    margin: 0;
+    height: auto;
+}
+
+view#error h1#error-title {
+    margin: 1.5rem 0;
+}
