@@ -32,7 +32,9 @@
     "api" : {
         "url" : "http://127.0.0.1:3333/api/v1",
         "login" : "user/login",
+        "login_auth": "user/login/auth",
         "register" : "user/register"
+
     },
 
     "variables" : {

@@ -95,6 +95,7 @@ export class Configuration implements IObserver {
     Api : any = {
         url : "",
         login : "",
+        login_auth: "",
         register : "",
     }
 

@@ -77,6 +77,7 @@ export default class LoginCore extends ViewCore {
         .status([200, 201], (json) => {
 
             Config.setConfigVariable("auth", json?.response?.auth);
+            Config.setConfigVariable("email", json?.response?.email);
             console.log(json);
 
             alert({
@@ -100,6 +101,32 @@ export default class LoginCore extends ViewCore {
 
 
         return response;
+    }
+
+
+    public static async checkIfTokenIsValid(){
+        const token = await Config.getConfigVariable("auth")
+        if(!token){
+            return;
+        }
+
+        await EasyFetch.post({
+            url: Config.Api.login_auth,
+            parameters: {
+                email: await Config.getConfigVariable("email")
+            },
+            headers: {
+                Authorization: `${token}`
+            }
+        }).status([200, 201], (json) => {
+            Utils.redirect(Config.Views.home, [], true);
+        }).status([403],(error) => {
+            console.log(error);
+        })
+        
+        .json();
+
+
     }
 }
 

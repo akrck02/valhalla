@@ -8,6 +8,7 @@ import { ISingleton, Singleton } from "../lib/gtdf/decorators/Singleton.js";
 import { StaticImplements } from "../lib/gtdf/core/static/static.interface.js";
 import { Routes } from "../lib/gtdf/decorators/Route.js";
 import { Signal } from "../lib/gtdf/core/signals/signal.js";
+import HomeView from "./home/home.view.js";
 
 @Singleton()
 @StaticImplements<ISingleton<Router>>()
@@ -69,7 +70,7 @@ export default class Router implements IObserver {
         await this.load(params);
     }
 
-    Endpoints = [LoginView, LoginView, ErrorView];
+    Endpoints = [LoginView, HomeView, ErrorView];
 
     /**
      * Load the app state with the given params

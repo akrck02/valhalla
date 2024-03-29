@@ -32,6 +32,9 @@ export default class LoginView extends ViewUI {
 
     public async show(params : string[], container : UIComponent) : Promise<void> {
 
+        await LoginCore.checkIfTokenIsValid();
+        // await LoginCore.instance().registeFakeUser();
+
         Config.setTitle(`${Config.Base.app_name} - home`);
 
         if(Browser.isSmallDevice()){
@@ -96,9 +99,10 @@ export default class LoginView extends ViewUI {
         login.appendTo(loginBox);
 
         loginBox.appendTo(this);
-
-        await LoginCore.instance().registeFakeUser();
-
         this.appendTo(container);
     }
+
+
+
+
 }
