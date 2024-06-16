@@ -4,6 +4,7 @@ view#home {
    
     font-size: 1.6rem;
     transition: all 1s;    
+    overflow: auto;
 }
 
 view#home #logo {

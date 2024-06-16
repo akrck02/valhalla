@@ -15,16 +15,7 @@ jobs:
       run: npm install
      
     - name: compile typescript
-      run: npm run compile-client
-      
-    - name: change to production mode
-      run: npm run prod
-
-    - name: minify styles
-      run: npm run pack-styles
-    
-    - name: pack frontend
-      run: npm run pack-client
+      run: npm run dist
 
     - name: Remove gitignore
       run: rm .gitignore

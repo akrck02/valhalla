@@ -1,14 +1,11 @@
 import { Config } from "../../config/config.js";
 import { HTML } from "../../lib/gtdf/components/dom.js";
 import { UIComponent } from "../../lib/gtdf/components/uicomponent.js";
-import { getSocialIcon } from "../../lib/gtdf/resources/SocialIcons.js";
+import { SocialIcons } from "../../lib/gtdf/resources/SocialIcons.js";
 import { Gtdf } from "../../lib/others/gtdf.js";
 
 export default class Header extends UIComponent {
     private static readonly ID = "header";
-    private static readonly MOBILE_CLASS = "mobile";
-    private static readonly HIDE_CLASS = "hide";
-    private static readonly MENU_ID = "menu";
 
 
     public constructor(){
@@ -18,7 +15,7 @@ export default class Header extends UIComponent {
             classes: [Gtdf.BOX_COLUMN, Gtdf.BOX_X_CENTER, Gtdf.BOX_Y_CENTER],
             styles: {
                 width: "100%",
-                height: "41.5vh",
+                minHeight: "41.5vh",
                 background: "#fff",
             }
         });
@@ -65,8 +62,7 @@ export default class Header extends UIComponent {
             styles: {
                 width: "100%",
                 height: "5vh",
-                marginTop: "1.5rem",
-                // background: "rgba(0,0,0,.05)",
+                marginTop: "1.5rem"
             }
         });
 
@@ -96,7 +92,7 @@ export default class Header extends UIComponent {
                 width: "5vh",
                 height: "5vh",
                 margin: "0 0.5rem",
-                background: "rgba(0,0,0,.025)",
+                background: "var(--background)",
                 borderRadius: "50%",
             },
             attributes : {
@@ -104,7 +100,7 @@ export default class Header extends UIComponent {
             }
         });
 
-        const iconComponent = getSocialIcon(icon, {
+        const iconComponent = SocialIcons.get(icon, {
             fill: "#444",
             size: "2rem",
             classes: ["material-icons"],
