@@ -1,13 +1,15 @@
+import Header from "../../components/header/header.js";
 import { Config } from "../../config/config.js";
 import { Browser } from "../../lib/gtdf/components/browser.js";
 import { HTML } from "../../lib/gtdf/components/dom.js";
 import { UIComponent } from "../../lib/gtdf/components/uicomponent.js";
 import { Route } from "../../lib/gtdf/decorators/Route.js";
 import { Singleton } from "../../lib/gtdf/decorators/Singleton.js";
+import { getSocialIcon } from "../../lib/gtdf/resources/SocialIcons.js";
 import { ViewUI } from "../../lib/gtdf/views/ViewUI.js";
 import { Gtdf } from "../../lib/others/gtdf.js";
 
-@Route(["home"])
+@Route(["home","", undefined])
 @Singleton()
 export default class HomeView extends ViewUI {
 
@@ -18,7 +20,7 @@ export default class HomeView extends ViewUI {
         super({
             type: HTML.VIEW,
             id: HomeView.ID,
-            classes: [Gtdf.BOX_ROW, Gtdf.BOX_CENTER], 
+            classes: [Gtdf.BOX_COLUMN, Gtdf.BOX_X_START, Gtdf.BOX_Y_CENTER], 
             styles : {
                 height: "100vh",
                 width: "100%"
@@ -36,18 +38,12 @@ export default class HomeView extends ViewUI {
         }
 
 
-        const loginBox = new UIComponent({
-            type: HTML.DIV,
-            classes: [Gtdf.BOX_COLUMN, Gtdf.BOX_X_CENTER, Gtdf.BOX_Y_CENTER],
-        });
+        const header = new Header();
+        header.appendTo(this);
 
-        const title = new UIComponent({
-            type: HTML.H1,
-            text: "HELLO WORLD!",
-            classes: [Gtdf.TEXT_CENTER],
-        });
-
-        title.appendTo(this);
         this.appendTo(container);
     }
+
+
 }
+

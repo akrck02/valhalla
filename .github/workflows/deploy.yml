@@ -1,0 +1,39 @@
+name: website-deploy
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: instal node dependencies
+      run: npm install
+     
+    - name: compile typescript
+      run: npm run compile-client
+      
+    - name: change to production mode
+      run: npm run prod
+
+    - name: minify styles
+      run: npm run pack-styles
+    
+    - name: pack frontend
+      run: npm run pack-client
+
+    - name: Remove gitignore
+      run: rm .gitignore
+      
+    - name: Check the output
+      run: ls -lha app/styles/ && ls -lha frontend/
+
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@v4.3.0
+      with:
+        branch: gh-pages # The branch the action should deploy to.
+        folder: . # The folder the action should deploy.

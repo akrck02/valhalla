@@ -180,7 +180,7 @@ export class Configuration implements IObserver {
         }
 
         if(this.getConfigVariable(Configuration.THEME) == undefined) {
-            this.setTheme("dark");
+            this.setTheme("light");
         } else {
             if(this.isDarkTheme()){
                 this.setDarkMode();

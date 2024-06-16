@@ -1,0 +1,18 @@
+view#about-me {
+    padding: 0 2rem;
+    width: 100%;
+}
+
+view#about-me #info-text{
+    margin: 1rem 0px;
+    width: 80%;
+    max-width: 40rem;
+    font-size: 1.25rem; 
+    line-height: 150%;
+}
+
+@media screen and (max-width: 768px) {
+    view#about-me #info-text{
+        font-size: 1rem; 
+    }    
+}

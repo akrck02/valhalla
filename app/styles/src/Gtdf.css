@@ -3,10 +3,7 @@
 @import url("./views/_import.css");
 
 :root {
-  --background-light: #e6e6e6;
-  --background-dark: #1a1a1a;
-  --background-light-you: #d2e4f9;
-  --background-dark-you: #06182d;
+  --background: #f9f9f9;
 }
 
 :root[data-grayscale="true"] body {

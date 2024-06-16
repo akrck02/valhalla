@@ -1,7 +1,7 @@
 {
  
     "base" : {
-        "app_name" : "Valhalla",
+        "app_name" : "SkylerieArts",
         "app_version" : "v2.0.0b",
         "host" : "127.0.0.1",
         "port" : "5500",
@@ -34,13 +34,12 @@
         "login" : "user/login",
         "login_auth": "user/login/auth",
         "register" : "user/register"
-
     },
 
     "variables" : {
         "animations" : "true",
         "language" : "es",
-        "theme" : "dark"
+        "theme" : "light"
     }
 
 }

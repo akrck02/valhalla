@@ -3,7 +3,6 @@ import { InitializeError } from "../errors/initialize.error.js";
 import { UIComponent } from "../lib/gtdf/components/uicomponent.js";
 import { IObserver } from "../lib/gtdf/core/observable/observer.js";
 import ErrorView from "./error/error.view.js";
-import LoginView from "./login/login.view.js";
 import { ISingleton, Singleton } from "../lib/gtdf/decorators/Singleton.js";
 import { StaticImplements } from "../lib/gtdf/core/static/static.interface.js";
 import { Routes } from "../lib/gtdf/decorators/Route.js";
@@ -70,7 +69,7 @@ export default class Router implements IObserver {
         await this.load(params);
     }
 
-    Endpoints = [LoginView, HomeView, ErrorView];
+    Endpoints = [HomeView, ErrorView];
 
     /**
      * Load the app state with the given params
