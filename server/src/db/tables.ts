@@ -34,6 +34,7 @@ export class TableSet {
                 start TEXT, 
                 end TEXT,
                 allDay INTEGER, 
+                status TEXT,
                 done INTEGER,
                 FOREIGN KEY(author) REFERENCES user(username)
             )`

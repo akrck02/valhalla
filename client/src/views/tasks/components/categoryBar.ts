@@ -53,14 +53,14 @@ export default class CategoryBar extends UIComponent {
                 const option = new UIComponent({
                     type: "div",
                     classes: ["label"],
-                    text: category.label,
+                    text: category.label == "none" ? App.getBundle().tasks.OTHERS : category.label,
                     events: {
                         click: () => {
                             this.options.forEach(e => e.element.classList.remove("selected"));
                             option.element.classList.add("selected");
-                            selected = option.text;
                             
-                            Configurations.addConfigVariable("TASKS_SELECTED_CATEGORY", selected);
+                            selected = (option.text == App.getBundle().tasks.OTHERS) ? "none" : option.text;
+                            Configurations.addConfigVariable("TASKS_SELECTED_CATEGORY", option.text);
 
                             callback(selected);
                         },
@@ -77,42 +77,44 @@ export default class CategoryBar extends UIComponent {
             });
 
             if(categories.length == 0) {
-                const noCategories = new UIComponent({
+                const option = new UIComponent({
                     type: "div",
-                    id: "no-catergories",
-                    text:  `<h2>${App.getBundle().tasks.THERE_ARE_NO_CATEGORIES_YET}</h2>
-                            <br><br>
-                            <span style='font-size:.85rem; opacity:.7'>
-                            ${App.getBundle().tasks.CATEGORIES_EXPLANATION}
-                            </span>
-                            <br><br>
-                            <span class='italic bold'>${App.getBundle().tasks.CREATE_YOUR_FIRST_TASK}</span>
-                    `,
-                    styles: {
-                        fontSize: "1rem",
-                        margin: "2rem 0.5rem ",
-                        opacity: "0",
-                        transition : "opacity var(--medium)",
-                        position: "absolute",
-                        top: "0",
+                    classes: ["label"],
+                    text: App.getBundle().tasks.OTHERS,
+                    events: {
+                        click: () => {
+                            this.options.forEach(e => e.element.classList.remove("selected"));
+                            option.element.classList.add("selected");
+                            selected = "none";
+                            
+                            Configurations.addConfigVariable("TASKS_SELECTED_CATEGORY", selected);
+
+                            callback(null);
+                        },
                     },
-                });
-
-                this.appendChild(noCategories);
-            }
-
-            if(selected){
-                this.options.forEach(e => {
-                    
-                    if(e.text.toUpperCase() == selected.toUpperCase()) {
-                        e.element.click();
+                    styles: {
+                        color : "rgba(0,0,0,.0)",
+                        wordBreak: "break-word"
+                        
                     }
                 });
-            } else {  
-                this.options[0]?.element.click();
-            }
 
+                this.options.push(option);
+                this.menu.appendChild(option);
+                }
+                
+                console.log(selected);
+                
 
+                if(selected == "" || selected == "null" || selected == "undefined"|| selected == "none") {
+                    this.options[this.options.length - 1].element.click();
+                } else {
+                    this.options.forEach(e => {
+                        if(e.text.toUpperCase() == selected.toUpperCase()) {
+                            e.element.click();
+                        }
+                    });
+                }
         });
 
         categories.json();
@@ -135,5 +137,9 @@ export default class CategoryBar extends UIComponent {
         if(noCategoriesMessage) {
             noCategoriesMessage.style.opacity = "1";
         }
+    }
+
+    getSelectedCategoryIndex() {
+        return this.selected;
     }
 }

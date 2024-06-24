@@ -3,6 +3,7 @@ import DateInput from "../../components/input/date/dateinput.js";
 import MinimalInput from "../../components/input/minimalinput.js";
 import minimalInput from "../../components/input/minimalinput.js";
 import { Configurations } from "../../config/config.js";
+import { TaskStatus } from "../../core/data/enums/task.status.js";
 import { DateText } from "../../core/data/integrity/dateText.js";
 import { ITask } from "../../core/data/interfaces/task.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
@@ -68,19 +69,70 @@ export default class NewTaskView extends UIComponent {
 
         const nameRow = new UIComponent({
             type: "div",
-            classes: ["box-row","box-y-center","task-name-row"],
+            classes: ["box-row","box-center","task-name-row"],
         });
 
         const taskIcon = getMaterialIcon("task",{ size: "1.8rem", fill: "#fff"});
         const name = new MinimalInput(this.core.getTask().name,this.core.getDefaultPlaceholders().name);
         name.element.id = "task-name"; 
         name.onType((text) => this.core.setTaskName(text),() => this.save())
+        setStyles(name.element, {
+            fontSize: "1rem"
+        })
 
         nameRow.appendChild(taskIcon);
         nameRow.appendChild(name);
 
         this.labelContainer = this.buildLabelContainer();
- 
+        const statusSelector = new UIComponent({
+            type: "div",
+            classes: ["box-row","box-y-center","status-selector"],
+        });
+
+        const status = new UIComponent({
+            type: "select",
+            classes: ["status"],
+            styles: {
+                padding: "0.35rem",
+                marginLeft: "1.5rem",
+                border : "none",
+                background: "rgba(255,255,255,0.15)",
+                color: "#fff",
+                borderRadius: "0.25rem",
+            }
+        });
+
+        const statusOptions = [
+            { value: TaskStatus.TODO, text: App.getBundle().tasks.TODO },
+            { value: TaskStatus.IN_PROGRESS, text: App.getBundle().tasks.IN_PROGRESS },
+            { value: TaskStatus.DONE, text: App.getBundle().tasks.DONE },
+        ];
+
+        statusOptions.forEach(opt => {
+            const option = new UIComponent({
+                type: "option",
+                attributes: { value: opt.value },
+                text: opt.text,
+                styles: {
+                    color: "#222",
+                    background: "rgba(255,255,255,0.85)",
+                }
+            });
+
+            if(opt.value === this.core.getTask().status) 
+                option.element.setAttribute("selected","");
+        
+
+            status.appendChild(option);
+        });
+
+        status.element.onchange = () => {
+            this.core.setTaskStatus((status.element as HTMLSelectElement).value as TaskStatus);
+        }
+
+        statusSelector.appendChild(status);
+
+        
         const description = new MinimalInput(this.core.getTask().description,this.core.getDefaultPlaceholders().description, true);
         description.element.id = "task-description";
         description.onType((text) => this.core.setTaskDescription(text))
@@ -131,6 +183,7 @@ export default class NewTaskView extends UIComponent {
         buttonBar.appendChild(saveButton);
 
         container.appendChild(nameRow);
+        nameRow.appendChild(statusSelector);
         container.appendChild(this.labelContainer);
         container.appendChild(description);
         container.appendChild(dateRow);
@@ -155,7 +208,6 @@ export default class NewTaskView extends UIComponent {
         this.core.getTask().labels.forEach(tag => {
             labels.addLabel(tag, () => {
                 labels.removeLabel(tag);
-                this.core.removeTag(tag);
             });
         });
 

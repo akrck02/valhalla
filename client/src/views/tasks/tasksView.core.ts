@@ -24,8 +24,8 @@ export default class TaskCore {
      * @param category Category to get tasks for
      * @returns a promise that resolves to an array of tasks
      */
-    async getDoneTasks(user: string, category: string): Promise<any> {
-        const response = taskService.getUserDoneTasksFromCategory(user, category);
+    async getTasks(user: string, category: string): Promise<any> {
+        const response = taskService.getUserTasksFromCategory(user, category);
         response.success(((res) => this.doneTasks = res));
 
         await response.jsonPromise();
@@ -198,6 +198,10 @@ export default class TaskCore {
      * @param selected The selected category
      */
     public setSelectedCategory(selected: string) {
+
+        if(!selected || selected === "" || selected === "null" || selected === "undefined")
+            selected = "none";
+
         this.view.element.dataset.selected = selected;
     }
 
@@ -206,7 +210,10 @@ export default class TaskCore {
      * @returns The selected category
      */
     public getSelectedCategory() {
-        return this.view.element.dataset?.selected;
+
+
+
+        return this.view.element.dataset?.selected || "none";
     }
 
 

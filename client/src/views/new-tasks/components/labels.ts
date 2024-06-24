@@ -121,8 +121,6 @@ export default class LabelContainer extends UIComponent {
         if(matchingLabel){
             this.labels.splice(this.labels.indexOf(matchingLabel), 1);        
             this.removeChild(matchingLabel);
-            this.core.removeTag(label);
-
             this.update();
         }
 

@@ -3,7 +3,7 @@ export class Window {
     public static FULLHD_WIDTH = 1920;
     public static FULLHD_HEIGHT = 1080;
 
-    public static DEFAULT_ZOOM = 1.28;
+    public static DEFAULT_ZOOM = 1.5;//1.28;
 
 
     public static setEvents() {

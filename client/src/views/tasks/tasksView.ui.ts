@@ -1,8 +1,9 @@
 
 import { APP, App } from "../../app.js";
+import TaskStatusComponent from "../../components/status/status.js";
 import { Configurations } from "../../config/config.js";
+import { TaskStatus } from "../../core/data/enums/task.status.js";
 import { ITask } from "../../core/data/interfaces/task.js";
-import Utils from "../../core/utils.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../services/tasks.js";
@@ -16,9 +17,8 @@ export default class TasksView extends UIComponent {
 
     private wrapper : UIComponent;
     private toolbar : UIComponent;
-
-    private doneContainer: UIComponent;
     private taskContainer: UIComponent;
+    private categoryBar: CategoryBar;
 
     public constructor() {
         super({
@@ -30,7 +30,7 @@ export default class TasksView extends UIComponent {
                 height: "100%",
                 backdropFilter: "blur(1rem)",
             },
-            data: { selected : "" }
+            data: { selected : "none" }
         });
 
         this.wrapper = new UIComponent({
@@ -59,17 +59,13 @@ export default class TasksView extends UIComponent {
             classes: ["box-column", "box-y-center", "backdrop"],
         });
 
-        this.doneContainer = new UIComponent({
-            type: "div",
-            id: "done-container",
-            classes: ["box-column"],
-            styles: {
-                width: "100%",        
-            }
-        });
+        console.log(params);
+        console.log(Configurations.getConfigVariable("TASKS_SELECTED_CATEGORY"));
+        
+        const selectedCategory = params[0] || Configurations.getConfigVariable("TASKS_SELECTED_CATEGORY");
 
-        const categoryBar = new CategoryBar(
-            params[0] || Configurations.getConfigVariable("TASKS_SELECTED_CATEGORY"),
+        this.categoryBar = new CategoryBar(
+            selectedCategory,
             (selected) => this.showTasks(selected),
             () => {
                 const taskView = new NewTaskView();
@@ -81,13 +77,11 @@ export default class TasksView extends UIComponent {
         );
 
         this.wrapper.appendChild(this.taskContainer);
-        this.wrapper.appendChild(this.doneContainer);
-
-        this.appendChild(categoryBar);
+        this.appendChild(this.categoryBar);
         this.appendChild(this.wrapper);
         this.appendTo(container);
 
-        setTimeout(() => categoryBar.show(), 100);
+        setTimeout(() => this.categoryBar.show(), 100);
     }
 
     /**
@@ -97,16 +91,9 @@ export default class TasksView extends UIComponent {
      */
     private async showTasks(selected: string) {
 
-       this.core.setSelectedCategory(selected);
-
+        this.core.setSelectedCategory(selected);
         this.taskContainer.clean();
-        this.doneContainer.clean();
-        
-        const titleBar = this.buildTitleBar(selected);
-        this.taskContainer.appendChild(titleBar);
-
-        const notDone = await this.showNotDoneTasks(selected);
-        const done = await this.showDoneTasks(selected,notDone);
+        const done = await this.showTasksList(selected);
 
     }
 
@@ -122,9 +109,10 @@ export default class TasksView extends UIComponent {
             classes: ["box-row", "box-x-between", "box-y-center"],
         });
 
+        const noSelectedCategoryTitle = getMaterialIcon("label_off",{ size: "1.7rem", fill: "var(--text-color)" }).toHTML() + "&nbsp;" + App.getBundle().tasks.OTHERS;
         const title = new UIComponent({
             type: "h1",
-            text: selected == "none" ? getMaterialIcon("label_off",{ size: "1.7rem", fill: "var(--text-color)" }).toHTML() + "&nbsp;" + App.getBundle().tasks.OTHERS : selected,
+            text: selected ? selected : noSelectedCategoryTitle,
             id: "category-title",
             classes: ["title", "box-row", "box-x-start", "box-y-center"],
         });
@@ -132,7 +120,6 @@ export default class TasksView extends UIComponent {
 
         this.createToolbar();
         this.toolbar.appendTo(bar);
-
 
         return bar;
     }
@@ -142,7 +129,6 @@ export default class TasksView extends UIComponent {
      * Create the view toolbar
      */
     private createToolbar() {
-
 
         this.toolbar = new UIComponent({
             type: "div",
@@ -163,12 +149,6 @@ export default class TasksView extends UIComponent {
             text: getMaterialIcon("checklist", { fill: "#fff", size: "1.5em" }).toHTML(),
         });
          
-        const done = new UIComponent({
-            type: "button",
-            id: "done",
-            classes: ["button","multi-select"],
-            text: getMaterialIcon( "task_alt", { size: "1.2em", fill: "white" }).toHTML(),
-        });
          
         const deleteTask = new UIComponent({
             type: "button",
@@ -189,27 +169,12 @@ export default class TasksView extends UIComponent {
            
             if(this.element.classList.contains("select")) {
                 this.element.classList.remove("select");
-            } else {
-                this.element.classList.add("select");
-            }
+                return;
+            } 
+
+            this.element.classList.add("select");
 
         });
-
-        // Toggle done status on multiple tasks
-        done.element.addEventListener("click", async () => {
-
-            const inputs = document.querySelectorAll(".task-box input[type=checkbox]:checked");            
-            let ids = [];
-
-            for(let i = 0; i < inputs.length; i++) {
-                const input = inputs[i];
-                ids.push((input as HTMLInputElement).value);
-            }
-
-            await this.core.toogleTasks(ids);
-            setTimeout(() => this.core.goToCategory(this.core.getSelectedCategory()), 350);
-        });
-
 
         // Delete multiple tasks 
         deleteTask.element.addEventListener("click", async () => {
@@ -224,8 +189,7 @@ export default class TasksView extends UIComponent {
             await this.core.deleteUserTasks(ids);
             setTimeout(() => this.core.goToCategory(this.core.getSelectedCategory()), 350);
         });
-
-        this.toolbar.appendChild(done);
+        
         this.toolbar.appendChild(deleteTask);
 
         this.toolbar.appendChild(check);
@@ -233,27 +197,6 @@ export default class TasksView extends UIComponent {
 
     }
 
-    /**
-     * Show the not done tasks
-     * @param selected The selected category 
-     * @param container The container to append the tasks to 
-     * @returns the promise containing the number of tasks
-     */
-    private async showNotDoneTasks(selected : string) : Promise<number>  {
-        const notDoneTasks = await this.core.getNotDoneTasks(Configurations.getUserName(), selected);
-
-        if (notDoneTasks.length == 0) {
-            this.taskContainer.appendChild(this.buildAllTaskCompletedMessage());
-        }
-
-        //build the not done tasks
-        for (const key in notDoneTasks) {
-            const taskbox = this.buildTask(notDoneTasks[key],this.taskContainer);
-            taskbox.appendTo(this.taskContainer);
-        }
-
-        return new Promise((res) => res (notDoneTasks.length)); 
-    }
 
     /**
      * Show the done tasks
@@ -261,32 +204,33 @@ export default class TasksView extends UIComponent {
      * @param container The container to append the tasks to
      * @returns the promise containing the number of tasks
      */
-    private async showDoneTasks(selected : string, notdone : number) : Promise<number> {
-        const doneTasks = await this.core.getDoneTasks(Configurations.getUserName(), selected);
-        const doneTitle = new UIComponent({
-            type: "h1",
-            text:  App.getBundle().tasks.COMPLETED  + "&nbsp;" + getMaterialIcon("check_all", { fill: "#fff", size: "1.15em" }).toHTML(),
-            classes: ["box-row", "box-y-center", "box-x-start"],
-            styles: {
-                opacity: "0.8",
-                marginBottom: "1rem",
-                width: "100%",
-                textAlign: "left",
-                padding: "1rem 0",
-            },
+    private async showTasksList(selected : string) : Promise<number> {
+
+        this.taskContainer.clean();
+
+        const titleBar = this.buildTitleBar(selected);
+        this.taskContainer.appendChild(titleBar);
+
+        const tasks = await this.core.getTasks(Configurations.getUserName(), selected);
+
+        tasks.forEach((task: ITask) => {
+            const taskComponent = this.buildTask(task, this.taskContainer);
+            this.taskContainer.appendChild(taskComponent);
         });
 
-        if (doneTasks.length > 0) {
-            this.doneContainer.appendChild(doneTitle);
+        if(tasks.length == 0) {
+            const congratulationMessage = new UIComponent({
+                type: "p",
+                text: App.getBundle().tasks.ALL_TASKS_COMPLETED + " 🤗",
+                styles: {
+                    opacity : ".75"
+                }
+            })
+
+            congratulationMessage.appendTo(this.taskContainer);
         }
 
-        //build the done tasks
-        for (const key in doneTasks) {
-            const taskbox = this.buildTask(doneTasks[key],this.doneContainer);
-            taskbox.appendTo(this.doneContainer);
-        }
-
-        return new Promise((res) => res (doneTasks.length));
+        return new Promise((res) => res (tasks.length));
     }
 
     /**
@@ -346,11 +290,18 @@ export default class TasksView extends UIComponent {
             taskBox.element.classList.add("done");
         }
 
+
+        const taskInfoBox = new UIComponent({
+            type: "div",
+            classes: ["box-row", "box-y-center"],
+        });
+
         const taskTitle = new UIComponent({
             type: "div",
             text: currentTask.name,
             classes: ["title"],
         });
+
 
         //if time is today set "today" text
         let text = "";
@@ -363,8 +314,12 @@ export default class TasksView extends UIComponent {
             classes: ["time"],
         });
 
+        const status = new TaskStatusComponent(currentTask.status);
+
         task.appendChild(taskTitle);
-        task.appendChild(taskTime);
+        task.appendChild(taskInfoBox);
+        taskInfoBox.appendChild(status);
+        taskInfoBox.appendChild(taskTime);
         taskBox.appendChild(switchControl);
         taskBox.appendChild(task);
 
@@ -374,42 +329,32 @@ export default class TasksView extends UIComponent {
             classes: ["box-row", "box-y-center", "box-x-between", "task-toolbar"],
         });
 
-        const copy = getMaterialIcon("content_copy", { size: "1.2rem", fill: "#fff" });
-        const edit = getMaterialIcon("edit",{ size: "1.2em", fill: "white" });
-        const done = getMaterialIcon( currentTask.done? "task_alt" : "radio_button_unchecked", { size: "1.2em", fill: "white" }); 
+        const inProgressIcon = getMaterialIcon("progress_activity", { size: "1.2rem", fill: "#fff" });
+        const pendingIcon = getMaterialIcon("pending",{ size: "1.2em", fill: "white" });
+        const doneIcon = getMaterialIcon( currentTask.status == TaskStatus.DONE? "task_alt" : "radio_button_unchecked", { size: "1.2em", fill: "white" }); 
       
-        copy.element.onclick = () => Utils.copyToClipboard(currentTask.name);
-        edit.element.onclick = () => {
-            const taskView = new NewTaskView();
-
-            APP.router.modal.clean();
-            taskView.show(["edit",currentTask.id],APP.router.modal);
-            
-            APP.router.modal.show();
+        inProgressIcon.element.onclick = async () =>{
+            currentTask.status = TaskStatus.IN_PROGRESS;
+            const res = taskService.updateUserTask(currentTask);
+            await res.jsonPromise();
+            this.showTasksList(Configurations.getConfigVariable("TASKS_SELECTED_CATEGORY"));
+        }
+        pendingIcon.element.onclick = async () => {
+            currentTask.status = TaskStatus.TODO;
+            const res = taskService.updateUserTask(currentTask);
+            await res.jsonPromise();
+            this.showTasksList(Configurations.getConfigVariable("TASKS_SELECTED_CATEGORY"));
         };
-        done.element.onclick = () => {
-
-            currentTask.done = currentTask.done == 1 ? 0 : 1;
-            const res = taskService.updateUserTaskDone(currentTask);
-            res.json();
-
-            if(currentTask.done == 1) {
-                this.taskContainer.removeChild(taskBox);
-                this.doneContainer.appendChild(taskBox);
-                taskBox.element.classList.add("done");
-            } else {
-                this.doneContainer.removeChild(taskBox);
-                this.taskContainer.appendChild(taskBox);
-                taskBox.element.classList.remove("done");
-            }
-
-            this.core.toggle(currentTask.id)
-           
+        doneIcon.element.onclick = async () => {
+            currentTask.status = TaskStatus.DONE;
+            const res = taskService.updateUserTask(currentTask);
+            await res.jsonPromise();
+            this.showTasksList(Configurations.getConfigVariable("TASKS_SELECTED_CATEGORY"));
         }
 
-        toolbar.appendChild(done);
-        toolbar.appendChild(copy);
-        toolbar.appendChild(edit);
+        toolbar.appendChild(doneIcon);
+        toolbar.appendChild(inProgressIcon);
+        toolbar.appendChild(pendingIcon);
         
         toolbar.appendTo(taskBox);
         
@@ -420,42 +365,6 @@ export default class TasksView extends UIComponent {
         return taskBox;
     } 
 
-    /**
-     * Create a message to show when there are no tasks
-     * @returns The message as a UIComponent
-     */
-    private buildNotTaskFoundErrorMessage(): UIComponent {
-        return new UIComponent({
-            type: "h2",
-            classes: ["box-row", "box-center"],
-            text: App.getBundle().tasks.NO_TASKS_FOUND + " &nbsp;" + getMaterialIcon("manage_search",{ fill: "#fff", size: "1.5em" }).toHTML(),
-            styles: {
-                opacity: "0.8",
-            }
-        });
-    }
-
-
-    /**
-     * Create a message to show when all the task are completed
-     * @returns The message as a UIComponent
-     */
-    private buildAllTaskCompletedMessage(): UIComponent {
-        return new UIComponent({
-            type: "h2",
-            classes: ["box-row", "box-center"],
-            text: App.getBundle().tasks.ALL_TASKS_COMPLETED + " &nbsp;<span>😌</span>",
-            styles: {
-                opacity: "0.8",
-                width: "100%",
-                height: "5rem",
-                padding : "1rem",
-                marginBottom : "1rem",
-                borderRadius : ".55rem",
-                background : "rgba(255,255,255,.06)"
-            }
-        });
-    }
 
 
 }

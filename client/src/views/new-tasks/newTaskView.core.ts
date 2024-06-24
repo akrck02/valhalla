@@ -1,5 +1,6 @@
 import { App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
+import { TaskStatus } from "../../core/data/enums/task.status.js";
 import { DateText } from "../../core/data/integrity/dateText.js";
 import { ITask } from "../../core/data/interfaces/task.js";
 import { taskService } from "../../services/tasks.js";
@@ -29,6 +30,7 @@ export default class NewTaskCore {
             allDay: 0,
             start: DateText.toSQLiteDate(new Date()),
             end: DateText.toSQLiteDate(new Date()),
+            status: TaskStatus.TODO,
             author: "",
             labels: [Configurations.getConfigVariable("TASKS_SELECTED_CATEGORY") || App.getBundle().newTask.TODAY],
         };
@@ -146,7 +148,15 @@ export default class NewTaskCore {
      * @param tag The tag to remove from the task
      */
     public removeTag(tag: string) {
-        this.task.labels.splice(this.task.labels.indexOf(tag), 1);
+
+        console.log(this.task.labels);
+        console.log(this.task.labels.indexOf(tag));
+        
+        this.task.labels.splice(this.task.labels.indexOf(tag));
+    }
+
+    public setTaskStatus(status: TaskStatus) {
+        this.task.status = status;
     }
 
     /**

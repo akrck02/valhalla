@@ -1,9 +1,11 @@
-import Model from "./model.js";
+import Model from "./model";
 import { Database } from "../db";
-import { ITask } from "../classes/task.js";
-import Labels from "./labels.js";
-import { StringUtils } from "../../utils/string.js";
-import { SUCCESS_FALSE, SUCCESS_TRUE } from "../../core/types.js";
+import { ITask } from "../classes/task";
+import Labels from "./labels";
+import { StringUtils } from "../../utils/string";
+import { SUCCESS_FALSE, SUCCESS_TRUE } from "../../core/types";
+import { TaskStatus } from "../classes/task.status";
+import { error, log } from "console";
 
 
 export default class Tasks implements Model {
@@ -87,6 +89,18 @@ export default class Tasks implements Model {
     }
 
     /**
+     * Get the user tasks without category
+     * @param db The database connection
+     * @param username The user to search for
+     * @returns The query result
+     */
+    public static getUserTasksWithoutCategory(db: Database, username : string): Promise<any> {
+        const SQL = "SELECT * FROM task WHERE author = ? AND id NOT IN (SELECT taskId FROM task_label) ORDER BY end DESC";
+        const response = db.db.all(SQL, username);
+        return response;
+    }
+
+    /**
      * Get the user done tasks from a given category
      * @param db The database connection
      * @param username The user to search for
@@ -145,7 +159,7 @@ export default class Tasks implements Model {
      */
     public static async insertUserTask(db : Database, task : ITask) {
 
-        const SQL = "INSERT INTO task(author, name, description, start, end, allDay, done) VALUES (?,?,?,?,?,?,?)";
+        const SQL = "INSERT INTO task(author, name, description, start, end, allDay, done, status) VALUES (?,?,?,?,?,?,?,?)";
         const response = await db.db.run(SQL,
             task.author,
             task.name,
@@ -153,7 +167,8 @@ export default class Tasks implements Model {
             task.start,
             task.end,
             task.allDay,
-            task.done
+            task.done,
+            task.status || TaskStatus.TODO
         )
 
         if(!response) 
@@ -222,16 +237,21 @@ export default class Tasks implements Model {
      */
     public static async updateUserTask(db : Database, task : ITask) {
 
-        const SQL = "UPDATE task SET name=?, description=?, start=?, end=?, allDay=?, done=? WHERE id=?";
+        const SQL = "UPDATE task SET name=?, description=?, start=?, end=?, allDay=?, status=?, done=? WHERE id=?";
+       
+
         const response = await db.db.run(SQL,
             task.name,
             task.description,
             task.start,
             task.end,
             task.allDay,
+            task.status,
             task.done,
-            task.id
+            task.id,
         )
+
+        error(JSON.stringify(response, null, 2));
 
         if(!response)
             return SUCCESS_FALSE;

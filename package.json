@@ -6,6 +6,7 @@
     "scripts": {
         "start": "electron .",
         "start-server": "node ./server/out/server.js",
+        "start-electron-only": "node ./server/out/electron-only.js",
         "compile": "npm run compile-server & npm run compile-client",
         "compile-server": "tsc --project ./server/",
         "compile-server-watch": "tsc --project ./server/ -w",
