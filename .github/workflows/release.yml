@@ -2,7 +2,7 @@ name: Publish Release
 on:
   push:
     branches: [ dev ]
-    
+
 jobs:
   release:
     runs-on: ${{ matrix.os }}
@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-
+    
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v1
@@ -23,11 +23,11 @@ jobs:
       - run: npm install
 
       - name : version
-      run: echo "::set-output name=version::$(node version.js)" 
-      id: version
+        run: echo "::set-output name=version::$(node version.js)" 
+        id: version
  
-     - name: Change to production mode
-      run: npm run prod
+      - name: Change to production mode
+        run: npm run prod
 
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
