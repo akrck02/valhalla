@@ -295,15 +295,7 @@ export default class SearchView extends UIComponent {
                 }
             });
          
-            if(value != "") {
-                const matching = StringUtils.getMatching(task.name || "", value);
-                let title = taskTitle.element.innerText;
-               
-                matching.forEach(s =>{  
-                    if(s.toLowerCase() === title.toLowerCase()) return;
-                    taskTitle.element.innerHTML = title.replace(s, `<span class="bold" style="color: #fff">${s}</span>`);
-                })
-            }   
+            if(value != "") {}   
             taskItem.appendChild(icon);
             taskItem.appendChild(taskTitle);
 
@@ -391,13 +383,8 @@ export default class SearchView extends UIComponent {
             });
          
             
-            if(value != "") {
-                const matching = StringUtils.getMatching(category.label, value);
-  
-                matching.forEach(s => {
-                    categoryTitle.element.innerHTML = categoryTitle.element.innerText.replace(s, `<span class="bold" style="color: #fff">${s}</span>`);
-                })
-            }   
+            if(value != "") {}
+
             categoryItem.appendChild(icon);
             categoryItem.appendChild(categoryTitle);
 
