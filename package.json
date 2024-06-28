@@ -1,23 +1,21 @@
 {
     "name": "valhalla",
-    "version": "1.1.0b",
+    "version": "1.1.1b",
     "description": "The modern productivity app",
     "main": "./server/out/electron-start.js",
     "scripts": {
         "start": "electron .",
         "start-server": "node ./server/out/server.js",
-        "compile": "npm run compile-server & npm run compile-client",
-        "compile-server": "tsc --project ./server/",
+        "start-electron-only": "node ./server/out/electron-only.js",
+
+        "compile": "tsc --project ./server/ & tsc --project ./client/",
         "compile-server-watch": "tsc --project ./server/ -w",
-        "compile-client": "tsc --project ./client/",
         "compile-client-watch": "tsc --project ./client/ -w",
-        "dist": "npm run dist-linux & npm run dist-win",
-        "dist-linux": "electron-builder --publish=never",
-        "dist-win": "electron-builder --win --publish=never",
-        "pack-styles": "java -jar lit-v1.0b2.jar",
-        "pack-client": "rollup client/temp/src/app.js --file client/out/app.js --format iife",
-        "pack": "npm run pack-client & npm run pack-styles",
-        "update": "npm run compile && npm run pack && npm run dist",
+        
+        "pack": "rollup client/temp/src/app.js --file client/out/app.js --format iife & java -jar lit-v1.0b2.jar",
+        "dist-ubuntu-latest": "npm run compile && npm run pack && electron-builder --publish=never",
+        "dist-windows-latest": "npm run compile && npm run pack && electron-builder --win --publish=never",
+        
         "set-version": "node update.js",
         "dev": "node update.js d x.x.x false",
         "prod": "node update.js p x.x.x false"
@@ -48,5 +46,8 @@
         "mime": "^2.5.2",
         "sqlite": "^4.0.23",
         "sqlite3": "^5.0.3"
+    },
+    "build": { 
+    	"asar": "true" 
     }
 }

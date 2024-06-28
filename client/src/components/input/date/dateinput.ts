@@ -38,7 +38,7 @@ export default class DateInput extends UIComponent {
             id: attributes.id,
             attributes: {
                 type: "text",
-                value : DateText.toLocalizedDateString(this.date),
+                value :this.date ? DateText.toLocalizedDateString(this.date) : undefined,
             },
         });
 

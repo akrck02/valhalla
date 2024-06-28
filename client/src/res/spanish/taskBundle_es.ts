@@ -13,4 +13,8 @@ export const TaskBundleEs = {
     COMPLETED: "Completadas",
     TASK_ASSIGNED_TO: "Tarea asignada a $1",
     YOU: "ti",
+    DONE: "completada",
+    IN_PROGRESS: "en progreso",
+    TODO: "pendiente",
+    TASK_STATUS_IS: "La tarea está $1",
 }

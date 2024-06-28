@@ -164,12 +164,12 @@ export class TasksResponse implements HTTPResponse {
      * @param res The HTTP response
      * @returns a promise
      */
-    public static getUserTasksFromCategory(db: Database, req: Request, res: Response): Promise<any> {
+    public static async  getUserTasksFromCategory(db: Database, req: Request, res: Response): Promise<any> {
 
         const username = req?.body?.user;
         const category = req?.body?.category;
 
-        if (username == undefined || category == undefined) {
+        if (username == undefined) {
             return new Promise((resolve) =>
                 resolve({
                     status: "failed",
@@ -178,65 +178,28 @@ export class TasksResponse implements HTTPResponse {
             );
         }
 
-        return TaskModel.getUserTasksFromCategory(db, username, category);
+        if(category == "none" || !category){
+            return TaskModel.getUserTasksWithoutCategory(db, username);
+        }
+
+        let tasks = await TaskModel.getUserTasksFromCategory(db, username, category);
+        let newTasks : ITask[] = [];
+
+    
+
+        for (let i = 0; i < tasks.length; i++) {
+            const task = tasks[i];
+            const categories = await LabelModel.getUserTaskLabels(db,task.id+"");
+            task.labels = [];
+            categories.forEach((category : any) => task.labels?.push(category.label));
+
+            console.log(JSON.stringify(task,null,2));
+            newTasks.push(task);
+        }
+
+        return newTasks;
+        
     }
-
-    /**
-     * Get the user done tasks from category from the database
-     * @param db The database connection
-     * @param req The HTTP request 
-     * @param res The HTTP response
-     * @returns a promise
-     */
-    public static getUserDoneTasksFromCategory(db: Database, req: Request, res: Response): Promise<any> {
-
-        const username = req?.body?.user;
-        const category = req?.body?.category;
-
-        if (username == undefined || category == undefined) {
-            return new Promise((resolve) =>
-                resolve({
-                    status: "failed",
-                    reason: "Missing parameters"
-                })
-            );
-        }
-
-        if (category == "none") {
-            return TaskModel.getUserDoneTasksFromNoCategory(db, username);
-        }
-
-        return TaskModel.getUserDoneTasksFromCategory(db, username, category);
-    }
-
-    /**
-     * Get the user done tasks from category from the database
-     * @param db The database connection
-     * @param req The HTTP request 
-     * @param res The HTTP response
-     * @returns a promise
-     */
-    public static getUserNotDoneTasksFromCategory(db: Database, req: Request, res: Response): Promise<any> {
-
-        const username = req?.body?.user;
-        const category = req?.body?.category;
-
-        if (username == undefined || category == undefined) {
-            return new Promise((resolve) =>
-                resolve({
-                    status: "failed",
-                    reason: "Missing parameters"
-                })
-            );
-        }
-
-        if (category == "none") {
-            return TaskModel.getUserNotDoneTasksFromNoCategory(db, username);
-        }
-
-        return TaskModel.getUserNotDoneTasksFromCategory(db, username, category);
-    }
-
 
     /**
      * Get the user tasks from a given moth
@@ -283,7 +246,7 @@ export class TasksResponse implements HTTPResponse {
      * @param res The HTTP response
      * @returns a promise
      */
-    public static getUserTaskCategories(db: Database, req: Request, res: Response): Promise<any> {
+    public static async getUserTaskCategories(db: Database, req: Request, res: Response): Promise<any> {
 
         const username = req?.body?.user;
 
@@ -297,7 +260,14 @@ export class TasksResponse implements HTTPResponse {
 
         }
 
-        return LabelModel.getUserTaskCategories(db, username);
+        const categories = await LabelModel.getUserTaskCategories(db, username);
+        const taskWithoutCategory = await TaskModel.getUserTasksWithoutCategory(db,username);
+
+        if(taskWithoutCategory.length != 0){
+            categories.push({"label":"none"})
+        }
+
+        return categories;
     }
 
     /**
@@ -452,7 +422,6 @@ export class TasksResponse implements HTTPResponse {
                 );
             }
 
-
             await LabelModel.deleteUserTaskLabels(db, task);
 
             task.labels?.forEach(async (key: string) => {
@@ -460,9 +429,6 @@ export class TasksResponse implements HTTPResponse {
             });
 
             if ((await TaskModel.updateUserTask(db, task)).success) {
-
-
-
                 return new Promise((resolve) =>
                     resolve({
                         status: "success",
@@ -471,15 +437,15 @@ export class TasksResponse implements HTTPResponse {
                 );
             }
 
-            return new Promise((resolve) =>
-                resolve({
-                    status: "Error",
-                    reason: "Task wasn't updated"
+            return new Promise((_,reject) =>
+                reject({
+                    status: "failed",
+                    reason: "Task wasn't updated, " + task.id
                 })
             );
 
         } catch (error) {
-            console.error(error);
+            console.error(JSON.stringify(error, null, 2));
             return new Promise((resolve) =>
                 resolve({
                     status: "failed",

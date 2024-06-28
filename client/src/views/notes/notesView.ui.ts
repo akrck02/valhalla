@@ -41,6 +41,7 @@ export default class NotesView extends UIComponent {
 
         const addNote = getMaterialIcon("plus",{size: "1.5rem", fill: "#fff"})
         addNote.element.classList.add("icon-button");
+        addNote.element.id = "new"
 
         setStyles(addNote.element, {
             position: "absolute",

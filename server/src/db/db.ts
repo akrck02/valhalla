@@ -3,6 +3,7 @@ import { TableSet } from "./tables";
 import sqlite3 from 'sqlite3'
 import { open } from 'sqlite'
 import { Inserter } from "./insert";
+import { homedir } from "os";
 
 
 export class Database {
@@ -17,7 +18,7 @@ export class Database {
     async createDB() : Promise<void> {
         this.log("Creating database...");
         await open({
-            filename: "./db/Valhalla-user.db",
+            filename: `${homedir()}/valhalla/db/Valhalla-user.db`,
             driver: sqlite3.Database
         })
         .then(async (db) => {

@@ -1,3 +1,5 @@
+import { TaskStatus } from "../enums/task.status.js";
+
 export interface ITask {
     id?: number;
     author?: string;
@@ -6,6 +8,7 @@ export interface ITask {
     start?: string;
     end?: string;
     allDay?: number;
+    status?: TaskStatus;
     done?: number;
     labels?: string[];
 }
@@ -18,6 +21,7 @@ export class Task implements ITask {
     start?: string;
     end?: string;
     allDay?: number;
+    status?: TaskStatus;
     done?: number;
     labels?: string[];
 
@@ -29,6 +33,7 @@ export class Task implements ITask {
         this.start       = task.start;
         this.end         = task.end;
         this.allDay      = task.allDay;
+        this.status      = task.status;
         this.done        = task.done;
         this.labels      = task.labels;
     }

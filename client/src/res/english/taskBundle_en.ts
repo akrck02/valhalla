@@ -13,4 +13,8 @@ export const TaskBundleEn = {
     COMPLETED: "Completed",
     TASK_ASSIGNED_TO: "Task assigned to $1",
     YOU: "you",
+    DONE: "done",
+    IN_PROGRESS: "in progress",
+    TODO: "to do",
+    TASK_STATUS_IS: "Task is $1",
 }

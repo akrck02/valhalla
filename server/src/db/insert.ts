@@ -2,6 +2,7 @@ import TextBundle from "../res/textBundle";
 import { getLang } from "../system";
 import { TimeUtils } from "../utils/time";
 import { ITask } from "./classes/task";
+import { TaskStatus } from "./classes/task.status";
 import { IUser } from "./classes/user";
 
 export class Inserter {

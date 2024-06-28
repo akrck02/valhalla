@@ -3,6 +3,7 @@ import { API } from "./db/api";
 import fs from "fs";
 import { Database } from "./db/db";
 import { ENVIRONMENT, getVersionParameters } from "./system";
+import { homedir } from "os";
 
 // Modules to control application life and create native browser window
 const { app, webFrame, BrowserWindow, ipcMain } = require("electron");
@@ -16,8 +17,12 @@ export class ElectronApp {
 
   }
 
-  public async start() {
-    await this.startServer();
+  public async start(server: boolean) {
+    console.log(`api start: ${server}`);
+    
+    if(server)
+      await this.startServer();
+    
     await this.setEvents();
     await this.startIpcEventListeners();
   }
@@ -37,10 +42,10 @@ export class ElectronApp {
 
   public async startDatabase() {
 
-    fs.mkdirSync(path.join("db"), { recursive: true });
+    fs.mkdirSync(`${homedir()}/valhalla/db`, { recursive: true });
 
     this.database = new Database();
-    const databasePath = path.join(global.root, "db/Valhalla-user.db");
+    const databasePath = `${homedir()}/valhalla/db/Valhalla-user.db`;
     if (fs.existsSync(databasePath) === true) {
       console.log("Electron", "Database found");
       //fs.rmSync(databasePath);
@@ -127,12 +132,12 @@ export class ElectronApp {
     mainWindow.loadFile(url);
     console.log("Electron", "Opening HTML: " + url);
 
-    let loading = new BrowserWindow({
-      show: false, 
-      frame: false,
-      width: 1280,
-      height: 720,
-    });
+    // let loading = new BrowserWindow({
+    //   show: false, 
+    //   frame: false,
+    //   width: 1280,
+    //   height: 720,
+    // });
     
     mainWindow.webContents.once('dom-ready', () => {
 
@@ -140,14 +145,14 @@ export class ElectronApp {
           mainWindow.center()
           mainWindow.show()
     
-          loading.hide();
-          loading.close();
+          // loading.hide();
+          // loading.close();
         }, 500);
 
     })
 
-    loading.loadFile(path.join(global.root,'/web/' + loadingFile));
-    loading.show()
+    // loading.loadFile(path.join(global.root,'/web/' + loadingFile));
+    // loading.show()
   }
 
   public setEvents() {

@@ -19,8 +19,6 @@ export class Router {
             "get/user/task" : TasksResponse.getUserTask,
             "get/user/month/tasks" : TasksResponse.getUserMonthTasks,
             "get/user/tasks/from/category" : TasksResponse.getUserTasksFromCategory,
-            "get/user/done/tasks/from/category" : TasksResponse.getUserDoneTasksFromCategory,
-            "get/user/not/done/tasks/from/category" : TasksResponse.getUserNotDoneTasksFromCategory,
             "get/user/task/categories" : TasksResponse.getUserTaskCategories,
             
             // INSERT METHODS

@@ -18,6 +18,7 @@
     "files": [
       "./src/custom.d.ts",
       "./src/electron.ts",
+      "./src/electron-only.ts",
       "./src/electron-start.ts",
       "./src/renderer.ts",
       "./src/preload.ts",

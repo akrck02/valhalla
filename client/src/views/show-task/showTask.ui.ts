@@ -1,5 +1,6 @@
 import { APP, App } from "../../app.js";
 import { Configurations } from "../../config/config.js";
+import { TaskStatus } from "../../core/data/enums/task.status.js";
 import { DateText } from "../../core/data/integrity/dateText.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
 import { setClasses, setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
@@ -55,6 +56,7 @@ export default class ShowTaskView extends UIComponent {
         this.drawLabels(task.labels);
         this.drawAssignedTo(task.author);
         this.drawEventDate(task.start, task.end);
+        this.drawStatus(task.status);
 
         this.appendChild(this.box);
         this.appendTo(container);
@@ -168,7 +170,13 @@ export default class ShowTaskView extends UIComponent {
             classes: ["box-row", "box-y-center"],
         });
 
+        if(labels.length == 0){
+            const labelElement = new Label( App.getBundle().tasks.OTHERS );
+            labelElement.appendTo(labelContainer);
+        }
+
         for(const label of labels){
+
             const labelElement = new Label( label );
             labelElement.element.onclick = () => {
                 App.redirect(Configurations.VIEWS.TASKS,[label]);
@@ -315,6 +323,67 @@ export default class ShowTaskView extends UIComponent {
     }  
 
 
+    drawStatus(status : string) {
+        const statusBox = new UIComponent({
+            type: "div",
+            id: "task-status",
+            classes: ["box-row", "box-y-center"],
+            styles: {
+                width: "100%",
+                marginTop: "2rem",
+                paddingLeft: "4rem",
+            }
+        });
+
+        let taskStatusText = "";
+        let icon = "";
+
+        switch(status){
+
+            case TaskStatus.DONE:
+                taskStatusText = App.getBundle().tasks.DONE;
+                icon = "check_circle";
+                break;
+
+            case TaskStatus.IN_PROGRESS:
+                taskStatusText =  
+                
+                taskStatusText = App.getBundle().tasks.IN_PROGRESS;
+                icon = "progress_activity";
+                break;
+
+            default:
+                taskStatusText = App.getBundle().tasks.TODO;
+                icon = "pending";
+                break;
+        }
+
+
+        const statusIcon = getMaterialIcon(icon,{
+            size: "1.25rem",
+            fill:  "#202020" ,
+        });
+
+        setClasses(statusIcon.element, ["timeline-icon"]);
+        setStyles(statusIcon.element, {
+            padding: "0.35rem",
+            backgroundColor: "#ffffff",
+            marginRight: "1rem",
+            marginLeft: ".15rem",
+        });
+
+        const statusElement = new UIComponent({
+            type: "h1",
+            text : App.getBundle().tasks.TASK_STATUS_IS.replace("$1",taskStatusText),
+            styles : {
+                fontSize: "1rem",
+            }
+        });
+
+        statusIcon.appendTo(statusBox);
+        statusElement.appendTo(statusBox);
+        this.box.appendChild(statusBox);
+    }
 
 
 }
