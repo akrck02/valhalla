@@ -43,13 +43,13 @@ jobs:
 
 
       - name: Create a Release of commit
-      uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-        repo_token: ${{ github.token }}
-        automatic_release_tag: dev-latest
-        prerelease: true
-        title: ${{ steps.version.outputs.version }}-${{ github.sha }}
-        files: |
-          LICENSE
-          dist/*.exe
-          dist/*.AppImage
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: ${{ github.token }}
+          automatic_release_tag: dev-latest
+          prerelease: true
+          title: ${{ steps.version.outputs.version }}-${{ github.sha }}
+          files: |
+            LICENSE
+            dist/*.exe
+            dist/*.AppImage
