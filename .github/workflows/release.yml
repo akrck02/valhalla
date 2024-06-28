@@ -1,4 +1,4 @@
-name: Publish Release
+name: Publish release
 on:
   push:
     branches: [ dev ]
@@ -46,7 +46,7 @@ jobs:
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: ${{ github.token }}
-          automatic_release_tag: dev-latest
+          automatic_release_tag: dev-${{matrix.os}}
           prerelease: true
           title: ${{ steps.version.outputs.version }}-${{ github.sha }}
           files: |
