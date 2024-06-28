@@ -7,18 +7,21 @@
         "start": "electron .",
         "start-server": "node ./server/out/server.js",
         "start-electron-only": "node ./server/out/electron-only.js",
+
         "compile": "npm run compile-server & npm run compile-client",
         "compile-server": "tsc --project ./server/",
         "compile-server-watch": "tsc --project ./server/ -w",
         "compile-client": "tsc --project ./client/",
         "compile-client-watch": "tsc --project ./client/ -w",
-        "dist": "npm run dist-linux & npm run dist-win",
-        "dist-linux": "electron-builder --publish=never",
-        "dist-win": "electron-builder --win --publish=never",
+
+        "dist-ubuntu-latest": "electron-builder --publish=never",
+        "dist-windows-latest": "electron-builder --win --publish=never",
+
         "pack-styles": "java -jar lit-v1.0b2.jar",
         "pack-client": "rollup client/temp/src/app.js --file client/out/app.js --format iife",
         "pack": "npm run pack-client & npm run pack-styles",
-        "update": "npm run compile && npm run pack && npm run dist",
+        
+        "update": "npm run compile && npm run pack",
         "set-version": "node update.js",
         "dev": "node update.js d x.x.x false",
         "prod": "node update.js p x.x.x false"

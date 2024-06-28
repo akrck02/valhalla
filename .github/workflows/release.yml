@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
     
     steps:
       - name: Check out Git repository
@@ -39,5 +39,5 @@ jobs:
           # If the commit is tagged with a version (e.g. "v1.0.0"),
           # release the app after building
           release: ${{ steps.version.outputs.version }}-${{ github.sha }}
-          build_script_name: dist
+          build_script_name: dist-${{matrix.os}}
 
