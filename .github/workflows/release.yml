@@ -39,16 +39,16 @@ jobs:
           # If the commit is tagged with a version (e.g. "v1.0.0"),
           # release the app after building
           release: ${{ steps.version.outputs.version }}-${{ github.sha }}
-          build_script_name: dist-${{matrix.os}}
+          build_script_name: dist-${{ matrix.os }}
 
 
       - name: Create a Release of commit
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: ${{ github.token }}
-          automatic_release_tag: dev-${{matrix.os}}
+          automatic_release_tag: dev-${{ matrix.os }}
           prerelease: true
-          title: ${{ steps.version.outputs.version }}-${{ github.sha }}
+          title: dev-${{ matrix.os }}
           files: |
             LICENSE
             dist/*.exe
