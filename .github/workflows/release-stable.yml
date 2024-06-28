@@ -48,7 +48,7 @@ jobs:
           repo_token: ${{ github.token }}
           automatic_release_tag: ${{ steps.version.outputs.version }}-${{ matrix.os }}
           prerelease: false
-          title: ${{ steps.version.outputs.version }}
+          title: ${{matrix.os}}
           files: |
             LICENSE
             dist/*.exe
