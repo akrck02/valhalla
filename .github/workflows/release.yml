@@ -2,50 +2,42 @@ name: Publish Release
 on:
   push:
     branches: [ dev ]
+    
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '16'
+  release:
+    runs-on: ${{ matrix.os }}
 
-    - run: npm install
-    - name : version
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
+
+      - run: npm install
+
+      - name : version
       run: echo "::set-output name=version::$(node version.js)" 
       id: version
  
-    - name: Install windows dependencies
-      run: |
-        sudo dpkg --add-architecture i386
-        sudo apt update
-        wget -qO- https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add -
-        sudo apt install software-properties-common
-        sudo apt-add-repository 'deb http://dl.winehq.org/wine-builds/ubuntu/ bionic main'
-        wget -qO- https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/Release.key | sudo apt-key add -
-        sudo sh -c 'echo "deb https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/ ./" > /etc/apt/sources.list.d/obs.list'
-        sudo apt update
-        sudo apt-get install -y --install-recommends winehq-devel
-        sudo apt-get install -y fakeroot
-
-    - name: Change to production mode
+     - name: Change to production mode
       run: npm run prod
 
-    - name: Create binaries
-      run: npm run update
+      - name: Build/release Electron app
+        uses: samuelmeuli/action-electron-builder@v1
+        with:
+          # GitHub token, automatically provided to the action
+          # (No need to define this secret in the repo settings)
+          github_token: ${{ secrets.github_token }}
 
-    - name: Create a Release of commit
-      uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-        repo_token: ${{ github.token }}
-        automatic_release_tag: dev-latest
-        prerelease: true
-        title: ${{ steps.version.outputs.version }}-${{ github.sha }}
-        files: |
-          LICENSE
-          dist/*.exe
-          dist/*.AppImage
-
-
+          # If the commit is tagged with a version (e.g. "v1.0.0"),
+          # release the app after building
+          release: ${{ steps.version.outputs.version }}-${{ github.sha }}
+          build_script_name: dist
 
