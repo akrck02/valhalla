@@ -25,4 +25,11 @@ export class ExpertListener {
         APP.router.modal.toggle();
     }
 
+    public clickNewButton(): void {
+        document.getElementById('new')?.click();
+    }
+
+    public openTab(index : number) {
+        APP.router.sidebar.clickTab(index);
+    }
 }

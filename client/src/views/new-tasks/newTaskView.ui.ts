@@ -1,21 +1,19 @@
 import { APP, App } from "../../app.js";
 import DateInput from "../../components/input/date/dateinput.js";
 import MinimalInput from "../../components/input/minimalinput.js";
-import minimalInput from "../../components/input/minimalinput.js";
 import { Configurations } from "../../config/config.js";
 import { TaskStatus } from "../../core/data/enums/task.status.js";
 import { DateText } from "../../core/data/integrity/dateText.js";
-import { ITask } from "../../core/data/interfaces/task.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
-import { setClasses, setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { setEvents, setStyles, UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../services/tasks.js";
 import LabelContainer from "./components/labels.js";
 import NewTaskCore from "./newTaskView.core.js";
 
 export default class NewTaskView extends UIComponent {
 
-    private core : NewTaskCore;
-    private labelContainer : LabelContainer;
+    private core: NewTaskCore;
+    private labelContainer: LabelContainer;
 
     public constructor() {
         super({
@@ -39,7 +37,7 @@ export default class NewTaskView extends UIComponent {
      */
     public async show(params: string[], container: UIComponent): Promise<void> {
 
-        if(params[0] === "edit") {
+        if (params[0] === "edit") {
             this.core.setEditMode(true);
             const response = taskService.getUserTask(params[1]);
             response.success(((res) => {
@@ -50,10 +48,10 @@ export default class NewTaskView extends UIComponent {
         }
 
         this.core.setTaskAuthor(this.core.getTask().author || Configurations.getUserName());
-       
+
         this.build();
         this.appendTo(container);
-        
+
     }
 
     /**
@@ -63,19 +61,19 @@ export default class NewTaskView extends UIComponent {
         this.clean();
 
         const container = new UIComponent({
-            id : "new-task-container",
+            id: "new-task-container",
             classes: ["box-column"]
         })
 
         const nameRow = new UIComponent({
             type: "div",
-            classes: ["box-row","box-center","task-name-row"],
+            classes: ["box-row", "box-center", "task-name-row"],
         });
 
-        const taskIcon = getMaterialIcon("task",{ size: "1.8rem", fill: "#fff"});
-        const name = new MinimalInput(this.core.getTask().name,this.core.getDefaultPlaceholders().name);
-        name.element.id = "task-name"; 
-        name.onType((text) => this.core.setTaskName(text),() => this.save())
+        const taskIcon = getMaterialIcon("task", { size: "1.8rem", fill: "#fff" });
+        const name = new MinimalInput(this.core.getTask().name, this.core.getDefaultPlaceholders().name);
+        name.element.id = "task-name";
+        name.onType((text) => this.core.setTaskName(text), () => this.save())
         setStyles(name.element, {
             fontSize: "1rem"
         })
@@ -86,54 +84,12 @@ export default class NewTaskView extends UIComponent {
         this.labelContainer = this.buildLabelContainer();
         const statusSelector = new UIComponent({
             type: "div",
-            classes: ["box-row","box-y-center","status-selector"],
+            classes: ["box-row", "box-y-center", "status-selector"],
         });
 
-        const status = new UIComponent({
-            type: "select",
-            classes: ["status"],
-            styles: {
-                padding: "0.35rem",
-                marginLeft: "1.5rem",
-                border : "none",
-                background: "rgba(255,255,255,0.15)",
-                color: "#fff",
-                borderRadius: "0.25rem",
-            }
-        });
+   
 
-        const statusOptions = [
-            { value: TaskStatus.TODO, text: App.getBundle().tasks.TODO },
-            { value: TaskStatus.IN_PROGRESS, text: App.getBundle().tasks.IN_PROGRESS },
-            { value: TaskStatus.DONE, text: App.getBundle().tasks.DONE },
-        ];
-
-        statusOptions.forEach(opt => {
-            const option = new UIComponent({
-                type: "option",
-                attributes: { value: opt.value },
-                text: opt.text,
-                styles: {
-                    color: "#222",
-                    background: "rgba(255,255,255,0.85)",
-                }
-            });
-
-            if(opt.value === this.core.getTask().status) 
-                option.element.setAttribute("selected","");
-        
-
-            status.appendChild(option);
-        });
-
-        status.element.onchange = () => {
-            this.core.setTaskStatus((status.element as HTMLSelectElement).value as TaskStatus);
-        }
-
-        statusSelector.appendChild(status);
-
-        
-        const description = new MinimalInput(this.core.getTask().description,this.core.getDefaultPlaceholders().description, true);
+        const description = new MinimalInput(this.core.getTask().description, this.core.getDefaultPlaceholders().description, true);
         description.element.id = "task-description";
         description.onType((text) => this.core.setTaskDescription(text))
 
@@ -150,17 +106,28 @@ export default class NewTaskView extends UIComponent {
 
         const buttonBar = new UIComponent({
             type: "div",
-            classes: ["box-row","box-y-center","box-x-between","button-bar"],
+            classes: ["box-row", "box-y-center", "box-x-between", "button-bar"],
         });
 
         const saveButton = new UIComponent({
             type: "button",
-            text: this.core.isEditMode() ?  
-                App.getBundle().newTask.UPDATE + "&nbsp;" + getMaterialIcon("sync",{size: "1.2rem", fill: "#fff"}).toHTML() : 
-                App.getBundle().newTask.SAVE + "&nbsp;" + getMaterialIcon("check",{size: "1.2rem", fill: "#fff"}).toHTML() ,
+            text: this.core.isEditMode() ?
+                App.getBundle().newTask.UPDATE + "&nbsp;" + getMaterialIcon("sync", { size: "1.2rem", fill: "#fff" }).toHTML() :
+                App.getBundle().newTask.SAVE + "&nbsp;" + getMaterialIcon("check", { size: "1.2rem", fill: "#fff" }).toHTML(),
             id: "save-task",
             classes: ["icon-button"],
             events: { click: () => this.save() }
+        });
+
+
+        //on enter key press on name input save the task
+
+        setEvents(name.element, {
+            keyup: (event) => {
+                if (event.key === "Enter") {
+                    this.save();
+                }
+            }
         });
 
         const cancelButton = new UIComponent({
@@ -177,7 +144,7 @@ export default class NewTaskView extends UIComponent {
             APP.router.modal.hide();
         });
 
-        const recentLabelContainer = await this.buildRecentLabelContainer(); 
+        const recentLabelContainer = await this.buildRecentLabelContainer();
 
         buttonBar.appendChild(cancelButton);
         buttonBar.appendChild(saveButton);
@@ -194,8 +161,8 @@ export default class NewTaskView extends UIComponent {
         this.appendChild(recentLabelContainer);
 
         setTimeout(() => {
-            setStyles(container.element, { opacity: "1",})
-            setStyles(recentLabelContainer.element, { opacity: "1",})   
+            setStyles(container.element, { opacity: "1", })
+            setStyles(recentLabelContainer.element, { opacity: "1", })
         }, 100);
     }
 
@@ -203,7 +170,7 @@ export default class NewTaskView extends UIComponent {
      * Create the tag container
      * @returns The tag container UI component
      */
-    private buildLabelContainer() : LabelContainer {
+    private buildLabelContainer(): LabelContainer {
         const labels = new LabelContainer(this.core);
         this.core.getTask().labels.forEach(tag => {
             labels.addLabel(tag, () => {
@@ -213,7 +180,7 @@ export default class NewTaskView extends UIComponent {
 
         labels.onchange((lbls) => {
             APP.router.variablePanel.addViewVariables({
-                 LABELS : lbls
+                LABELS: lbls
             });
         });
 
@@ -224,17 +191,17 @@ export default class NewTaskView extends UIComponent {
      * Create the start date control components
      * @returns The start date UI component
      */
-    private buildStartDateControls() : UIComponent {
+    private buildStartDateControls(): UIComponent {
 
         const view = this;
         const startDateRow = new UIComponent({
-            classes: ["box-row","box-y-center", "date-row"],
+            classes: ["box-row", "box-y-center", "date-row"],
         });
 
         const startDateLabel = new UIComponent({
             type: "label",
-            attributes: { for : "task-start-date" },
-            text :  App.getBundle().newTask.START_DATE + ": "
+            attributes: { for: "task-start-date" },
+            text: App.getBundle().newTask.START_DATE + ": "
         });
         startDateRow.appendChild(startDateLabel);
 
@@ -257,17 +224,17 @@ export default class NewTaskView extends UIComponent {
      * Create the end date control components
      * @returns The end date UI component
      */
-    private buildEndDateControls() : UIComponent {
+    private buildEndDateControls(): UIComponent {
 
         const view = this;
         const endDateRow = new UIComponent({
-            classes: ["box-row","box-y-center", "date-row"],
+            classes: ["box-row", "box-y-center", "date-row"],
         });
 
         const endDateLabel = new UIComponent({
             type: "label",
-            attributes: { for : "task-end-date" },
-            text :   App.getBundle().newTask.END_DATE + ": "
+            attributes: { for: "task-end-date" },
+            text: App.getBundle().newTask.END_DATE + ": "
         });
         endDateRow.appendChild(endDateLabel);
 
@@ -279,14 +246,14 @@ export default class NewTaskView extends UIComponent {
                 view.build();
             },
             parent: view,
-            default: this.core.toDate(this.core.getTask().end)
+            default: undefined
         });
         endDateRow.appendChild(endDateInput);
 
         const allDay = new UIComponent({
-            type : 'input',
+            type: 'input',
             attributes: {
-                type : "checkbox"
+                type: "checkbox"
             },
         });
 
@@ -296,9 +263,9 @@ export default class NewTaskView extends UIComponent {
         }
 
         const allDayLabel = new UIComponent({
-            type: "label" ,
-            text :  App.getBundle().newTask.SAME_DAY,
-            styles :  {
+            type: "label",
+            text: App.getBundle().newTask.SAME_DAY,
+            styles: {
                 marginLeft: "1rem"
             }
         });
@@ -314,21 +281,21 @@ export default class NewTaskView extends UIComponent {
      * Build the recent label container
      * @returns The promise of the UIComponent
      */
-    private async buildRecentLabelContainer() : Promise<UIComponent> {
+    private async buildRecentLabelContainer(): Promise<UIComponent> {
 
         const container = new UIComponent({
-            classes: ["box-column","box-warp","box-x-start","box-y-start"],
+            classes: ["box-column", "box-warp", "box-x-start", "box-y-start"],
             id: "recent-label-container",
             styles: {
-                marginLeft : "1rem",
+                marginLeft: "1rem",
                 overflowY: "auto",
-               
+
             }
         });
 
         const title = new UIComponent({
-            type : "h1",
-            text :  App.getBundle().newTask.RECENT_CATEGORIES + ":",
+            type: "h1",
+            text: App.getBundle().newTask.RECENT_CATEGORIES + ":",
             id: "title",
         });
         title.appendTo(container);
@@ -365,7 +332,7 @@ export default class NewTaskView extends UIComponent {
 
             labelComp.appendTo(labelContainerBox);
         });
-        
+
         container.appendChild(labelContainerBox);
 
         return new Promise(suc => suc(container));
@@ -374,38 +341,38 @@ export default class NewTaskView extends UIComponent {
 
     private save() {
 
-        if(this.core.getTask().name.trim().length == 0){
+        if (this.core.getTask().name.trim().length == 0) {
             alert({
-                message : App.getBundle().newTask.INSERT_A_TASK_NAME,
+                message: App.getBundle().newTask.INSERT_A_TASK_NAME,
                 icon: "block"
             });
             return;
         }
 
-        if(this.core.getTask().labels.length == 0){
+        if (this.core.getTask().labels.length == 0) {
             alert({
-                message : App.getBundle().newTask.SELECT_A_CATEGORY,
+                message: App.getBundle().newTask.SELECT_A_CATEGORY,
                 icon: "block"
             });
             return;
         }
 
 
-        if(this.core.isEditMode()) {
+        if (this.core.isEditMode()) {
             taskService.updateUserTask(this.core.getTask());
         } else {
             taskService.insertUserTask(this.core.getTask());
         }
-        
+
         this.clean();
         const loadingTitle = new UIComponent({
             type: "h1",
             classes: ["box-center"],
-            text:   
-            (this.core.isEditMode() ? App.getBundle().newTask.UPDATING_TASK : App.getBundle().newTask.SAVING_TASK ) 
-            + " &nbsp;" + getMaterialIcon("sync",{size: "1.5rem", fill: "#fff"}).toHTML(),
+            text:
+                (this.core.isEditMode() ? App.getBundle().newTask.UPDATING_TASK : App.getBundle().newTask.SAVING_TASK)
+                + " &nbsp;" + getMaterialIcon("sync", { size: "1.5rem", fill: "#fff" }).toHTML(),
         });
-        
+
         this.element.classList.add("box-center");
         this.element.classList.add("loading");
         this.appendChild(loadingTitle);
@@ -417,7 +384,7 @@ export default class NewTaskView extends UIComponent {
                 icon: 'save'
             })
 
-            App.redirect(Configurations.VIEWS.TASKS,[],true);
+            App.redirect(Configurations.VIEWS.TASKS, [], true);
         }, 250 + Math.random() * 200);
     }
 

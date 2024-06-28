@@ -222,4 +222,14 @@ export class Sidebar extends UIComponent {
 
     };
 
+    public clickTab(index : number) {
+        if(index < 0)
+            index = 0;
+
+        if(index >= this.elements.length)
+            index = this.elements.length - 1;
+
+        this.elements[index].element.click();
+    }
+
 }

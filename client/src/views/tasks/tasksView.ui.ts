@@ -1,11 +1,12 @@
 
+import { get } from "http";
 import { APP, App } from "../../app.js";
 import TaskStatusComponent from "../../components/status/status.js";
 import { Configurations } from "../../config/config.js";
 import { TaskStatus } from "../../core/data/enums/task.status.js";
 import { ITask } from "../../core/data/interfaces/task.js";
 import { getMaterialIcon } from "../../lib/gtd-ts/material/materialicons.js";
-import { UIComponent } from "../../lib/gtd-ts/web/uicomponent.js";
+import { UIComponent, setStyles } from "../../lib/gtd-ts/web/uicomponent.js";
 import { taskService } from "../../services/tasks.js";
 import NewTaskView from "../new-tasks/newTaskView.ui.js";
 import CategoryBar from "./components/categoryBar.js";
@@ -89,10 +90,11 @@ export default class TasksView extends UIComponent {
      * @param configurations The configurations of the application
      * @param selected The selected category
      */
-    private async showTasks(selected: string) {
+    private async showTasks(selected: string, reverse : boolean = false) {
 
         this.core.setSelectedCategory(selected);
         this.taskContainer.clean();
+        this.core.reverse();
         const done = await this.showTasksList(selected);
 
     }
@@ -141,6 +143,19 @@ export default class TasksView extends UIComponent {
             classes: ["button"],
             text: getMaterialIcon("sync", { fill: "#fff", size: "1.5em" }).toHTML(),
         });
+        
+        const reverse = new UIComponent({
+            type: "button",
+            id: "revert",
+            classes: ["button"],
+            text: getMaterialIcon("sort", {fill: "#fff", size: "1.5em"}).toHTML(),
+            events: {
+                click : async () => {
+                    this.showTasks(this.core.getSelectedCategory(), true);
+                }
+            }
+        })
+
 
         const check = new UIComponent({
             type: "button",
@@ -191,8 +206,8 @@ export default class TasksView extends UIComponent {
         });
         
         this.toolbar.appendChild(deleteTask);
-
         this.toolbar.appendChild(check);
+        this.toolbar.appendChild(reverse);
         this.toolbar.appendChild(reload);
 
     }
@@ -212,6 +227,21 @@ export default class TasksView extends UIComponent {
         this.taskContainer.appendChild(titleBar);
 
         const tasks = await this.core.getTasks(Configurations.getUserName(), selected);
+
+        const percentaje = this.calculatePercentaje(tasks);
+        const percentajeUI = new UIComponent({
+            type: "div",
+            classes: ["box-row", "box-x-center", "box-y-center"],
+            text: percentaje + "%&nbsp;" + getMaterialIcon("task_alt", { size: "1rem", fill: "var(--text-color)" }).toHTML(),
+            styles: {
+                color: "var(--text-color)",
+                fontSize: "1rem",
+                opacity: ".5"
+            }
+        });
+
+        APP.router.osNavbar.clearControls();
+        APP.router.osNavbar.addToControls(percentajeUI);
 
         tasks.forEach((task: ITask) => {
             const taskComponent = this.buildTask(task, this.taskContainer);
@@ -233,6 +263,17 @@ export default class TasksView extends UIComponent {
         return new Promise((res) => res (tasks.length));
     }
 
+    private calculatePercentaje(tasks : ITask[]) : number {
+
+        if(!tasks || tasks.length == 0) 
+            return 0;
+
+            
+        const percentaje = (tasks.filter((task) => task.status == TaskStatus.DONE).length / tasks.length) * 100;
+        return Math.trunc(percentaje);
+    }
+
+
     /**
      * Build a task component
      * @param currentTask The current task info
@@ -242,7 +283,7 @@ export default class TasksView extends UIComponent {
     private buildTask( currentTask : any , container : UIComponent): UIComponent {
         const taskBox = new UIComponent({
             type: "div",
-            classes: ["box-row", "task-box"],
+            classes: ["box-row", "task-box", "box-y-center"],
             data : {
                 id : currentTask.id
             }
@@ -261,7 +302,10 @@ export default class TasksView extends UIComponent {
             classes : ["switch-toggle", "box-center"]
         });
 
-        toggle.appendChild(getMaterialIcon("check", { size: "1rem", fill: "white" }));
+        const icon = getMaterialIcon("radio_button_checked_simple", { size: ".85rem", fill: "white" });
+        setStyles(icon.element,{opacity: ".25"})
+
+        toggle.appendChild(icon);
 
         const checkbox = new UIComponent({
             type : "input", 
@@ -364,7 +408,6 @@ export default class TasksView extends UIComponent {
 
         return taskBox;
     } 
-
 
 
 }

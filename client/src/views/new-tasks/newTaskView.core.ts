@@ -24,15 +24,20 @@ export default class NewTaskCore {
      */
     private defaultTask(): ITask {
 
+        let category = Configurations.getConfigVariable("TASKS_SELECTED_CATEGORY");
+
+        if (!category  || category === "" || category === "undefined" || category === "null" || category === "none") {
+            category = App.getBundle().newTask.TODAY;
+        }
+
         const task = {
             name: "",
             description: "",
             allDay: 0,
             start: DateText.toSQLiteDate(new Date()),
-            end: DateText.toSQLiteDate(new Date()),
             status: TaskStatus.TODO,
             author: "",
-            labels: [Configurations.getConfigVariable("TASKS_SELECTED_CATEGORY") || App.getBundle().newTask.TODAY],
+            labels: [category],
         };
 
         return task;
@@ -165,6 +170,10 @@ export default class NewTaskCore {
      * @returns The task object
      */
     public toDate(string: string): Date {
+
+        if(!string)
+            return
+
         const date = new Date();
         const parts = string.split("-");
 

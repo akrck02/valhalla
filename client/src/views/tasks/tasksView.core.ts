@@ -5,17 +5,18 @@ import { DateText } from "../../core/data/integrity/dateText.js";
 import { ITask } from "../../core/data/interfaces/task.js";
 import { taskService } from "../../services/tasks.js";
 import TasksView from "./tasksView.ui.js";
+import { TaskStatus } from "../../core/data/enums/task.status.js";
 
 export default class TaskCore {
 
     private view: TasksView;
-    private notDoneTasks: ITask[];
-    private doneTasks: ITask[];
+    private tasks: ITask[];
+    private descend : boolean;
 
     constructor(view: TasksView) {
         this.view = view;
-        this.notDoneTasks = [];
-        this.doneTasks = [];
+        this.tasks = [];
+        this.descend = false;
     }
 
     /**
@@ -26,91 +27,41 @@ export default class TaskCore {
      */
     async getTasks(user: string, category: string): Promise<any> {
         const response = taskService.getUserTasksFromCategory(user, category);
-        response.success(((res) => this.doneTasks = res));
-
-        await response.jsonPromise();
-        return new Promise((resolve) => resolve(this.doneTasks));
-    }
-
-    /**
-     * Get not done tasks for a user given a category
-     * @param user User to get tasks for
-     * @param category Category to get tasks for
-     * @returns a promise that resolves to an array of tasks
-     */
-    async getNotDoneTasks(user: string, category: string): Promise<any> {
-        const response = taskService.getUserNotdoneTasksFromCategory(user, category);
-        response.success(((res) => this.notDoneTasks = res));
-
-        await response.jsonPromise();
-        return new Promise((resolve) => resolve(this.notDoneTasks));
-    }
-
-    /**
-     * Find a task given an id
-     * @param id The id of the task to find
-     * @returns a promise that resolves to a task
-     */
-    public findTask(id: number) : ITask {
-        return this.notDoneTasks.find(task => task.id === id) || this.doneTasks.find(task => task.id === id);
-    }
-
-
-    /**
-     * Toggle the "done" status of a task
-     * @param id The id of the task to toggle
-     */
-    public async toggle(id: string) {
-        const findDone = this.doneTasks.find((t) => t.id === parseInt(id));
-        const findNotDone = this.notDoneTasks.find((t) => t.id === parseInt(id));
-
-        if (!findDone && !findNotDone) {
-            alert({
-                message: "Error",
-                icon: "block"
-            });
-
-            return;
-        }
-
-        if (findDone) {
-            findDone.done = 0;
-            this.doneTasks.slice(this.doneTasks.indexOf(findDone), 1);
-            this.notDoneTasks.push(findDone);
-        }
-
-        if (findNotDone) {
-            findNotDone.done = 1;
-            this.notDoneTasks.slice(this.notDoneTasks.indexOf(findNotDone), 1);
-            this.doneTasks.push(findNotDone);
-        }
-
-    }
-
-    /**
-     * Toggle multiple task done status in the view 
-     * @param tasks The tasks to toggle
-     */
-    public async toogleTasks(tasks: string[]) {
-
-        const taskObjects = [];
-        await tasks.forEach(async (task) => {
-            const taskObject = await this.findTask(parseInt(task));
-
-            if (taskObject) {
-                taskObjects.push(taskObject);
-                await this.toggle(task);
-            }
-        });
-
-        const response = taskService.updateUserTasksDone(taskObjects);
-        let responseJson: any;
-
-        response.success(json => {
-            responseJson = json;
-        })
+        response.success(((res) => this.tasks = res));
         await response.jsonPromise();
 
+
+        //order by status
+        this.tasks = this.order(this.tasks);
+      
+        if(this.descend)
+            this.tasks.reverse();  
+        
+        return new Promise((resolve) => resolve(this.tasks));
+    }
+
+    order(tasks: ITask[]) {
+        return tasks.sort((a, b) => this.compareStatus(a, b));
+    }
+
+    reverse(){
+        this.descend =! this.descend;
+    }
+
+    compareStatus(a: ITask, b: ITask) {
+        if(a.status === TaskStatus.DONE && b.status !== TaskStatus.DONE)
+            return 1;
+
+        if(a.status !== TaskStatus.DONE && b.status === TaskStatus.DONE)
+            return -1;
+
+        if(a.status === TaskStatus.IN_PROGRESS && b.status === TaskStatus.TODO)
+            return 1;
+
+        if(a.status === TaskStatus.TODO && b.status === TaskStatus.IN_PROGRESS)
+            return -1;
+
+        return 0;
     }
 
     /**
@@ -151,7 +102,6 @@ export default class TaskCore {
         return new Promise((resolve) => { resolve({}) });
     }
 
-
     /**
      * Get the user-friendly text for a given date
      * @param date Date to get text for
@@ -191,8 +141,6 @@ export default class TaskCore {
         location.href = Configurations.VIEWS.TASK + task;
     }
 
-
-
     /**
      * Set the selected category of the view
      * @param selected The selected category
@@ -210,9 +158,6 @@ export default class TaskCore {
      * @returns The selected category
      */
     public getSelectedCategory() {
-
-
-
         return this.view.element.dataset?.selected || "none";
     }
 

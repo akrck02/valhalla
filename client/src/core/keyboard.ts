@@ -14,6 +14,15 @@ export class Keyboard {
                
             }
 
+            // SHIFT + NUMBER
+            if(event.ctrlKey){
+                let keyNumber = +event.key
+
+                if (keyNumber >= 1 && keyNumber <= 9) 
+                    listeners.getExpertListener().openTab(keyNumber - 1);
+               
+            }
+
             // SHIFT + T
             if (event.altKey && event.shiftKey && event.code === 'KeyT') {
                 listeners.getExpertListener().toggleVariablePanel();
@@ -28,13 +37,15 @@ export class Keyboard {
                 listeners.getExpertListener().commandPrompt();
 
 
-            // SHIFT + M
-            //if (event.altKey && event.shiftKey && event.code === 'KeyM') 
-                //keyboard.listeners.getAppearenceListener().toggleTheme();
-
-            // SHIFT + S
+            // CTRL + S
             if (event.ctrlKey && event.code === 'KeyF') {
                 listeners.getExpertListener().search();
+                return false;
+            }
+
+            // CTRL + N
+            if (event.ctrlKey && event.code === 'KeyN') {
+                listeners.getExpertListener().clickNewButton();
                 return false;
             }
         });

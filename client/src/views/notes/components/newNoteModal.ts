@@ -89,6 +89,13 @@ export default class NewNoteModal extends UIComponent {
                     content: (textarea.element as HTMLInputElement).value ||"",
                 }
 
+                if(note.content.trim() == "") {
+                    alert({
+                        icon: "block",
+                        message: App.getBundle().notes.NOTE_CONTENT_MUST_NOT_BE_EMPTY
+                    });
+                    return 
+                }
 
                 const response = NoteService.insertUserNote(note);
                 response.success((res) => {
@@ -103,6 +110,22 @@ export default class NewNoteModal extends UIComponent {
 
                 APP.router.modal.hide();
                 App.redirect(Configurations.VIEWS.NOTES,[],true);
+            }
+        });
+
+        setEvents(name.element,{
+            keyup : (e) => {
+                if(e.key == "Enter"){
+                    save.element.click();
+                }
+            }
+        });
+
+        setEvents(textarea.element,{
+            keyup : (e) => {
+                if(e.key == "Enter"){
+                    save.element.click();
+                }
             }
         });
 
