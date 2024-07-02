@@ -103,20 +103,27 @@ export default class ShowTaskView extends UIComponent {
             type: "h1",
             text : title,
             styles : {
-                maxWidth: "40rem"
+                width: "100%",
             }
+        });
+
+        const iconBox = new UIComponent({
+            type: "div",
+            classes : ["box-center"],
+            styles : {
+                position: "relative",
+                marginRight: "4rem"
+            },
         });
 
         const editIcon = getMaterialIcon("edit",{
             size: "1.5rem",
-            fill: "#ffffffd0",
+            fill: "#ffffffd0"
         });
 
         setStyles(editIcon.element, {
-            position : "absolute",
-            top : "0.5rem",
-            right : "5rem",
             cursor : "pointer",
+            marginLeft: "1rem"
         });
 
         editIcon.element.onclick = () => {
@@ -128,9 +135,28 @@ export default class ShowTaskView extends UIComponent {
             APP.router.modal.show();
         }
 
+      
+
+        const removeIcon = getMaterialIcon("delete",{
+            size: "1.5rem",
+            fill: "#ffffffd0",
+        });
+
+        setStyles(removeIcon.element, {
+            cursor : "pointer",
+        });
+
+        removeIcon.element.onclick = async () => {
+           await this.core.deleteUserTask(id)
+           location.href = Configurations.VIEWS.TASKS
+        }
+
+        removeIcon.appendTo(iconBox);
+        editIcon.appendTo(iconBox);
+
         titleIcon.appendTo(titleBox);
         titleElement.appendTo(titleBox);
-        editIcon.appendTo(titleBox);
+        iconBox.appendTo(titleBox);
         this.box.appendChild(titleBox);
     }
 

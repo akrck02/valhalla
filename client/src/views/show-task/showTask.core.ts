@@ -30,4 +30,15 @@ export default class ShowTaskCore {
     }
 
 
+    /**
+     * Get categories for a user
+     * @param id the id of the task
+     * @returns a promise that resolves to an array of categories
+     */
+    async deleteUserTask(id: number): Promise<any> {
+        const response = taskService.deleteUserTask({ id: id });
+
+        await response.jsonPromise();
+        return new Promise((resolve) => { resolve({}) });
+    }
 }
