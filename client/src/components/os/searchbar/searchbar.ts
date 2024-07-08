@@ -35,6 +35,20 @@ export default class Searchbar extends UIComponent {
         setEvents(this.input,{
             keydown: (event) => {
 
+                //if escape key is pressed, hide modal
+                if(event.keyCode == 27) {
+                    this.input.blur();
+                    this.modal.hide();
+                    this.mode = SEARCHBAR_MODE.SEARCH;
+                    return;
+                }
+
+                //if enter key is pressed, execute command
+                if(event.keyCode == 13) {
+                    location.href = Configurations.VIEWS.SEARCH + this.input.value;
+                    return;
+                }
+
                 //if arrow keys are pressed, do not search
                 if(event.keyCode == 37 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40) {
                  

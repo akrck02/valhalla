@@ -36,6 +36,8 @@ export default class SearchView extends UIComponent {
         APP.router.osNavbar.hideSearchBar();
         let search = params[0];
 
+        console.log("params", params);
+        
         if(!search) {
             search = Configurations.getConfigVariable("LAST_SEARCH");
         }

@@ -141,6 +141,8 @@ export class DateText {
      */
      public static getTimeText(date: Date): string {
 
+        if(!date) return "-";
+
         const today = new Date();
 
         // if today and 6 hours or less

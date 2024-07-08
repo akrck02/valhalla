@@ -349,8 +349,12 @@ export default class TasksView extends UIComponent {
 
         //if time is today set "today" text
         let text = "";
-        const taskDate = new Date(currentTask.end);
-        text = this.core.getTimeText(taskDate);
+
+        if(currentTask.end) {
+            const taskDate = new Date(currentTask.end);
+            text = this.core.getTimeText(taskDate);
+        }
+
 
         const taskTime = new UIComponent({
             type: "div",
@@ -362,8 +366,8 @@ export default class TasksView extends UIComponent {
 
         task.appendChild(taskTitle);
         task.appendChild(taskInfoBox);
-        taskInfoBox.appendChild(status);
         taskInfoBox.appendChild(taskTime);
+        taskInfoBox.appendChild(status);
         taskBox.appendChild(switchControl);
         taskBox.appendChild(task);
 

@@ -61,7 +61,7 @@ view#tasks .task-box .task {
 
 view#tasks .task-box .task .time {
     font-size: 0.8em;
-    margin-left: .7rem;
+    margin-right: .7rem;
     color: rgba(0,0,0,0.5);
 }
 

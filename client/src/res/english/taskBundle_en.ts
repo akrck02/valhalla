@@ -15,6 +15,6 @@ export const TaskBundleEn = {
     YOU: "you",
     DONE: "done",
     IN_PROGRESS: "in progress",
-    TODO: "to do",
+    TODO: "pending",
     TASK_STATUS_IS: "Task is $1",
 }
