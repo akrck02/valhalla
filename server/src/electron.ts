@@ -6,7 +6,7 @@ import { ENVIRONMENT, getVersionParameters } from "./system";
 import { homedir } from "os";
 
 // Modules to control application life and create native browser window
-const { app, webFrame, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 
 export class ElectronApp {
 
@@ -24,7 +24,7 @@ export class ElectronApp {
       await this.startServer();
     
     await this.setEvents();
-    await this.startIpcEventListeners();
+    
   }
 
   public async startServer(){
@@ -65,7 +65,7 @@ export class ElectronApp {
       } else throw new Error("[DB-API] Database not initialized, exiting...");
   }
 
-  public startIpcEventListeners(){
+  public async startIpcEventListeners(){
 
     // ipc events 
     ipcMain.on('minimize', (event : any) => {
@@ -87,7 +87,7 @@ export class ElectronApp {
     });
   }
 
-  public loadUI() {
+  public async loadUI() {
 
     // Create the browser window.
     const mainWindow = new BrowserWindow({
@@ -113,8 +113,6 @@ export class ElectronApp {
       console.log("Electron", "Opening external link: " + url);      
     });
 
-
-
     // get the version parameters 
     const versionParameters = getVersionParameters();
     console.log("VERSION", versionParameters.VERSION);
@@ -131,35 +129,20 @@ export class ElectronApp {
     const url = path.join(global.root, "/web/" + indexFile);
     mainWindow.loadFile(url);
     console.log("Electron", "Opening HTML: " + url);
-
-    // let loading = new BrowserWindow({
-    //   show: false, 
-    //   frame: false,
-    //   width: 1280,
-    //   height: 720,
-    // });
     
     mainWindow.webContents.once('dom-ready', () => {
-
         setTimeout(() => {
           mainWindow.center()
           mainWindow.show()
-    
-          // loading.hide();
-          // loading.close();
         }, 500);
-
     })
-
-    // loading.loadFile(path.join(global.root,'/web/' + loadingFile));
-    // loading.show()
   }
 
-  public setEvents() {
+  public async setEvents() {
 
-    app.whenReady().then(() => {
+    app.whenReady().then(async () => {
 
-      this.loadUI();
+      await this.loadUI();
       const electronApp = this; 
 
       /* Create windows */
@@ -171,10 +154,11 @@ export class ElectronApp {
     }); 
 
     app.on("window-all-closed", function () {
-      if (process.platform !== "darwin") {
+      if (process.platform !== "darwin") 
         app.quit();
-      }
     });
+
+    await this.startIpcEventListeners();
 
   }
 
