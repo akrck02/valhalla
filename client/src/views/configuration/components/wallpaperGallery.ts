@@ -14,7 +14,7 @@ export class WallpaperGallery extends UIComponent {
         const noWallpaper = this.createNoWallpaperGalleryItem();
         this.appendChild(noWallpaper);
 
-        for (let i = 1; i < 19; i++) {
+        for (let i = 1; i < 20; i++) {
             const wallpaper = this.createWallpaperGalleryItem("wall" + i + "-min.png", "wall" + i +".png");
             
             if(Configurations.getWallpaper() == "wall" + i + ".png") {

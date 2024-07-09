@@ -103,6 +103,9 @@ export default class NewTaskCore {
      * @param description The task description
      */
     public setTaskDescription(description: string) {
+
+        // escape the description 
+
         this.task.description = description;
     }
 
