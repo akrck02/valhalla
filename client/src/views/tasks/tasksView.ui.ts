@@ -94,7 +94,10 @@ export default class TasksView extends UIComponent {
 
         this.core.setSelectedCategory(selected);
         this.taskContainer.clean();
-        this.core.reverse();
+
+        if(reverse)
+            this.core.reverse();
+        
         const done = await this.showTasksList(selected);
 
     }

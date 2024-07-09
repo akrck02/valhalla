@@ -331,7 +331,12 @@ export default class ShowTaskView extends UIComponent {
         }
 
         else {
-            dateText = this.core.getTimeText(new Date(start)) + " - " + this.core.getTimeText(new Date(end));
+
+            if(!start){
+                dateText = "No dates set"
+            } else if (!end){
+                dateText = "From " + this.core.getTimeText(new Date(start));
+            } else dateText = this.core.getTimeText(new Date(start)) + " - " + this.core.getTimeText(new Date(end));
         }
 
         const eventElement = new UIComponent({
