@@ -53,6 +53,9 @@
       "./src/db/commands/httpResponse.ts",
       "./src/db/commands/tasks.ts",
       "./src/db/commands/notes.ts",
-      "./src/db/commands/user.ts"
+      "./src/db/commands/user.ts",
+
+      "./src/plugins/plugins.ts",
+      "./src/plugins/task.importer.ts",
     ]
   }

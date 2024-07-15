@@ -4,6 +4,7 @@ import fs from "fs";
 import { Database } from "./db/db";
 import { ENVIRONMENT, getVersionParameters } from "./system";
 import { homedir } from "os";
+import PluginLoader from "./plugins/plugins";
 
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain } = require("electron");
@@ -31,6 +32,7 @@ export class ElectronApp {
     this.title();
     await this.startDatabase();
     await this.startAPI();
+    await this.startPlugins();
   }
 
   public title() {
@@ -63,6 +65,15 @@ export class ElectronApp {
         this.api = new API(this.database);
         this.api.start();
       } else throw new Error("[DB-API] Database not initialized, exiting...");
+  }
+
+  public startPlugins() {
+
+    if(!this.database)
+      throw new Error("[PLUGINS] Database not initialized, exiting...");  
+      
+    PluginLoader.load(this.database);
+
   }
 
   public async startIpcEventListeners(){
