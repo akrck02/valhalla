@@ -10,7 +10,6 @@ import { TaskStatus } from "../../core/data/enums/task.status.js";
 export default class TaskCore {
   private view: TasksView;
   private tasks: ITask[];
-  private descend: boolean;
 
   constructor(view: TasksView) {
     this.view = view;
@@ -32,7 +31,7 @@ export default class TaskCore {
     //order by status
     this.tasks = this.order(this.tasks);
 
-    if (this.descend) this.tasks.reverse();
+    if (!Configurations.isTaskOrderAscending()) this.tasks.reverse();
 
     return new Promise((resolve) => resolve(this.tasks));
   }
@@ -42,7 +41,7 @@ export default class TaskCore {
   }
 
   reverse() {
-    this.descend = !this.descend;
+    Configurations.toggleTaskOrder();
   }
 
   compareStatus(a: ITask, b: ITask) {

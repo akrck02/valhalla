@@ -317,4 +317,45 @@ export class Configurations {
   public static areDoneTasksShown() {
     return Configurations.getConfigVariable("SHOW_DONE_TASKS") === true;
   }
+
+  /**
+   * Toggle the visibility of done tasks on configuration
+   */
+  public static toggleTaskOrder() {
+    if (Configurations.isTaskOrderAscending()) {
+      Configurations.setDescendingTaskOrder();
+    } else {
+      Configurations.setAscendingTaskOrder();
+    }
+  }
+
+  /**
+   * Set the task order to descending
+   */
+  public static setDescendingTaskOrder() {
+    Configurations.addConfigVariable("TASK_ORDER", "descending");
+  }
+
+  /**
+   * Set the task order to ascending
+   */
+  public static setAscendingTaskOrder() {
+    Configurations.addConfigVariable("TASK_ORDER", "ascending");
+  }
+
+  /**
+   * Get the task order
+   * @returns the task order
+   */
+  public static getTaskOrder(): string {
+    return Configurations.getConfigVariable("TASK_ORDER");
+  }
+
+  /**
+   * Get if the task order is ascending
+   * @returns  true if the task order is ascending
+   */
+  public static isTaskOrderAscending(): boolean {
+    return Configurations.getTaskOrder() === "ascending";
+  }
 }

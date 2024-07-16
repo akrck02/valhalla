@@ -275,7 +275,7 @@ export default class TasksView extends UIComponent {
     const percentaje = this.calculatePercentaje(tasks);
 
     if (!Configurations.areDoneTasksShown())
-      tasks = tasks.filter((task) => task.status !== TaskStatus.DONE);
+      tasks = tasks.filter((task: ITask) => task.status !== TaskStatus.DONE);
 
     const percentajeUI = new UIComponent({
       type: "div",
