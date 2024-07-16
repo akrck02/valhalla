@@ -170,6 +170,16 @@ export default class TasksView extends UIComponent {
       }).toHTML(),
     });
 
+    const showDone = new UIComponent({
+      type: "button",
+      id: "show-done",
+      classes: ["button"],
+      text: getMaterialIcon("coffee", {
+        fill: "#fff",
+        size: "1.5em",
+      }).toHTML(),
+    });
+
     const deleteTask = new UIComponent({
       type: "button",
       id: "delete",
@@ -198,6 +208,12 @@ export default class TasksView extends UIComponent {
       }
 
       this.element.classList.add("select");
+    });
+
+    // show done tasks
+    showDone.element.addEventListener("click", () => {
+      Configurations.toggleShowDoneTasks();
+      this.core.goToCategory(this.core.getSelectedCategory());
     });
 
     // Delete multiple tasks
@@ -232,6 +248,7 @@ export default class TasksView extends UIComponent {
     });
 
     this.toolbar.appendChild(deleteTask);
+    this.toolbar.appendChild(showDone);
     this.toolbar.appendChild(check);
     this.toolbar.appendChild(reverse);
     this.toolbar.appendChild(reload);
@@ -250,12 +267,16 @@ export default class TasksView extends UIComponent {
     const titleBar = this.buildTitleBar(selected);
     this.taskContainer.appendChild(titleBar);
 
-    const tasks = await this.core.getTasks(
+    let tasks = await this.core.getTasks(
       Configurations.getUserName(),
       selected,
     );
 
     const percentaje = this.calculatePercentaje(tasks);
+
+    if (!Configurations.areDoneTasksShown())
+      tasks = tasks.filter((task) => task.status !== TaskStatus.DONE);
+
     const percentajeUI = new UIComponent({
       type: "div",
       classes: ["box-row", "box-x-center", "box-y-center"],
