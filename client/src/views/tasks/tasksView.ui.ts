@@ -178,6 +178,9 @@ export default class TasksView extends UIComponent {
         fill: "#fff",
         size: "1.5em",
       }).toHTML(),
+      styles: {
+        opacity: Configurations.areDoneTasksShown() ? "1" : "0.5",
+      },
     });
 
     const deleteTask = new UIComponent({
