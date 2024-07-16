@@ -33,14 +33,6 @@ export class API {
             next();
         });
 
-        // Get method is not allowed 
-        /*
-        this.app.get('/api/*', function (req: Request, res: Response) {
-            res.statusCode = 405;
-            res.send({ "status": "failed", "reason": "Method not allowed" }); 
-        });
-        */
-
         /* Define every route with callbacks */
         const paths = this.router.PATHS;
         for (const key in paths) {
