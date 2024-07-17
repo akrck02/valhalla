@@ -48,6 +48,6 @@
         "sqlite3": "^5.0.3"
     },
     "build": { 
-    	"asar": "true" 
+    	"asar": "false" 
     }
 }
