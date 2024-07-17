@@ -16,7 +16,6 @@ export class ElectronApp {
   public constructor() {}
 
   public async start(server: boolean) {
-    console.log(`api start: ${server}`);
 
     if (server) await this.startServer();
 
@@ -24,24 +23,11 @@ export class ElectronApp {
   }
 
   public async startServer() {
-    this.title();
     await this.startDatabase();
     await this.startAPI();
     await this.startPlugins();
   }
 
-  public title() {
-    console.info(
-      "###############################################################################",
-    );
-    console.info(
-      "                     VALHALLA by @Akrck02 - Coffee version                     ",
-    );
-    console.info(
-      "###############################################################################",
-    );
-    console.info(" ");
-  }
 
   public async startDatabase() {
     fs.mkdirSync(`${homedir()}/valhalla/db`, { recursive: true });
@@ -49,9 +35,6 @@ export class ElectronApp {
     this.database = new Database();
     const databasePath = `${homedir()}/valhalla/db/Valhalla-user.db`;
     if (fs.existsSync(databasePath) === true) {
-      console.log("Electron", "Database found");
-      //fs.rmSync(databasePath);
-      //console.log("Electron", "Database deleted.");
       await this.database.createDB();
     } else await this.database.createDB();
   }
@@ -114,15 +97,11 @@ export class ElectronApp {
       "new-window",
       function (event: Event, url: string) {
         event.preventDefault();
-        // shell.openExternal("https://"  );
-        console.log("Electron", "Opening external link: " + url);
       },
     );
 
     // get the version parameters
     const versionParameters = getVersionParameters();
-    console.log("VERSION", versionParameters.VERSION);
-    console.log("ENVIRONMENT", versionParameters.ENVIRONMENT);
 
     let indexFile = "index.html";
     let loadingFile = "loading.html";
@@ -134,7 +113,6 @@ export class ElectronApp {
     // and load the index.html of the app.
     const url = path.join(global.root, "/web/" + indexFile);
     mainWindow.loadFile(url);
-    console.log("Electron", "Opening HTML: " + url);
 
     mainWindow.webContents.once("dom-ready", () => {
       setTimeout(() => {
@@ -168,9 +146,3 @@ const global = {
   root: "",
 };
 global.root = path.resolve(__dirname + "/../../");
-
-// Overriding the default console.log function
-// FIXME: this is breaking new instalations :(
-// console.log = (...msg) => {
-//     console.info("[" + msg[0] + "] " + msg.slice(1));
-// };

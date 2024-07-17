@@ -51,9 +51,7 @@ export class Inserter {
         await Inserter.insertTaskLabel(db, 2, TextBundle.get(getLang()).create.TODAY);
         await Inserter.insertTaskLabel(db, 3, TextBundle.get(getLang()).create.TODAY);
 
-        } catch (err) {
-            console.log("Database", err);
-        }
+        } catch (err) {}
     }
 
     static async insertUser(db : any, user : IUser) {

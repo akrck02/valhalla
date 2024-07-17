@@ -13,4 +13,3 @@ contextBridge.exposeInMainWorld('electronAPI', {
     },
 })
 
-console.log("Method exposed");

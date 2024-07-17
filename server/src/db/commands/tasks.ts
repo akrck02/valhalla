@@ -192,8 +192,6 @@ export class TasksResponse implements HTTPResponse {
             const categories = await LabelModel.getUserTaskLabels(db,task.id+"");
             task.labels = [];
             categories.forEach((category : any) => task.labels?.push(category.label));
-
-            console.log(JSON.stringify(task,null,2));
             newTasks.push(task);
         }
 
@@ -305,7 +303,7 @@ export class TasksResponse implements HTTPResponse {
                 })
             );
         } catch (error) {
-            console.error(error);
+
             return new Promise((resolve) =>
                 resolve({
                     status: "failed",
@@ -352,7 +350,6 @@ export class TasksResponse implements HTTPResponse {
                 })
             );
         } catch (error) {
-            console.error(error);
             return new Promise((resolve) =>
                 resolve({
                     status: "failed",
@@ -391,7 +388,6 @@ export class TasksResponse implements HTTPResponse {
                 })
             );
         } catch (error) {
-            console.error(error);
             return new Promise((resolve) =>
                 resolve({
                     status: "failed",
@@ -445,7 +441,6 @@ export class TasksResponse implements HTTPResponse {
             );
 
         } catch (error) {
-            console.error(JSON.stringify(error, null, 2));
             return new Promise((resolve) =>
                 resolve({
                     status: "failed",
@@ -492,7 +487,6 @@ export class TasksResponse implements HTTPResponse {
             );
 
         } catch (error) {
-            console.error(error);
             return new Promise((resolve) =>
                 resolve({
                     status: "failed",
@@ -543,7 +537,6 @@ export class TasksResponse implements HTTPResponse {
             );
 
         } catch (error) {
-            console.error(error);
             return new Promise((resolve) =>
                 resolve({
                     status: "failed",

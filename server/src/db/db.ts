@@ -16,12 +16,10 @@ export class Database {
    * Create database
    */
   async createDB(): Promise<void> {
-    this.log("Creating database...");
 
     const deleteOld = false;
     if (deleteOld) {
       fs.rmSync(`${homedir()}/valhalla/db/Valhalla-user.db`);
-      this.log("Deleted old database.");
     }
 
     await open({
@@ -29,20 +27,7 @@ export class Database {
       driver: sqlite3.Database,
     }).then(async (db) => {
       this.db = db;
-      this.log("created.");
-
-      db.on("trace", (data: string) => {
-        if (data.indexOf("error") > -1) this.log("[SQLITE]", data);
-      });
-
-      this.log("Creating tables...");
       await TableSet.createTables(db);
-      this.log("Tables created.");
-
-      //this.log("Inserting data...");
-      //await Inserter.insert(db);
-      //this.log("Data inserted.");
-      this.log("Connected to the in-memory SQLite database.");
     });
   }
 
@@ -50,20 +35,8 @@ export class Database {
    * Close the database connection
    */
   closeDB() {
-    this.db.close((err: Error) => {
-      if (err) {
-        console.error(err.message);
-        return;
-      }
-      console.log("Close the database connection.");
-    });
+    this.db.close((err: Error) => {});
   }
 
-  /**
-   * Log a message as database
-   * @param mgs
-   */
-  log(...mgs: any[]) {
-    console.log(["Database"], mgs);
-  }
+
 }

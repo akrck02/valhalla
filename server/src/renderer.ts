@@ -12,5 +12,3 @@
         (window as any).electronAPI.close();
     });
 
-    console.log("Renderer is working!");
-    

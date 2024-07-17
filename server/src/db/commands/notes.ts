@@ -27,7 +27,6 @@ export class NotesResponse implements HTTPResponse {
             }
 
         } catch (error) {
-            console.error("error", error);
             return new Promise((resolve) =>
                 resolve({ status: "failed", reason: "Note wasn't inserted"})
             );
@@ -52,7 +51,6 @@ export class NotesResponse implements HTTPResponse {
             return NotesModel.getuserNotes(db, user);
 
         } catch(error) {
-            console.error("error",error);
             return new Promise((resolve) =>
                 resolve({ status: "failed", reason: "Internal server error"})
             );
@@ -78,7 +76,7 @@ export class NotesResponse implements HTTPResponse {
             }
 
         } catch (error) {
-            console.error("error", error);
+
             return new Promise((resolve) =>
                 resolve({ status: "failed", reason: "Note wasn't inserted"})
             );
@@ -111,7 +109,7 @@ export class NotesResponse implements HTTPResponse {
             return NotesModel.assignNoteToTask(db, note, task);
 
         } catch(error) {
-            console.error(error);
+
             return new Promise((resolve) =>
                 resolve({ status: "failed", reason: "Internal server error"})
             );

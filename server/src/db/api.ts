@@ -47,15 +47,10 @@ export class API {
 
         /* Start API listener */
         this.app.listen(this.port, this.hostname).on('error', (err:any) =>{
-            if(err.errno == -98)
-                console.log("ERROR","The API Cannot start because the address " + this.hostname + ":" + this.port  + " is already in use");
-            else
-                console.log("ERROR",err);
             process.exit(1);
 
         });
-        console.log("DB-API","The database API is running on http://" + this.hostname  + ":" + this.port + "/" + this.router.API);
-     
+
     }
 
 
@@ -65,7 +60,7 @@ export class API {
         res : Response,
         callback :  (db : Database, req : Request, res : Response) => Promise<any> 
     ) {
-        console.log("DB-API","Request: " + this.router.API + key + "/");
+
         const promise = callback(this.db,req,res);
 
         promise.then((data)  => {
@@ -75,7 +70,6 @@ export class API {
             res.send(data)
         })
         .catch((err: any) => {
-            console.log("error",err);
             res.statusCode = 500;
             res.send({
             "status": "failed",
