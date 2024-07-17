@@ -14,7 +14,6 @@ export default class TaskCore {
   constructor(view: TasksView) {
     this.view = view;
     this.tasks = [];
-    this.descend = false;
   }
 
   /**
