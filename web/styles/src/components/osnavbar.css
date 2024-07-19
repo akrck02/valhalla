@@ -1,19 +1,18 @@
-
 /**
 *  -----------------------------------------------------
-*   Operating system navbar  
+*   Operating system navbar
 *  -----------------------------------------------------
 */
 header#os-navbar {
     background: #fff;
-    color: #FFFFFF;
+    color: #ffffff;
     z-index: 2;
     height: 2.5rem;
     backdrop-filter: blur(1rem);
 }
 
-:root[data-theme=dark] header#os-navbar {
-    background: rgba(0, 0, 0, .07);
+:root[data-theme="dark"] header#os-navbar {
+    background: rgba(0, 0, 0, 0.07);
 }
 
 header#os-navbar div.drag-region {
@@ -30,18 +29,25 @@ header#os-navbar div.drag-region#first {
 }
 
 header#os-navbar h1#title {
-    font-size: .7rem;
+    font-size: 0.7rem;
     font-weight: bold;
     height: 100%;
     display: flex;
     align-items: center;
     cursor: pointer;
     margin-left: 1.2rem;
-    letter-spacing: .12rem;
+    letter-spacing: 0.12rem;
     color: #404040;
 }
 
-:root[data-theme=dark] header#os-navbar h1#title {
+:root[data-device="mobile"] header#os-navbar h1#title {
+    display: none;
+}
+:root[data-device="mobile"] header#os-navbar div.drag-region#first {
+    display: none;
+}
+
+:root[data-theme="dark"] header#os-navbar h1#title {
     color: #fff;
     margin-right: 2rem;
 }
@@ -63,31 +69,32 @@ header#os-navbar div#window-controls {
 }
 
 header#os-navbar div#window-controls .button {
-    padding: .2rem;
+    padding: 0.2rem;
     height: 100%;
     box-sizing: border-box;
     transition: background var(--fast);
     cursor: pointer;
 }
 
-header#os-navbar div#window-controls .button:hover, header#os-navbar div#window-controls .button:focus {
-    background: rgba(0, 0, 0, .05);
+header#os-navbar div#window-controls .button:hover,
+header#os-navbar div#window-controls .button:focus {
+    background: rgba(0, 0, 0, 0.05);
 }
 
-:root[data-theme=dark] header#os-navbar div#window-controls .button:hover {
-    background: rgba(255, 255, 255, .1);
+:root[data-theme="dark"] header#os-navbar div#window-controls .button:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 header#os-navbar div#window-controls svg {
     --size: 1.8rem;
-    padding: .25rem;
+    padding: 0.25rem;
     fill: #404040;
-    border-radius: .35rem;
+    border-radius: 0.35rem;
     width: var(--size);
     height: var(--size);
 }
 
-:root[data-theme=dark] header#os-navbar div#window-controls svg {
+:root[data-theme="dark"] header#os-navbar div#window-controls svg {
     fill: #fff;
 }
 
@@ -100,24 +107,24 @@ header#os-navbar div#search {
     width: 10rem;
     color: #404040;
     height: 1.5rem;
-    margin: .5rem;
-    padding: .5rem 0.25rem;
-    border-radius: .35rem;
-    background: rgba(0, 0, 0, .05);
+    margin: 0.5rem;
+    padding: 0.5rem 0.25rem;
+    border-radius: 0.35rem;
+    background: rgba(0, 0, 0, 0.05);
 }
 
-:root[data-theme=dark] header#os-navbar div#search{
-    background: rgba(255, 255, 255, .035);
-    color: #FFFFFF;
+:root[data-theme="dark"] header#os-navbar div#search {
+    background: rgba(255, 255, 255, 0.035);
+    color: #ffffff;
 }
 
 header#os-navbar div#search span#search-tag {
-    background: rgba(0, 0, 0, .15);
-    padding: .25rem .5rem;
-    border-radius: .35rem;
-    font-size: .7rem;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.35rem;
+    font-size: 0.7rem;
     display: block;
-    transform: scale(.001);
+    transform: scale(0.001);
     transition: transform var(--fast);
 }
 
@@ -129,18 +136,20 @@ header#os-navbar div#search input#search-input {
     position: relative;
     width: 100%;
     border: none;
-    font-size: .7rem;
+    font-size: 0.7rem;
     transition: width var(--fast);
     background: transparent;
     cursor: text;
     backdrop-filter: none;
 }
 
-
-:root[data-theme=dark] header#os-navbar div#search input#search-input::placeholder {
+:root[data-theme="dark"]
+    header#os-navbar
+    div#search
+    input#search-input::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #fff;
-    opacity: .9;
+    opacity: 0.9;
 }
 
 header#os-navbar div#search input#search-input:focus {
@@ -151,57 +160,56 @@ header#os-navbar div#search input#search-input:focus {
 header#os-navbar div#search #search-modal {
     position: fixed;
     top: 3rem;
-   
+
     min-width: 30%;
     width: 10rem;
     min-height: 3.8rem;
     max-height: 13rem;
-    border-radius: .5rem;
-    padding: .3rem;
-    font-size: .8rem;
+    border-radius: 0.5rem;
+    padding: 0.3rem;
+    font-size: 0.8rem;
     overflow-y: auto;
     opacity: 1;
-    background: rgba(0,0,0,.75);
+    background: rgba(0, 0, 0, 0.75);
     z-index: 2;
     transition: opacity var(--slow);
 }
 
 header#os-navbar div#search #search-modal::before {
-    content: '';
-    margin:0;
+    content: "";
+    margin: 0;
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
-    opacity: .95;
+    opacity: 0.95;
     left: 0;
-    filter: blur(.1rem);
+    filter: blur(0.1rem);
     z-index: -1;
-  }
+}
 
-header#os-navbar div#search #search-modal:not(:hover).hidden{
+header#os-navbar div#search #search-modal:not(:hover).hidden {
     opacity: 0;
     display: none;
 }
 
-header#os-navbar div#search #search-modal[data-selecting=true].hidden{
+header#os-navbar div#search #search-modal[data-selecting="true"].hidden {
     opacity: 1 !important;
     display: block !important;
 }
-
 
 header#os-navbar div#search #search-modal .task-entry {
     padding: 1rem;
     /*border-bottom: 1px solid rgba(255,255,255,.025);*/
     transition: background var(--fast);
-    border-radius: .35rem;
+    border-radius: 0.35rem;
     cursor: pointer;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-header#os-navbar div#search #search-modal .task-entry#more{
+header#os-navbar div#search #search-modal .task-entry#more {
     font-weight: bold;
     display: flex;
     justify-content: space-between;
@@ -209,7 +217,7 @@ header#os-navbar div#search #search-modal .task-entry#more{
     padding: 0.6rem 1rem;
 }
 
-header#os-navbar div#search #search-modal .task-entry#no-results{
+header#os-navbar div#search #search-modal .task-entry#no-results {
     font-weight: bold;
     display: flex;
     justify-content: space-between;
@@ -217,6 +225,11 @@ header#os-navbar div#search #search-modal .task-entry#no-results{
     padding: 0.6rem 1rem;
 }
 
-header#os-navbar div#search #search-modal .task-entry:hover,header#os-navbar div#search #search-modal .task-entry:focus {
-    background: rgba(255,255,255,.05);
+header#os-navbar div#search #search-modal .task-entry:hover,
+header#os-navbar div#search #search-modal .task-entry:focus {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+:root[data-device="mobile"] header#os-navbar div#search {
+    display: none;
 }

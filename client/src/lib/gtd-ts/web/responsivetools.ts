@@ -7,7 +7,7 @@
  *     console.log(isSmallDevice); // true
  */
 export function isSmallDevice(): boolean {
-    return window.matchMedia("only screen and (max-width: 760px)").matches;
+  return window.matchMedia("only screen and (max-width: 760px)").matches;
 }
 
 /**
@@ -19,9 +19,9 @@ export function isSmallDevice(): boolean {
  *    console.log(isMediumDevice); // true
  */
 export function isMediumDevice(): boolean {
-    return window.matchMedia(
-        "only screen and (min-width: 760px) and (max-width: 1024px)"
-    ).matches;
+  return window.matchMedia(
+    "only screen and (min-width: 760px) and (max-width: 1024px)",
+  ).matches;
 }
 
 /**
@@ -33,7 +33,7 @@ export function isMediumDevice(): boolean {
  *      console.log(isLargeDevice); // true
  */
 export function isLargeDevice(): boolean {
-    return window.matchMedia("only screen and (min-width: 1025px)").matches;
+  return window.matchMedia("only screen and (min-width: 1025px)").matches;
 }
 
 /**
@@ -45,7 +45,7 @@ export function isLargeDevice(): boolean {
  *     console.log(prefersDarkMode); // true
  */
 export function prefersDarkMode(): boolean {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
 /**
@@ -54,10 +54,10 @@ export function prefersDarkMode(): boolean {
  * @returns true if the user prefers light mode, false otherwise
  * @example
  *    const prefersLightMode = prefersLightMode();
- *    console.log(prefersLightMode); // true 
+ *    console.log(prefersLightMode); // true
  */
 export function prefersLightMode(): boolean {
-    return window.matchMedia("(prefers-color-scheme: light)").matches;
+  return window.matchMedia("(prefers-color-scheme: light)").matches;
 }
 
 /**
@@ -69,16 +69,16 @@ export function prefersLightMode(): boolean {
  *      console.log(prefersReducedMotion); // true
  */
 export function prefersReducedMotion(): boolean {
-    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 /**
- * Return if media query matches 
+ * Return if media query matches
  * @param query Media query to match
  * @returns true if media query matches, false otherwise
  */
 export function mediaQuery(query: string): boolean {
-    return window.matchMedia(query).matches;
+  return window.matchMedia(query).matches;
 }
 
 /**
@@ -90,20 +90,22 @@ export function mediaQuery(query: string): boolean {
  *     console.log(isMobileDevice); // true
  */
 export function isMobile() {
-    return (
-        navigator.userAgent.match(/Android/i) ||
-        navigator.userAgent.match(/BlackBerry/i) ||
-        navigator.userAgent.match(/iPhone|iPad|iPod/i) ||
-        navigator.userAgent.match(/Opera Mini/i) ||
-        navigator.userAgent.match(/IEMobile/i)
-    );
+  return (
+    navigator.userAgent.match(/Android/i) ||
+    navigator.userAgent.match(/BlackBerry/i) ||
+    navigator.userAgent.match(/iPhone|iPad|iPod/i) ||
+    navigator.userAgent.match(/Opera Mini/i) ||
+    navigator.userAgent.match(/IEMobile/i)
+  );
 }
 
-
 export function getOs() {
-    if (navigator.userAgent.indexOf("Win") != -1) return "Windows";
-    if (navigator.userAgent.indexOf("Mac") != -1) return "MacOS";
-    if (navigator.userAgent.indexOf("Linux") != -1) return "Linux";
-    if (navigator.userAgent.indexOf("X11") != -1) return "UNIX";
-   
+  //android
+  console.log(navigator.userAgent);
+  if (navigator.userAgent.indexOf("Android") != -1) return "Android";
+
+  if (navigator.userAgent.indexOf("Win") != -1) return "Windows";
+  if (navigator.userAgent.indexOf("Mac") != -1) return "MacOS";
+  if (navigator.userAgent.indexOf("Linux") != -1) return "Linux";
+  if (navigator.userAgent.indexOf("X11") != -1) return "UNIX";
 }

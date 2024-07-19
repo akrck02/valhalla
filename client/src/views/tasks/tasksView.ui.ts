@@ -10,7 +10,6 @@ import { taskService } from "../../services/tasks.js";
 import NewTaskView from "../new-tasks/newTaskView.ui.js";
 import CategoryBar from "./components/categoryBar.js";
 import TaskCore from "./tasksView.core.js";
-import { log } from "console";
 
 export default class TasksView extends UIComponent {
   private core: TaskCore;
@@ -56,7 +55,7 @@ export default class TasksView extends UIComponent {
     this.taskContainer = new UIComponent({
       type: "div",
       id: "task-container",
-      classes: ["box-column", "box-y-center", "backdrop"],
+      classes: ["box-column", "box-y-center"],
     });
 
     console.log(params);

@@ -1,20 +1,18 @@
-
 /**
 *  -----------------------------------------------------
-*   Global CSS configurations here 
+*   Global CSS configurations here
 *  -----------------------------------------------------
 */
-:root[data-animations=false]{
-    --fast : 0s;
-    --medium : 0s;
-    --slow : 0s;
+:root[data-animations="false"] {
+    --fast: 0s;
+    --medium: 0s;
+    --slow: 0s;
 }
 
 body {
     z-index: 0;
     background-size: cover;
 }
-
 
 body.loading::after {
     content: "";
@@ -29,27 +27,26 @@ body.loading::after {
 }
 
 body.loading::after {
-    animation: loader .5s;
+    animation: loader 0.5s;
 }
 
 *::-webkit-scrollbar {
-    width: .65rem;
+    width: 0.65rem;
     background-color: transparent;
 }
 
-
 *::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, .15);
-    border-radius: .15em;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 0.15em;
     transition: background var(--fast);
 }
 
 *::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, .045) !important;
+    background: rgba(255, 255, 255, 0.045) !important;
 }
 
-:root[data-theme=dark] *::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, .025);
+:root[data-theme="dark"] *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.025);
 }
 
 @keyframes loader {
@@ -62,10 +59,9 @@ body.loading::after {
     }
 }
 
-
 /**
 *  -----------------------------------------------------
-*   Global view configurations 
+*   Global view configurations
 *  -----------------------------------------------------
 */
 div#view-container {
@@ -78,15 +74,18 @@ div#view-container {
     width: 100%;
     max-width: 100%;
     backdrop-filter: blur(1rem);
+}
 
+:root[data-device="mobile"] div#view-container {
+    flex-direction: column;
 }
 
 view {
     scroll-behavior: smooth;
-    border-top: .1rem solid rgba(0, 0, 0, .05);
+    border-top: 0.1rem solid rgba(0, 0, 0, 0.05);
 }
 
-:root[data-theme=dark] view {
+:root[data-theme="dark"] view {
     border: none;
 }
 

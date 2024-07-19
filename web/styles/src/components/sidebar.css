@@ -1,8 +1,6 @@
-
-
 /**
 *  -----------------------------------------------------
-*   Global sidebar component 
+*   Global sidebar component
 *  -----------------------------------------------------
 */
 div#sidebar {
@@ -11,15 +9,14 @@ div#sidebar {
     min-width: 3rem;
     height: 100%;
     background: var(--sidebar-background);
-    padding: .2rem 0;
+    padding: 0.2rem 0;
     z-index: 1;
     backdrop-filter: blur(1rem);
-    border-right: .1rem solid rgba(0, 0, 0, .05);
+    border-right: 0.1rem solid rgba(0, 0, 0, 0.05);
 }
 
-:root[data-theme=dark] div#sidebar {
-    --sidebar-background: rgba(0, 0, 0, .07);
-    ;
+:root[data-theme="dark"] div#sidebar {
+    --sidebar-background: rgba(0, 0, 0, 0.07);
     border-right: none;
 }
 
@@ -28,7 +25,7 @@ div#sidebar a.sidebar-item {
     height: var(--sidebar-item-size);
     width: var(--sidebar-item-size);
     margin: 0.15rem 0;
-    border-radius: .35rem;
+    border-radius: 0.35rem;
     transition: background var(--fast);
     cursor: pointer;
 }
@@ -37,13 +34,13 @@ div#sidebar a.sidebar-item svg {
     fill: #404040;
 }
 
-:root[data-theme=dark] div#sidebar a.sidebar-item svg {
+:root[data-theme="dark"] div#sidebar a.sidebar-item svg {
     fill: #e1e1e1;
 }
 
-div#sidebar a.sidebar-item svg{
+div#sidebar a.sidebar-item svg {
     position: relative;
-    left: -.1rem;    
+    left: -0.1rem;
 }
 
 div#sidebar a.sidebar-item::before {
@@ -51,72 +48,70 @@ div#sidebar a.sidebar-item::before {
     display: block;
     position: relative;
     top: 0;
-    left: -.75rem;
-    width: .2rem;
+    left: -0.75rem;
+    width: 0.2rem;
     height: 100%;
-  
-    background: rgba(0, 0, 0, .7);
+
+    background: rgba(0, 0, 0, 0.7);
     border-radius: 50rem;
     opacity: 0;
     transition: opacity var(--fast);
-    
 }
 
 div#sidebar a.sidebar-item.selected::before {
     opacity: 1;
 }
 
-:root[data-theme=dark] div#sidebar a.sidebar-item::before {
-    background: rgba(255, 255, 255, .1);
+:root[data-theme="dark"] div#sidebar a.sidebar-item::before {
+    background: rgba(255, 255, 255, 0.1);
 }
 
-:root[data-theme=dark] div#sidebar a.sidebar-item.selected svg {
+:root[data-theme="dark"] div#sidebar a.sidebar-item.selected svg {
     fill: #e1e1e1;
 }
 
-
 div#sidebar a.sidebar-item:hover,
-div#sidebar a.sidebar-item:focus{
+div#sidebar a.sidebar-item:focus {
     outline: none;
 }
 
 div#sidebar a.sidebar-item:not(.selected):hover,
-div#sidebar a.sidebar-item:not(.selected):focus{
-    background: rgba(0, 0, 0, .1);
+div#sidebar a.sidebar-item:not(.selected):focus {
+    background: rgba(0, 0, 0, 0.1);
 }
 
-:root[data-theme=dark] div#sidebar a.sidebar-item:not(.selected):hover,
-:root[data-theme=dark] div#sidebar a.sidebar-item:not(.selected):focus{
-    background: rgba(255, 255, 255, .1);
+:root[data-theme="dark"] div#sidebar a.sidebar-item:not(.selected):hover,
+:root[data-theme="dark"] div#sidebar a.sidebar-item:not(.selected):focus {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 div#sidebar div#sidebar-modal {
-    background : rgba(0,42,200,0.75);
-    width : 15rem;
-    height : 8.5rem;
+    background: rgba(0, 42, 200, 0.75);
+    width: 15rem;
+    height: 8.5rem;
     color: #fafafa;
-    border-radius : .35rem;
+    border-radius: 0.35rem;
     position: fixed;
     bottom: 3.5rem;
-    left: .5rem;
+    left: 0.5rem;
     padding: 1rem;
     z-index: 10;
-    box-shadow : var(--default-box-shadow);
+    box-shadow: var(--default-box-shadow);
     opacity: 0;
     transition: opacity var(--fast);
     display: none;
 }
 
-:root[data-theme=dark] div#sidebar div#sidebar-modal {
-    background: rgba(255, 255, 255, .1);
+:root[data-theme="dark"] div#sidebar div#sidebar-modal {
+    background: rgba(255, 255, 255, 0.1);
 }
 
-div#sidebar div#sidebar-modal svg { 
+div#sidebar div#sidebar-modal svg {
     fill: #fafafa !important;
 }
 
 div#sidebar div#sidebar-modal button {
-    background: rgba(255, 255, 255, .15) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
     box-shadow: none;
     color: #fafafa !important;
 }
@@ -128,4 +123,64 @@ div#sidebar div#sidebar-modal.visible {
 div#sidebar div#sidebar-modal.show {
     opacity: 1;
 }
+:root[data-device="mobile"] div#sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    flex-direction: row;
 
+    width: 100%;
+    min-width: 3rem;
+    height: 5rem;
+
+    padding: 0.2rem 0;
+    z-index: 1;
+    border-right: none;
+    justify-content: space-around;
+    backdrop-filter: blur(10rem);
+}
+
+:root[data-device="mobile"] div#sidebar > div {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    justify-content: space-between;
+}
+
+:root[data-device="mobile"] div#sidebar > img {
+    display: none;
+}
+
+:root[data-device="mobile"] div#sidebar a.sidebar-item {
+    --sidebar-item-size: 3.5rem;
+    height: var(--sidebar-item-size);
+    width: var(--sidebar-item-size);
+    margin: 0 0.15rem;
+    border-radius: 0.35rem;
+    transition: background var(--fast);
+    cursor: pointer;
+}
+
+:root[data-device="mobile"] div#sidebar a.sidebar-item svg {
+    width: calc(var(--sidebar-item-size) * 0.65);
+    height: calc(var(--sidebar-item-size) * 0.65);
+    fill: #404040;
+}
+
+:root[data-device="mobile"] div#sidebar a.sidebar-item::before {
+    content: "";
+    display: block;
+    position: relative;
+    top: 0;
+    left: 0;
+    bottom: -0.75rem;
+    width: 0.2rem;
+    height: 0.35rem;
+
+    opacity: 0;
+    transition: opacity var(--fast);
+}
+
+:root[data-device="mobile"] div#sidebar a.sidebar-item.selected::before {
+    opacity: 1;
+}

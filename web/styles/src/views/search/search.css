@@ -1,4 +1,4 @@
-view#search{
+view#search {
     display: flex;
     backdrop-filter: blur(1rem);
     width: 100%;
