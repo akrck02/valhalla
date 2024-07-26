@@ -1,0 +1,19 @@
+{
+  "short_name": "Valhalla",
+  "name": "Valhalla",
+  "icons": [
+    {
+      "src": "/client/resources/logo-light.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "id": "index.html",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#222",
+  "theme_color": "#222",
+  "shortcuts": [],
+  "description": "The modern productivity app",
+  "screenshots": []
+}

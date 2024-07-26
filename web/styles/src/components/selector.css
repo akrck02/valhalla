@@ -13,6 +13,10 @@ button.selector {
     cursor: pointer;
 }
 
+:root[data-device="mobile"] button.selector {
+    top: 0;
+}
+
 button.selector:hover,
 button.selector:focus {
     background: rgb(0, 0, 0, 0.1);

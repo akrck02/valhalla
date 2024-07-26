@@ -16,12 +16,8 @@ export default class CalendarView extends UIComponent {
   public constructor() {
     super({
       type: "view",
+      id: "calendar",
       classes: ["box-column"],
-      styles: {
-        width: "100%",
-        height: "100%",
-        overflowY: "hidden",
-      },
     });
 
     this.core = new CalendarCore(this);
@@ -123,9 +119,7 @@ export default class CalendarView extends UIComponent {
     modeSelector.addOption(App.getBundle().calendar.MONTH, (year) => {});
     modeSelector.addOption(App.getBundle().calendar.WEEK, (year) => {});
     modeSelector.addOption(App.getBundle().calendar.DAY, (year) => {});
-    //  modeSelector.setSelected(App.getBundle().calendar.YEAR);
 
-    //APP.router.osNavbar.addToControls(modeSelector);
     APP.router.osNavbar.addToControls(monthSelector);
     APP.router.osNavbar.addToControls(yearSelector);
   }

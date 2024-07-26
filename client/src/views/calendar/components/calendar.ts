@@ -1,6 +1,10 @@
 import { APP, App } from "../../../app.js";
 import { Configurations } from "../../../config/config.js";
 import { DateText } from "../../../core/data/integrity/dateText.js";
+import {
+  isMobile,
+  isSmallDevice,
+} from "../../../lib/gtd-ts/web/responsivetools.js";
 import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 
 export class Calendar extends UIComponent {
@@ -9,10 +13,6 @@ export class Calendar extends UIComponent {
       type: "div",
       id: "calendar-wrapper",
       classes: ["box-column"],
-      styles: {
-        width: "100%",
-        height: "100%",
-      },
     });
   }
 
@@ -57,11 +57,10 @@ export class Calendar extends UIComponent {
       type: "div",
       id: "calendar",
       classes: ["box-column"],
-      styles: {},
     });
 
     let row = new UIComponent({
-      classes: ["calendar-row", "box-row", "box-x-start", "box-y-center"],
+      classes: ["calendar-row"],
     });
 
     let realday = 1;
@@ -80,7 +79,7 @@ export class Calendar extends UIComponent {
     for (let i = dayOfWeek; i < lastDayOfMonth + dayOfWeek; i++) {
       if ((i + 7) % 7 == 0) {
         row = new UIComponent({
-          classes: ["calendar-row", "box-row", "box-x-start", "box-y-center"],
+          classes: ["calendar-row"],
         });
         calendar.appendChild(row);
         rows.push(row);
@@ -126,7 +125,7 @@ export class Calendar extends UIComponent {
 
             const dayTitle = new UIComponent({
               type: "h1",
-              text: "Day :",
+              text: `Tasks for day ${i + 1}`,
               styles: {
                 marginBottom: "2rem",
               },
@@ -153,6 +152,28 @@ export class Calendar extends UIComponent {
               });
               eventbox.appendTo(tasks);
             });
+
+            const buttonContainer = new UIComponent({
+              classes: ["box-row", "box-x-center"],
+            });
+
+            const closeButton = new UIComponent({
+              type: "button",
+              text: "Close",
+              styles: {
+                marginTop: "2rem",
+                width: "6rem",
+                boxShadow: "none",
+                backgroundColor: "rgba(255,255,255,.15)",
+              },
+            });
+
+            closeButton.element.onclick = () => {
+              APP.router.modal.hide();
+            };
+
+            closeButton.appendTo(buttonContainer);
+            buttonContainer.appendTo(tasks);
 
             APP.router.modal.setContent(tasks);
             APP.router.modal.show();

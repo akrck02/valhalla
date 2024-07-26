@@ -4,11 +4,15 @@
 *  -----------------------------------------------------
 */
 header#os-navbar {
-    background: #fff;
+    background: #222;
     color: #ffffff;
     z-index: 2;
     height: 2.5rem;
     backdrop-filter: blur(1rem);
+}
+
+:root[data-device="mobile"] header#os-navbar {
+    background: #222;
 }
 
 :root[data-theme="dark"] header#os-navbar {
@@ -40,9 +44,6 @@ header#os-navbar h1#title {
     color: #404040;
 }
 
-:root[data-device="mobile"] header#os-navbar h1#title {
-    display: none;
-}
 :root[data-device="mobile"] header#os-navbar div.drag-region#first {
     display: none;
 }
