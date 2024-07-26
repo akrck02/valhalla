@@ -9,1360 +9,318 @@
     "allPhasesCompleted": 0,
     "revisionNeeded": 0,
     "blocked": 0,
-    "future": 0
+    "future": 10
   },
   "executions": [
     {
       "id": null,
       "maintenancePlanDefinitionId": 1,
-      "status": null,
+      "workOrderId": null,
+      "status": "Pending",
+      "stats": {
+        "unknown": 0,
+        "pending": 0,
+        "started": 0,
+        "finished": 0,
+        "canceled": 0,
+        "failed": 0,
+        "allPhasesCompleted": 0,
+        "revisionNeeded": 0,
+        "blocked": 0,
+        "future": 0
+      },
       "launcher": {
-        "id": 12,
+        "id": 17,
         "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
+        "name": "MP1 Semanal",
         "imagePath": null
       },
-      "workOrderId": null,
       "processes": [],
-      "start": 1719754620000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1720013820000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 11,
-        "type": "Schedule",
-        "name": "Comprobación semanal de taladros",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
+      "affectedAssets": [],
       "start": 1720273020000,
       "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 11,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728135420000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "WEEKS_REPETITION",
-        "repetitionNumber": 1,
-        "daysOfWeek": null,
-        "enabled": true,
-        "deleted": false,
-        "name": "Comprobación semanal de taladros",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
+      "delay": 0,
+      "duration": 0,
+      "expectedDuration": 0
     },
     {
       "id": null,
       "maintenancePlanDefinitionId": 1,
-      "status": null,
+      "workOrderId": null,
+      "status": "Pending",
+      "stats": {
+        "unknown": 0,
+        "pending": 0,
+        "started": 0,
+        "finished": 0,
+        "canceled": 0,
+        "failed": 0,
+        "allPhasesCompleted": 0,
+        "revisionNeeded": 0,
+        "blocked": 0,
+        "future": 0
+      },
       "launcher": {
-        "id": 12,
+        "id": 18,
         "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
+        "name": "MP1 Sábados",
         "imagePath": null
       },
-      "workOrderId": null,
       "processes": [],
-      "start": 1720445820000,
+      "affectedAssets": [],
+      "start": 1720273020000,
       "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
+      "delay": 0,
+      "duration": 0,
+      "expectedDuration": 0
     },
     {
       "id": null,
       "maintenancePlanDefinitionId": 1,
-      "status": null,
+      "workOrderId": null,
+      "status": "Pending",
+      "stats": {
+        "unknown": 0,
+        "pending": 0,
+        "started": 0,
+        "finished": 0,
+        "canceled": 0,
+        "failed": 0,
+        "allPhasesCompleted": 0,
+        "revisionNeeded": 0,
+        "blocked": 0,
+        "future": 0
+      },
       "launcher": {
-        "id": 12,
+        "id": 19,
         "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
+        "name": "MP1 Otro semanal",
         "imagePath": null
       },
-      "workOrderId": null,
       "processes": [],
-      "start": 1720964220000,
+      "affectedAssets": [],
+      "start": 1720273020000,
       "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
+      "delay": 0,
+      "duration": 0,
+      "expectedDuration": 0
+    },
+    {
+      "id": null,
+      "maintenancePlanDefinitionId": 2,
+      "workOrderId": null,
+      "status": "Pending",
+      "stats": {
+        "unknown": 0,
+        "pending": 0,
+        "started": 0,
+        "finished": 0,
+        "canceled": 0,
+        "failed": 0,
+        "allPhasesCompleted": 0,
+        "revisionNeeded": 0,
+        "blocked": 0,
+        "future": 0
+      },
+      "launcher": {
+        "id": 20,
+        "type": "Schedule",
+        "name": "MP2 Semanal",
+        "imagePath": null
+      },
+      "processes": [],
+      "affectedAssets": [],
+      "start": 1720273020000,
+      "end": null,
+      "delay": 0,
+      "duration": 0,
+      "expectedDuration": 0
+    },
+    {
+      "id": null,
+      "maintenancePlanDefinitionId": 2,
+      "workOrderId": null,
+      "status": "Pending",
+      "stats": {
+        "unknown": 0,
+        "pending": 0,
+        "started": 0,
+        "finished": 0,
+        "canceled": 0,
+        "failed": 0,
+        "allPhasesCompleted": 0,
+        "revisionNeeded": 0,
+        "blocked": 0,
+        "future": 0
+      },
+      "launcher": {
+        "id": 21,
+        "type": "Schedule",
+        "name": "MP2 Sábados",
+        "imagePath": null
+      },
+      "processes": [],
+      "affectedAssets": [],
+      "start": 1720273020000,
+      "end": null,
+      "delay": 0,
+      "duration": 0,
+      "expectedDuration": 0
     },
     {
       "id": null,
       "maintenancePlanDefinitionId": 1,
-      "status": null,
+      "workOrderId": null,
+      "status": "Pending",
+      "stats": {
+        "unknown": 0,
+        "pending": 0,
+        "started": 0,
+        "finished": 0,
+        "canceled": 0,
+        "failed": 0,
+        "allPhasesCompleted": 0,
+        "revisionNeeded": 0,
+        "blocked": 0,
+        "future": 0
+      },
       "launcher": {
-        "id": 12,
+        "id": 17,
         "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
+        "name": "MP1 Semanal",
         "imagePath": null
       },
-      "workOrderId": null,
       "processes": [],
-      "start": 1721223420000,
+      "affectedAssets": [],
+      "start": 1720877820000,
       "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
+      "delay": 0,
+      "duration": 0,
+      "expectedDuration": 0
     },
     {
       "id": null,
       "maintenancePlanDefinitionId": 1,
-      "status": null,
+      "workOrderId": null,
+      "status": "Pending",
+      "stats": {
+        "unknown": 0,
+        "pending": 0,
+        "started": 0,
+        "finished": 0,
+        "canceled": 0,
+        "failed": 0,
+        "allPhasesCompleted": 0,
+        "revisionNeeded": 0,
+        "blocked": 0,
+        "future": 0
+      },
       "launcher": {
-        "id": 11,
+        "id": 18,
         "type": "Schedule",
-        "name": "Comprobación semanal de taladros",
+        "name": "MP1 Sábados",
         "imagePath": null
       },
-      "workOrderId": null,
       "processes": [],
-      "start": 1721482620000,
+      "affectedAssets": [],
+      "start": 1720877820000,
       "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 11,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728135420000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "WEEKS_REPETITION",
-        "repetitionNumber": 1,
-        "daysOfWeek": null,
-        "enabled": true,
-        "deleted": false,
-        "name": "Comprobación semanal de taladros",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
+      "delay": 0,
+      "duration": 0,
+      "expectedDuration": 0
     },
     {
       "id": null,
       "maintenancePlanDefinitionId": 1,
-      "status": null,
+      "workOrderId": null,
+      "status": "Pending",
+      "stats": {
+        "unknown": 0,
+        "pending": 0,
+        "started": 0,
+        "finished": 0,
+        "canceled": 0,
+        "failed": 0,
+        "allPhasesCompleted": 0,
+        "revisionNeeded": 0,
+        "blocked": 0,
+        "future": 0
+      },
       "launcher": {
-        "id": 12,
+        "id": 19,
         "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
+        "name": "MP1 Otro semanal",
         "imagePath": null
       },
-      "workOrderId": null,
       "processes": [],
-      "start": 1721655420000,
+      "affectedAssets": [],
+      "start": 1720877820000,
       "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
+      "delay": 0,
+      "duration": 0,
+      "expectedDuration": 0
     },
     {
       "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
+      "maintenancePlanDefinitionId": 2,
+      "workOrderId": null,
+      "status": "Pending",
+      "stats": {
+        "unknown": 0,
+        "pending": 0,
+        "started": 0,
+        "finished": 0,
+        "canceled": 0,
+        "failed": 0,
+        "allPhasesCompleted": 0,
+        "revisionNeeded": 0,
+        "blocked": 0,
+        "future": 0
+      },
       "launcher": {
-        "id": 12,
+        "id": 20,
         "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
+        "name": "MP2 Semanal",
         "imagePath": null
       },
-      "workOrderId": null,
       "processes": [],
-      "start": 1722173820000,
+      "affectedAssets": [],
+      "start": 1720877820000,
       "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
+      "delay": 0,
+      "duration": 0,
+      "expectedDuration": 0
     },
     {
       "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
+      "maintenancePlanDefinitionId": 2,
+      "workOrderId": null,
+      "status": "Pending",
+      "stats": {
+        "unknown": 0,
+        "pending": 0,
+        "started": 0,
+        "finished": 0,
+        "canceled": 0,
+        "failed": 0,
+        "allPhasesCompleted": 0,
+        "revisionNeeded": 0,
+        "blocked": 0,
+        "future": 0
+      },
       "launcher": {
-        "id": 12,
+        "id": 21,
         "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
+        "name": "MP2 Sábados",
         "imagePath": null
       },
-      "workOrderId": null,
       "processes": [],
-      "start": 1722433020000,
+      "affectedAssets": [],
+      "start": 1720877820000,
       "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 11,
-        "type": "Schedule",
-        "name": "Comprobación semanal de taladros",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1722692220000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 11,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728135420000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "WEEKS_REPETITION",
-        "repetitionNumber": 1,
-        "daysOfWeek": null,
-        "enabled": true,
-        "deleted": false,
-        "name": "Comprobación semanal de taladros",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1722865020000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1723383420000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1723642620000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 11,
-        "type": "Schedule",
-        "name": "Comprobación semanal de taladros",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1723901820000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 11,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728135420000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "WEEKS_REPETITION",
-        "repetitionNumber": 1,
-        "daysOfWeek": null,
-        "enabled": true,
-        "deleted": false,
-        "name": "Comprobación semanal de taladros",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1724074620000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1724593020000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1724852220000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 11,
-        "type": "Schedule",
-        "name": "Comprobación semanal de taladros",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1725111420000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 11,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728135420000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "WEEKS_REPETITION",
-        "repetitionNumber": 1,
-        "daysOfWeek": null,
-        "enabled": true,
-        "deleted": false,
-        "name": "Comprobación semanal de taladros",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1725284220000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1725802620000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1726061820000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 11,
-        "type": "Schedule",
-        "name": "Comprobación semanal de taladros",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1726321020000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 11,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728135420000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "WEEKS_REPETITION",
-        "repetitionNumber": 1,
-        "daysOfWeek": null,
-        "enabled": true,
-        "deleted": false,
-        "name": "Comprobación semanal de taladros",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1726493820000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1727012220000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1727271420000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 11,
-        "type": "Schedule",
-        "name": "Comprobación semanal de taladros",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1727530620000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 11,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728135420000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "WEEKS_REPETITION",
-        "repetitionNumber": 1,
-        "daysOfWeek": null,
-        "enabled": true,
-        "deleted": false,
-        "name": "Comprobación semanal de taladros",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1727703420000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1728221820000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
-    },
-    {
-      "id": null,
-      "maintenancePlanDefinitionId": 1,
-      "status": null,
-      "launcher": {
-        "id": 12,
-        "type": "Schedule",
-        "name": "Limpieza de taladros: varios días a la semana",
-        "imagePath": null
-      },
-      "workOrderId": null,
-      "processes": [],
-      "start": 1728481020000,
-      "end": null,
-      "delay": null,
-      "expectedDuration": null,
-      "schedule": {
-        "id": 12,
-        "initialTimestamp": 1718192220000,
-        "expectedDuration": 1476000000,
-        "nextTimestamp": 1728826620000,
-        "destinationType": null,
-        "destinationId": null,
-        "scheduleType": "DAYS_OF_WEEK",
-        "repetitionNumber": null,
-        "daysOfWeek": [
-          1,
-          3,
-          7
-        ],
-        "enabled": true,
-        "deleted": false,
-        "name": "Limpieza de taladros: varios días a la semana",
-        "description": null,
-        "icon": null,
-        "color": 1668818,
-        "scheduleUser": {
-          "id": 1,
-          "name": "Alex",
-          "uuid": null,
-          "description": null
-        },
-        "maintenancePlanScheduleId": null,
-        "maintenancePlanDefinitionId": 1
-      }
+      "delay": 0,
+      "duration": 0,
+      "expectedDuration": 0
     }
   ]
 }

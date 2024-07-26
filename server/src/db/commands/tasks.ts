@@ -253,11 +253,11 @@ export class TasksResponse implements HTTPResponse {
 
     //task per date
     response.forEach((element: { [key: string]: any }) => {
-      if (!monthTasks[element.end as string]) {
-        monthTasks[element.end as string] = [];
+      if (!monthTasks[element.start as string]) {
+        monthTasks[element.start as string] = [];
       }
 
-      monthTasks[element.end as string].push(element);
+      monthTasks[element.start as string].push(element);
     });
 
     return new Promise((resolve) => resolve(monthTasks));

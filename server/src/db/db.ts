@@ -16,7 +16,6 @@ export class Database {
    * Create database
    */
   async createDB(): Promise<void> {
-
     const deleteOld = false;
     if (deleteOld) {
       fs.rmSync(`${homedir()}/valhalla/db/Valhalla-user.db`);
@@ -37,6 +36,4 @@ export class Database {
   closeDB() {
     this.db.close((err: Error) => {});
   }
-
-
 }

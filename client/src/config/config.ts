@@ -21,7 +21,7 @@ export class Configurations {
   public static BASE = {
     APP_NAME: `Valhalla`,
     APP_VERSION: `v.x.x`,
-    HOST: "127.0.0.1", // `${location.hostname}`,
+    HOST: `${location.hostname}`, // 127.0.0.1
     PORT: 80,
     URL: location.href,
     ENVIRONMENT: ENVIROMENT.DEVELOPMENT,
