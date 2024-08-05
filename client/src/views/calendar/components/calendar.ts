@@ -1,10 +1,6 @@
 import { APP, App } from "../../../app.js";
 import { Configurations } from "../../../config/config.js";
 import { DateText } from "../../../core/data/integrity/dateText.js";
-import {
-  isMobile,
-  isSmallDevice,
-} from "../../../lib/gtd-ts/web/responsivetools.js";
 import { setEvents, UIComponent } from "../../../lib/gtd-ts/web/uicomponent.js";
 
 export class Calendar extends UIComponent {

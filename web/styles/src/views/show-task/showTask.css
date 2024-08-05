@@ -25,3 +25,15 @@ view#task button.task-label {
     margin-bottom: 0;
     margin-top: 0;
 }
+
+:root[data-device="mobile"] view#task > div > div {
+    padding-left: 2rem !important;
+}
+
+:root[data-device="mobile"] view#task #task-title .icon{
+    display: none;
+}
+
+:root[data-device="mobile"] view#task::before{
+    left: 3rem;
+}

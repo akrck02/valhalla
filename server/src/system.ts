@@ -14,7 +14,6 @@ export function getVersionParameters(){
     return versionJson;
 }
 
-
 export enum ENVIRONMENT {
     DEVELOPMENT = "development",
     PRODUCTION = "production"
@@ -23,6 +22,7 @@ export enum ENVIRONMENT {
 // Redeclaring the Nodejs global variable object
 const global = {
     root: ''
-  };
-  global.root = path.resolve(__dirname + "/../../");
+};
+
+global.root = path.resolve(__dirname + "/../../");
   

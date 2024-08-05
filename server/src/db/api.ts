@@ -14,7 +14,7 @@ export class API {
   constructor(Database: Database) {
     this.app = express();
     this.hostname = "0.0.0.0";
-    this.port = 3333;
+    this.port = 4444;
     this.router = new Router();
     this.db = Database;
   }
@@ -53,6 +53,8 @@ export class API {
 
     /* Start API listener */
     this.app.listen(this.port, this.hostname).on("error", (err: any) => {
+      console.log(`Something is already listening port ${this.port}`);
+      
       process.exit(1);
     });
   }

@@ -35,7 +35,8 @@ div#sidebar a.sidebar-item svg {
 }
 
 :root[data-theme="dark"] div#sidebar a.sidebar-item svg {
-    fill: #e1e1e1;
+    /* fill:  #e1e1e1; */
+    fill: rgba(255,255,255.7);
 }
 
 div#sidebar a.sidebar-item svg {
@@ -123,10 +124,9 @@ div#sidebar div#sidebar-modal.visible {
 div#sidebar div#sidebar-modal.show {
     opacity: 1;
 }
+
 :root[data-device="mobile"] div#sidebar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    position: relative;
     flex-direction: row;
 
     width: 100%;
@@ -156,31 +156,30 @@ div#sidebar div#sidebar-modal.show {
     height: var(--sidebar-item-size);
     width: var(--sidebar-item-size);
     margin: 0 0.15rem;
-    border-radius: 0.35rem;
+    border-radius: 5rem;
     transition: background var(--fast);
     cursor: pointer;
 }
 
 :root[data-device="mobile"] div#sidebar a.sidebar-item svg {
-    width: calc(var(--sidebar-item-size) * 0.65);
-    height: calc(var(--sidebar-item-size) * 0.65);
-    fill: #404040;
+    width: calc(var(--sidebar-item-size) * 0.5);
+    height: calc(var(--sidebar-item-size) * 0.5);
+    fill: rgba(255,255,255,.6);
+    left: 0;
 }
 
 :root[data-device="mobile"] div#sidebar a.sidebar-item::before {
     content: "";
-    display: block;
-    position: relative;
-    top: 0;
-    left: 0;
-    bottom: -0.75rem;
-    width: 0.2rem;
-    height: 0.35rem;
-
-    opacity: 0;
-    transition: opacity var(--fast);
+    display: none;
 }
 
-:root[data-device="mobile"] div#sidebar a.sidebar-item.selected::before {
-    opacity: 1;
+:root[data-device="mobile"] div#sidebar a.sidebar-item.selected {
+   background: rgba(255,255,255,.15);
+}
+
+
+:root[data-device="mobile"] div#sidebar div#sidebar-modal button {
+    position: fixed;
+    z-index: 100;
+    bottom: 10rem;
 }

@@ -27,10 +27,6 @@ view#tasks .task-box {
     transition: opacity var(--medium);
 }
 
-view#tasks .task-box label {
-    display: none;
-}
-
 view#tasks.select .task-box label {
     display: flex;
 }
@@ -124,6 +120,10 @@ view#tasks button.button.multi-select {
     display: none;
 }
 
+view#tasks .task-box label {
+    display: none;
+}
+
 view#tasks button.button {
     padding: 0.5rem;
     margin: 0;
@@ -172,4 +172,15 @@ view#tasks .switch input[type="checkbox"] + .switch-toggle {
     transition: background var(--fast);
     border-radius: 5rem;
     margin-left: -1rem;
+}
+
+:root[data-device="mobile"] view#tasks {
+    flex-direction: column-reverse;
+    justify-content: start;
+
+}
+
+:root[data-device="mobile"] view#tasks div#wrapper {
+    padding: 1.7rem;
+    height: calc(100% - 4rem);
 }

@@ -77,7 +77,11 @@ div#view-container {
 }
 
 :root[data-device="mobile"] div#view-container {
-    flex-direction: column;
+    flex-direction: column-reverse;
+}
+
+:root[data-device="mobile"] div#view-container #view-container-box{
+    height: calc(100% - 5rem) !important; 
 }
 
 view {
@@ -92,3 +96,5 @@ view {
 .backdrop {
     backdrop-filter: blur(1rem);
 }
+
+

@@ -116,10 +116,7 @@ export class App {
     params: string[],
     force: boolean = false,
   ) {
-    if (force) {
-      location.href = Configurations.VIEWS.DUMMY;
-    }
-
+  
     url += params.join("/");
     location.href = url;
   }

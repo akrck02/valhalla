@@ -29,6 +29,7 @@ export class Configurations {
     LOG_LEVEL: `debug`,
     LOG_FILE: `app.log`,
     WEBSITE: `https://akrck02.github.io/#/software/valhalla`,
+    API_PORT:4444,
   };
 
   public static PATHS = {
@@ -65,34 +66,34 @@ export class Configurations {
     URL: `http://${Configurations.BASE.HOST}:3333/api/v1/`,
 
     // GET METHODS
-    GET_USER_TASKS: `http://${Configurations.BASE.HOST}:3333/api/v1/get/user/tasks/`,
-    GET_USER_NOTES: `http://${Configurations.BASE.HOST}:3333/api/v1/get/user/notes/`,
-    GET_USER_DONE_TASKS: `http://${Configurations.BASE.HOST}:3333/api/v1/get/user/done/tasks/`,
-    GET_USER_NOT_DONE_TASKS: `http://${Configurations.BASE.HOST}:3333/api/v1/get/user/not/done/tasks/`,
-    GET_USER_TASK: `http://${Configurations.BASE.HOST}:3333/api/v1/get/user/task/`,
-    GET_USER_MONTH_TASKS: `http://${Configurations.BASE.HOST}:3333/api/v1/get/user/month/tasks/`,
-    GET_USER_TASKS_FROM_CATEGORY: `http://${Configurations.BASE.HOST}:3333/api/v1/get/user/tasks/from/category/`,
-    GET_USER_DONE_TASKS_FROM_CATEGORY: `http://${Configurations.BASE.HOST}:3333/api/v1/get/user/done/tasks/from/category/`,
-    GET_USER_NOT_DONE_TASKS_FROM_CATEGORY: `http://${Configurations.BASE.HOST}:3333/api/v1/get/user/not/done/tasks/from/category/`,
-    GET_USER_TASK_CATEGORIES: `http://${Configurations.BASE.HOST}:3333/api/v1/get/user/task/categories/`,
+    GET_USER_TASKS: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/get/user/tasks/`,
+    GET_USER_NOTES: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/get/user/notes/`,
+    GET_USER_DONE_TASKS: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/get/user/done/tasks/`,
+    GET_USER_NOT_DONE_TASKS: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/get/user/not/done/tasks/`,
+    GET_USER_TASK: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/get/user/task/`,
+    GET_USER_MONTH_TASKS: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/get/user/month/tasks/`,
+    GET_USER_TASKS_FROM_CATEGORY: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/get/user/tasks/from/category/`,
+    GET_USER_DONE_TASKS_FROM_CATEGORY: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/get/user/done/tasks/from/category/`,
+    GET_USER_NOT_DONE_TASKS_FROM_CATEGORY: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/get/user/not/done/tasks/from/category/`,
+    GET_USER_TASK_CATEGORIES: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/get/user/task/categories/`,
 
     // INSERT METHODS
-    INSERT_USER_TASK: `http://${Configurations.BASE.HOST}:3333/api/v1/insert/user/task/`,
-    INSERT_USER_NOTE: `http://${Configurations.BASE.HOST}:3333/api/v1/insert/user/note/`,
+    INSERT_USER_TASK: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/insert/user/task/`,
+    INSERT_USER_NOTE: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/insert/user/note/`,
 
     // DELETE METHODS
-    DELETE_USER_NOTE: `http://${Configurations.BASE.HOST}:3333/api/v1/delete/user/note/`,
-    DELETE_USER_TASK: `http://${Configurations.BASE.HOST}:3333/api/v1/delete/user/task/`,
-    DELETE_USER_TASKS: `http://${Configurations.BASE.HOST}:3333/api/v1/delete/user/tasks/`,
+    DELETE_USER_NOTE: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/delete/user/note/`,
+    DELETE_USER_TASK: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/delete/user/task/`,
+    DELETE_USER_TASKS: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/delete/user/tasks/`,
 
     // UPDATE METHODS
-    UPDATE_USER_TASK: `http://${Configurations.BASE.HOST}:3333/api/v1/update/user/task/`,
-    UPDATE_USER_TASK_DONE: `http://${Configurations.BASE.HOST}:3333/api/v1/update/user/task/done/`,
-    UPDATE_USER_TASKS_DONE: `http://${Configurations.BASE.HOST}:3333/api/v1/update/user/tasks/done/`,
+    UPDATE_USER_TASK: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/update/user/task/`,
+    UPDATE_USER_TASK_DONE: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/update/user/task/done/`,
+    UPDATE_USER_TASKS_DONE: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/update/user/tasks/done/`,
 
     // SEARCH METHODS
-    SEARCH_USER_TASKS_BY_NAME: `http://${Configurations.BASE.HOST}:3333/api/v1/search/user/tasks/by/name`,
-    SEARCH_USER_CATEGORIES_BY_NAME: `http://${Configurations.BASE.HOST}:3333/api/v1/search/user/categories/by/name`,
+    SEARCH_USER_TASKS_BY_NAME: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/search/user/tasks/by/name`,
+    SEARCH_USER_CATEGORIES_BY_NAME: `http://${Configurations.BASE.HOST}:${Configurations.BASE.API_PORT}/api/v1/search/user/categories/by/name`,
 
     // ASSIGN METHODS
     ASSIGN_NOTE_TO_TASK: `assign/note/to/task`,

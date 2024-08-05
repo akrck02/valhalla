@@ -8,6 +8,19 @@ div#category-bar {
         opacity var(--slow);
     backdrop-filter: blur(1rem);
 }
+
+:root[data-device="mobile"] div#category-bar {
+    width: 100%;
+    height: 4rem;
+    padding-top: 1rem;
+}
+
+:root[data-device="mobile"] div#category-bar div#category-bar-menu {
+    flex-direction: row;
+    padding-bottom: 0;
+}
+
+
 div#category-bar div#category-bar-menu {
     overflow: auto;
     padding: 0 0 2rem 1rem;
@@ -75,21 +88,44 @@ div#category-bar button#new {
         transform var(--fast);
 }
 
-:root[data-theme="dark"] div#category-bar button#new {
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: var(--default-box-shadow);
-}
 
 div#category-bar button#new:hover {
     background-color: rgba(0, 0, 0, 0.6);
     transform: scale(0.95);
 }
 
-:root[data-theme="dark"] div#category-bar button#new:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: scale(0.95);
+:root[data-device="mobile"] div#category-bar button#new {
+    display: none;
 }
 
 :root[data-device="mobile"] div#category-bar {
+    overflow-x: scroll;
+    height: 4rem;
+    padding-right: 0;
+}
+
+:root[data-device="mobile"] div#category-bar div.label{
+    min-width: fit-content;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5rem;
+}
+
+:root[data-device="mobile"] div#category-bar div.label.selected {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    font-size: .7rem;
+    align-items: center;
+    border-radius: 5rem;
+}
+
+:root[data-device="mobile"] div#category-bar div.label.selected::after {
+    content: "";
     display: none;
 }
+

@@ -3,3 +3,13 @@
 @import url("./components/_import.css");
 @import url("./views/_import.css");
 
+:root {
+    position: absolute;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    width: 100%;
+}
+
+body {
+    height: 100%;
+}

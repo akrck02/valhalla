@@ -5,7 +5,12 @@ export class Window {
   public static DEFAULT_ZOOM = 0; //1.28;
 
   public static setEvents() {
-    window.onresize = () => this.setZoomLevel();
+    window.onresize = () => {
+      this.setZoomLevel();
+        // We execute the same script as before
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
   }
 
   public static setZoomLevel() {
