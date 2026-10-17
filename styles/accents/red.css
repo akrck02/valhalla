@@ -25,7 +25,7 @@
   --tile: #2F3540;
   --color-scheme: light;
   --control-radius: 10px;
-  --button-radius: 999px;
+  --button-radius: 10px;
   --card-radius: 12px;
   --panel-radius: 16px;
   --floating-radius: 999px;
@@ -198,7 +198,7 @@
 
 :root[data-density="compact"] {
   --control-radius: 6px;
-  --button-radius: 999px;
+  --button-radius: 6px;
   --card-radius: 7.199999999999999px;
   --panel-radius: 9.6px;
   --floating-radius: 999px;

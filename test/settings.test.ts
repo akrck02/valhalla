@@ -7,8 +7,9 @@ describe("appearance", () => {
     return { getItem: () => value } as unknown as Storage
   }
 
-  it("a first visit gets paper, the system's mode and glass", () => {
+  it("a first visit gets plain paper, without glass, following the system", () => {
     expect(JSON.stringify(loadAppearance(storageWith(null)))).toBe(JSON.stringify(defaultAppearance))
+    expect(defaultAppearance.glass).toBe(false)
   })
 
   it("a damaged setting falls back to the default look", () => {

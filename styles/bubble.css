@@ -142,6 +142,7 @@ a { color: var(--accent-ink); }
 /* Check boxes: the native control, coloured, at a size a finger can hit. */
 input[type="checkbox"],
 input[type="radio"] {
+  flex: none;
   width: 22px;
   height: 22px;
   margin: 0;
@@ -206,30 +207,134 @@ input[type="radio"] {
 
 /* The app's frame ----------------------------------------------------------------------------- */
 
-/* A narrow bar of icons on the left on wide screens; a bar at the bottom on phones. */
+/*
+ * A sheet of paper: a header across the top and an index on the left, divided from the page by
+ * fine lines. On phones the index becomes a bar at the bottom. Material turns the index into a
+ * rail of icons with their names under them.
+ */
 .app {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 15rem minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "header header" "sidebar page";
   min-height: 100vh;
 }
 
-.rail {
+.app-header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  min-height: 60px;
+  padding: 8px var(--padding);
+  border-bottom: var(--line-width) solid var(--line);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--touch-target);
+  color: var(--ink);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.brand img { width: 32px; height: 32px; }
+
+/* A button that looks like a search box and opens the search, with its shortcut beside it. */
+.search-trigger {
+  display: flex;
+  flex: 0 1 30rem;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--touch-target);
+  margin-inline-start: var(--gap);
+  padding: 0 12px;
+  border: var(--line-width) solid var(--line);
+  border-radius: var(--control-radius);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font: inherit;
+  cursor: pointer;
+}
+
+.search-trigger:hover { border-color: var(--control-line); }
+.search-trigger svg { flex: none; width: var(--icon-size); height: var(--icon-size); }
+.search-trigger .key { margin-inline-start: auto; }
+
+/* A key of the keyboard, as in Ctrl K. */
+.key {
+  padding: 1px 6px;
+  border: var(--line-width) solid var(--line);
+  border-radius: 6px;
+  color: var(--ink-soft);
+  font-size: var(--text-small);
+  font-family: inherit;
+}
+
+.sidebar {
+  grid-area: sidebar;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: var(--gap) 10px;
+  gap: 2px;
+  padding: 18px 12px;
   border-right: var(--line-width) solid var(--line);
 }
 
-.rail .button[aria-current="page"],
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--touch-target);
+  padding: 0 12px;
+  border-radius: var(--button-radius);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.sidebar a:hover { background: var(--sunken); }
+
+.sidebar a[aria-current="page"],
 .bottom-bar .button[aria-current="page"] {
   background: var(--accent-tint);
   color: var(--accent-ink);
+  font-weight: 600;
 }
+
+.sidebar svg {
+  flex: none;
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+
+:root[data-style="material"] .app { grid-template-columns: 6rem minmax(0, 1fr); }
+:root[data-style="material"] .sidebar { align-items: stretch; gap: 12px; border-right: 0; }
+
+:root[data-style="material"] .sidebar a {
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 0;
+  font-size: var(--text-small);
+}
+
+:root[data-style="material"] .sidebar a:hover,
+:root[data-style="material"] .sidebar a[aria-current="page"] { background: transparent; }
+
+/* The pill sits behind the icon only, as in Material's navigation rail. */
+:root[data-style="material"] .sidebar svg {
+  box-sizing: content-box;
+  padding: 4px 16px;
+  border-radius: var(--button-radius);
+}
+
+:root[data-style="material"] .sidebar a:hover svg { background: var(--sunken); }
+:root[data-style="material"] .sidebar a[aria-current="page"] svg { background: var(--accent-tint); }
 
 /* Pages read best narrow; a page that lays out a wide grid, such as a calendar, adds .wide. */
 .page {
+  grid-area: page;
   width: 100%;
   max-width: 760px;
   margin: 0 auto;
@@ -244,21 +349,30 @@ input[type="radio"] {
 .bottom-bar { display: none; }
 
 @media (max-width: 640px) {
-  .app { grid-template-columns: 1fr; padding-bottom: 88px; }
-  .rail { display: none; }
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "header" "page";
+    padding-bottom: 76px;
+  }
+
+  :root[data-style="material"] .app { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { display: none; }
+
+  /* On a phone the search box shrinks to its icon; its name stays for screen readers. */
+  .search-trigger { flex: none; margin-inline-start: auto; padding: 0 12px; }
+  .search-trigger .label,
+  .search-trigger .key { display: none; }
 
   .bottom-bar {
     position: fixed;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     justify-content: space-around;
-    padding: 6px;
-    border: var(--line-width) solid var(--line);
-    border-radius: var(--button-radius);
-    background: var(--surface);
-    box-shadow: var(--elevation);
+    padding: 6px 6px 10px;
+    border-top: var(--line-width) solid var(--line);
+    background: var(--background);
   }
 }
 
@@ -483,7 +597,8 @@ input[type="radio"] {
 :root[data-glass] .card,
 :root[data-glass] .list-item,
 :root[data-glass] .bottom-bar,
-:root[data-glass] .rail {
+:root[data-glass] .app-header,
+:root[data-glass] .sidebar {
   border-color: var(--glass-line);
   background: var(--glass-surface);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);

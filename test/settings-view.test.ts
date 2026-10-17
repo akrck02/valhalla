@@ -55,6 +55,7 @@ describe("the settings page", () => {
   it("material turns glass off limits and says why, and paper brings back the choice", async () => {
     const { page, storage } = await settingsPage()
     const glass = page.querySelector("#glass") as HTMLInputElement
+    choose(page, "glass")
     choose(page, "style-material")
     expect(glass.disabled).toBe(true)
     expect(page.querySelector("#glass-hint")?.textContent ?? "").toMatch(/Material/)

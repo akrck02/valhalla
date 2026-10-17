@@ -22,8 +22,8 @@ const storageKey = "valhalla.appearance"
 const styles: Appearance["style"][] = ["paper", "material"]
 const modes: Appearance["mode"][] = ["system", "light", "dark"]
 
-/** The look of a first visit: paper, following the system, with glass like the 2022 Valhalla. */
-export const defaultAppearance: Appearance = { style: "paper", mode: "system", glass: true, accent: "gold" }
+/** The look of a first visit: plain paper, following the system; glass is there to turn on. */
+export const defaultAppearance: Appearance = { style: "paper", mode: "system", glass: false, accent: "gold" }
 
 /** Reads the saved look; anything missing or unknown in it takes the default. */
 export function loadAppearance(storage: Storage): Appearance {

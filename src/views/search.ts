@@ -8,7 +8,7 @@ import { loadNotes } from "../notes/store.js"
 import { ResultKind, searchEverything, SearchResult } from "../search/search.js"
 import { readCommand, runCommand, TerminalContext } from "../terminal/terminal.js"
 import { changeAppearance } from "../settings.js"
-import { places } from "../shell.js"
+import { places } from "../places.js"
 import { messageFor } from "./messages.js"
 
 /** What starts a line for the terminal instead of a search, as in many editors' palettes. */
