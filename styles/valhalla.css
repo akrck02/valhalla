@@ -1,14 +1,5 @@
 /* What only Valhalla needs; anything reusable moves to Bubble. */
 
-/* The soft lights behind the glass, as in the 2022 Valhalla. Without glass the page is plain paper. */
-:root[data-glass] body {
-  background:
-    radial-gradient(40rem 40rem at 10% 10%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 70%),
-    radial-gradient(36rem 36rem at 90% 80%, color-mix(in srgb, var(--tile) 30%, transparent), transparent 70%),
-    var(--background);
-  background-attachment: fixed;
-}
-
 .add-task {
   display: grid;
   grid-template-columns: 1fr 8.5rem auto;
@@ -204,8 +195,8 @@
 
 :root[data-glass] .week-day,
 :root[data-glass] .month-day:not(.outside) {
-  border-color: var(--glass-line);
-  background: var(--glass-surface);
+  border-color: transparent;
+  background: var(--glass-pane);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
@@ -280,11 +271,13 @@
 
 .note-editor .back { display: none; justify-self: start; }
 
+:root[data-glass] .month-day.outside { border-color: transparent; }
+
 :root[data-glass] .note-editor,
 :root[data-glass] .note-empty,
 :root[data-glass] .note-link[aria-current="page"] {
-  border-color: var(--glass-line);
-  background: var(--glass-surface);
+  border-color: transparent;
+  background: var(--glass-pane);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
@@ -338,3 +331,17 @@
   justify-items: start;
   gap: 6px;
 }
+
+:root[data-glass] .note-link[aria-current="page"] { position: relative; }
+
+:root[data-glass] .note-link[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 28%;
+  bottom: 28%;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--ink);
+}
+:root[data-glass] .calendar-task { background: var(--glass-raised); }

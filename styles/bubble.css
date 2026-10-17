@@ -593,19 +593,83 @@ input[type="radio"] {
 
 /* Glass --------------------------------------------------------------------------------------- */
 
-/* Panels that let the background show through. Only with data-glass on <html>. */
-:root[data-glass] .card,
-:root[data-glass] .list-item,
-:root[data-glass] .bottom-bar,
-:root[data-glass] .app-header,
-:root[data-glass] .sidebar {
-  border-color: var(--glass-line);
-  background: var(--glass-surface);
+/*
+ * Paper's standards reimagined on glass, after the first Valhalla: only with data-glass on <html>.
+ * Panels are crystalline fills with no outline, told apart by how bright they are; what is chosen
+ * is brighter, with a fine bar of ink, not coloured; titles are light; the colour is sober.
+ * The tokens (ground, inks, fills and lights) come from the Go package, with their contrast tested.
+ */
+:root[data-glass] body {
+  background:
+    radial-gradient(52rem 44rem at 10% 6%, var(--glass-glow-one), transparent 70%),
+    radial-gradient(48rem 44rem at 92% 96%, var(--glass-glow-two), transparent 70%),
+    var(--background);
+  background-attachment: fixed;
+}
+
+:root[data-glass] h1 { font-weight: 300; letter-spacing: 0.01em; }
+:root[data-glass] .brand { text-transform: uppercase; letter-spacing: 0.14em; font-size: var(--text-small); }
+
+:root[data-glass] :is(.card, .list-item, .search-trigger, .search-box, .choice, .segmented, .sidebar, .bottom-bar, .button:not(.primary, .ghost)) {
+  border-color: transparent;
+  background: var(--glass-pane);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
 
-:root[data-glass] .list-item.done { background: transparent; }
+/* The header floats on the ground; the index is a pane of its own, so neither needs a line. */
+:root[data-glass] .app-header { border-bottom-color: transparent; }
+:root[data-glass] .sidebar { border-right-color: transparent; }
+
+/* A dialog stays solid: it sits over other text, where glass can't promise contrast. */
+:root[data-glass] .dialog { border-color: transparent; }
+
+/* Fields keep the edge a control needs, as a line underneath: written on, not boxed in. */
+:root[data-glass] .field :is(input, textarea, select),
+:root[data-glass] .search-box {
+  border-color: transparent;
+  border-bottom-color: var(--control-line);
+  background: var(--glass-pane);
+}
+
+:root[data-glass] :is(.sidebar a, .choice, .button:not(.primary), .search-result, .search-trigger):hover {
+  background: var(--glass-raised);
+}
+
+:root[data-glass] .sidebar a[aria-current="page"],
+:root[data-glass] .search-result[aria-selected="true"] {
+  position: relative;
+  background: var(--glass-raised);
+  color: var(--ink);
+  box-shadow: none;
+}
+
+/* The fine, straight bar of the first Valhalla, beside what is chosen. */
+:root[data-glass] .sidebar a[aria-current="page"]::before,
+:root[data-glass] .search-result[aria-selected="true"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 28%;
+  bottom: 28%;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--ink);
+}
+
+:root[data-glass] .bottom-bar .button[aria-current="page"],
+:root[data-glass] .segmented .button[aria-current="page"],
+:root[data-glass] .choice:has(:checked) {
+  border-color: transparent;
+  background: var(--glass-raised);
+  color: var(--ink);
+}
+
+:root[data-glass] .list-item.done {
+  border-color: transparent;
+  background: transparent;
+  backdrop-filter: none;
+}
 
 /* Less motion when the system asks for it ------------------------------------------------------ */
 

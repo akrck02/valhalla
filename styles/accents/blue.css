@@ -236,14 +236,104 @@
 }
 
 :root[data-glass] {
-  --glass-surface: color-mix(in srgb, var(--surface) 60%, transparent);
-  --glass-line: color-mix(in srgb, var(--ink) 12%, transparent);
+  --background: #E6E3DC;
+  --surface: #F4F2EF;
+  --sunken: #DAD7D1;
+  --ink: #1C1F24;
+  --ink-soft: #4A4F57;
+  --ink-quiet: #585D65;
+  --line: #D1CFC9;
+  --control-line: #77726A;
+  --accent: #2C5C9E;
+  --on-accent: #FFFFFF;
+  --accent-edge: #1F406F;
+  --accent-side: #254E86;
+  --accent-ink: #27518C;
+  --accent-tint: #FBFBFA;
+  --positive: #17663F;
+  --warning: #7A4900;
+  --danger: #A1211A;
+  --focus-ring: #27518C;
+  --selection: #2C5C9E4D;
+  --shadow: #1F232929;
+  --scrim: #1F232966;
+  --tile: #2F3540;
+  --color-scheme: light;
+  --glass-pane: #FFFFFF8C;
+  --glass-raised: #FFFFFFD9;
+  --glass-glow-one: #FFFFFF;
+  --glass-glow-two: #CBC6BB;
   --glass-blur: 24px;
+}
+
+:root[data-glass][data-mode="dark"] {
+  --background: #0B0C0F;
+  --surface: #191A1D;
+  --sunken: #070709;
+  --ink: #EDEEF0;
+  --ink-soft: #BDC1C8;
+  --ink-quiet: #A9AEB6;
+  --line: #1E1F22;
+  --control-line: #8E949D;
+  --accent: #5B80B3;
+  --on-accent: #0E1116;
+  --accent-edge: #405A7D;
+  --accent-side: #4D6D98;
+  --accent-ink: #7796C0;
+  --accent-tint: #292A2C;
+  --positive: #4CC38A;
+  --warning: #E5A64A;
+  --danger: #EF7A6C;
+  --focus-ring: #7796C0;
+  --selection: #5B80B34D;
+  --shadow: #00000066;
+  --scrim: #0000008C;
+  --tile: #2F3540;
+  --color-scheme: dark;
+  --glass-pane: #FFFFFF0F;
+  --glass-raised: #FFFFFF1F;
+  --glass-glow-one: #24272D;
+  --glass-glow-two: #181A1F;
+  --glass-blur: 24px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-glass]:not([data-mode="light"]) {
+  --background: #0B0C0F;
+    --surface: #191A1D;
+    --sunken: #070709;
+    --ink: #EDEEF0;
+    --ink-soft: #BDC1C8;
+    --ink-quiet: #A9AEB6;
+    --line: #1E1F22;
+    --control-line: #8E949D;
+    --accent: #5B80B3;
+    --on-accent: #0E1116;
+    --accent-edge: #405A7D;
+    --accent-side: #4D6D98;
+    --accent-ink: #7796C0;
+    --accent-tint: #292A2C;
+    --positive: #4CC38A;
+    --warning: #E5A64A;
+    --danger: #EF7A6C;
+    --focus-ring: #7796C0;
+    --selection: #5B80B34D;
+    --shadow: #00000066;
+    --scrim: #0000008C;
+    --tile: #2F3540;
+    --color-scheme: dark;
+    --glass-pane: #FFFFFF0F;
+    --glass-raised: #FFFFFF1F;
+    --glass-glow-one: #24272D;
+    --glass-glow-two: #181A1F;
+    --glass-blur: 24px;
+  }
 }
 
 @media (prefers-reduced-transparency: reduce) {
   :root[data-glass] {
-    --glass-surface: var(--surface);
+    --glass-pane: var(--surface);
+    --glass-raised: var(--accent-tint);
     --glass-blur: 0px;
   }
 }
