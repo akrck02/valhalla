@@ -41,7 +41,7 @@ describe("the settings page", () => {
     const { page } = await settingsPage()
     expect((page.querySelector("#style-paper") as HTMLInputElement).checked).toBe(true)
     expect((page.querySelector("#mode-system") as HTMLInputElement).checked).toBe(true)
-    expect((page.querySelector("#accent-gold") as HTMLInputElement).checked).toBe(true)
+    expect((page.querySelector("#accent-ice") as HTMLInputElement).checked).toBe(true)
   })
 
   it("a choice shows at once and is saved", async () => {

@@ -10,10 +10,11 @@ bubble=${BUBBLE:-$root/../bubble}
 [ -d "$bubble" ] || { echo "clone https://github.com/akrck02/bubble next to Valhalla, or set BUBBLE=/path/to/bubble"; exit 1; }
 mkdir -p "$root/styles/accents"
 
-# name and colour; gold is Valhalla's own, from its logo. Keep in step with src/settings.ts.
+# name and colour; ice is Valhalla's own, from its logo. Keep in step with src/settings.ts.
 while read -r name colour; do
 	(cd "$bubble" && go run ./cmd/bubble-css -accent "$colour") > "$root/styles/accents/$name.css"
 done <<COLOURS
+ice #BBDEFB
 gold #F6BD60
 blue #2C5C9E
 teal #2BB3A3

@@ -1,5 +1,9 @@
-/** The accents the settings offer; gold is Valhalla's own, from its logo. */
+/**
+ * The accents the settings offer. Ice is Valhalla's own: the pale blue of the lower card of its
+ * logo, a white with a touch of blue.
+ */
 export const accents = [
+  { name: "ice", label: "Ice", colour: "#BBDEFB" },
   { name: "gold", label: "Gold", colour: "#F6BD60" },
   { name: "blue", label: "Blue", colour: "#2C5C9E" },
   { name: "teal", label: "Teal", colour: "#2BB3A3" },
@@ -39,7 +43,7 @@ const styles: Appearance["style"][] = ["paper", "material"]
 const modes: Appearance["mode"][] = ["system", "light", "dark"]
 
 /** The look of a first visit: plain paper, following the system; glass is there to turn on. */
-export const defaultAppearance: Appearance = { style: "paper", mode: "system", glass: false, accent: "gold", wallpaper: "city" }
+export const defaultAppearance: Appearance = { style: "paper", mode: "system", glass: false, accent: "ice", wallpaper: "city" }
 
 /** Reads the saved look; anything missing or unknown in it takes the default. */
 export function loadAppearance(storage: Storage): Appearance {

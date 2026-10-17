@@ -1,10 +1,16 @@
 <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
 <title>valhalla</title>
 <path d="M34.0 34.0 L60.0 47.0 L34.0 60.0 L8.0 47.0 Z" fill="#2F3540" stroke="#2F3540" stroke-width="6" stroke-linejoin="round"/>
-<path d="M50.9 43.7 L34.0 52.2 L34.0 47.8 L50.9 39.3 Z" fill="#7B8589" stroke="#7B8589" stroke-width="6" stroke-linejoin="round"/>
-<path d="M17.1 43.7 L34.0 52.2 L34.0 47.8 L17.1 39.3 Z" fill="#95A1A7" stroke="#95A1A7" stroke-width="6" stroke-linejoin="round"/>
-<path d="M34.0 30.8 L50.9 39.3 L34.0 47.8 L17.1 39.3 Z" fill="#B0BEC5" stroke="#B0BEC5" stroke-width="6" stroke-linejoin="round"/>
-<path d="M34.0 30.8 L50.9 39.3 L34.0 47.8 L17.1 39.3 Z" fill="#FFFFFF" fill-opacity=".12"/>
-<path d="M34.0 30.8 L50.9 39.3 L34.0 29.4 Z" fill="#F6BD60" stroke="#F6BD60" stroke-width="6" stroke-linejoin="round"/>
-<path d="M50.9 39.3 L34.0 47.8 L34.0 29.4 Z" fill="#D99A30" stroke="#D99A30" stroke-width="6" stroke-linejoin="round"/>
+<path d="M46.0 46.1 L35.0 51.7 L35.0 50.8 L46.0 45.3 Z" fill="#829BAF" stroke="#829BAF" stroke-width="6" stroke-linejoin="round"/>
+<path d="M20.7 44.5 L35.0 51.7 L35.0 50.8 L20.7 43.6 Z" fill="#9EBCD5" stroke="#9EBCD5" stroke-width="6" stroke-linejoin="round"/>
+<path d="M31.7 38.1 L46.0 45.3 L35.0 50.8 L20.7 43.6 Z" fill="#BBDEFB" stroke="#BBDEFB" stroke-width="6" stroke-linejoin="round"/>
+<path d="M31.7 38.1 L46.0 45.3 L35.0 50.8 L20.7 43.6 Z" fill="#FFFFFF" fill-opacity=".12"/>
+<path d="M46.0 38.6 L36.3 43.5 L36.3 42.6 L46.0 37.7 Z" fill="#AAACB0" stroke="#AAACB0" stroke-width="6" stroke-linejoin="round"/>
+<path d="M23.3 37.0 L36.3 43.5 L36.3 42.6 L23.3 36.1 Z" fill="#CED1D6" stroke="#CED1D6" stroke-width="6" stroke-linejoin="round"/>
+<path d="M33.0 31.2 L46.0 37.7 L36.3 42.6 L23.3 36.1 Z" fill="#F3F7FC" stroke="#F3F7FC" stroke-width="6" stroke-linejoin="round"/>
+<path d="M33.0 31.2 L46.0 37.7 L36.3 42.6 L23.3 36.1 Z" fill="#FFFFFF" fill-opacity=".12"/>
+<path d="M32.7 33.2 L34.8 34.2 L32.7 35.3 L30.6 34.2 Z" fill="#90CAF9"/>
+<path d="M35.6 35.0 L42.1 38.3 L40.9 38.9 L34.4 35.6 Z" fill="#BBDEFB"/>
+<path d="M29.4 34.8 L31.5 35.9 L29.4 36.9 L27.4 35.9 Z" fill="#90CAF9"/>
+<path d="M32.3 36.7 L38.8 39.9 L37.6 40.5 L31.1 37.2 Z" fill="#BBDEFB"/>
 </svg>
