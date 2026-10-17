@@ -14,6 +14,18 @@ const timePattern = /^([01]\d|2[0-3]):[0-5]\d$/
 
 /** Makes a new task, checking what the person typed. */
 export function createTask(title: string, day: string, time?: string): Task {
+  return { id: crypto.randomUUID(), ...checkedFields(title, day, time), done: false }
+}
+
+/**
+ * Gives the task with a new title, day and time, checked as for a new task. It keeps its id and
+ * its check box; the task it came from stays as it was.
+ */
+export function editedTask(task: Task, title: string, day: string, time?: string): Task {
+  return { ...task, ...checkedFields(title, day, time) }
+}
+
+function checkedFields(title: string, day: string, time?: string): Pick<Task, "title" | "day" | "time"> {
   const trimmedTitle = title.trim()
   if (trimmedTitle === "") {
     throw new ValhallaError(TaskWithoutTitle, "write what there is to do")
@@ -24,13 +36,7 @@ export function createTask(title: string, day: string, time?: string): Task {
   if (time !== undefined && time !== "" && !timePattern.test(time)) {
     throw new ValhallaError(InvalidTime, `${time} is not a time written as HH:MM`)
   }
-  return {
-    id: crypto.randomUUID(),
-    title: trimmedTitle,
-    day: day,
-    time: time === "" ? undefined : time,
-    done: false,
-  }
+  return { title: trimmedTitle, day: day, time: time === "" ? undefined : time }
 }
 
 /** Gives the task with its check box changed; the list it came from stays as it was. */

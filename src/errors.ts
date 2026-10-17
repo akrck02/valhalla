@@ -16,3 +16,6 @@ export const InvalidDay = "tasks.invalid-day"
 
 /** A time is written as HH:MM, from 00:00 to 23:59. */
 export const InvalidTime = "tasks.invalid-time"
+
+/** The task to change or delete is not in the store; it may have been deleted in another tab. */
+export const TaskNotFound = "tasks.not-found"

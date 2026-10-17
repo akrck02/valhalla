@@ -1,6 +1,7 @@
 import { run } from "./lib/test.js"
 import "./tasks.test.js"
 import "./settings.test.js"
+import "./task-dialog.test.js"
 
 run().then(report)
 

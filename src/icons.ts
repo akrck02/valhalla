@@ -4,13 +4,14 @@ import calendar from "../resources/icons/calendar.svg"
 import circleCheck from "../resources/icons/circle-check.svg"
 import moon from "../resources/icons/moon.svg"
 import notebookPen from "../resources/icons/notebook-pen.svg"
+import pencil from "../resources/icons/pencil.svg"
 import plus from "../resources/icons/plus.svg"
 import search from "../resources/icons/search.svg"
 import settings from "../resources/icons/settings.svg"
 import sun from "../resources/icons/sun.svg"
 import trash from "../resources/icons/trash.svg"
 
-const icons = { calendar, circleCheck, moon, notebookPen, plus, search, settings, sun, trash }
+const icons = { calendar, circleCheck, moon, notebookPen, pencil, plus, search, settings, sun, trash }
 
 /** The name of an icon the app knows. */
 export type IconName = keyof typeof icons

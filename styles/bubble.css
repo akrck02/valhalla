@@ -254,13 +254,67 @@ input[type="checkbox"] {
   }
 }
 
+/* Dangerous buttons: an action that loses something, such as deleting. Plain, in the danger colour. */
+.button.danger {
+  border-color: color-mix(in srgb, var(--danger) 45%, transparent);
+  color: var(--danger);
+}
+
+.button.danger:hover { background: color-mix(in srgb, var(--danger) 10%, var(--surface)); }
+
+/* Dialogs ------------------------------------------------------------------------------------- */
+
+/* A native <dialog> opened with showModal(): the browser traps the focus and closes it on Escape. */
+.dialog {
+  width: min(28rem, calc(100vw - 2 * var(--gap)));
+  padding: var(--padding);
+  border: var(--line-width) solid var(--line);
+  border-radius: var(--panel-radius);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--elevation);
+}
+
+.dialog::backdrop { background: var(--scrim); }
+
+.dialog form {
+  display: grid;
+  gap: var(--gap);
+}
+
+.dialog .error:empty { display: none; }
+
+.dialog-fields {
+  display: grid;
+  gap: var(--gap);
+}
+
+/* Buttons at the end; the first one (usually a dangerous one) apart on the other side. */
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: calc(var(--gap) / 2);
+}
+
+.dialog-actions > :first-child:not(:only-child) { margin-inline-end: auto; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .dialog[open] { animation: dialog-rise var(--motion-medium) ease-out; }
+}
+
+@keyframes dialog-rise {
+  from { opacity: 0; transform: translateY(8px); }
+}
+
 /* Glass --------------------------------------------------------------------------------------- */
 
 /* Panels that let the background show through. Only with data-glass on <html>. */
 :root[data-glass] .card,
 :root[data-glass] .list-item,
 :root[data-glass] .bottom-bar,
-:root[data-glass] .rail {
+:root[data-glass] .rail,
+:root[data-glass] .dialog {
   border-color: var(--glass-line);
   background: var(--glass-surface);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);

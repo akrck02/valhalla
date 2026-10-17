@@ -1,9 +1,10 @@
 import { uiComponent } from "../gtd/dom.js"
 import { Html } from "../gtd/html.js"
-import { ValhallaError } from "../errors.js"
 import { icon } from "../icons.js"
 import { createTask, dayOf, Task, tasksOfDay, withDoneSwitched } from "../tasks/task.js"
 import { loadTasks, saveTasks } from "../tasks/store.js"
+import { taskDialog, TaskDialogResult } from "./task-dialog.js"
+import { field, tryShowingError, valueOf } from "./task-form.js"
 
 /** Today: what is left to do, a check box for each task, and a line to add one. */
 export async function showToday(_parameters: string[], page: HTMLElement): Promise<void> {
@@ -42,41 +43,14 @@ function addForm(today: string, page: HTMLElement): HTMLElement {
 
   form.addEventListener("submit", event => {
     event.preventDefault()
-    const title = (form.querySelector("#task-title") as HTMLInputElement).value
-    const time = (form.querySelector("#task-time") as HTMLInputElement).value
-    try {
-      saveTasks(localStorage, [...loadTasks(localStorage), createTask(title, today, time)])
-    } catch (problem) {
-      if (!(problem instanceof ValhallaError)) {
-        throw problem
-      }
-      error.textContent = messageFor(problem)
-      return
+    const added = tryShowingError(error, () =>
+      saveTasks(localStorage, [...loadTasks(localStorage), createTask(valueOf(form, "task-title"), today, valueOf(form, "task-time"))]))
+    if (added) {
+      showToday([], page)
+      focusIn(page, "#task-title")
     }
-    showToday([], page)
-    ;(page.querySelector("#task-title") as HTMLInputElement).focus()
   })
   return form
-}
-
-function messageFor(problem: ValhallaError): string {
-  switch (problem.code) {
-    case "tasks.without-title":
-      return "Write what there is to do."
-    case "tasks.invalid-time":
-      return "Write the time as hours and minutes, such as 16:30."
-    default:
-      return problem.message
-  }
-}
-
-function field(id: string, label: string, type: string): HTMLElement {
-  const wrapper = uiComponent({ classes: ["field"] })
-  const labelElement = uiComponent({ type: Html.Label, attributes: { for: id } })
-  labelElement.textContent = label
-  const input = uiComponent({ type: Html.Input, id: id, attributes: { type: type, name: id } })
-  wrapper.append(labelElement, input)
-  return wrapper
 }
 
 function taskList(today: string, page: HTMLElement): HTMLElement {
@@ -97,7 +71,7 @@ function taskItem(task: Task, page: HTMLElement): HTMLElement {
     const tasks = loadTasks(localStorage).map(saved => saved.id === task.id ? withDoneSwitched(saved) : saved)
     saveTasks(localStorage, tasks)
     showToday([], page)
-    ;(page.querySelector(`#task-${task.id}`) as HTMLInputElement | null)?.focus()
+    focusIn(page, `#task-${task.id}`)
   })
   item.append(checkBox, label)
   if (task.time !== undefined) {
@@ -105,5 +79,41 @@ function taskItem(task: Task, page: HTMLElement): HTMLElement {
     time.textContent = task.time
     item.append(time)
   }
+  item.append(editButton(task, page))
   return item
+}
+
+function editButton(task: Task, page: HTMLElement): HTMLElement {
+  const name = `Edit ${task.title}`
+  const edit = uiComponent({
+    type: Html.Button,
+    id: `edit-${task.id}`,
+    classes: ["button", "ghost", "icon"],
+    attributes: { type: "button", title: name, "aria-label": name },
+  })
+  edit.append(icon("pencil"))
+  edit.addEventListener("click", () => {
+    const dialog = taskDialog(task, localStorage, result => afterEditing(result, task, page))
+    page.append(dialog)
+    dialog.showModal()
+  })
+  return edit
+}
+
+/** Draws the day again and puts the focus back where the person was, or the nearest place left. */
+function afterEditing(result: TaskDialogResult, task: Task, page: HTMLElement): void {
+  if (result === "cancelled") {
+    focusIn(page, `#edit-${task.id}`)
+    return
+  }
+  showToday([], page)
+  if (result === "deleted" || page.querySelector(`#edit-${task.id}`) === null) {
+    focusIn(page, "#task-title") // a deleted task, or one moved to another day, is no longer here
+    return
+  }
+  focusIn(page, `#edit-${task.id}`)
+}
+
+function focusIn(page: HTMLElement, selector: string): void {
+  ;(page.querySelector(selector) as HTMLElement | null)?.focus()
 }
