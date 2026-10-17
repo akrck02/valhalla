@@ -3,6 +3,7 @@ import { applyAppearance, loadAppearance } from "./settings.js"
 import { buildShell } from "./shell.js"
 import { showToday } from "./views/today.js"
 import { showCalendar } from "./views/calendar.js"
+import { showNotes } from "./views/notes.js"
 import { showComingSoon } from "./views/coming-soon.js"
 
 applyAppearance(document.documentElement, loadAppearance(localStorage))
@@ -10,6 +11,8 @@ applyAppearance(document.documentElement, loadAppearance(localStorage))
 setHomeRoute(showToday)
 setRoute("calendar/$/$", showCalendar)
 setRoute("calendar", showCalendar)
+setRoute("notes/$", showNotes)
+setRoute("notes", showNotes)
 setNotFoundRoute(showComingSoon)
 
 function showCurrentPlace(): void {

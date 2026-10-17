@@ -1,9 +1,10 @@
 import { uiComponent } from "../gtd/dom.js"
 import { Html } from "../gtd/html.js"
-import { icon } from "../icons.js"
 import { createTask, editedTask, Task } from "../tasks/task.js"
 import { deleteTask, loadTasks, saveTasks, updateTask } from "../tasks/store.js"
-import { field, tryShowingError, valueOf } from "./task-form.js"
+import { field, valueOf } from "./form.js"
+import { tryShowingError } from "./messages.js"
+import { deleteButton } from "./delete-button.js"
 
 /** What happened when the dialog closed. */
 export type TaskDialogResult = "added" | "saved" | "deleted" | "cancelled"
@@ -56,7 +57,11 @@ function buildDialog(title: string, task: Task, storage: Storage, closed: TaskDi
     dialog.remove()
     closed(result, finalTask)
   }
-  const actions = isNew ? actionsBar() : actionsBar(deleteButton(task, storage, error, finish))
+  const actions = isNew ? actionsBar() : actionsBar(deleteButton("this task", error, () => {
+    if (tryShowingError(error, () => deleteTask(storage, task.id))) {
+      finish("deleted", task)
+    }
+  }))
   actions.append(cancelButton(() => finish("cancelled", isNew ? undefined : task)), saveButton(isNew ? "Add" : "Save"))
   form.append(heading, fields, error, actions)
   dialog.append(form)
@@ -85,24 +90,6 @@ function actionsBar(...buttons: HTMLElement[]): HTMLElement {
   const bar = uiComponent({ classes: ["dialog-actions"] })
   bar.append(...buttons)
   return bar
-}
-
-function deleteButton(task: Task, storage: Storage, error: HTMLElement, finish: TaskDialogClosed): HTMLElement {
-  const remove = uiComponent({ type: Html.Button, classes: ["button", "danger"], attributes: { type: "button" } })
-  const label = document.createTextNode("Delete")
-  remove.append(icon("trash"), label)
-  remove.addEventListener("click", () => {
-    if (remove.dataset.asked === undefined) {
-      remove.dataset.asked = ""
-      label.textContent = "Delete for good"
-      error.textContent = "Press again to delete this task."
-      return
-    }
-    if (tryShowingError(error, () => deleteTask(storage, task.id))) {
-      finish("deleted", task)
-    }
-  })
-  return remove
 }
 
 function cancelButton(cancel: () => void): HTMLElement {

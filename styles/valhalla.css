@@ -209,3 +209,90 @@
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
+
+/* Notes ------------------------------------------------------------------------------------------ */
+
+/* The list and the open note side by side; on a phone, one or the other. */
+.notes {
+  display: grid;
+  grid-template-columns: minmax(14rem, 20rem) 1fr;
+  align-items: start;
+  gap: calc(var(--gap) * 1.5);
+}
+
+.notes-list header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  margin-bottom: var(--gap);
+}
+
+.notes-list .list { gap: 4px; }
+
+.note-link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(var(--touch-target) + 12px);
+  padding: 6px var(--padding);
+  border: var(--line-width) solid transparent;
+  border-radius: var(--card-radius);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.note-link:hover { background: var(--sunken); }
+
+.note-link[aria-current="page"] {
+  border-color: var(--line);
+  background: var(--surface);
+}
+
+.note-link .title {
+  overflow: hidden;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.note-editor,
+.note-empty {
+  display: grid;
+  gap: var(--gap);
+  padding: var(--padding);
+  border: var(--line-width) solid var(--line);
+  border-radius: var(--panel-radius);
+  background: var(--surface);
+}
+
+.note-empty { place-items: center; min-height: 16rem; }
+
+.note-editor textarea {
+  min-height: 22rem;
+  resize: vertical;
+  line-height: var(--line-height);
+}
+
+.note-editor .error:empty,
+.note-editor [role="status"]:empty { display: none; }
+
+.note-editor .back { display: none; justify-self: start; }
+
+:root[data-glass] .note-editor,
+:root[data-glass] .note-empty,
+:root[data-glass] .note-link[aria-current="page"] {
+  border-color: var(--glass-line);
+  background: var(--glass-surface);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+}
+
+@media (max-width: 760px) {
+  .notes { grid-template-columns: 1fr; }
+  .notes.open .notes-list,
+  .notes:not(.open) .note-empty { display: none; }
+  .note-editor .back { display: inline-flex; }
+  .note-editor textarea { min-height: 50vh; }
+}

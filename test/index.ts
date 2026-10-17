@@ -4,6 +4,8 @@ import "./settings.test.js"
 import "./task-dialog.test.js"
 import "./calendar.test.js"
 import "./calendar-view.test.js"
+import "./notes.test.js"
+import "./notes-view.test.js"
 
 run().then(report)
 

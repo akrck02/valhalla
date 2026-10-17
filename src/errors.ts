@@ -19,3 +19,9 @@ export const InvalidTime = "tasks.invalid-time"
 
 /** The task to change or delete is not in the store; it may have been deleted in another tab. */
 export const TaskNotFound = "tasks.not-found"
+
+/** A note needs a title or some text. */
+export const NoteEmpty = "notes.empty"
+
+/** The note to change or delete is not in the store; it may have been deleted in another tab. */
+export const NoteNotFound = "notes.not-found"

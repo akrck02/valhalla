@@ -4,7 +4,8 @@ import { icon } from "../icons.js"
 import { createTask, dayOf, Task, tasksOfDay, withDoneSwitched } from "../tasks/task.js"
 import { loadTasks, saveTasks } from "../tasks/store.js"
 import { taskDialog, TaskDialogResult } from "./task-dialog.js"
-import { field, tryShowingError, valueOf } from "./task-form.js"
+import { field, valueOf } from "./form.js"
+import { tryShowingError } from "./messages.js"
 import { focusIn } from "./focus.js"
 
 /** Today: what is left to do, a check box for each task, and a line to add one. */
