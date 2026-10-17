@@ -686,8 +686,17 @@ input[type="radio"] {
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
 
-/* The header floats on the ground; the index is a pane of its own, so neither needs a line. */
-:root[data-glass] .app-header { border-bottom-color: transparent; }
+/*
+ * The header and the index are one pane, an L around the page as in the first Valhalla: the same
+ * glass, with no line between them, so the frame reads as one piece and the page as the clear part.
+ */
+:root[data-glass] .app-header {
+  border-bottom-color: transparent;
+  background: var(--glass-pane);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+}
+
 :root[data-glass] .sidebar { border-right-color: transparent; }
 
 /* A dialog stays solid: it sits over other text, where glass can't promise contrast. */
