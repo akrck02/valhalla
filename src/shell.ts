@@ -47,30 +47,8 @@ function header(openSearch: () => void): HTMLElement {
   const logo = uiComponent({ type: "img", attributes: { src: "docs/images/logo.svg", alt: "" } })
   brand.append(logo, document.createTextNode("Valhalla"))
   const context = uiComponent({ classes: ["context"] })
-  header.append(brand, clock(), searchTrigger(openSearch), context)
+  header.append(brand, searchTrigger(openSearch), context)
   return header
-}
-
-/** How often the clock looks at the time; it shows minutes, so twice a minute is enough. */
-const clockStepMilliseconds = 30_000
-
-/** The time, as the first Valhalla showed it beside its name. */
-function clock(): HTMLElement {
-  const time = uiComponent({ type: "time", classes: ["clock"] })
-  const tick = (): void => {
-    const now = new Date()
-    time.textContent = new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" }).format(now)
-    time.setAttribute("datetime", now.toISOString())
-  }
-  tick()
-  const timer = setInterval(() => {
-    if (!time.isConnected) {
-      clearInterval(timer) // the frame was drawn again, with a clock of its own
-      return
-    }
-    tick()
-  }, clockStepMilliseconds)
-  return time
 }
 
 /** Looks like a search box, but is a button that opens the search, as Ctrl K does. */

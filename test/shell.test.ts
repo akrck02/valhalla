@@ -43,11 +43,9 @@ describe("the frame", () => {
     expect(page.tagName).toBe("MAIN")
   })
 
-  it("the header shows the time, and what the page adds to it", () => {
+  it("the header shows what the page adds to it, and no clock", () => {
     const { body } = frameAt("")
-    const clock = body.querySelector("time.clock")
-    expect(clock?.textContent ?? "").toMatch(/\d/)
-    expect(clock?.getAttribute("datetime") ?? "").toMatch(/^\d{4}-/)
+    expect(body.querySelector(".clock")).toBe(null)
     const progress = document.createElement("span")
     progress.textContent = "50%"
     showInHeader(progress)

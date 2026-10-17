@@ -562,16 +562,6 @@ input[type="radio"] {
   .fab { bottom: 88px; right: var(--padding); }
 }
 
-/* A clock in the header, as a quiet pill. */
-.clock {
-  padding: 4px 10px;
-  border-radius: var(--control-radius);
-  background: var(--sunken);
-  color: var(--ink-soft);
-  font-size: var(--text-small);
-  font-variant-numeric: tabular-nums;
-}
-
 /* What the current page adds to the header, such as its progress; at the end of the header. */
 .app-header .context {
   display: flex;
@@ -584,11 +574,6 @@ input[type="radio"] {
 
 .app-header .context svg { width: 16px; height: 16px; }
 .app-header .context > * { display: inline-flex; align-items: center; gap: 6px; }
-
-/* On a phone the header keeps only what it must: the name, the search and the page's part. */
-@media (max-width: 640px) {
-  .clock { display: none; }
-}
 
 /* Items of a list that appear one after another, when the system allows motion. */
 @media (prefers-reduced-motion: no-preference) {
@@ -788,8 +773,6 @@ input[type="radio"] {
 
   :root[data-glass] .sidebar a[aria-current="page"]::before { left: -10px; }
 }
-
-:root[data-glass] .clock { background: var(--glass-raised); }
 
 /* As in the first Valhalla, the search sits in the middle of the header. */
 @media (min-width: 641px) {
