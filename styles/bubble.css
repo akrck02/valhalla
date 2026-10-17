@@ -140,7 +140,6 @@ a { color: var(--accent-ink); }
 }
 
 /* Check boxes: the native control, coloured, at a size a finger can hit. */
-input[type="checkbox"],
 input[type="radio"] {
   flex: none;
   width: 22px;
@@ -149,6 +148,49 @@ input[type="radio"] {
   accent-color: var(--accent);
   cursor: pointer;
 }
+
+/*
+ * Check boxes are drawn by Bubble, not the browser, so they look the same in every style, mode
+ * and finish: an edge with a control's contrast, and when checked, the accent with its mark.
+ */
+input[type="checkbox"] {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border: 2px solid var(--control-line);
+  border-radius: 6px;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: background var(--motion-fast), border-color var(--motion-fast);
+}
+
+input[type="checkbox"]:hover { border-color: var(--ink-soft); }
+
+/* Checked, it wears the accent with its darker edge, as the main button does. */
+input[type="checkbox"]:checked {
+  border-color: var(--accent-edge);
+  background: var(--accent);
+}
+
+/* The mark: a tick cut out of the text colour that goes on the accent. */
+input[type="checkbox"]::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: var(--on-accent);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12.5l5 5L20 6.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  transform: scale(0);
+  transition: transform var(--motion-fast);
+}
+
+input[type="checkbox"]:checked::before { transform: scale(1); }
+input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 
 /* Cards, pills and lists ---------------------------------------------------------------------- */
 
@@ -676,13 +718,18 @@ input[type="radio"] {
 /* A dialog stays solid: it sits over other text, where glass can't promise contrast. */
 :root[data-glass] .dialog { border-color: transparent; }
 
-/* Fields keep the edge a control needs, as a line underneath: written on, not boxed in. */
+/*
+ * Fields are a brighter pane with a soft edge all round; the edge turns to a control's full
+ * contrast when the field is reached, and the focus ring marks the one being written in.
+ */
 :root[data-glass] .field :is(input, textarea, select),
 :root[data-glass] .search-box {
-  border-color: transparent;
-  border-bottom-color: var(--control-line);
-  background: var(--glass-pane);
+  border-color: color-mix(in srgb, var(--ink) 16%, transparent);
+  background: var(--glass-raised);
 }
+
+:root[data-glass] .field :is(input, textarea, select):hover,
+:root[data-glass] .search-box:hover { border-color: var(--control-line); }
 
 :root[data-glass] :is(.places a, .choice, .button:not(.primary), .search-result):hover {
   background: var(--glass-raised);
