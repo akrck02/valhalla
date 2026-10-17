@@ -15,6 +15,9 @@
   box-sizing: border-box;
 }
 
+/* Hidden means hidden, even for parts whose class sets a display. */
+[hidden] { display: none !important; }
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -273,6 +276,95 @@ input[type="checkbox"] {
   color: var(--accent-ink);
 }
 
+/* Search: a box with an icon, and a list of results to choose with the arrows (an ARIA combobox). */
+.search {
+  display: grid;
+  gap: calc(var(--gap) / 2);
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: calc(var(--touch-target) + 8px);
+  padding: 0 14px;
+  border: var(--line-width) solid var(--control-line);
+  border-radius: var(--control-radius);
+  background: var(--surface);
+}
+
+.search-box:focus-within {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.search-box svg {
+  flex: none;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  color: var(--ink-soft);
+}
+
+/* The box carries the focus ring, so the input inside it needs none of its own. */
+.search-box input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: var(--touch-target);
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  outline: none;
+}
+
+.search-results {
+  display: grid;
+  gap: 2px;
+  max-height: min(24rem, 60vh);
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.search-result {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--touch-target);
+  padding: 4px 10px;
+  border-radius: var(--control-radius);
+  cursor: pointer;
+}
+
+.search-result:hover { background: var(--sunken); }
+
+.search-result[aria-selected="true"] {
+  background: var(--accent-tint);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.search-result .title {
+  overflow: hidden;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.search-result .quiet {
+  margin-inline-start: auto;
+  white-space: nowrap;
+}
+
+/* Quiet ink does not read on the accent tint (tested in theme_test.go); soft ink does. */
+.search-result[aria-selected="true"] .quiet { color: var(--ink-soft); }
+.search-result[aria-selected="true"] .pill { background: var(--surface); }
+
+.search-empty {
+  padding: 10px;
+  color: var(--ink-soft);
+}
+
 /* Dangerous buttons: an action that loses something, such as deleting. Plain, in the danger colour. */
 .button.danger {
   border-color: color-mix(in srgb, var(--danger) 45%, transparent);
@@ -283,7 +375,10 @@ input[type="checkbox"] {
 
 /* Dialogs ------------------------------------------------------------------------------------- */
 
-/* A native <dialog> opened with showModal(): the browser traps the focus and closes it on Escape. */
+/*
+ * A native <dialog> opened with showModal(): the browser traps the focus and closes it on Escape.
+ * Always solid, even with glass: it sits over other text, where glass can't promise contrast.
+ */
 .dialog {
   width: min(28rem, calc(100vw - 2 * var(--gap)));
   padding: var(--padding);
@@ -332,8 +427,7 @@ input[type="checkbox"] {
 :root[data-glass] .card,
 :root[data-glass] .list-item,
 :root[data-glass] .bottom-bar,
-:root[data-glass] .rail,
-:root[data-glass] .dialog {
+:root[data-glass] .rail {
   border-color: var(--glass-line);
   background: var(--glass-surface);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);

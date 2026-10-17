@@ -6,6 +6,9 @@ import "./calendar.test.js"
 import "./calendar-view.test.js"
 import "./notes.test.js"
 import "./notes-view.test.js"
+import "./search.test.js"
+import "./terminal.test.js"
+import "./search-view.test.js"
 
 run().then(report)
 

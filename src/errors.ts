@@ -25,3 +25,12 @@ export const NoteEmpty = "notes.empty"
 
 /** The note to change or delete is not in the store; it may have been deleted in another tab. */
 export const NoteNotFound = "notes.not-found"
+
+/** The terminal knows no command with that name. */
+export const UnknownCommand = "terminal.unknown-command"
+
+/** A command needs something that was not written, such as the title of a task. */
+export const MissingArgument = "terminal.missing-argument"
+
+/** A command was given something it cannot use, such as a place that does not exist. */
+export const InvalidArgument = "terminal.invalid-argument"

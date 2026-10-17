@@ -296,3 +296,32 @@
   .note-editor .back { display: inline-flex; }
   .note-editor textarea { min-height: 50vh; }
 }
+
+/* Search and terminal ---------------------------------------------------------------------------- */
+
+.search-dialog {
+  width: min(40rem, calc(100vw - 2 * var(--gap)));
+  margin-top: 12vh;
+}
+
+/* The terminal of the 2022 Valhalla, on paper: monospace lines, what was typed a little quieter. */
+.terminal {
+  min-height: 10rem;
+  max-height: min(22rem, 50vh);
+  padding: 10px 12px;
+  overflow-y: auto;
+  border-radius: var(--control-radius);
+  background: var(--sunken);
+  font-family: var(--font-monospace);
+  font-size: var(--text-small);
+  white-space: pre-wrap;
+}
+
+.terminal:empty::before {
+  content: "Type help and press Enter.";
+  color: var(--ink-soft);
+}
+
+.terminal-line.typed { color: var(--ink-soft); }
+.terminal-line.error { color: var(--danger); }
+.terminal-line + .terminal-line.typed { margin-top: 8px; }
