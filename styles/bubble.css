@@ -208,60 +208,87 @@ input[type="radio"] {
 /* The app's frame ----------------------------------------------------------------------------- */
 
 /*
- * A sheet of paper: a header across the top and an index on the left, divided from the page by
- * fine lines. On phones the index becomes a bar at the bottom. Material turns the index into a
- * rail of icons with their names under them.
+ * An index on the left, the whole height of the window: the name on top, the places under it,
+ * divided from the page by a fine line. There is no header: the search opens from anywhere with
+ * Ctrl K. On phones the index becomes a bar at the bottom. Material turns the places into a rail
+ * of icons with their names under them.
  */
 .app {
   display: grid;
   grid-template-columns: 15rem minmax(0, 1fr);
-  grid-template-rows: auto 1fr;
-  grid-template-areas: "header header" "sidebar page";
+  grid-template-areas: "sidebar page";
   min-height: 100vh;
 }
 
-.app-header {
-  grid-area: header;
+.sidebar {
+  grid-area: sidebar;
+  position: sticky;
+  top: 0;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: var(--gap);
-  min-height: 60px;
-  padding: 8px var(--padding);
-  border-bottom: var(--line-width) solid var(--line);
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 14px 12px;
+  border-right: var(--line-width) solid var(--line);
 }
 
+/* The name, in small spaced capitals: sober, as the first Valhalla wrote it. */
 .brand {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 10px;
   min-height: var(--touch-target);
+  padding: 0 8px;
   color: var(--ink);
+  font-size: var(--text-small);
   font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   text-decoration: none;
 }
 
-.brand img { width: 32px; height: 32px; }
+.brand img { width: 28px; height: 28px; }
 
-/* A button that looks like a search box and opens the search, with its shortcut beside it. */
-.search-trigger {
+.places {
   display: flex;
-  flex: 0 1 30rem;
-  align-items: center;
-  gap: 10px;
-  min-height: var(--touch-target);
-  margin-inline-start: var(--gap);
-  padding: 0 12px;
-  border: var(--line-width) solid var(--line);
-  border-radius: var(--control-radius);
-  background: var(--surface);
-  color: var(--ink-soft);
-  font: inherit;
-  cursor: pointer;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.search-trigger:hover { border-color: var(--control-line); }
-.search-trigger svg { flex: none; width: var(--icon-size); height: var(--icon-size); }
-.search-trigger .key { margin-inline-start: auto; }
+.places a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--touch-target);
+  padding: 0 12px;
+  border-radius: var(--button-radius);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.places a:hover { background: var(--sunken); }
+.places svg { flex: none; width: var(--icon-size); height: var(--icon-size); }
+.places .key { margin-inline-start: auto; }
+
+/* What is chosen is brighter, with the fine straight bar of the first Valhalla beside it. */
+.places a[aria-current="page"],
+.bottom-bar .button[aria-current="page"] {
+  background: var(--sunken);
+  font-weight: 600;
+}
+
+.places a[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 28%;
+  bottom: 28%;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--ink);
+}
 
 /* A key of the keyboard, as in Ctrl K. */
 .key {
@@ -273,45 +300,14 @@ input[type="radio"] {
   font-family: inherit;
 }
 
-.sidebar {
-  grid-area: sidebar;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 18px 12px;
-  border-right: var(--line-width) solid var(--line);
-}
-
-.sidebar a {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: var(--touch-target);
-  padding: 0 12px;
-  border-radius: var(--button-radius);
-  color: var(--ink);
-  text-decoration: none;
-}
-
-.sidebar a:hover { background: var(--sunken); }
-
-.sidebar a[aria-current="page"],
-.bottom-bar .button[aria-current="page"] {
-  background: var(--accent-tint);
-  color: var(--accent-ink);
-  font-weight: 600;
-}
-
-.sidebar svg {
-  flex: none;
-  width: var(--icon-size);
-  height: var(--icon-size);
-}
-
 :root[data-style="material"] .app { grid-template-columns: 6rem minmax(0, 1fr); }
-:root[data-style="material"] .sidebar { align-items: stretch; gap: 12px; border-right: 0; }
+:root[data-style="material"] .sidebar { align-items: stretch; border-right: 0; }
+:root[data-style="material"] .brand span,
+:root[data-style="material"] .places .key { display: none; }
+:root[data-style="material"] .brand { justify-content: center; padding: 0; }
+:root[data-style="material"] .places { gap: 12px; }
 
-:root[data-style="material"] .sidebar a {
+:root[data-style="material"] .places a {
   flex-direction: column;
   justify-content: center;
   gap: 4px;
@@ -319,18 +315,19 @@ input[type="radio"] {
   font-size: var(--text-small);
 }
 
-:root[data-style="material"] .sidebar a:hover,
-:root[data-style="material"] .sidebar a[aria-current="page"] { background: transparent; }
+:root[data-style="material"] .places a:hover,
+:root[data-style="material"] .places a[aria-current="page"] { background: transparent; }
+:root[data-style="material"] .places a[aria-current="page"]::before { display: none; }
 
 /* The pill sits behind the icon only, as in Material's navigation rail. */
-:root[data-style="material"] .sidebar svg {
+:root[data-style="material"] .places svg {
   box-sizing: content-box;
   padding: 4px 16px;
   border-radius: var(--button-radius);
 }
 
-:root[data-style="material"] .sidebar a:hover svg { background: var(--sunken); }
-:root[data-style="material"] .sidebar a[aria-current="page"] svg { background: var(--accent-tint); }
+:root[data-style="material"] .places a:hover svg { background: var(--sunken); }
+:root[data-style="material"] .places a[aria-current="page"] svg { background: var(--accent-tint); }
 
 /* Pages read best narrow; a page that lays out a wide grid, such as a calendar, adds .wide. */
 .page {
@@ -346,22 +343,38 @@ input[type="radio"] {
 
 .page.wide { max-width: 1200px; }
 
+/* On medium screens the index folds to its icons; their names stay for screen readers. */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .app { grid-template-columns: 4.5rem minmax(0, 1fr); }
+  .sidebar { align-items: center; padding: 14px 10px; }
+  .brand { justify-content: center; padding: 0; }
+  .places a { justify-content: center; width: var(--touch-target); padding: 0; }
+  .places .key { display: none; }
+
+  .brand span,
+  .places a span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .places a[aria-current="page"]::before { left: -10px; }
+}
+
 .bottom-bar { display: none; }
 
 @media (max-width: 640px) {
   .app {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "header" "page";
+    grid-template-areas: "page";
     padding-bottom: 76px;
   }
 
   :root[data-style="material"] .app { grid-template-columns: minmax(0, 1fr); }
   .sidebar { display: none; }
-
-  /* On a phone the search box shrinks to its icon; its name stays for screen readers. */
-  .search-trigger { flex: none; margin-inline-start: auto; padding: 0 12px; }
-  .search-trigger .label,
-  .search-trigger .key { display: none; }
 
   .bottom-bar {
     position: fixed;
@@ -562,19 +575,6 @@ input[type="radio"] {
   .fab { bottom: 88px; right: var(--padding); }
 }
 
-/* What the current page adds to the header, such as its progress; at the end of the header. */
-.app-header .context {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-inline-start: auto;
-  color: var(--ink-soft);
-  font-size: var(--text-small);
-}
-
-.app-header .context svg { width: 16px; height: 16px; }
-.app-header .context > * { display: inline-flex; align-items: center; gap: 6px; }
-
 /* Items of a list that appear one after another, when the system allows motion. */
 @media (prefers-reduced-motion: no-preference) {
   .appear > * { animation: appear var(--motion-medium) ease-out backwards; }
@@ -662,26 +662,15 @@ input[type="radio"] {
 }
 
 :root[data-glass] h1 { font-weight: 300; letter-spacing: 0.01em; }
-:root[data-glass] .brand { text-transform: uppercase; letter-spacing: 0.14em; font-size: var(--text-small); }
 
-:root[data-glass] :is(.card, .list-item, .search-trigger, .search-box, .choice, .segmented, .sidebar, .bottom-bar, .button:not(.primary, .ghost)) {
+:root[data-glass] :is(.card, .list-item, .search-box, .choice, .segmented, .sidebar, .bottom-bar, .button:not(.primary, .ghost)) {
   border-color: transparent;
   background: var(--glass-pane);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
 
-/*
- * The header and the index are one pane, an L around the page as in the first Valhalla: the same
- * glass, with no line between them, so the frame reads as one piece and the page as the clear part.
- */
-:root[data-glass] .app-header {
-  border-bottom-color: transparent;
-  background: var(--glass-pane);
-  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
-}
-
+/* The index is a pane of its own, so it needs no line. */
 :root[data-glass] .sidebar { border-right-color: transparent; }
 
 /* A dialog stays solid: it sits over other text, where glass can't promise contrast. */
@@ -695,11 +684,11 @@ input[type="radio"] {
   background: var(--glass-pane);
 }
 
-:root[data-glass] :is(.sidebar a, .choice, .button:not(.primary), .search-result, .search-trigger):hover {
+:root[data-glass] :is(.places a, .choice, .button:not(.primary), .search-result):hover {
   background: var(--glass-raised);
 }
 
-:root[data-glass] .sidebar a[aria-current="page"],
+:root[data-glass] .places a[aria-current="page"],
 :root[data-glass] .search-result[aria-selected="true"] {
   position: relative;
   background: var(--glass-raised);
@@ -708,7 +697,6 @@ input[type="radio"] {
 }
 
 /* The fine, straight bar of the first Valhalla, beside what is chosen. */
-:root[data-glass] .sidebar a[aria-current="page"]::before,
 :root[data-glass] .search-result[aria-selected="true"]::before {
   content: "";
   position: absolute;
@@ -754,30 +742,6 @@ input[type="radio"] {
   position: absolute;
   inset: 0;
   background: var(--glass-veil);
-}
-
-/* On glass the index is a rail of icons, as in the first Valhalla; their names stay for readers. */
-@media (min-width: 641px) {
-  :root[data-glass] .app { grid-template-columns: 4.5rem minmax(0, 1fr); }
-  :root[data-glass] .sidebar { align-items: center; padding: 18px 10px; }
-  :root[data-glass] .sidebar a { justify-content: center; width: var(--touch-target); padding: 0; }
-
-  :root[data-glass] .sidebar a span {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  :root[data-glass] .sidebar a[aria-current="page"]::before { left: -10px; }
-}
-
-/* As in the first Valhalla, the search sits in the middle of the header. */
-@media (min-width: 641px) {
-  :root[data-glass] .search-trigger { margin-inline: auto; }
-  :root[data-glass] .app-header .context { margin-inline-start: 0; }
 }
 
 /* The button to create is a pane of glass too, with the accent kept for its sign. */

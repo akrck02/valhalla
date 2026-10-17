@@ -21,7 +21,7 @@ setNotFoundRoute(showComingSoon)
 
 function showCurrentPlace(): void {
   const path = location.hash.replace(/^#\/?/, "")
-  const page = buildShell(document.body, path, openSearchDialog)
+  const page = buildShell(document.body, path)
   showRoute(path, page)
 }
 

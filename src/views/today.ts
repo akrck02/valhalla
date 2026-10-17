@@ -4,7 +4,7 @@ import { icon } from "../icons.js"
 import { createTask, dayOf, Task, tasksOfDay, withDoneSwitched } from "../tasks/task.js"
 import { loadTasks, saveTasks } from "../tasks/store.js"
 import { newTaskDialog, taskDialog, TaskDialogResult } from "./task-dialog.js"
-import { floatingButton, showInHeader } from "../shell.js"
+import { floatingButton } from "../shell.js"
 import { field, valueOf } from "./form.js"
 import { tryShowingError } from "./messages.js"
 import { focusIn } from "./focus.js"
@@ -12,19 +12,8 @@ import { focusIn } from "./focus.js"
 /** Today: what is left to do, a check box for each task, and a line to add one. */
 export async function showToday(_parameters: string[], page: HTMLElement): Promise<void> {
   const today = dayOf(new Date())
-  const tasks = tasksOfDay(loadTasks(localStorage), today)
   const isFirstDraw = page.childElementCount === 0 // drawing again after a change should not move
   page.replaceChildren(header(today), addForm(today, page), taskList(today, page, isFirstDraw), addButton(today, page))
-  showInHeader(progress(tasks))
-}
-
-/** How much of the day is done, as the first Valhalla showed it in its header. */
-function progress(tasks: Task[]): HTMLElement {
-  const done = tasks.filter(task => task.done).length
-  const share = tasks.length === 0 ? 0 : Math.round((done / tasks.length) * 100)
-  const line = uiComponent({ type: Html.Span, attributes: { title: `${done} of ${tasks.length} done today` } })
-  line.append(document.createTextNode(`${share}%`), icon("circleCheck"))
-  return line
 }
 
 function addButton(today: string, page: HTMLElement): HTMLElement {
@@ -58,7 +47,8 @@ function summaryOf(tasks: Task[]): string {
   if (left === 0) {
     return "All done for today."
   }
-  return left === 1 ? "One task left." : `${left} tasks left.`
+  const share = Math.round(((tasks.length - left) / tasks.length) * 100)
+  return `${left === 1 ? "One task left" : `${left} tasks left`} · ${share}% done.`
 }
 
 function addForm(today: string, page: HTMLElement): HTMLElement {
