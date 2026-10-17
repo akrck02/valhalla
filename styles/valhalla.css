@@ -325,3 +325,16 @@
 .terminal-line.typed { color: var(--ink-soft); }
 .terminal-line.error { color: var(--danger); }
 .terminal-line + .terminal-line.typed { margin-top: 8px; }
+
+/* Settings --------------------------------------------------------------------------------------- */
+
+.settings {
+  display: grid;
+  gap: calc(var(--gap) * 1.5);
+}
+
+.switch-field {
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+}

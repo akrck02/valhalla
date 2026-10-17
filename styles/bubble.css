@@ -140,7 +140,8 @@ a { color: var(--accent-ink); }
 }
 
 /* Check boxes: the native control, coloured, at a size a finger can hit. */
-input[type="checkbox"] {
+input[type="checkbox"],
+input[type="radio"] {
   width: 22px;
   height: 22px;
   margin: 0;
@@ -274,6 +275,61 @@ input[type="checkbox"] {
 .segmented .button[aria-pressed="true"] {
   background: var(--accent-tint);
   color: var(--accent-ink);
+}
+
+/* Choices: radio buttons or a check box as pills, in a fieldset whose legend names the group. */
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.choices legend {
+  margin-bottom: 8px;
+  padding: 0;
+  font-weight: 650;
+}
+
+.choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--touch-target);
+  padding: 0 16px 0 12px;
+  border: var(--line-width) solid var(--line);
+  border-radius: var(--button-radius);
+  background: var(--surface);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.choice:hover { background: var(--sunken); }
+
+/* The whole pill carries the focus ring, so the small control inside needs none of its own. */
+.choice:has(:focus-visible) {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.choice input:focus-visible { outline: none; }
+.choice:has(:checked) { border-color: var(--accent-ink); background: var(--accent-tint); }
+
+.choice:has(:disabled) {
+  border-style: dashed;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: not-allowed;
+}
+
+/* A sample of a colour beside its name; the name, not the colour, is what is read out. */
+.swatch {
+  width: 18px;
+  height: 18px;
+  border: var(--line-width) solid var(--line);
+  border-radius: 50%;
 }
 
 /* Search: a box with an icon, and a list of results to choose with the arrows (an ARIA combobox). */

@@ -5,6 +5,7 @@ import { showToday } from "./views/today.js"
 import { showCalendar } from "./views/calendar.js"
 import { showNotes } from "./views/notes.js"
 import { openSearchDialog, showSearch } from "./views/search.js"
+import { showSettings } from "./views/settings.js"
 import { showComingSoon } from "./views/coming-soon.js"
 
 applyAppearance(document.documentElement, loadAppearance(localStorage))
@@ -15,6 +16,7 @@ setRoute("calendar", showCalendar)
 setRoute("notes/$", showNotes)
 setRoute("notes", showNotes)
 setRoute("search", showSearch)
+setRoute("settings", showSettings)
 setNotFoundRoute(showComingSoon)
 
 function showCurrentPlace(): void {

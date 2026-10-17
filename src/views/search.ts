@@ -7,7 +7,7 @@ import { loadTasks } from "../tasks/store.js"
 import { loadNotes } from "../notes/store.js"
 import { ResultKind, searchEverything, SearchResult } from "../search/search.js"
 import { readCommand, runCommand, TerminalContext } from "../terminal/terminal.js"
-import { applyAppearance, loadAppearance, saveAppearance } from "../settings.js"
+import { changeAppearance } from "../settings.js"
 import { places } from "../shell.js"
 import { messageFor } from "./messages.js"
 
@@ -159,11 +159,7 @@ function runLine(input: HTMLInputElement, terminal: HTMLElement, go: (href: stri
     today: dayOf(new Date()),
     places: places.map(place => ({ name: place.name, path: place.path })),
     go: go,
-    setMode: mode => {
-      const appearance = { ...loadAppearance(localStorage), mode }
-      saveAppearance(localStorage, appearance)
-      applyAppearance(document.documentElement, appearance)
-    },
+    setMode: mode => { changeAppearance(localStorage, document.documentElement, { mode }) },
   }
   const answer = answerTo(line, context)
   if (answer === "clear") {

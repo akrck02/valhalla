@@ -9,6 +9,7 @@ import "./notes-view.test.js"
 import "./search.test.js"
 import "./terminal.test.js"
 import "./search-view.test.js"
+import "./settings-view.test.js"
 
 run().then(report)
 
