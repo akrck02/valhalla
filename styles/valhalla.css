@@ -1,0 +1,29 @@
+/* What only Valhalla needs; anything reusable moves to Bubble. */
+
+/* The soft lights behind the glass, as in the 2022 Valhalla. Without glass the page is plain paper. */
+:root[data-glass] body {
+  background:
+    radial-gradient(40rem 40rem at 10% 10%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 70%),
+    radial-gradient(36rem 36rem at 90% 80%, color-mix(in srgb, var(--tile) 30%, transparent), transparent 70%),
+    var(--background);
+  background-attachment: fixed;
+}
+
+.add-task {
+  display: grid;
+  grid-template-columns: 1fr 8.5rem auto;
+  align-items: end;
+  gap: var(--gap);
+}
+
+.add-task .error {
+  grid-column: 1 / -1;
+  color: var(--danger);
+}
+
+.add-task .error:empty { display: none; }
+
+@media (max-width: 640px) {
+  .add-task { grid-template-columns: 1fr auto; }
+  .add-task .field:first-child { grid-column: 1 / -1; }
+}

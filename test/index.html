@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Valhalla tests</title>
+    <style>
+      body { font: 15px/1.5 system-ui, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+      h1 { font-size: 1.4rem; }
+      h2 { font-size: 1rem; margin: 1.4rem 0 .3rem; }
+      p { margin: .1rem 0; font-family: ui-monospace, monospace; font-size: 13px; }
+      .pass { color: #187a3c; }
+      .fail { color: #b3261e; }
+      #summary { font-weight: 600; padding: .6rem .9rem; border-radius: 8px; background: #f2f2f2; }
+    </style>
+  </head>
+  <body>
+    <h1>Valhalla tests</h1>
+    <p id="summary">Running… (built with bin/test.sh? open this page through a server or file://)</p>
+    <div id="report"></div>
+    <script src="./out/tests.js"></script>
+  </body>
+</html>

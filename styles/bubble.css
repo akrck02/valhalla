@@ -1,0 +1,281 @@
+/*
+ * Bubble 4: the components, drawn only with the tokens in tokens.css.
+ * Load tokens.css first. Every rule below is a part a real app needed; see docs/.
+ */
+
+/* Base ---------------------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: var(--color-scheme);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--text-body);
+  line-height: var(--line-height);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.2;
+  font-weight: 650;
+}
+
+h1 { font-size: var(--text-title); }
+h2 { font-size: var(--text-heading); }
+p { margin: 0; }
+a { color: var(--accent-ink); }
+::selection { background: var(--selection); }
+
+:focus-visible {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.soft { color: var(--ink-soft); }
+.quiet { color: var(--ink-quiet); font-size: var(--text-small); }
+
+/* Hidden from the eye, still read by screen readers. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Buttons ------------------------------------------------------------------------------------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--touch-target);
+  padding: 0 calc(var(--padding) * 0.9);
+  border: var(--line-width) solid var(--control-line);
+  border-radius: var(--button-radius);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--motion-fast), transform var(--motion-fast);
+}
+
+.button:hover { background: var(--sunken); }
+
+/* The primary action stands on its block edge, the darker side of the project's logo. */
+.button.primary {
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 var(--edge-width) 0 var(--accent-edge), var(--elevation);
+}
+
+.button.primary:hover { background: var(--accent-side); }
+
+.button.primary:active {
+  transform: translateY(var(--edge-width));
+  box-shadow: 0 0 0 var(--accent-edge);
+}
+
+.button.ghost { border-color: transparent; }
+
+.button.icon {
+  width: var(--touch-target);
+  padding: 0;
+}
+
+.button svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+
+/* Fields -------------------------------------------------------------------------------------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+.field input,
+.field textarea,
+.field select {
+  min-height: var(--touch-target);
+  padding: 0 12px;
+  border: var(--line-width) solid var(--control-line);
+  border-radius: var(--control-radius);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+
+.field .error {
+  color: var(--danger);
+  font-size: var(--text-small);
+}
+
+/* Check boxes: the native control, coloured, at a size a finger can hit. */
+input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* Cards, pills and lists ---------------------------------------------------------------------- */
+
+.card {
+  padding: var(--padding);
+  border: var(--line-width) solid var(--line);
+  border-radius: var(--card-radius);
+  background: var(--surface);
+  box-shadow: var(--elevation);
+}
+
+:root[data-style="material"] .card {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--accent-tint) 45%, var(--surface));
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--button-radius);
+  background: var(--accent-tint);
+  color: var(--accent-ink);
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  min-height: calc(var(--touch-target) + 12px);
+  padding: 0 var(--padding);
+  border: var(--line-width) solid var(--line);
+  border-radius: var(--card-radius);
+  background: var(--surface);
+}
+
+.list-item.done {
+  border-style: dashed;
+  background: transparent;
+  color: var(--ink-quiet);
+}
+
+.list-item.done .title { text-decoration: line-through; }
+.list-item .title { flex: 1 1 auto; font-weight: 600; }
+
+/* The app's frame ----------------------------------------------------------------------------- */
+
+/* A narrow bar of icons on the left on wide screens; a bar at the bottom on phones. */
+.app {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  min-height: 100vh;
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: var(--gap) 10px;
+  border-right: var(--line-width) solid var(--line);
+}
+
+.rail .button[aria-current="page"],
+.bottom-bar .button[aria-current="page"] {
+  background: var(--accent-tint);
+  color: var(--accent-ink);
+}
+
+.page {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: calc(var(--padding) * 1.6) var(--padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.bottom-bar { display: none; }
+
+@media (max-width: 640px) {
+  .app { grid-template-columns: 1fr; padding-bottom: 88px; }
+  .rail { display: none; }
+
+  .bottom-bar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    display: flex;
+    justify-content: space-around;
+    padding: 6px;
+    border: var(--line-width) solid var(--line);
+    border-radius: var(--button-radius);
+    background: var(--surface);
+    box-shadow: var(--elevation);
+  }
+}
+
+/* Glass --------------------------------------------------------------------------------------- */
+
+/* Panels that let the background show through. Only with data-glass on <html>. */
+:root[data-glass] .card,
+:root[data-glass] .list-item,
+:root[data-glass] .bottom-bar,
+:root[data-glass] .rail {
+  border-color: var(--glass-line);
+  background: var(--glass-surface);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+}
+
+:root[data-glass] .list-item.done { background: transparent; }
+
+/* Less motion when the system asks for it ------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+  }
+}
