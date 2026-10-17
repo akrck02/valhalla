@@ -203,65 +203,50 @@
 
 /* Notes ------------------------------------------------------------------------------------------ */
 
-/* The list and the open note side by side; on a phone, one or the other. */
-.notes {
+/* A wall of cards, as the first Valhalla pinned its notes. */
+.note-wall {
   display: grid;
-  grid-template-columns: minmax(14rem, 20rem) 1fr;
-  align-items: start;
-  gap: calc(var(--gap) * 1.5);
-}
-
-.notes-list header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
   gap: var(--gap);
-  margin-bottom: var(--gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.notes-list .list { gap: 4px; }
-
-.note-link {
+.note-card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  min-height: calc(var(--touch-target) + 12px);
-  padding: 6px var(--padding);
-  border: var(--line-width) solid transparent;
+  gap: 8px;
+  height: 100%;
+  min-height: 11rem;
+  box-sizing: border-box;
+  padding: var(--padding);
+  border: var(--line-width) solid var(--line);
   border-radius: var(--card-radius);
+  background: var(--surface);
   color: var(--ink);
   text-decoration: none;
+  transition: transform var(--motion-fast), background var(--motion-fast);
 }
 
-.note-link:hover { background: var(--sunken); }
+.note-card:hover { background: var(--sunken); }
+.note-card .title { font-weight: 650; overflow-wrap: anywhere; }
+.note-card .excerpt { flex: 1 1 auto; color: var(--ink-soft); overflow-wrap: anywhere; }
 
-.note-link[aria-current="page"] {
-  border-color: var(--line);
-  background: var(--surface);
-}
-
-.note-link .title {
-  overflow: hidden;
-  font-weight: 600;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.note-editor,
-.note-empty {
+.note-editor {
   display: grid;
   gap: var(--gap);
+  width: 100%;
+  max-width: 48rem;
+  margin: 0 auto;
   padding: var(--padding);
   border: var(--line-width) solid var(--line);
   border-radius: var(--panel-radius);
   background: var(--surface);
 }
 
-.note-empty { place-items: center; min-height: 16rem; }
-
 .note-editor textarea {
-  min-height: 22rem;
+  min-height: 50vh;
   resize: vertical;
   line-height: var(--line-height);
 }
@@ -269,25 +254,31 @@
 .note-editor .error:empty,
 .note-editor [role="status"]:empty { display: none; }
 
-.note-editor .back { display: none; justify-self: start; }
+.note-editor .back { justify-self: start; }
 
-:root[data-glass] .month-day.outside { border-color: transparent; }
-
-:root[data-glass] .note-editor,
-:root[data-glass] .note-empty,
-:root[data-glass] .note-link[aria-current="page"] {
+/* On glass the cards lean a little, as notes pinned by hand, and straighten when they are reached. */
+:root[data-glass] .note-card {
   border-color: transparent;
   background: var(--glass-pane);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
 
-@media (max-width: 760px) {
-  .notes { grid-template-columns: 1fr; }
-  .notes.open .notes-list,
-  .notes:not(.open) .note-empty { display: none; }
-  .note-editor .back { display: inline-flex; }
-  .note-editor textarea { min-height: 50vh; }
+:root[data-glass] .note-card .title { text-transform: uppercase; letter-spacing: 0.06em; }
+:root[data-glass] .note-wall > :nth-child(3n + 1) .note-card { transform: rotate(-1.2deg); }
+:root[data-glass] .note-wall > :nth-child(3n + 2) .note-card { transform: rotate(0.8deg); }
+:root[data-glass] .note-wall > :nth-child(3n) .note-card { transform: rotate(-0.4deg); }
+
+:root[data-glass] .note-wall .note-card:is(:hover, :focus-visible) {
+  background: var(--glass-raised);
+  transform: translateY(-4px);
+}
+
+:root[data-glass] .note-editor {
+  border-color: transparent;
+  background: var(--glass-pane);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
 
 /* Search and terminal ---------------------------------------------------------------------------- */
@@ -332,16 +323,67 @@
   gap: 6px;
 }
 
-:root[data-glass] .note-link[aria-current="page"] { position: relative; }
-
-:root[data-glass] .note-link[aria-current="page"]::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 28%;
-  bottom: 28%;
-  width: 2px;
-  border-radius: 1px;
-  background: var(--ink);
-}
 :root[data-glass] .calendar-task { background: var(--glass-raised); }
+
+/* On glass today is framed, as in the first Valhalla, not filled with colour. */
+:root[data-glass] .day-number[aria-current="date"] { background: transparent; color: var(--ink); }
+
+:root[data-glass] .month-day:has([aria-current="date"]),
+:root[data-glass] .week-day:has([aria-current="date"]) {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+
+:root[data-glass] .week-day h2[aria-current="date"],
+:root[data-glass] .week-day h2[aria-current="date"] .number { color: var(--ink); }
+
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-glass] .month-day:not(.outside) { transition: transform var(--motion-fast), background var(--motion-fast); }
+  :root[data-glass] .month-day:not(.outside):hover { background: var(--glass-raised); transform: translateY(-2px); }
+}
+
+/* Wallpapers ------------------------------------------------------------------------------------- */
+
+/*
+ * The wallpapers glass can show, drawn with gradients: soft lights, as a photograph out of focus.
+ * Bubble blurs, dims and veils them, so the inks keep their tested contrast over any of them.
+ */
+:root[data-wallpaper="city"], [data-sample="city"] {
+  --wallpaper:
+    radial-gradient(circle at 16% 70%, #19C6D8 0 10%, transparent 30%),
+    radial-gradient(circle at 10% 80%, #F6DDE6 0 4%, transparent 12%),
+    radial-gradient(circle at 62% 18%, #1E9FB2 0 9%, transparent 28%),
+    radial-gradient(circle at 80% 62%, #E0385A 0 9%, transparent 28%),
+    radial-gradient(circle at 44% 94%, #F0849E 0 8%, transparent 26%),
+    radial-gradient(circle at 92% 10%, #3A86B0 0 10%, transparent 32%),
+    linear-gradient(160deg, #06303A, #0D0E1A 55%, #34101C);
+}
+
+:root[data-wallpaper="aurora"], [data-sample="aurora"] {
+  --wallpaper:
+    radial-gradient(ellipse 70% 30% at 28% 26%, #22E39A, transparent 72%),
+    radial-gradient(ellipse 60% 26% at 64% 40%, #19BBD4, transparent 72%),
+    radial-gradient(ellipse 50% 24% at 84% 20%, #8A72F0, transparent 72%),
+    radial-gradient(ellipse 80% 30% at 50% 100%, #0F4C5C, transparent 72%),
+    linear-gradient(180deg, #071226, #08282C 70%, #0A1214);
+}
+
+:root[data-wallpaper="ember"], [data-sample="ember"] {
+  --wallpaper:
+    radial-gradient(circle at 26% 66%, #FFC766 0 9%, transparent 30%),
+    radial-gradient(circle at 70% 28%, #F05A2E 0 10%, transparent 32%),
+    radial-gradient(circle at 86% 78%, #FF9A45 0 7%, transparent 24%),
+    radial-gradient(circle at 10% 16%, #A82E1E 0 12%, transparent 36%),
+    linear-gradient(200deg, #2A0F08, #120C0A 60%, #2C1606);
+}
+
+:root[data-wallpaper="dunes"], [data-sample="dunes"] {
+  --wallpaper:
+    radial-gradient(ellipse 90% 34% at 20% 85%, #B98A5E, transparent 72%),
+    radial-gradient(ellipse 80% 30% at 75% 70%, #E2C49C, transparent 72%),
+    radial-gradient(ellipse 70% 34% at 50% 12%, #F8EAD6, transparent 72%),
+    linear-gradient(180deg, #EBD9C0, #A97F57);
+}
+
+.wallpaper-sample { background: var(--wallpaper, var(--sunken)) center / cover; }
+[data-sample="none"] { background: var(--background); }

@@ -6,6 +6,7 @@ import { dayOf, Task, tasksOfDay } from "../tasks/task.js"
 import { loadTasks } from "../tasks/store.js"
 import { newTaskDialog, taskDialog, TaskDialogResult } from "./task-dialog.js"
 import { focusIn } from "./focus.js"
+import { floatingButton } from "../shell.js"
 
 /** How many tasks a day of the month shows before it says how many more there are. */
 const tasksShownInMonth = 3
@@ -23,11 +24,17 @@ export async function showCalendar(parameters: string[], page: HTMLElement): Pro
   page.classList.add("wide")
   const today = dayOf(new Date())
   if (span === "month" && when !== undefined && isMonth(when)) {
-    page.replaceChildren(header("month", when, today), monthTable(when, today, page))
+    page.replaceChildren(header("month", when, today), monthTable(when, today, page), addTodayButton(today, page))
     return
   }
   const day = span === "week" && when !== undefined && isDay(when) ? when : today
-  page.replaceChildren(header("week", day, today), weekGrid(day, today, page))
+  page.replaceChildren(header("week", day, today), weekGrid(day, today, page), addTodayButton(today, page))
+}
+
+function addTodayButton(today: string, page: HTMLElement): HTMLElement {
+  return floatingButton("Add a task", () => {
+    openDialog(page, newTaskDialog(today, localStorage, (result, task) => afterDialog(page, result, task, today)))
+  })
 }
 
 function header(span: Span, when: string, today: string): HTMLElement {

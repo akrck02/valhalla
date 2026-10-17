@@ -15,9 +15,30 @@ export function buildShell(body: HTMLElement, currentPath: string, openSearch: (
   const app = uiComponent({ classes: ["app"] })
   const page = uiComponent({ type: "main", id: "page", classes: ["page"] })
   const currentPlace = currentPath.split("/")[0]
+  const wallpaper = uiComponent({ classes: ["wallpaper"], attributes: { "aria-hidden": "true" } })
   app.append(header(openSearch), sidebar(currentPlace), page, bottomBar(currentPlace))
-  body.replaceChildren(app)
+  body.replaceChildren(wallpaper, app)
   return page
+}
+
+/**
+ * Shows what the current page adds to the header, such as its progress; the next page drawn
+ * empties it again.
+ */
+export function showInHeader(...parts: Node[]): void {
+  document.querySelector(".app-header .context")?.replaceChildren(...parts)
+}
+
+/**
+ * Makes the floating button that creates the main thing of a page.
+ * @param name what it creates, as a screen reader says it, such as "Add a task"
+ * @param create what pressing it does
+ */
+export function floatingButton(name: string, create: () => void): HTMLElement {
+  const button = uiComponent({ type: Html.Button, classes: ["fab"], attributes: { type: "button", "aria-label": name, title: name } })
+  button.append(icon("plus"))
+  button.addEventListener("click", create)
+  return button
 }
 
 function header(openSearch: () => void): HTMLElement {
@@ -25,8 +46,31 @@ function header(openSearch: () => void): HTMLElement {
   const brand = uiComponent({ type: Html.A, classes: ["brand"], attributes: { href: "#/" } })
   const logo = uiComponent({ type: "img", attributes: { src: "docs/images/logo.svg", alt: "" } })
   brand.append(logo, document.createTextNode("Valhalla"))
-  header.append(brand, searchTrigger(openSearch))
+  const context = uiComponent({ classes: ["context"] })
+  header.append(brand, clock(), searchTrigger(openSearch), context)
   return header
+}
+
+/** How often the clock looks at the time; it shows minutes, so twice a minute is enough. */
+const clockStepMilliseconds = 30_000
+
+/** The time, as the first Valhalla showed it beside its name. */
+function clock(): HTMLElement {
+  const time = uiComponent({ type: "time", classes: ["clock"] })
+  const tick = (): void => {
+    const now = new Date()
+    time.textContent = new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" }).format(now)
+    time.setAttribute("datetime", now.toISOString())
+  }
+  tick()
+  const timer = setInterval(() => {
+    if (!time.isConnected) {
+      clearInterval(timer) // the frame was drawn again, with a clock of its own
+      return
+    }
+    tick()
+  }, clockStepMilliseconds)
+  return time
 }
 
 /** Looks like a search box, but is a button that opens the search, as Ctrl K does. */

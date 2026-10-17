@@ -7,6 +7,21 @@ export const accents = [
   { name: "green", label: "Green", colour: "#3DDC84" },
 ] as const
 
+/**
+ * The wallpapers glass can show, as the first Valhalla did with photographs. These are drawn with
+ * gradients in styles/valhalla.css, so they need no pictures and no licences.
+ */
+export const wallpapers = [
+  { name: "none", label: "None" },
+  { name: "city", label: "City lights" },
+  { name: "aurora", label: "Aurora" },
+  { name: "ember", label: "Embers" },
+  { name: "dunes", label: "Dunes" },
+] as const
+
+/** The name of a wallpaper glass can show. */
+export type WallpaperName = typeof wallpapers[number]["name"]
+
 /** The name of an accent the settings offer. */
 export type AccentName = typeof accents[number]["name"]
 
@@ -16,6 +31,7 @@ export interface Appearance {
   mode: "system" | "light" | "dark"
   glass: boolean
   accent: AccentName
+  wallpaper: WallpaperName
 }
 
 const storageKey = "valhalla.appearance"
@@ -23,7 +39,7 @@ const styles: Appearance["style"][] = ["paper", "material"]
 const modes: Appearance["mode"][] = ["system", "light", "dark"]
 
 /** The look of a first visit: plain paper, following the system; glass is there to turn on. */
-export const defaultAppearance: Appearance = { style: "paper", mode: "system", glass: false, accent: "gold" }
+export const defaultAppearance: Appearance = { style: "paper", mode: "system", glass: false, accent: "gold", wallpaper: "city" }
 
 /** Reads the saved look; anything missing or unknown in it takes the default. */
 export function loadAppearance(storage: Storage): Appearance {
@@ -38,6 +54,7 @@ export function loadAppearance(storage: Storage): Appearance {
     mode: modes.find(mode => mode === saved.mode) ?? defaultAppearance.mode,
     glass: typeof saved.glass === "boolean" ? saved.glass : defaultAppearance.glass,
     accent: accents.find(accent => accent.name === saved.accent)?.name ?? defaultAppearance.accent,
+    wallpaper: wallpapers.find(wallpaper => wallpaper.name === saved.wallpaper)?.name ?? defaultAppearance.wallpaper,
   }
 }
 
@@ -54,12 +71,14 @@ export function accentTokens(accent: AccentName): string {
 /**
  * Puts the look on the page, as the attributes Bubble's tokens read, and loads the tokens of its
  * accent into the link#accent-tokens of the page, if it has one. Glass is only for paper, as in
- * Bubble, so material never gets it.
+ * Bubble, so material never gets it, nor a wallpaper.
  */
 export function applyAppearance(root: HTMLElement, appearance: Appearance): void {
   setOrRemove(root, "data-style", appearance.style === "material" ? "material" : undefined)
   setOrRemove(root, "data-mode", appearance.mode === "system" ? undefined : appearance.mode)
-  setOrRemove(root, "data-glass", appearance.glass && appearance.style === "paper" ? "" : undefined)
+  const glass = appearance.glass && appearance.style === "paper"
+  setOrRemove(root, "data-glass", glass ? "" : undefined)
+  setOrRemove(root, "data-wallpaper", glass && appearance.wallpaper !== "none" ? appearance.wallpaper : undefined)
   const tokens = root.ownerDocument.querySelector<HTMLLinkElement>("link#accent-tokens")
   if (tokens !== null && tokens.getAttribute("href") !== accentTokens(appearance.accent)) {
     tokens.setAttribute("href", accentTokens(appearance.accent))

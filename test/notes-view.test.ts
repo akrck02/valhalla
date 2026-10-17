@@ -27,8 +27,8 @@ function save(page: HTMLElement): void {
 describe("the notes page", () => {
   it("with no notes, says so and offers to write one", async () => {
     const { page } = await notesWith([])
-    expect(page.querySelector(".notes-list")?.textContent ?? "").toMatch(/No notes yet/)
-    expect(page.querySelector("#new-note")?.getAttribute("href")).toBe("#/notes/new")
+    expect(page.textContent ?? "").toMatch(/No notes yet/)
+    expect(page.querySelector(".fab")?.getAttribute("aria-label")).toBe("Write a note")
     page.remove()
   })
 
@@ -51,7 +51,7 @@ describe("the notes page", () => {
     page.remove()
   })
 
-  it("saving an open note changes it in the list and says when", async () => {
+  it("saving an open note keeps the change and says when", async () => {
     const note = createNote("Ideas", "One")
     const { page, storage } = await notesWith([note.id], note)
     type(page, "note-body", "One and two")
@@ -60,7 +60,7 @@ describe("the notes page", () => {
     expect(page.querySelector('[role="status"]')?.textContent ?? "").toMatch(/^Saved at/)
     type(page, "note-title", "Better ideas")
     save(page)
-    expect(page.querySelector(".note-link .title")?.textContent).toBe("Better ideas")
+    expect(loadNotes(storage)[0].title).toBe("Better ideas")
     page.remove()
   })
 
@@ -89,6 +89,17 @@ describe("the notes page", () => {
       expect(labelled || name !== "").toBe(true)
     }
     expect(page.querySelector("img, b")).toBe(null)
+    page.remove()
+  })
+
+  it("the wall shows a card for each note, the most recent first, each a link to its note", async () => {
+    const older = createNote("Older", "", new Date("2026-10-16T10:00:00Z"))
+    const newer = createNote("", "First line\nThe rest of it", new Date("2026-10-17T10:00:00Z"))
+    const { page } = await notesWith([], older, newer)
+    const cards = [...page.querySelectorAll(".note-card")]
+    expect(cards.map(card => card.querySelector(".title")?.textContent).join()).toBe("First line,Older")
+    expect(cards[0].querySelector(".excerpt")?.textContent).toBe("The rest of it")
+    expect(cards[1].getAttribute("href")).toBe(`#/notes/${older.id}`)
     page.remove()
   })
 })

@@ -1,5 +1,5 @@
 import { afterThis, describe, expect, it } from "./lib/test.js"
-import { buildShell } from "../src/shell.js"
+import { buildShell, floatingButton, showInHeader } from "../src/shell.js"
 import { places } from "../src/places.js"
 
 /** Builds the frame in a body of its own; gives it and how often the search was asked for. */
@@ -41,5 +41,24 @@ describe("the frame", () => {
     const { body, page } = frameAt("")
     expect(page.parentElement === body.querySelector(".app")).toBe(true)
     expect(page.tagName).toBe("MAIN")
+  })
+
+  it("the header shows the time, and what the page adds to it", () => {
+    const { body } = frameAt("")
+    const clock = body.querySelector("time.clock")
+    expect(clock?.textContent ?? "").toMatch(/\d/)
+    expect(clock?.getAttribute("datetime") ?? "").toMatch(/^\d{4}-/)
+    const progress = document.createElement("span")
+    progress.textContent = "50%"
+    showInHeader(progress)
+    expect(body.querySelector(".app-header .context")?.textContent).toBe("50%")
+  })
+
+  it("the floating button has a name and does what it creates", () => {
+    const created: string[] = []
+    const button = floatingButton("Add a task", () => created.push("task"))
+    expect(button.getAttribute("aria-label")).toBe("Add a task")
+    button.click()
+    expect(created.join()).toBe("task")
   })
 })

@@ -18,11 +18,11 @@ describe("appearance", () => {
 
   it("the look becomes the attributes Bubble reads, and following the system sets no mode", () => {
     const root = document.createElement("div")
-    applyAppearance(root, { style: "material", mode: "dark", glass: false, accent: "blue" })
+    applyAppearance(root, { style: "material", mode: "dark", glass: false, accent: "blue", wallpaper: "none" })
     expect(root.getAttribute("data-style")).toBe("material")
     expect(root.getAttribute("data-mode")).toBe("dark")
     expect(root.hasAttribute("data-glass")).toBe(false)
-    applyAppearance(root, { style: "paper", mode: "system", glass: true, accent: "gold" })
+    applyAppearance(root, { style: "paper", mode: "system", glass: true, accent: "gold", wallpaper: "city" })
     expect(root.hasAttribute("data-style")).toBe(false)
     expect(root.hasAttribute("data-mode")).toBe(false)
     expect(root.hasAttribute("data-glass")).toBe(true)
@@ -35,7 +35,7 @@ describe("appearance", () => {
 
   it("glass is only for paper, as in Bubble", () => {
     const root = document.createElement("div")
-    applyAppearance(root, { style: "material", mode: "system", glass: true, accent: "gold" })
+    applyAppearance(root, { style: "material", mode: "system", glass: true, accent: "gold", wallpaper: "city" })
     expect(root.hasAttribute("data-glass")).toBe(false)
   })
 
@@ -56,5 +56,15 @@ describe("appearance", () => {
     const changed = changeAppearance(storage, document.createElement("div"), { mode: "light" })
     expect(changed.accent).toBe("red")
     expect(JSON.stringify(loadAppearance(storage))).toBe(JSON.stringify(changed))
+  })
+
+  it("a wallpaper shows only with glass, and none shows no wallpaper", () => {
+    const root = document.createElement("div")
+    applyAppearance(root, { ...defaultAppearance, glass: true, wallpaper: "aurora" })
+    expect(root.getAttribute("data-wallpaper")).toBe("aurora")
+    applyAppearance(root, { ...defaultAppearance, glass: false, wallpaper: "aurora" })
+    expect(root.hasAttribute("data-wallpaper")).toBe(false)
+    applyAppearance(root, { ...defaultAppearance, glass: true, wallpaper: "none" })
+    expect(root.hasAttribute("data-wallpaper")).toBe(false)
   })
 })

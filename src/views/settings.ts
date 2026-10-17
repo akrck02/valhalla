@@ -1,6 +1,6 @@
 import { uiComponent } from "../gtd/dom.js"
 import { Html } from "../gtd/html.js"
-import { accents, Appearance, changeAppearance, loadAppearance } from "../settings.js"
+import { accents, Appearance, changeAppearance, loadAppearance, wallpapers } from "../settings.js"
 
 /** One choice of a group: the value it saves, and its name. */
 interface Choice {
@@ -29,8 +29,10 @@ export async function showSettings(_parameters: string[], page: HTMLElement): Pr
       { value: "dark", label: "Dark" },
     ]),
     glassSwitch(appearance),
+    wallpaperGroup(appearance),
     accentGroup(appearance),
   )
+  updateGlassSwitch(form, appearance)
   form.addEventListener("change", () => {
     const changed = changeAppearance(localStorage, document.documentElement, readForm(form))
     updateGlassSwitch(form, changed)
@@ -69,6 +71,17 @@ function accentGroup(appearance: Appearance): HTMLElement {
   return group
 }
 
+/** The wallpapers behind the glass, each with a small sample of itself; only shown with glass. */
+function wallpaperGroup(appearance: Appearance): HTMLElement {
+  const group = choiceGroup("wallpaper", "Wallpaper", appearance.wallpaper, wallpapers.map(wallpaper => ({ value: wallpaper.name, label: wallpaper.label })))
+  group.id = "wallpaper-group"
+  for (const wallpaper of wallpapers) {
+    const sample = uiComponent({ type: Html.Span, classes: ["swatch", "wallpaper-sample"], attributes: { "aria-hidden": "true", "data-sample": wallpaper.name } })
+    group.querySelector(`#wallpaper-${wallpaper.name}`)?.after(sample)
+  }
+  return group
+}
+
 function glassSwitch(appearance: Appearance): HTMLElement {
   const wrapper = uiComponent({ classes: ["switch-field"] })
   const label = uiComponent({ type: Html.Label, classes: ["choice"], attributes: { for: "glass" } })
@@ -83,11 +96,18 @@ function glassSwitch(appearance: Appearance): HTMLElement {
   return wrapper
 }
 
-/** Glass is only for paper: with material the switch is off limits, and its hint says why. */
+/**
+ * Glass is only for paper: with material the switch is off limits, and its hint says why. The
+ * wallpapers only show with glass on.
+ */
 function updateGlassSwitch(container: HTMLElement, appearance: Appearance): void {
   const checkBox = container.querySelector("#glass") as HTMLInputElement
   const hint = container.querySelector("#glass-hint") as HTMLElement
+  const wallpaperGroup = container.querySelector("#wallpaper-group") as HTMLElement | null
   checkBox.disabled = appearance.style !== "paper"
+  if (wallpaperGroup !== null) {
+    wallpaperGroup.hidden = checkBox.disabled || !appearance.glass
+  }
   hint.textContent = checkBox.disabled
     ? "Glass is part of Paper; Material keeps its panels solid."
     : "Panels let the background show through. Solid when the system asks for less transparency."
@@ -101,6 +121,7 @@ function readForm(form: HTMLElement): Partial<Appearance> {
   const style = checked("style")
   const mode = checked("mode")
   const accent = accents.find(each => each.name === checked("accent"))
+  const wallpaper = wallpapers.find(each => each.name === checked("wallpaper"))
   if (style === "paper" || style === "material") {
     change.style = style
   }
@@ -109,6 +130,9 @@ function readForm(form: HTMLElement): Partial<Appearance> {
   }
   if (accent !== undefined) {
     change.accent = accent.name
+  }
+  if (wallpaper !== undefined) {
+    change.wallpaper = wallpaper.name
   }
   if (!glass.disabled) {
     change.glass = glass.checked // a disabled switch keeps the choice made under paper

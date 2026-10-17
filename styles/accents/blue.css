@@ -263,6 +263,8 @@
   --glass-raised: #FFFFFFD9;
   --glass-glow-one: #FFFFFF;
   --glass-glow-two: #CBC6BB;
+  --glass-veil: #E6E3DCB8;
+  --glass-dimming: 1;
   --glass-blur: 24px;
 }
 
@@ -272,7 +274,7 @@
   --sunken: #070709;
   --ink: #EDEEF0;
   --ink-soft: #BDC1C8;
-  --ink-quiet: #A9AEB6;
+  --ink-quiet: #ADB2BA;
   --line: #1E1F22;
   --control-line: #8E949D;
   --accent: #5B80B3;
@@ -294,6 +296,8 @@
   --glass-raised: #FFFFFF1F;
   --glass-glow-one: #24272D;
   --glass-glow-two: #181A1F;
+  --glass-veil: #0B0C0FB8;
+  --glass-dimming: 0.45;
   --glass-blur: 24px;
 }
 
@@ -304,7 +308,7 @@
     --sunken: #070709;
     --ink: #EDEEF0;
     --ink-soft: #BDC1C8;
-    --ink-quiet: #A9AEB6;
+    --ink-quiet: #ADB2BA;
     --line: #1E1F22;
     --control-line: #8E949D;
     --accent: #5B80B3;
@@ -326,6 +330,8 @@
     --glass-raised: #FFFFFF1F;
     --glass-glow-one: #24272D;
     --glass-glow-two: #181A1F;
+    --glass-veil: #0B0C0FB8;
+    --glass-dimming: 0.45;
     --glass-blur: 24px;
   }
 }

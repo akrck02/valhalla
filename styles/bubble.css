@@ -535,6 +535,75 @@ input[type="radio"] {
   color: var(--ink-soft);
 }
 
+/* Floating action button: the main thing to create on a page, always within reach. */
+.fab {
+  position: fixed;
+  right: calc(var(--padding) * 1.5);
+  bottom: calc(var(--padding) * 1.5);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: var(--floating-radius);
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 var(--edge-width) 0 var(--accent-edge), var(--elevation);
+  cursor: pointer;
+  transition: transform var(--motion-fast);
+}
+
+.fab:hover { background: var(--accent-side); }
+.fab:active { transform: translateY(var(--edge-width)); }
+.fab svg { width: 26px; height: 26px; }
+
+@media (max-width: 640px) {
+  .fab { bottom: 88px; right: var(--padding); }
+}
+
+/* A clock in the header, as a quiet pill. */
+.clock {
+  padding: 4px 10px;
+  border-radius: var(--control-radius);
+  background: var(--sunken);
+  color: var(--ink-soft);
+  font-size: var(--text-small);
+  font-variant-numeric: tabular-nums;
+}
+
+/* What the current page adds to the header, such as its progress; at the end of the header. */
+.app-header .context {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-inline-start: auto;
+  color: var(--ink-soft);
+  font-size: var(--text-small);
+}
+
+.app-header .context svg { width: 16px; height: 16px; }
+.app-header .context > * { display: inline-flex; align-items: center; gap: 6px; }
+
+/* On a phone the header keeps only what it must: the name, the search and the page's part. */
+@media (max-width: 640px) {
+  .clock { display: none; }
+}
+
+/* Items of a list that appear one after another, when the system allows motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .appear > * { animation: appear var(--motion-medium) ease-out backwards; }
+  .appear > :nth-child(2) { animation-delay: 40ms; }
+  .appear > :nth-child(3) { animation-delay: 80ms; }
+  .appear > :nth-child(4) { animation-delay: 120ms; }
+  .appear > :nth-child(5) { animation-delay: 160ms; }
+  .appear > :nth-child(n + 6) { animation-delay: 200ms; }
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(6px); }
+}
+
 /* Dangerous buttons: an action that loses something, such as deleting. Plain, in the danger colour. */
 .button.danger {
   border-color: color-mix(in srgb, var(--danger) 45%, transparent);
@@ -670,6 +739,65 @@ input[type="radio"] {
   background: transparent;
   backdrop-filter: none;
 }
+
+/*
+ * A wallpaper, as the first Valhalla had: any picture or gradient in --wallpaper on <html>, blurred,
+ * dimmed and veiled, so the inks keep their tested contrast whatever the picture is.
+ */
+.wallpaper { display: none; }
+
+:root[data-glass] .wallpaper {
+  position: fixed;
+  inset: -40px;
+  z-index: -1;
+  display: block;
+  background: var(--wallpaper, none) center / cover;
+  filter: blur(var(--glass-blur)) brightness(var(--glass-dimming));
+}
+
+:root[data-glass] .wallpaper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--glass-veil);
+}
+
+/* On glass the index is a rail of icons, as in the first Valhalla; their names stay for readers. */
+@media (min-width: 641px) {
+  :root[data-glass] .app { grid-template-columns: 4.5rem minmax(0, 1fr); }
+  :root[data-glass] .sidebar { align-items: center; padding: 18px 10px; }
+  :root[data-glass] .sidebar a { justify-content: center; width: var(--touch-target); padding: 0; }
+
+  :root[data-glass] .sidebar a span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  :root[data-glass] .sidebar a[aria-current="page"]::before { left: -10px; }
+}
+
+:root[data-glass] .clock { background: var(--glass-raised); }
+
+/* As in the first Valhalla, the search sits in the middle of the header. */
+@media (min-width: 641px) {
+  :root[data-glass] .search-trigger { margin-inline: auto; }
+  :root[data-glass] .app-header .context { margin-inline-start: 0; }
+}
+
+/* The button to create is a pane of glass too, with the accent kept for its sign. */
+:root[data-glass] .fab {
+  background: var(--glass-raised);
+  color: var(--ink);
+  box-shadow: none;
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+:root[data-glass] .fab:hover { background: var(--glass-pane); transform: translateY(-2px); }
 
 /* Less motion when the system asks for it ------------------------------------------------------ */
 

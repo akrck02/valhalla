@@ -31,7 +31,7 @@ describe("the settings page", () => {
   it("each group of choices is a fieldset named by its legend, and each choice has a label", async () => {
     const { page } = await settingsPage()
     const legends = [...page.querySelectorAll("fieldset > legend")].map(legend => legend.textContent)
-    expect(legends.join()).toBe("Style,Light,Accent")
+    expect(legends.join()).toBe("Style,Light,Wallpaper,Accent")
     for (const input of page.querySelectorAll("input")) {
       expect(input.closest("label")?.textContent?.trim() ?? "").toMatch(/\S/)
     }
@@ -63,5 +63,16 @@ describe("the settings page", () => {
     choose(page, "style-paper")
     expect(glass.disabled).toBe(false)
     expect(loadAppearance(storage).glass).toBe(true)
+  })
+
+  it("the wallpapers show only with glass on", async () => {
+    const { page } = await settingsPage()
+    const group = page.querySelector("#wallpaper-group") as HTMLElement
+    expect(group.hidden).toBe(true)
+    choose(page, "glass")
+    expect(group.hidden).toBe(false)
+    choose(page, "wallpaper-aurora")
+    expect(document.documentElement.getAttribute("data-wallpaper")).toBe("aurora")
+    document.documentElement.removeAttribute("data-wallpaper")
   })
 })

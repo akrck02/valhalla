@@ -3,7 +3,8 @@ import { Html } from "../gtd/html.js"
 import { icon } from "../icons.js"
 import { createTask, dayOf, Task, tasksOfDay, withDoneSwitched } from "../tasks/task.js"
 import { loadTasks, saveTasks } from "../tasks/store.js"
-import { taskDialog, TaskDialogResult } from "./task-dialog.js"
+import { newTaskDialog, taskDialog, TaskDialogResult } from "./task-dialog.js"
+import { floatingButton, showInHeader } from "../shell.js"
 import { field, valueOf } from "./form.js"
 import { tryShowingError } from "./messages.js"
 import { focusIn } from "./focus.js"
@@ -11,7 +12,33 @@ import { focusIn } from "./focus.js"
 /** Today: what is left to do, a check box for each task, and a line to add one. */
 export async function showToday(_parameters: string[], page: HTMLElement): Promise<void> {
   const today = dayOf(new Date())
-  page.replaceChildren(header(today), addForm(today, page), taskList(today, page))
+  const tasks = tasksOfDay(loadTasks(localStorage), today)
+  const isFirstDraw = page.childElementCount === 0 // drawing again after a change should not move
+  page.replaceChildren(header(today), addForm(today, page), taskList(today, page, isFirstDraw), addButton(today, page))
+  showInHeader(progress(tasks))
+}
+
+/** How much of the day is done, as the first Valhalla showed it in its header. */
+function progress(tasks: Task[]): HTMLElement {
+  const done = tasks.filter(task => task.done).length
+  const share = tasks.length === 0 ? 0 : Math.round((done / tasks.length) * 100)
+  const line = uiComponent({ type: Html.Span, attributes: { title: `${done} of ${tasks.length} done today` } })
+  line.append(document.createTextNode(`${share}%`), icon("circleCheck"))
+  return line
+}
+
+function addButton(today: string, page: HTMLElement): HTMLElement {
+  return floatingButton("Add a task", () => {
+    const dialog = newTaskDialog(today, localStorage, (result, task) => {
+      if (result !== "added" || task === undefined) {
+        return
+      }
+      showToday([], page)
+      focusIn(page, `#edit-${task.id}`)
+    })
+    page.append(dialog)
+    dialog.showModal()
+  })
 }
 
 function header(today: string): HTMLElement {
@@ -55,8 +82,8 @@ function addForm(today: string, page: HTMLElement): HTMLElement {
   return form
 }
 
-function taskList(today: string, page: HTMLElement): HTMLElement {
-  const list = uiComponent({ type: Html.Ul, classes: ["list"], attributes: { "aria-label": "Tasks for today" } })
+function taskList(today: string, page: HTMLElement, appears: boolean): HTMLElement {
+  const list = uiComponent({ type: Html.Ul, classes: appears ? ["list", "appear"] : ["list"], attributes: { "aria-label": "Tasks for today" } })
   for (const task of tasksOfDay(loadTasks(localStorage), today)) {
     list.append(taskItem(task, page))
   }

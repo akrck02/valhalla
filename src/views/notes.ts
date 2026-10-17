@@ -7,83 +7,79 @@ import { field, textArea, valueOf } from "./form.js"
 import { tryShowingError } from "./messages.js"
 import { deleteButton } from "./delete-button.js"
 import { focusIn } from "./focus.js"
+import { floatingButton } from "../shell.js"
 
 /** The address of a note that is being written for the first time. */
 const newNote = "new"
 
+/** How much of a note's text its card shows on the wall. */
+const excerptLength = 180
+
 /**
- * Notes: the list of notes, most recent first, and the one open beside it. Its address says which
- * one is open: #/notes/new, #/notes/<id>, or #/notes for none. On a phone only one of the two
- * shows: the list, or the open note with a link back.
+ * Notes: a wall of cards, most recent first, as the first Valhalla pinned them; a note opens on a
+ * page of its own. Its address says what is shown: #/notes for the wall, #/notes/new or
+ * #/notes/<id> for one note.
  */
 export async function showNotes(parameters: string[], page: HTMLElement): Promise<void> {
   const [opened] = parameters
   const notes = notesByRecent(loadNotes(localStorage))
   const note = notes.find(each => each.id === opened)
-  const isOpen = opened === newNote || note !== undefined
   page.classList.add("wide")
-
-  const layout = uiComponent({ classes: isOpen ? ["notes", "open"] : ["notes"] })
-  layout.append(notesList(notes, opened))
-  if (isOpen) {
-    layout.append(editor(note))
-  } else {
-    layout.append(nothingOpen(opened !== undefined && opened !== ""))
+  if (opened === newNote || note !== undefined) {
+    page.replaceChildren(editor(note))
+    // Drawn from a link, the page would leave the focus nowhere: put it where the person writes.
+    focusIn(page, note === undefined ? "#note-title" : "#note-body")
+    return
   }
-  page.replaceChildren(layout)
-  // Drawn from a link, the page would leave the focus nowhere: put it where the person writes.
-  if (opened === newNote) {
-    focusIn(page, "#note-title")
-  } else if (note !== undefined) {
-    focusIn(page, "#note-body")
-  }
+  const isFirstDraw = page.childElementCount === 0
+  page.replaceChildren(...wall(notes, opened !== undefined && opened !== "", isFirstDraw), writeButton())
 }
 
-function notesList(notes: Note[], opened: string | undefined): HTMLElement {
-  const aside = uiComponent({ type: Html.Aside, classes: ["notes-list"], attributes: { "aria-labelledby": "notes-heading" } })
-  const header = uiComponent({ type: Html.Header })
+function wall(notes: Note[], wasMissing: boolean, appears: boolean): HTMLElement[] {
   const heading = uiComponent({ type: Html.H1, id: "notes-heading" })
   heading.textContent = "Notes"
-  const add = uiComponent({ type: Html.A, id: "new-note", classes: ["button", "primary"], attributes: { href: `#/notes/${newNote}` } })
-  add.append(icon("plus"), document.createTextNode("New note"))
-  header.append(heading, add)
-  aside.append(header)
-
+  const parts: HTMLElement[] = [heading]
+  if (wasMissing) {
+    const gone = uiComponent({ type: Html.P, classes: ["error"], attributes: { role: "alert" } })
+    gone.textContent = "This note is gone; it may have been deleted in another tab."
+    parts.push(gone)
+  }
   if (notes.length === 0) {
     const empty = uiComponent({ type: Html.P, classes: ["soft"] })
-    empty.textContent = "No notes yet. Write the first one."
-    aside.append(empty)
-    return aside
+    empty.textContent = "No notes yet. Write the first one with the + button."
+    return [...parts, empty]
   }
-  const list = uiComponent({ type: Html.Ul, classes: ["list"], attributes: { "aria-label": "All notes" } })
+  const list = uiComponent({ type: Html.Ul, classes: appears ? ["note-wall", "appear"] : ["note-wall"], attributes: { "aria-labelledby": "notes-heading" } })
   for (const note of notes) {
-    list.append(noteLink(note, note.id === opened))
+    list.append(noteCard(note))
   }
-  aside.append(list)
-  return aside
+  return [...parts, list]
 }
 
-function noteLink(note: Note, isOpen: boolean): HTMLElement {
+/** A note on the wall: its name, the start of its text and when it changed; all of it a link. */
+function noteCard(note: Note): HTMLElement {
   const item = uiComponent({ type: Html.Li })
-  const link = uiComponent({ type: Html.A, id: `note-${note.id}`, classes: ["note-link"], attributes: { href: `#/notes/${note.id}` } })
+  const link = uiComponent({ type: Html.A, id: `note-${note.id}`, classes: ["note-card"], attributes: { href: `#/notes/${note.id}` } })
   const name = uiComponent({ type: Html.Span, classes: ["title"] })
   name.textContent = nameOf(note) // what a person typed is always text, never markup
+  const excerpt = uiComponent({ type: Html.Span, classes: ["excerpt"] })
+  excerpt.textContent = excerptOf(note)
   const when = uiComponent({ type: Html.Span, classes: ["quiet"] })
   when.textContent = changedOn(note)
-  link.append(name, when)
-  if (isOpen) {
-    link.setAttribute("aria-current", "page")
-  }
+  link.append(name, excerpt, when)
   item.append(link)
   return item
 }
 
-function nothingOpen(wasMissing: boolean): HTMLElement {
-  const section = uiComponent({ type: Html.Section, classes: ["note-empty"] })
-  const text = uiComponent({ type: Html.P, classes: ["soft"], attributes: { role: wasMissing ? "alert" : "status" } })
-  text.textContent = wasMissing ? "This note is gone; it may have been deleted in another tab." : "Choose a note, or write a new one."
-  section.append(text)
-  return section
+function excerptOf(note: Note): string {
+  const text = note.title === "" ? note.body.trim().split("\n").slice(1).join(" ") : note.body.trim()
+  return text.length > excerptLength ? `${text.slice(0, excerptLength).trimEnd()}…` : text
+}
+
+function writeButton(): HTMLElement {
+  return floatingButton("Write a note", () => {
+    location.hash = `#/notes/${newNote}`
+  })
 }
 
 /** The open note, as a form: a title, the text, and buttons to save or delete it. */
@@ -138,7 +134,7 @@ function addFrom(form: HTMLElement, message: HTMLElement): void {
 }
 
 /**
- * Saves the changes of an open note, then draws the list again, since its name or place may change.
+ * Saves the changes of an open note, and says when.
  * @returns the note as saved, or nothing if it could not be saved
  */
 function updateFrom(form: HTMLElement, note: Note, message: HTMLElement, status: HTMLElement): Note | undefined {
@@ -150,7 +146,6 @@ function updateFrom(form: HTMLElement, note: Note, message: HTMLElement, status:
   if (!worked || changed === undefined) {
     return undefined
   }
-  form.parentElement?.querySelector(".notes-list")?.replaceWith(notesList(notesByRecent(loadNotes(localStorage)), changed.id))
   status.textContent = `Saved at ${new Intl.DateTimeFormat(undefined, { timeStyle: "short" }).format(new Date(changed.updated))}.`
   return changed
 }
