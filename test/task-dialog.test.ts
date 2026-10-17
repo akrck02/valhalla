@@ -41,18 +41,18 @@ describe("the task dialog", () => {
     for (const each of dialog.querySelectorAll("button")) {
       expect(each.textContent ?? "").toMatch(/\S/)
     }
-    expect(dialog.getAttribute("aria-labelledby")).toBe("edit-task-heading")
+    expect(dialog.getAttribute("aria-labelledby")).toBe("task-dialog-heading")
   })
 
   it("shows what a person typed as text, never as markup", () => {
     const { dialog } = openDialog("<img src=x onerror=alert(1)>")
-    expect((dialog.querySelector("#edit-title") as HTMLInputElement).value).toBe("<img src=x onerror=alert(1)>")
+    expect((dialog.querySelector("#dialog-title") as HTMLInputElement).value).toBe("<img src=x onerror=alert(1)>")
     expect(dialog.querySelector("img")).toBe(null)
   })
 
   it("saving keeps the change and closes as saved", () => {
     const { dialog, storage, closedWith } = openDialog()
-    type(dialog, "edit-title", "Plan the week")
+    type(dialog, "dialog-title", "Plan the week")
     button(dialog, "Save").click()
     expect(closedWith.join()).toBe("saved")
     expect(dialog.isConnected).toBe(false)
@@ -71,7 +71,7 @@ describe("the task dialog", () => {
 
   it("cancelling changes nothing", () => {
     const { dialog, storage, closedWith } = openDialog()
-    type(dialog, "edit-title", "Something else")
+    type(dialog, "dialog-title", "Something else")
     button(dialog, "Cancel").click()
     expect(closedWith.join()).toBe("cancelled")
     expect(dialog.isConnected).toBe(false)
@@ -79,7 +79,7 @@ describe("the task dialog", () => {
   })
   it("a wrong edit shows its message and stays open", () => {
     const { dialog, storage, closedWith } = openDialog()
-    type(dialog, "edit-title", "   ")
+    type(dialog, "dialog-title", "   ")
     button(dialog, "Save").click()
     expect(dialog.open).toBe(true)
     expect(dialog.querySelector(".error")?.textContent).toBe("Write what there is to do.")

@@ -27,3 +27,185 @@
   .add-task { grid-template-columns: 1fr auto; }
   .add-task .field:first-child { grid-column: 1 / -1; }
 }
+
+/* Calendar --------------------------------------------------------------------------------------- */
+
+.calendar-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap);
+}
+
+.calendar-header h1 { flex: 1 1 100%; }
+
+.calendar-steps {
+  display: flex;
+  margin-inline-start: auto;
+}
+
+/* The week: seven columns on wide screens, a list of days on narrow ones. */
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: calc(var(--gap) / 2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.week-day {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--gap) / 2);
+  min-height: 12rem;
+  padding: calc(var(--padding) / 2);
+  border: var(--line-width) solid var(--line);
+  border-radius: var(--card-radius);
+  background: var(--surface);
+}
+
+.week-day h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: var(--text-small);
+  color: var(--ink-soft);
+}
+
+.week-day h2 .number {
+  color: var(--ink);
+  font-size: var(--text-heading);
+}
+
+.week-day h2[aria-current="date"],
+.week-day h2[aria-current="date"] .number { color: var(--accent-ink); }
+
+.week-day .button { align-self: flex-start; margin-top: auto; }
+
+.calendar-tasks {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.calendar-task {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 0 6px;
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: 6px 8px;
+  border: 0;
+  border-inline-start: 3px solid var(--accent);
+  border-radius: var(--control-radius);
+  background: var(--accent-tint);
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--text-small);
+  text-align: start;
+  cursor: pointer;
+}
+
+.calendar-task .time { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.calendar-task .title { font-weight: 600; overflow-wrap: anywhere; }
+
+.calendar-task.done {
+  border-inline-start-color: var(--line);
+  background: transparent;
+  color: var(--ink-quiet);
+}
+
+.calendar-task.done .title { text-decoration: line-through; }
+
+/* The month: a paper calendar; days of the months around it are quieter. */
+.month {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 4px;
+}
+
+.month th {
+  padding-bottom: 4px;
+  color: var(--ink-soft);
+  font-size: var(--text-small);
+  font-weight: 600;
+}
+
+.month abbr { text-decoration: none; }
+
+.month-day {
+  height: 6.5rem;
+  padding: 4px;
+  vertical-align: top;
+  border: var(--line-width) solid var(--line);
+  border-radius: var(--control-radius);
+  background: var(--surface);
+}
+
+.month-day.outside { background: transparent; }
+.month-day.outside .day-number { color: var(--ink-quiet); }
+
+.day-number {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  border-radius: var(--button-radius);
+  color: var(--ink);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.day-number:hover { background: var(--sunken); }
+
+.day-number[aria-current="date"] {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.month-task,
+.month-more {
+  display: block;
+  overflow: hidden;
+  font-size: var(--text-small);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.month-more { color: var(--ink-soft); }
+
+@media (max-width: 900px) {
+  .week { grid-template-columns: 1fr; }
+  .week-day { min-height: 0; }
+}
+
+@media (max-width: 640px) {
+  .calendar-steps { margin-inline-start: 0; }
+  .month { border-spacing: 2px; }
+  .month-day { height: 3.5rem; padding: 0; text-align: center; }
+  .month-task { display: none; }
+  .month-more { display: none; }
+  /* On a phone a dot says the day has something left to do; the number's name says how much. */
+  .month-day:has(.month-task) .day-number::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    margin-top: 30px;
+    border-radius: 50%;
+    background: var(--accent-ink);
+  }
+}
+
+:root[data-glass] .week-day,
+:root[data-glass] .month-day:not(.outside) {
+  border-color: var(--glass-line);
+  background: var(--glass-surface);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+}

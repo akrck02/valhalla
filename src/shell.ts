@@ -38,7 +38,7 @@ function placesBar(kind: "rail" | "bottom-bar", currentPath: string): HTMLElemen
       classes: ["button", "ghost", "icon"],
       attributes: { href: `#/${place.path}`, "aria-label": place.name, title: place.name },
     })
-    if (place.path === currentPath) {
+    if (place.path === currentPath.split("/")[0]) {
       link.setAttribute("aria-current", "page")
     }
     link.append(icon(place.icon))

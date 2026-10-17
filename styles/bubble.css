@@ -72,6 +72,7 @@ a { color: var(--accent-ink); }
   color: var(--ink);
   font: inherit;
   font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
   transition: background var(--motion-fast), transform var(--motion-fast);
 }
@@ -223,6 +224,7 @@ input[type="checkbox"] {
   color: var(--accent-ink);
 }
 
+/* Pages read best narrow; a page that lays out a wide grid, such as a calendar, adds .wide. */
 .page {
   width: 100%;
   max-width: 760px;
@@ -232,6 +234,8 @@ input[type="checkbox"] {
   flex-direction: column;
   gap: var(--gap);
 }
+
+.page.wide { max-width: 1200px; }
 
 .bottom-bar { display: none; }
 
@@ -252,6 +256,21 @@ input[type="checkbox"] {
     background: var(--surface);
     box-shadow: var(--elevation);
   }
+}
+
+/* Segmented control: a few links or buttons side by side; the current one is filled. */
+.segmented {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border: var(--line-width) solid var(--line);
+  border-radius: var(--button-radius);
+}
+
+.segmented .button[aria-current="page"],
+.segmented .button[aria-pressed="true"] {
+  background: var(--accent-tint);
+  color: var(--accent-ink);
 }
 
 /* Dangerous buttons: an action that loses something, such as deleting. Plain, in the danger colour. */

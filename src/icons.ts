@@ -1,6 +1,8 @@
 // The Lucide icons the app uses, read as text by esbuild (--loader:.svg=text).
 // Lucide is ISC licensed, some icons MIT from Feather: resources/icons/LICENSE.
 import calendar from "../resources/icons/calendar.svg"
+import chevronLeft from "../resources/icons/chevron-left.svg"
+import chevronRight from "../resources/icons/chevron-right.svg"
 import circleCheck from "../resources/icons/circle-check.svg"
 import moon from "../resources/icons/moon.svg"
 import notebookPen from "../resources/icons/notebook-pen.svg"
@@ -11,7 +13,7 @@ import settings from "../resources/icons/settings.svg"
 import sun from "../resources/icons/sun.svg"
 import trash from "../resources/icons/trash.svg"
 
-const icons = { calendar, circleCheck, moon, notebookPen, pencil, plus, search, settings, sun, trash }
+const icons = { calendar, chevronLeft, chevronRight, circleCheck, moon, notebookPen, pencil, plus, search, settings, sun, trash }
 
 /** The name of an icon the app knows. */
 export type IconName = keyof typeof icons

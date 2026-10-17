@@ -2,6 +2,8 @@ import { run } from "./lib/test.js"
 import "./tasks.test.js"
 import "./settings.test.js"
 import "./task-dialog.test.js"
+import "./calendar.test.js"
+import "./calendar-view.test.js"
 
 run().then(report)
 

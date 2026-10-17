@@ -5,6 +5,7 @@ import { createTask, dayOf, Task, tasksOfDay, withDoneSwitched } from "../tasks/
 import { loadTasks, saveTasks } from "../tasks/store.js"
 import { taskDialog, TaskDialogResult } from "./task-dialog.js"
 import { field, tryShowingError, valueOf } from "./task-form.js"
+import { focusIn } from "./focus.js"
 
 /** Today: what is left to do, a check box for each task, and a line to add one. */
 export async function showToday(_parameters: string[], page: HTMLElement): Promise<void> {
@@ -112,8 +113,4 @@ function afterEditing(result: TaskDialogResult, task: Task, page: HTMLElement): 
     return
   }
   focusIn(page, `#edit-${task.id}`)
-}
-
-function focusIn(page: HTMLElement, selector: string): void {
-  ;(page.querySelector(selector) as HTMLElement | null)?.focus()
 }
