@@ -57,8 +57,29 @@ there.
 - [x] T4 — Notes: chips, empty state, the editor beside the wall · `src/views/notes.ts` · R3 · `notes-view.test.ts`
 - [x] T5 — Settings as the canvas · `src/views/settings.ts` · R4 · `settings-view.test.ts`
 - [x] T6 — Search and terminal · `src/views/search.ts` · R5 · `search-view.test.ts`
-- [ ] T7 — Screenshots of every screen in the four finishes and on a phone, and a pass with the keyboard · R6 R8
+- [x] T7 — Screenshots of every screen in the four finishes and on a phone, and a pass with the keyboard · R6 R8
 
 ## Result
 
-Not built yet.
+Every screen follows the canvas: the index as a pane, Today, Calendar, Notes, Settings and
+Search. `bin/test.sh` passes (96 tests) and so does `tsgo`, as do Bubble's CSS tests.
+
+Screenshots were looked at for every screen:
+
+- in Paper and Glass, light and dark, at 1440 px wide,
+- at 390 px wide on a phone, where the index becomes the bottom bar,
+- with Glass over a wallpaper.
+
+Tab walks every screen in order, from the index to the page's controls.
+
+Choices made while building, for the author to judge:
+
+- Notes have no tags in their data, so a tag is a `#word` written in the note.
+- The Next pane lists today's tasks left at a time; Valhalla has no events yet.
+- The chosen finish card is brighter, as Bubble's rules say, not ringed in the accent as the canvas
+  drew it.
+- Every page has its main action in its header. The floating button is gone, the calendar's
+  included.
+
+Not done: Material beyond what Bubble gives it, the screens the canvas has and Valhalla doesn't, a
+screen reader pass by a person, and a real phone.
