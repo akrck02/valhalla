@@ -384,13 +384,38 @@
 
 .settings {
   display: grid;
-  gap: calc(var(--gap) * 1.5);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--gap);
 }
 
-.switch-field {
+#wallpaper-group { grid-column: 1 / -1; }
+
+.setting {
   display: grid;
-  justify-items: start;
-  gap: 6px;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.setting legend { margin-bottom: 10px; padding: 0; font-weight: 650; }
+.setting + .setting, .quiet + .setting { margin-top: var(--gap); }
+
+/* The pictures of each finish: two panes on its ground, opaque with a line, or crystal. */
+.preview { display: flex; gap: 6px; padding: 10px; box-sizing: border-box; }
+.preview-pane { border-radius: 6px; border: var(--line-width) solid var(--line); background: var(--surface); }
+.preview-pane:first-child { width: 30%; }
+.preview-pane:last-child { flex: 1; }
+.finish .preview-paper { background: #F7F5F0; }
+.preview-paper .preview-pane { border-color: #DDD8CE; background: #FDFCF9; }
+.finish .preview-glass { background: radial-gradient(70% 70% at 20% 20%, #FFFFFF, transparent), #DAD5CB; }
+.preview-glass .preview-pane { border-color: #FFFFFFB3; background: #FFFFFF8C; }
+.wallpapers .preview { height: 5rem; }
+.setting .segmented { justify-self: start; }
+
+@media (max-width: 900px) {
+  .settings { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* Wallpapers ------------------------------------------------------------------------------------- */
@@ -436,5 +461,6 @@
     linear-gradient(180deg, #EBD9C0, #A97F57);
 }
 
-.wallpaper-sample { background: var(--wallpaper, var(--sunken)) center / cover; }
-[data-sample="none"] { background: var(--background); }
+.wallpaper-sample,
+.finish .wallpaper-sample { background: var(--wallpaper, var(--sunken)) center / cover; }
+.finish [data-sample="none"] { background: var(--background); }

@@ -31,14 +31,21 @@ describe("the settings page", () => {
   it("each group of choices is a fieldset named by its legend, and each choice has a label", async () => {
     const { page } = await settingsPage()
     const legends = [...page.querySelectorAll("fieldset > legend")].map(legend => legend.textContent)
-    expect(legends.join()).toBe("Style,Light,Wallpaper,Accent")
+    expect(legends.join()).toBe("Finish,Style,Light,Accent,Wallpaper")
     for (const input of page.querySelectorAll("input")) {
       expect(input.closest("label")?.textContent?.trim() ?? "").toMatch(/\S/)
     }
   })
 
+  it("the finish is a card with a picture of itself, the accent a round swatch named in words", async () => {
+    const { page } = await settingsPage()
+    expect(page.querySelectorAll('.finish:has([name="finish"]) .preview').length).toBe(2)
+    expect(page.querySelector('label.swatch-choice:has(#accent-teal)')?.textContent?.trim()).toBe("Teal")
+  })
+
   it("shows the saved look as chosen", async () => {
     const { page } = await settingsPage()
+    expect((page.querySelector("#finish-paper") as HTMLInputElement).checked).toBe(true)
     expect((page.querySelector("#style-paper") as HTMLInputElement).checked).toBe(true)
     expect((page.querySelector("#mode-system") as HTMLInputElement).checked).toBe(true)
     expect((page.querySelector("#accent-ice") as HTMLInputElement).checked).toBe(true)
@@ -54,8 +61,8 @@ describe("the settings page", () => {
 
   it("material turns glass off limits and says why, and paper brings back the choice", async () => {
     const { page, storage } = await settingsPage()
-    const glass = page.querySelector("#glass") as HTMLInputElement
-    choose(page, "glass")
+    const glass = page.querySelector("#finish-glass") as HTMLInputElement
+    choose(page, "finish-glass")
     choose(page, "style-material")
     expect(glass.disabled).toBe(true)
     expect(page.querySelector("#glass-hint")?.textContent ?? "").toMatch(/Material/)
@@ -69,7 +76,7 @@ describe("the settings page", () => {
     const { page } = await settingsPage()
     const group = page.querySelector("#wallpaper-group") as HTMLElement
     expect(group.hidden).toBe(true)
-    choose(page, "glass")
+    choose(page, "finish-glass")
     expect(group.hidden).toBe(false)
     choose(page, "wallpaper-aurora")
     expect(document.documentElement.getAttribute("data-wallpaper")).toBe("aurora")

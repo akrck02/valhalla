@@ -500,6 +500,30 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   font-weight: 650;
 }
 
+/* A segmented control can hold radio buttons too: one choice of a few, read as one control. */
+.segmented label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: calc(var(--touch-target) - 6px);
+  padding: 0 14px;
+  border-radius: var(--button-radius);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.segmented label input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.segmented label:has(:checked) { background: var(--surface); color: var(--ink); font-weight: 650; }
+.segmented label:has(:focus-visible) { outline: var(--focus-width) solid var(--focus-ring); outline-offset: var(--focus-offset); }
+.segmented label:has(:disabled) { color: var(--ink-quiet); cursor: not-allowed; }
+
 /* Choices: radio buttons or a check box as pills, in a fieldset whose legend names the group. */
 .choices {
   display: flex;
@@ -708,7 +732,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 .finish input { position: absolute; opacity: 0; }
 .finish:hover { background: var(--sunken); }
 .finish .preview { height: 6rem; border-radius: calc(var(--card-radius) - 4px); background: var(--sunken); color: var(--ink); }
-.finish .note { color: var(--ink-soft); font-size: var(--text-small); }
+.finish .note { color: var(--ink-soft); font-size: var(--text-small); font-weight: 400; }
 .finish:has(:checked) { border-color: var(--control-line); background: var(--sunken); color: var(--ink); font-weight: 650; }
 .finish:has(:focus-visible) { outline: var(--focus-width) solid var(--focus-ring); outline-offset: calc(var(--line-width) * -1); }
 
@@ -963,6 +987,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 :root[data-glass] .bottom-bar .button[aria-current="page"],
 :root[data-glass] .segmented .button[aria-current="page"],
 :root[data-glass] .segmented .button[aria-pressed="true"],
+:root[data-glass] .segmented label:has(:checked),
 :root[data-glass] .chip[aria-pressed="true"],
 :root[data-glass] .chip[aria-current="page"],
 :root[data-glass] .finish:has(:checked),
