@@ -656,7 +656,8 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   transition: background var(--motion-fast), transform var(--motion-fast);
 }
 
-.chip:hover { background: var(--sunken); }
+/* Hover is a lighter step than what is chosen, so the two are never mistaken. */
+.chip:hover { background: color-mix(in srgb, var(--sunken) 50%, transparent); }
 .chip:active { transform: scale(0.97); }
 
 .chip[aria-pressed="true"],
@@ -730,10 +731,12 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 }
 
 .finish input { position: absolute; opacity: 0; }
-.finish:hover { background: var(--sunken); }
+.finish:hover { background: color-mix(in srgb, var(--sunken) 50%, transparent); }
 .finish .preview { height: 6rem; border-radius: calc(var(--card-radius) - 4px); background: var(--sunken); color: var(--ink); }
 .finish .note { color: var(--ink-soft); font-size: var(--text-small); font-weight: 400; }
 .finish:has(:checked) { border-color: var(--control-line); background: var(--sunken); color: var(--ink); font-weight: 650; }
+.finish:has(:disabled) { color: var(--ink-quiet); background: transparent; cursor: not-allowed; }
+.finish:has(:disabled) input { cursor: not-allowed; }
 .finish:has(:focus-visible) { outline: var(--focus-width) solid var(--focus-ring); outline-offset: calc(var(--line-width) * -1); }
 
 /* Search: a box with an icon, and a list of results to choose with the arrows (an ARIA combobox). */

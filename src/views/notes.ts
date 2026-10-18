@@ -29,8 +29,9 @@ export async function showNotes(parameters: string[], page: HTMLElement): Promis
   const notes = notesByRecent(loadNotes(localStorage))
   const note = notes.find(each => each.id === opened)
   const isOpen = opened === newNote || note !== undefined
-  const chosenTag = opened === tagged ? tag ?? "" : ""
-  const isMissing = opened !== undefined && opened !== "" && opened !== tagged && !isOpen
+  const isFiltered = opened === tagged && !isOpen // a note could have "tagged" as its id: it wins
+  const chosenTag = isFiltered ? tag ?? "" : ""
+  const isMissing = opened !== undefined && opened !== "" && !isFiltered && !isOpen
   const isFirstDraw = page.childElementCount === 0
   page.classList.add("wide")
   const wallSide = uiComponent({ classes: ["notes-wall"] })
@@ -120,7 +121,7 @@ function noteCard(note: Note, isOpen: boolean): HTMLElement {
   const item = uiComponent({ type: Html.Li })
   const link = uiComponent({ type: Html.A, id: `note-${note.id}`, classes: ["note-card"], attributes: { href: `#/notes/${note.id}` } })
   if (isOpen) {
-    link.setAttribute("aria-current", "page")
+    link.setAttribute("aria-current", "true") // the chips' chosen tag is the current page
   }
   const name = uiComponent({ type: Html.Span, classes: ["title"] })
   name.textContent = nameOf(note) // what a person typed is always text, never markup

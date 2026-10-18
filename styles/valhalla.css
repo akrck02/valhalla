@@ -304,7 +304,7 @@
 }
 
 .note-card:hover { background: var(--sunken); }
-.note-card[aria-current="page"] { border-color: var(--control-line); background: var(--sunken); }
+.note-card[aria-current="true"] { border-color: var(--control-line); background: var(--sunken); }
 .note-card .title { font-weight: 650; overflow-wrap: anywhere; }
 .note-card .excerpt { flex: 1 1 auto; color: var(--ink-soft); overflow-wrap: anywhere; }
 
@@ -340,7 +340,7 @@
 }
 
 :root[data-glass] .note-card:hover,
-:root[data-glass] .note-card[aria-current="page"] { background: var(--glass-raised); }
+:root[data-glass] .note-card[aria-current="true"] { background: var(--glass-raised); }
 
 :root[data-glass] .note-editor {
   border-color: transparent;

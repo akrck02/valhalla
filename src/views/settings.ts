@@ -46,7 +46,7 @@ function lookPane(appearance: Appearance): HTMLElement {
 
 function colourPane(appearance: Appearance): HTMLElement {
   const pane = uiComponent({ type: Html.Section, classes: ["pane"] })
-  pane.append(segmentedGroup("mode", "Light", appearance.mode, [
+  pane.append(segmentedGroup("mode", "Mode", appearance.mode, [
     { value: "light", label: "Light" },
     { value: "dark", label: "Dark" },
     { value: "system", label: "Like the system" },
@@ -64,11 +64,11 @@ function finishGroup(appearance: Appearance): HTMLElement {
   for (const finish of finishes) {
     const label = uiComponent({ type: Html.Label, classes: ["finish"] })
     const radio = radioOf("finish", finish.value, finish.value === (appearance.glass ? "glass" : "paper"))
-    radio.setAttribute("aria-describedby", "glass-hint")
+    radio.setAttribute("aria-describedby", `finish-${finish.value}-note glass-hint`)
     const preview = uiComponent({ classes: ["preview", `preview-${finish.value}`], attributes: { "aria-hidden": "true" } })
     preview.append(uiComponent({ classes: ["preview-pane"] }), uiComponent({ classes: ["preview-pane"] }))
     const name = uiComponent({ type: Html.Span, text: finish.label })
-    const note = uiComponent({ type: Html.Span, classes: ["note"], text: finish.note })
+    const note = uiComponent({ type: Html.Span, id: `finish-${finish.value}-note`, classes: ["note"], text: finish.note })
     label.append(radio, preview, name, note)
     group.append(label)
   }

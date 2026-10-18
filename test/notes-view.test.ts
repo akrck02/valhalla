@@ -48,7 +48,7 @@ describe("the notes page", () => {
     const note = createNote("Ideas", "One")
     const { page } = await notesWith([note.id], note)
     expect(page.querySelector(".note-wall") !== null && page.querySelector(".note-editor") !== null).toBe(true)
-    expect(page.querySelector(`#note-${note.id}`)?.getAttribute("aria-current")).toBe("page")
+    expect(page.querySelector(`#note-${note.id}`)?.getAttribute("aria-current")).toBe("true")
     page.remove()
   })
 

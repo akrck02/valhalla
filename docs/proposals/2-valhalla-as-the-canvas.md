@@ -1,6 +1,6 @@
 # 2. Valhalla as the design canvas draws it
 
-> Status: building · Author's approval: proposal ☑ plan ☑
+> Status: built, waiting for the author's look · Author's approval: proposal ☑ plan ☑
 
 ## Why
 
@@ -35,9 +35,9 @@ there.
 - **Bubble first:** the parts the screens need go into `css/bubble.css` as reusable classes. Each
   sets its text colour, so the test of R4 in proposal 1 keeps passing:
   - `.pane`, a surface for a group (the canvas's panes, glass on Glass)
-  - `.chips` and `.chip[aria-pressed]` for filters
+  - `.chips` and `.chip` for filters: a button with `aria-pressed`, or a link with `aria-current`
   - `.empty` for empty states
-  - `.finish-card` for a choice with a preview
+  - `.finish` for a choice with a preview
   - a round `.swatch` choice
   - `.task-row` for a list row with a check box, title and time
 
@@ -51,7 +51,7 @@ there.
 
 ## Tasks
 
-- [x] T1 — Bubble: `.pane`, `.chips`, `.empty`, `.task-row`, `.finish-card`, round swatches, with tests · `bubble/css/bubble.css`, `bubble/css_test.go` · R7
+- [x] T1 — Bubble: `.pane`, `.chips`, `.empty`, `.task-row`, `.finish`, round swatches, with tests · `bubble/css/bubble.css`, `bubble/css_test.go` · R7
 - [x] T2 — The index as a pane, Search at its foot · `src/shell.ts`, `styles/` · R1 R6 · `shell.test.ts`
 - [x] T3 — Today: title, main action, tasks pane, the next pane; the form into the dialog · `src/views/today.ts`, `task-dialog.ts` · R2 · today tests
 - [x] T4 — Notes: chips, empty state, the editor beside the wall · `src/views/notes.ts` · R3 · `notes-view.test.ts`
@@ -80,6 +80,10 @@ Choices made while building, for the author to judge:
   drew it.
 - Every page has its main action in its header. The floating button is gone, the calendar's
   included.
+
+The review found and fixed: the mode group was named "Light" like its first choice; a disabled
+Glass card still looked like a choice; hover and chosen looked alike on chips and cards; two
+things claimed to be the current page; a note with the id `tagged` could not be opened.
 
 Not done: Material beyond what Bubble gives it, the screens the canvas has and Valhalla doesn't, a
 screen reader pass by a person, and a real phone.

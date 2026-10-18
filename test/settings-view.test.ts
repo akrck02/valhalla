@@ -31,7 +31,7 @@ describe("the settings page", () => {
   it("each group of choices is a fieldset named by its legend, and each choice has a label", async () => {
     const { page } = await settingsPage()
     const legends = [...page.querySelectorAll("fieldset > legend")].map(legend => legend.textContent)
-    expect(legends.join()).toBe("Finish,Style,Light,Accent,Wallpaper")
+    expect(legends.join()).toBe("Finish,Style,Mode,Accent,Wallpaper")
     for (const input of page.querySelectorAll("input")) {
       expect(input.closest("label")?.textContent?.trim() ?? "").toMatch(/\S/)
     }
