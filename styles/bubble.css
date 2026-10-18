@@ -761,6 +761,8 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   color: var(--ink);
 }
 
+:root[data-glass] .search-result[aria-selected="true"] .pill { background: var(--glass-pane); }
+
 :root[data-glass] .list-item.done {
   border-color: transparent;
   background: transparent;

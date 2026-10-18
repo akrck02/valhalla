@@ -259,6 +259,7 @@
   --scrim: #1F232966;
   --tile: #2F3540;
   --color-scheme: light;
+  --sunken: #FFFFFFD9;
   --glass-pane: #FFFFFF8C;
   --glass-raised: #FFFFFFD9;
   --glass-glow-one: #FFFFFF;
@@ -292,6 +293,7 @@
   --scrim: #0000008C;
   --tile: #2F3540;
   --color-scheme: dark;
+  --sunken: #FFFFFF1F;
   --glass-pane: #FFFFFF0F;
   --glass-raised: #FFFFFF1F;
   --glass-glow-one: #24272D;
@@ -326,6 +328,7 @@
     --scrim: #0000008C;
     --tile: #2F3540;
     --color-scheme: dark;
+    --sunken: #FFFFFF1F;
     --glass-pane: #FFFFFF0F;
     --glass-raised: #FFFFFF1F;
     --glass-glow-one: #24272D;
@@ -340,6 +343,7 @@
   :root[data-glass] {
     --glass-pane: var(--surface);
     --glass-raised: var(--accent-tint);
+    --sunken: var(--accent-tint);
     --glass-blur: 0px;
   }
 }
