@@ -298,43 +298,49 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 /* The app's frame ----------------------------------------------------------------------------- */
 
 /*
- * An index on the left, the whole height of the window: the name on top, the places under it,
- * divided from the page by a fine line. There is no header: the search opens from anywhere with
- * Ctrl K. On phones the index becomes a bar at the bottom. Material turns the places into a rail
- * of icons with their names under them.
+ * An index on the left, a pane the height of the window: the name on top, the places under it,
+ * and at its foot what is always at hand (the search, Ctrl K). There is no header. On phones the
+ * index becomes a bar at the bottom. Material turns the places into a rail of icons with their
+ * names under them.
  */
 .app {
   display: grid;
-  grid-template-columns: 15rem minmax(0, 1fr);
+  grid-template-columns: 16rem minmax(0, 1fr);
   grid-template-areas: "sidebar page";
+  gap: var(--gap);
   min-height: 100vh;
+  box-sizing: border-box;
+  padding: var(--gap);
 }
 
 .sidebar {
   grid-area: sidebar;
   position: sticky;
-  top: 0;
+  top: var(--gap);
   display: flex;
   flex-direction: column;
   gap: var(--gap);
-  height: 100vh;
+  height: calc(100vh - 2 * var(--gap));
   box-sizing: border-box;
   padding: 14px 12px;
-  border-right: var(--line-width) solid var(--line);
+  border: var(--line-width) solid var(--line);
+  border-radius: var(--panel-radius);
+  background: var(--surface);
+  color: var(--ink);
 }
 
-/* The name, in small spaced capitals: sober, as the first Valhalla wrote it. */
+.sidebar-foot { margin-top: auto; }
+
+/* The name, as a word: the logo on its tile, then the name in the heading's weight. */
 .brand {
   display: flex;
   align-items: center;
   gap: 10px;
   min-height: var(--touch-target);
-  padding: 0 8px;
+  padding: 0 8px 8px;
   color: var(--ink);
-  font-size: var(--text-small);
-  font-weight: 650;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-size: calc(var(--text-body) + 2px);
+  font-weight: 700;
   text-decoration: none;
 }
 
@@ -381,7 +387,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 }
 
 :root[data-style="material"] .app { grid-template-columns: 6rem minmax(0, 1fr); }
-:root[data-style="material"] .sidebar { align-items: stretch; border-right: 0; }
+:root[data-style="material"] .sidebar { align-items: stretch; border-color: transparent; background: transparent; }
 :root[data-style="material"] .brand span,
 :root[data-style="material"] .places .key { display: none; }
 :root[data-style="material"] .brand { justify-content: center; padding: 0; }
@@ -469,19 +475,29 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 }
 
 /* Segmented control: a few links or buttons side by side; the current one is filled. */
+/* A segmented control is a sunken well; the chosen segment rises out of it, as a surface. */
 .segmented {
   display: inline-flex;
   gap: 2px;
-  padding: 2px;
-  border: var(--line-width) solid var(--line);
-  border-radius: var(--button-radius);
+  padding: 3px;
+  border-radius: calc(var(--button-radius) + 2px);
+  background: var(--sunken);
+  color: var(--ink);
+}
+
+.segmented .button {
+  border-color: transparent;
+  background: transparent;
+  color: var(--ink-soft);
+  font-weight: 400;
 }
 
 /* What is chosen is brighter, never coloured: the accent is kept for the main action. */
 .segmented .button[aria-current="page"],
 .segmented .button[aria-pressed="true"] {
-  background: var(--sunken);
+  background: var(--surface);
   color: var(--ink);
+  font-weight: 650;
 }
 
 /* Choices: radio buttons or a check box as pills, in a fieldset whose legend names the group. */
@@ -539,6 +555,160 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   border: var(--line-width) solid var(--line);
   border-radius: 50%;
 }
+
+/* Swatches to choose a colour: round, a finger wide; the chosen one has a ring of ink around it. */
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.swatch-choice {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  border-radius: 50%;
+  background: var(--swatch, var(--accent));
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.swatch-choice input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.swatch-choice:has(:checked) { box-shadow: 0 0 0 3px var(--background), 0 0 0 5px var(--ink); }
+.swatch-choice:has(:focus-visible) { outline: var(--focus-width) solid var(--focus-ring); outline-offset: var(--focus-offset); }
+
+/* Panes, chips, rows and empty states ---------------------------------------------------------- */
+
+/*
+ * A pane holds a group of things on a page: the tasks of a day, what comes next. On paper it is a
+ * surface with a fine line; on glass, a crystal pane; with Material, a soft lift instead of a line.
+ */
+.pane {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--gap) / 2);
+  padding: var(--padding);
+  border: var(--line-width) solid var(--line);
+  border-radius: var(--panel-radius);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.pane > h2 { margin-bottom: 4px; }
+
+:root[data-style="material"] .pane { border-color: transparent; box-shadow: var(--elevation); }
+
+/* Chips filter what a page shows; the chosen one is brighter and heavier, never coloured. */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+  padding: 0 14px;
+  border: var(--line-width) solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  transition: background var(--motion-fast), transform var(--motion-fast);
+}
+
+.chip:hover { background: var(--sunken); }
+.chip:active { transform: scale(0.97); }
+
+.chip[aria-pressed="true"] {
+  border-color: transparent;
+  background: var(--sunken);
+  color: var(--ink);
+  font-weight: 650;
+}
+
+/* Rows of a list inside a pane: a check box, a title, a time; fine lines between them. */
+.rows {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rows > li + li { border-top: var(--line-width) solid var(--line); }
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  min-height: calc(var(--touch-target) + 8px);
+  padding: 0 4px;
+}
+
+.row .title { flex: 1 1 auto; font-weight: 600; overflow-wrap: anywhere; }
+.row .time { color: var(--ink-quiet); font-size: var(--text-small); font-variant-numeric: tabular-nums; }
+.row.done .title { color: var(--ink-quiet); text-decoration: line-through; }
+
+/* An empty state says what will be here and how to make the first one, with its button. */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: calc(var(--padding) * 2);
+  border: 1.5px dashed var(--control-line);
+  border-radius: var(--panel-radius);
+  color: var(--ink);
+  text-align: center;
+}
+
+.empty svg { width: 40px; height: 40px; color: var(--ink-soft); }
+.empty p { max-width: 32ch; color: var(--ink-soft); }
+
+/* A choice shown as a card with a small picture of itself: Paper or Glass. */
+.finishes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: var(--gap);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.finish {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border: var(--line-width) solid var(--line);
+  border-radius: var(--card-radius);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.finish input { position: absolute; opacity: 0; }
+.finish:hover { background: var(--sunken); }
+.finish .preview { height: 6rem; border-radius: calc(var(--card-radius) - 4px); background: var(--sunken); color: var(--ink); }
+.finish .note { color: var(--ink-soft); font-size: var(--text-small); }
+.finish:has(:checked) { border-color: var(--control-line); background: var(--sunken); color: var(--ink); font-weight: 650; }
+.finish:has(:focus-visible) { outline: var(--focus-width) solid var(--focus-ring); outline-offset: calc(var(--line-width) * -1); }
 
 /* Search: a box with an icon, and a list of results to choose with the arrows (an ARIA combobox). */
 .search {
@@ -745,7 +915,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 }
 
 
-:root[data-glass] :is(.card, .list-item, .search-box, .choice, .segmented, .sidebar, .bottom-bar, .button:not(.primary, .ghost)) {
+:root[data-glass] :is(.card, .pane, .list-item, .search-box, .choice, .segmented, .sidebar, .bottom-bar, .button:not(.primary, .ghost)) {
   border-color: transparent;
   background: var(--glass-pane);
   backdrop-filter: blur(var(--glass-blur)) saturate(140%);
@@ -790,6 +960,9 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 
 :root[data-glass] .bottom-bar .button[aria-current="page"],
 :root[data-glass] .segmented .button[aria-current="page"],
+:root[data-glass] .segmented .button[aria-pressed="true"],
+:root[data-glass] .chip[aria-pressed="true"],
+:root[data-glass] .finish:has(:checked),
 :root[data-glass] .choice:has(:checked) {
   border-color: transparent;
   background: var(--glass-raised);

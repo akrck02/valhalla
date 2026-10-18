@@ -15,7 +15,8 @@ describe("the frame", () => {
   it("the index names every place with words, and marks the current one", () => {
     const { body } = frameAt("calendar/week/2026-10-12")
     const links = [...body.querySelectorAll(".places a")]
-    expect(links.map(link => link.querySelector("span")?.textContent).join()).toBe(places.map(place => place.name).join())
+    const searchLast = [...places.filter(place => place.path !== "search"), ...places.filter(place => place.path === "search")]
+    expect(links.map(link => link.querySelector("span")?.textContent).join()).toBe(searchLast.map(place => place.name).join())
     expect(body.querySelector('.places [aria-current="page"] span')?.textContent).toBe("Calendar")
   })
 
@@ -26,10 +27,10 @@ describe("the frame", () => {
     expect(brand?.getAttribute("aria-label")).toBe("Valhalla, today")
   })
 
-  it("there is no header: the search is a place of the index, with its shortcut", () => {
+  it("there is no header: the search sits at the foot of the index, with its shortcut", () => {
     const { body } = frameAt("")
     expect(body.querySelector("header")).toBe(null)
-    const search = body.querySelector('.places a[href="#/search"]')
+    const search = body.querySelector('.sidebar-foot a[href="#/search"]')
     expect(search?.getAttribute("aria-keyshortcuts")).toBe("Control+K Meta+K")
     expect(search?.querySelector("kbd")?.textContent ?? "").toMatch(/K$/)
   })
