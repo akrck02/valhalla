@@ -702,8 +702,8 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 
 /*
  * Paper's standards reimagined on glass, after the first Valhalla: only with data-glass on <html>.
- * Panels are crystalline fills with no outline, told apart by how bright they are; what is chosen
- * is brighter, with a fine bar of ink, not coloured; titles are light; the colour is sober.
+ * Panels are crystalline fills with no outline, told apart by how bright they are. Everything else
+ * (frame, type, what is chosen, the accent) is the same as on paper.
  * The tokens (ground, inks, fills and lights) come from the Go package, with their contrast tested.
  */
 :root[data-glass] body {
