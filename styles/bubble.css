@@ -809,12 +809,13 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .search-result .title {
   overflow: hidden;
-  font-weight: 600;
+  font-weight: inherit;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .search-result .quiet {
+  font-weight: 400;
   margin-inline-start: auto;
   white-space: nowrap;
 }

@@ -6,7 +6,7 @@ import { dayOf } from "../tasks/task.js"
 import { loadTasks } from "../tasks/store.js"
 import { loadNotes } from "../notes/store.js"
 import { ResultKind, searchEverything, SearchResult } from "../search/search.js"
-import { readCommand, runCommand, TerminalContext } from "../terminal/terminal.js"
+import { commandHelp, readCommand, runCommand, TerminalContext } from "../terminal/terminal.js"
 import { changeAppearance } from "../settings.js"
 import { places } from "../places.js"
 import { messageFor } from "./messages.js"
@@ -16,13 +16,38 @@ export const terminalPrompt = ">"
 
 const kindNames: Record<ResultKind, string> = { place: "Place", task: "Task", note: "Note" }
 
-/** The Search place: the same panel as Ctrl K, on a page of its own. */
+/** The Search place: the same panel as Ctrl K, on a page of its own, with the commands beside it. */
 export async function showSearch(_parameters: string[], page: HTMLElement): Promise<void> {
-  const title = uiComponent({ type: Html.H1 })
-  title.textContent = "Search"
+  const header = uiComponent({ type: Html.Header, classes: ["page-header"] })
+  const titles = uiComponent()
+  const hint = uiComponent({ type: Html.P, classes: ["date", "soft"], text: `Type words to find, or ${terminalPrompt} to run a command` })
+  titles.append(hint, uiComponent({ type: Html.H1, text: "Search" }))
+  header.append(titles)
   const panel = searchPanel(() => {})
-  page.replaceChildren(title, panel)
+  const columns = uiComponent({ classes: ["search-page"] })
+  columns.append(panel, commandsPane())
+  page.classList.add("wide")
+  page.replaceChildren(header, columns)
   ;(panel.querySelector("input") as HTMLInputElement).focus()
+}
+
+/** The terminal's commands, each with what it does, so they can be learnt without typing help. */
+function commandsPane(): HTMLElement {
+  const pane = uiComponent({ type: Html.Section, classes: ["pane", "commands"], attributes: { "aria-labelledby": "commands-heading" } })
+  pane.append(uiComponent({ type: Html.H2, id: "commands-heading", text: "Commands" }))
+  const list = uiComponent({ type: "dl" })
+  for (const help of commandHelp) {
+    const [usage, meaning] = help.split(/\s{2,}/)
+    const term = uiComponent({ type: "dt" })
+    const code = uiComponent({ type: "code" })
+    code.textContent = `${terminalPrompt} ${usage}` // the usage has <angle brackets>: text, not markup
+    term.append(code)
+    const description = uiComponent({ type: "dd" })
+    description.textContent = meaning ?? ""
+    list.append(term, description)
+  }
+  pane.append(list)
+  return pane
 }
 
 /**
@@ -121,13 +146,11 @@ function drawResults(list: HTMLElement, shown: SearchResult[], active: number, g
   }
   list.replaceChildren(...shown.map((result, index) => {
     const option = uiComponent({ type: Html.Li, id: `search-result-${index}`, classes: ["search-result"], attributes: { role: "option", "aria-selected": String(index === active) } })
-    const kind = uiComponent({ type: Html.Span, classes: ["pill"] })
-    kind.textContent = kindNames[result.kind]
     const label = uiComponent({ type: Html.Span, classes: ["title"] })
     label.textContent = result.label // what a person typed is always text, never markup
-    const detail = uiComponent({ type: Html.Span, classes: ["quiet"] })
-    detail.textContent = result.detail
-    option.append(kind, label, detail)
+    const where = uiComponent({ type: Html.Span, classes: ["quiet", "where"] })
+    where.textContent = result.detail === "" ? kindNames[result.kind] : `${kindNames[result.kind]} · ${result.detail}`
+    option.append(label, where)
     option.addEventListener("click", () => go(result.href))
     return option
   }))

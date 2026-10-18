@@ -357,6 +357,22 @@
   margin-top: 12vh;
 }
 
+/* The Search page: the search, and the commands beside it; one column on narrow screens. */
+.search-page {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--gap);
+}
+
+.commands dl { display: grid; gap: 4px; margin: 0; }
+.commands dt code { font-family: var(--font-monospace); font-size: var(--text-small); font-weight: 650; }
+.commands dd { margin: 0 0 8px; color: var(--ink-soft); font-size: var(--text-small); }
+
+@media (max-width: 900px) {
+  .search-page { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* The terminal of the 2022 Valhalla, on paper: monospace lines, what was typed a little quieter. */
 .terminal {
   min-height: 10rem;

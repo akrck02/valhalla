@@ -1,7 +1,7 @@
 import { afterThis, describe, expect, it, replace } from "./lib/test.js"
 import { createTask } from "../src/tasks/task.js"
 import { saveTasks } from "../src/tasks/store.js"
-import { openSearchDialog, searchPanel } from "../src/views/search.js"
+import { openSearchDialog, searchPanel, showSearch } from "../src/views/search.js"
 import { memoryStorage } from "./storage.js"
 
 /** Draws the search panel on a storage of its own; gives the panel, its box and how often it left. */
@@ -85,5 +85,25 @@ describe("the search panel", () => {
     openSearchDialog()
     expect(document.querySelectorAll("dialog.search-dialog").length).toBe(0)
     expect(document.activeElement === input).toBe(true)
+  })
+
+  it("a result shows its title, and where it comes from on the right, in words", () => {
+    const { panel, input } = panelWith(createTask("Bike repair", "2026-10-18", "17:30"))
+    type(input, "bike")
+    const result = panel.querySelector(".search-result")
+    expect(result?.querySelector(".title")?.textContent).toBe("Bike repair")
+    expect(result?.querySelector(".where")?.textContent ?? "").toMatch(/^Task/)
+    expect(result?.querySelector(".pill")).toBe(null)
+  })
+
+  it("the Search page lists the commands beside the search", async () => {
+    replace(window, "localStorage", memoryStorage())
+    const page = document.createElement("main")
+    document.body.append(page)
+    afterThis(() => page.remove())
+    await showSearch([], page)
+    const commands = [...page.querySelectorAll('[aria-labelledby="commands-heading"] code')].map(code => code.textContent)
+    expect(commands[0] ?? "").toBe("> go <place>")
+    expect(commands.length).toBe(6)
   })
 })
