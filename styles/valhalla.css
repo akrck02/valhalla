@@ -39,11 +39,17 @@
  * The week and the month are one pane each, as a paper calendar is one sheet: days are divided by
  * fine lines, the weekend is a step of tone, and today is the only accent.
  */
+:root { --weekend: color-mix(in srgb, var(--sunken) 55%, transparent); }
+
+/* On glass the step is light, not ink. */
+:root[data-glass] { --weekend: color-mix(in srgb, var(--glass-raised) 45%, transparent); }
+
 .week,
 .month {
   border: var(--line-width) solid var(--line);
   border-radius: var(--panel-radius);
   background: var(--surface);
+  color: var(--ink);
   overflow: hidden;
 }
 
@@ -67,7 +73,7 @@
 .week-day + .week-day { border-inline-start: var(--line-width) solid var(--line); }
 
 .week-day:nth-child(n + 6),
-.month td:nth-child(n + 6) { background: var(--weekend); }
+.month td:nth-child(n + 6) { background: var(--weekend); color: var(--ink); }
 
 .week-day h2 {
   display: flex;
@@ -123,10 +129,15 @@
   font-size: var(--text-small);
   text-align: start;
   cursor: pointer;
-  transition: filter var(--motion-fast), transform var(--motion-fast);
+  transition: background var(--motion-fast), transform var(--motion-fast);
 }
 
+/* Pressing gives a little, as Bubble's buttons do; with less motion, it doesn't. */
 .calendar-task:active { transform: scale(0.97); }
+
+@media (prefers-reduced-motion: reduce) {
+  .calendar-task:active { transform: none; }
+}
 .calendar-task .time { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 .calendar-task .title { font-weight: 600; overflow-wrap: anywhere; }
 
@@ -190,10 +201,8 @@
   text-overflow: ellipsis;
 }
 
-.month-task { background: var(--sunken); }
+.month-task { background: var(--sunken); color: var(--ink); }
 .month-more { color: var(--ink-soft); }
-
-:root { --weekend: color-mix(in srgb, var(--sunken) 55%, transparent); }
 
 @media (max-width: 900px) {
   .week { grid-template-columns: 1fr; }
@@ -218,9 +227,7 @@
   }
 }
 
-/* On glass the sheet is one pane; its lines and the weekend are light, not ink. */
-:root[data-glass] { --weekend: color-mix(in srgb, var(--glass-raised) 45%, transparent); }
-
+/* On glass the sheet is one pane, and its lines are light, not ink. */
 :root[data-glass] :is(.week, .month) {
   border-color: transparent;
   background: var(--glass-pane);
@@ -275,6 +282,7 @@
   border: var(--line-width) solid var(--line);
   border-radius: var(--panel-radius);
   background: var(--surface);
+  color: var(--ink);
 }
 
 .note-editor textarea {
@@ -322,6 +330,7 @@
   font-family: var(--font-monospace);
   font-size: var(--text-small);
   white-space: pre-wrap;
+  color: var(--ink);
 }
 
 .terminal:empty::before {

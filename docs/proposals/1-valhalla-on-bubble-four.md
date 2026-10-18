@@ -1,6 +1,6 @@
 # 1. Valhalla on Bubble 4, with what Bubble 3 did well
 
-> Status: building · Author's approval: proposal ☑ plan ☑
+> Status: done · Author's approval: proposal ☑ plan ☑
 
 ## Why
 
@@ -14,7 +14,7 @@ so it should show all of it, in Paper and Glass, light and dark.
 
 | Id | Requirement | Check |
 |---|---|---|
-| R1 | The keyboard focus sits on the control's own edge, with no gap, and keeps 3:1 contrast | Bubble test `the focus ring touches the control`; existing contrast tests pass |
+| R1 | The keyboard focus sits on the control's own edge, with no gap, and keeps 3:1 contrast against the page and the fill it touches | Bubble tests `TestTheFocusRingTouchesTheControl`, `TestTheFocusRingNeverFloatsAwayFromTheControl`, `TestTheFocusRingStandsOutFromTheSurfacesItTouches` |
 | R2 | A field being written in lights its own edge in the accent, not a second ring outside it | Look: the search box and a task field, in Paper and Glass |
 | R3 | Buttons and calendar tasks shrink a little while pressed; nothing moves on hover | Look: press the main button and a task |
 | R4 | Every part that paints a background also sets its text colour | Bubble test `every rule with a background sets a colour` |
@@ -57,6 +57,13 @@ Built in Bubble (`feature/v4`) and here. Bubble's new tests found eight parts th
 background without a text colour (card, list item, choice, search box, bottom bar, chosen place,
 chosen result and its pill); they now pair them. Valhalla's 84 tests pass. Screenshots of the week
 and the month in Paper and Glass, light and dark, and Glass over a wallpaper were looked at.
+
+The review found that a ring touching the main button could not be told from its accent fill
+(contrast 1.0 to 2.6), so on controls filled with the accent the ring is drawn inside, in the
+accent's text colour; a checked box or radio, too small for that, keeps a 2 px gap. Less motion now
+also removes the press. Valhalla's own rules that paint a background set their text colour too,
+checked by hand with the same rule as Bubble's test; a swatch with no text is the only exception.
+No program checks yet that calendar tasks carry no coloured bar (R5): only the screenshots do.
 
 Still for a person to review: the weekend step is faint on Glass light; the press and the focus on
 a real keyboard and touch screen; Material, which only changes through Bubble here.

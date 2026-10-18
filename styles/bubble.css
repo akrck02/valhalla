@@ -82,7 +82,7 @@ a { color: var(--accent-ink); }
 
 .button:hover { background: var(--sunken); }
 
-/* Pressing gives a little, the only movement a control makes (after Bubble 3). */
+/* Pressing gives a little (after Bubble 3); nothing moves on hover. */
 .button:active { transform: scale(0.97); }
 
 /* The primary action stands on its block edge, the darker side of the project's logo. */
@@ -94,6 +94,16 @@ a { color: var(--accent-ink); }
 }
 
 .button.primary:hover { background: var(--accent-side); }
+
+/*
+ * The focus ring touches the controls it marks. On a control filled with the accent it could not
+ * be told from the fill, so there it is drawn inside, in the accent's own text colour.
+ */
+.button.primary:focus-visible,
+:root:not([data-glass]) .fab:focus-visible {
+  outline-color: var(--on-accent);
+  outline-offset: calc(var(--focus-width) * -2);
+}
 
 .button.primary:active {
   transform: translateY(var(--edge-width)) scale(0.97);
@@ -223,6 +233,9 @@ input[type="checkbox"]::before {
 }
 
 input[type="checkbox"]:checked::before { transform: scale(1); }
+
+/* A checked box or radio is too small for a ring inside, so its ring keeps a small gap. */
+input:is([type="checkbox"], [type="radio"]):checked:focus-visible { outline-offset: 2px; }
 input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 
 /* Cards, pills and lists ---------------------------------------------------------------------- */
@@ -833,4 +846,9 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
     transition-duration: 0s !important;
     animation-duration: 0s !important;
   }
+
+  /* Pressing changes the colour only: no shrink, no drop onto the edge. */
+  .button:active,
+  .button.primary:active,
+  .fab:active { transform: none; }
 }
