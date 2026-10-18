@@ -65,4 +65,10 @@ describe("the calendar page", () => {
     expect(page.querySelectorAll(".month-task").length).toBe(3)
     expect(page.querySelector(".month-more")?.textContent).toBe("+2 more")
   })
+
+  it("dates are written in the app's language, whatever the browser's", async () => {
+    const page = await calendarWith(["month", "2026-10"])
+    expect(page.querySelector("h1")?.textContent).toBe("October 2026")
+    expect(page.querySelector("thead abbr")?.getAttribute("title")).toBe("Monday")
+  })
 })

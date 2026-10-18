@@ -1,7 +1,7 @@
 import { afterThis, describe, expect, it, replace } from "./lib/test.js"
 import { createTask } from "../src/tasks/task.js"
 import { saveTasks } from "../src/tasks/store.js"
-import { searchPanel } from "../src/views/search.js"
+import { openSearchDialog, searchPanel } from "../src/views/search.js"
 import { memoryStorage } from "./storage.js"
 
 /** Draws the search panel on a storage of its own; gives the panel, its box and how often it left. */
@@ -78,5 +78,12 @@ describe("the search panel", () => {
     type(input, "> clear")
     press(input, "Enter")
     expect(panel.querySelectorAll(".terminal-line").length).toBe(0)
+  })
+
+  it("Ctrl K with a search already on screen takes the focus instead of opening another", () => {
+    const { input } = panelWith()
+    openSearchDialog()
+    expect(document.querySelectorAll("dialog.search-dialog").length).toBe(0)
+    expect(document.activeElement === input).toBe(true)
   })
 })

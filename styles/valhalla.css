@@ -316,18 +316,6 @@
 
 :root[data-glass] .calendar-task { background: var(--glass-raised); }
 
-/* On glass today is framed, as in the first Valhalla, not filled with colour. */
-:root[data-glass] .day-number[aria-current="date"] { background: transparent; color: var(--ink); }
-
-:root[data-glass] .month-day:has([aria-current="date"]),
-:root[data-glass] .week-day:has([aria-current="date"]) {
-  outline: 2px solid var(--ink);
-  outline-offset: -2px;
-}
-
-:root[data-glass] .week-day h2[aria-current="date"],
-:root[data-glass] .week-day h2[aria-current="date"] .number { color: var(--ink); }
-
 :root[data-glass] .month-day:not(.outside):hover { background: var(--glass-raised); }
 
 /* Wallpapers ------------------------------------------------------------------------------------- */

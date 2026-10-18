@@ -26,13 +26,13 @@ export async function showSearch(_parameters: string[], page: HTMLElement): Prom
 }
 
 /**
- * Opens the search over whatever page is shown, as a dialog; Ctrl K or ⌘K opens it. If it is
- * already open, it takes the focus back instead of opening twice.
+ * Opens the search over whatever page is shown, as a dialog; Ctrl K or ⌘K opens it. If a search
+ * is already on screen, as a dialog or as the Search page, it takes the focus instead.
  */
 export function openSearchDialog(): void {
-  const open = document.querySelector<HTMLDialogElement>("dialog.search-dialog")
+  const open = document.querySelector<HTMLElement>(".search")
   if (open !== null) {
-    open.querySelector("input")?.focus()
+    open.querySelector("input")?.focus() // already on screen, as a dialog or as the Search page
     return
   }
   const dialog = uiComponent({ type: "dialog", classes: ["dialog", "search-dialog"], attributes: { "aria-label": "Search" } }) as HTMLDialogElement

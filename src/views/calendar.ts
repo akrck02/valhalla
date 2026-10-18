@@ -1,4 +1,5 @@
 import { uiComponent } from "../gtd/dom.js"
+import { language } from "../language.js"
 import { Html } from "../gtd/html.js"
 import { icon } from "../icons.js"
 import { addDays, addMonths, dateOf, daysInWeek, isDay, isMonth, monthOf, weekOf, weeksOfMonth } from "../calendar/calendar.js"
@@ -229,20 +230,20 @@ function monthDayCell(day: string, month: string, today: string, tasks: Task[]):
 function weekTitle(days: string[]): string {
   const first = dateOf(days[0])
   const last = dateOf(days[days.length - 1])
-  const format = new Intl.DateTimeFormat(undefined, { day: "numeric", month: "long", year: "numeric" })
+  const format = new Intl.DateTimeFormat(language, { day: "numeric", month: "long", year: "numeric" })
   return format.formatRange(first, last)
 }
 
 function monthTitle(month: string): string {
-  return new Intl.DateTimeFormat(undefined, { month: "long", year: "numeric" }).format(dateOf(`${month}-01`))
+  return new Intl.DateTimeFormat(language, { month: "long", year: "numeric" }).format(dateOf(`${month}-01`))
 }
 
 function longDay(day: string): string {
-  return new Intl.DateTimeFormat(undefined, { weekday: "long", day: "numeric", month: "long" }).format(dateOf(day))
+  return new Intl.DateTimeFormat(language, { weekday: "long", day: "numeric", month: "long" }).format(dateOf(day))
 }
 
 function weekdayName(day: string, width: "long" | "short"): string {
-  return new Intl.DateTimeFormat(undefined, { weekday: width }).format(dateOf(day))
+  return new Intl.DateTimeFormat(language, { weekday: width }).format(dateOf(day))
 }
 
 function countOf(count: number, one: string, many: string): string {

@@ -1,4 +1,5 @@
 import { uiComponent } from "../gtd/dom.js"
+import { language } from "../language.js"
 import { Html } from "../gtd/html.js"
 import { icon } from "../icons.js"
 import { createNote, editedNote, nameOf, Note, notesByRecent } from "../notes/note.js"
@@ -146,10 +147,10 @@ function updateFrom(form: HTMLElement, note: Note, message: HTMLElement, status:
   if (!worked || changed === undefined) {
     return undefined
   }
-  status.textContent = `Saved at ${new Intl.DateTimeFormat(undefined, { timeStyle: "short" }).format(new Date(changed.updated))}.`
+  status.textContent = `Saved at ${new Intl.DateTimeFormat(language, { timeStyle: "short" }).format(new Date(changed.updated))}.`
   return changed
 }
 
 function changedOn(note: Note): string {
-  return new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", year: "numeric" }).format(new Date(note.updated))
+  return new Intl.DateTimeFormat(language, { day: "numeric", month: "short", year: "numeric" }).format(new Date(note.updated))
 }

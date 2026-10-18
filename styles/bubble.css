@@ -140,14 +140,38 @@ a { color: var(--accent-ink); }
 }
 
 /* Check boxes: the native control, coloured, at a size a finger can hit. */
+/* Radio buttons are drawn too: a ring with a control's contrast, and when chosen, the accent. */
 input[type="radio"] {
   flex: none;
-  width: 22px;
-  height: 22px;
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
   margin: 0;
-  accent-color: var(--accent);
+  border: 2px solid var(--control-line);
+  border-radius: 50%;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
   cursor: pointer;
+  transition: border-color var(--motion-fast);
 }
+
+input[type="radio"]:hover { border-color: var(--ink-soft); }
+input[type="radio"]:checked { border-color: var(--accent-edge); background: var(--accent); }
+
+input[type="radio"]::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--on-accent);
+  transform: scale(0);
+  transition: transform var(--motion-fast);
+}
+
+input[type="radio"]:checked::before { transform: scale(1); }
+input[type="radio"]:disabled { opacity: 0.6; cursor: not-allowed; }
 
 /*
  * Check boxes are drawn by Bubble, not the browser, so they look the same in every style, mode
@@ -212,8 +236,8 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   align-items: center;
   padding: 4px 12px;
   border-radius: var(--button-radius);
-  background: var(--accent-tint);
-  color: var(--accent-ink);
+  background: var(--sunken);
+  color: var(--ink-soft);
   font-size: var(--text-small);
   font-weight: 600;
 }
@@ -440,10 +464,11 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   border-radius: var(--button-radius);
 }
 
+/* What is chosen is brighter, never coloured: the accent is kept for the main action. */
 .segmented .button[aria-current="page"],
 .segmented .button[aria-pressed="true"] {
-  background: var(--accent-tint);
-  color: var(--accent-ink);
+  background: var(--sunken);
+  color: var(--ink);
 }
 
 /* Choices: radio buttons or a check box as pills, in a fieldset whose legend names the group. */
@@ -484,7 +509,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 }
 
 .choice input:focus-visible { outline: none; }
-.choice:has(:checked) { border-color: var(--accent-ink); background: var(--accent-tint); }
+.choice:has(:checked) { background: var(--sunken); }
 
 .choice:has(:disabled) {
   border-style: dashed;
@@ -565,8 +590,19 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 .search-result:hover { background: var(--sunken); }
 
 .search-result[aria-selected="true"] {
-  background: var(--accent-tint);
-  box-shadow: inset 3px 0 0 var(--accent);
+  position: relative;
+  background: var(--sunken);
+}
+
+.search-result[aria-selected="true"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 28%;
+  bottom: 28%;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--ink);
 }
 
 .search-result .title {
@@ -581,8 +617,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   white-space: nowrap;
 }
 
-/* Quiet ink does not read on the accent tint (tested in theme_test.go); soft ink does. */
-.search-result[aria-selected="true"] .quiet { color: var(--ink-soft); }
+/* On the chosen result the pill steps back to the surface, so it still shows as a pill. */
 .search-result[aria-selected="true"] .pill { background: var(--surface); }
 
 .search-empty {
@@ -703,7 +738,6 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   background-attachment: fixed;
 }
 
-:root[data-glass] h1 { font-weight: 300; letter-spacing: 0.01em; }
 
 :root[data-glass] :is(.card, .list-item, .search-box, .choice, .segmented, .sidebar, .bottom-bar, .button:not(.primary, .ghost)) {
   border-color: transparent;
