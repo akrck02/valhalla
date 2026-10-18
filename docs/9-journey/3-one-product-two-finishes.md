@@ -64,9 +64,9 @@ not a risk, because the worst cases are checked.
 
 ## How we worked
 
-- **Real screenshots beat mine.** The broken L between the header and the index, the muddy check
-  boxes, the black patches and the mixed languages showed up in screenshots of the real app on my
-  computer, not in the automatic ones.
+- **Using the app on my own computer.** The broken L between the header and the index, the muddy
+  check boxes, the black patches and the mixed languages showed up while I used the real app, not
+  in the automatic screenshots taken while building it.
 - **Think before building.** The direction was drawn on a design canvas first, with its rules
   written down, and only then built.
 - **What works here moves to Bubble.** Drawn check boxes and radios, the frame, glass, frosted
