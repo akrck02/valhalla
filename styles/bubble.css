@@ -654,7 +654,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 
 /*
  * A native <dialog> opened with showModal(): the browser traps the focus and closes it on Escape.
- * Always solid, even with glass: it sits over other text, where glass can't promise contrast.
+ * On glass it is frosted, with a fill dense enough to carry every ink over any page behind it.
  */
 .dialog {
   width: min(28rem, calc(100vw - 2 * var(--gap)));
@@ -725,8 +725,13 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 /* The index is a pane of its own, so it needs no line. */
 :root[data-glass] .sidebar { border-right-color: transparent; }
 
-/* A dialog stays solid: it sits over other text, where glass can't promise contrast. */
-:root[data-glass] .dialog { border-color: transparent; }
+/* A dialog is frosted glass: denser than a pane, tested over any page behind it and the scrim. */
+:root[data-glass] .dialog {
+  border-color: transparent;
+  background: var(--glass-dialog);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+}
 
 /*
  * Fields are a brighter pane with a soft edge all round; the edge turns to a control's full

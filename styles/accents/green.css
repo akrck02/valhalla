@@ -262,6 +262,7 @@
   --sunken: #FFFFFFD9;
   --glass-pane: #FFFFFF8C;
   --glass-raised: #FFFFFFD9;
+  --glass-dialog: #EFECE6E6;
   --glass-glow-one: #FFFFFF;
   --glass-glow-two: #CBC6BB;
   --glass-veil: #E6E3DCB8;
@@ -296,6 +297,7 @@
   --sunken: #FFFFFF1F;
   --glass-pane: #FFFFFF0F;
   --glass-raised: #FFFFFF1F;
+  --glass-dialog: #16181DDB;
   --glass-glow-one: #24272D;
   --glass-glow-two: #181A1F;
   --glass-veil: #0B0C0FB8;
@@ -331,6 +333,7 @@
     --sunken: #FFFFFF1F;
     --glass-pane: #FFFFFF0F;
     --glass-raised: #FFFFFF1F;
+    --glass-dialog: #16181DDB;
     --glass-glow-one: #24272D;
     --glass-glow-two: #181A1F;
     --glass-veil: #0B0C0FB8;
@@ -344,6 +347,7 @@
     --glass-pane: var(--surface);
     --glass-raised: var(--accent-tint);
     --sunken: var(--accent-tint);
+    --glass-dialog: var(--surface);
     --glass-blur: 0px;
   }
 }
