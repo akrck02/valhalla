@@ -82,6 +82,9 @@ a { color: var(--accent-ink); }
 
 .button:hover { background: var(--sunken); }
 
+/* Pressing gives a little, the only movement a control makes (after Bubble 3). */
+.button:active { transform: scale(0.97); }
+
 /* The primary action stands on its block edge, the darker side of the project's logo. */
 .button.primary {
   border-color: transparent;
@@ -93,7 +96,7 @@ a { color: var(--accent-ink); }
 .button.primary:hover { background: var(--accent-side); }
 
 .button.primary:active {
-  transform: translateY(var(--edge-width));
+  transform: translateY(var(--edge-width)) scale(0.97);
   box-shadow: 0 0 0 var(--accent-edge);
 }
 
@@ -132,6 +135,12 @@ a { color: var(--accent-ink); }
   background: var(--surface);
   color: var(--ink);
   font: inherit;
+}
+
+/* A field's own edge lights up when written in, instead of a ring around it. */
+.field :is(input, textarea, select):focus-visible {
+  border-color: var(--focus-ring);
+  outline-offset: calc(var(--line-width) * -1);
 }
 
 .field .error {
@@ -224,6 +233,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   border-radius: var(--card-radius);
   background: var(--surface);
   box-shadow: var(--elevation);
+  color: var(--ink);
 }
 
 :root[data-style="material"] .card {
@@ -260,6 +270,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   border: var(--line-width) solid var(--line);
   border-radius: var(--card-radius);
   background: var(--surface);
+  color: var(--ink);
 }
 
 .list-item.done {
@@ -343,6 +354,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 .bottom-bar .button[aria-current="page"] {
   background: var(--sunken);
   font-weight: 600;
+  color: var(--ink);
 }
 
 /* A key of the keyboard, as in Ctrl K. */
@@ -439,6 +451,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
     padding: 6px 6px 10px;
     border-top: var(--line-width) solid var(--line);
     background: var(--background);
+    color: var(--ink);
   }
 }
 
@@ -485,6 +498,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   background: var(--surface);
   font-weight: 600;
   cursor: pointer;
+  color: var(--ink);
 }
 
 .choice:hover { background: var(--sunken); }
@@ -528,11 +542,13 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   border: var(--line-width) solid var(--control-line);
   border-radius: var(--control-radius);
   background: var(--surface);
+  color: var(--ink);
 }
 
 .search-box:focus-within {
+  border-color: var(--focus-ring);
   outline: var(--focus-width) solid var(--focus-ring);
-  outline-offset: var(--focus-offset);
+  outline-offset: calc(var(--line-width) * -1);
 }
 
 .search-box svg {
@@ -579,6 +595,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 .search-result[aria-selected="true"] {
   background: var(--sunken);
   font-weight: 600;
+  color: var(--ink);
 }
 
 .search-result .title {
@@ -594,7 +611,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 }
 
 /* On the chosen result the pill steps back to the surface, so it still shows as a pill. */
-.search-result[aria-selected="true"] .pill { background: var(--surface); }
+.search-result[aria-selected="true"] .pill { background: var(--surface); color: var(--ink); }
 
 .search-empty {
   padding: 10px;
