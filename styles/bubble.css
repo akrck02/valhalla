@@ -800,7 +800,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   -webkit-backdrop-filter: blur(var(--glass-blur));
 }
 
-:root[data-glass] .fab:hover { background: var(--glass-pane); transform: translateY(-2px); }
+:root[data-glass] .fab:hover { background: var(--glass-pane); }
 
 /* Less motion when the system asks for it ------------------------------------------------------ */
 

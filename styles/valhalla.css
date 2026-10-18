@@ -226,7 +226,7 @@
   background: var(--surface);
   color: var(--ink);
   text-decoration: none;
-  transition: transform var(--motion-fast), background var(--motion-fast);
+  transition: background var(--motion-fast);
 }
 
 .note-card:hover { background: var(--sunken); }
@@ -256,7 +256,6 @@
 
 .note-editor .back { justify-self: start; }
 
-/* On glass the cards lean a little, as notes pinned by hand, and straighten when they are reached. */
 :root[data-glass] .note-card {
   border-color: transparent;
   background: var(--glass-pane);
@@ -264,15 +263,7 @@
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
 
-:root[data-glass] .note-card .title { text-transform: uppercase; letter-spacing: 0.06em; }
-:root[data-glass] .note-wall > :nth-child(3n + 1) .note-card { transform: rotate(-1.2deg); }
-:root[data-glass] .note-wall > :nth-child(3n + 2) .note-card { transform: rotate(0.8deg); }
-:root[data-glass] .note-wall > :nth-child(3n) .note-card { transform: rotate(-0.4deg); }
-
-:root[data-glass] .note-wall .note-card:is(:hover, :focus-visible) {
-  background: var(--glass-raised);
-  transform: translateY(-4px);
-}
+:root[data-glass] .note-card:hover { background: var(--glass-raised); }
 
 :root[data-glass] .note-editor {
   border-color: transparent;
@@ -337,10 +328,7 @@
 :root[data-glass] .week-day h2[aria-current="date"],
 :root[data-glass] .week-day h2[aria-current="date"] .number { color: var(--ink); }
 
-@media (prefers-reduced-motion: no-preference) {
-  :root[data-glass] .month-day:not(.outside) { transition: transform var(--motion-fast), background var(--motion-fast); }
-  :root[data-glass] .month-day:not(.outside):hover { background: var(--glass-raised); transform: translateY(-2px); }
-}
+:root[data-glass] .month-day:not(.outside):hover { background: var(--glass-raised); }
 
 /* Wallpapers ------------------------------------------------------------------------------------- */
 
