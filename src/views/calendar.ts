@@ -7,7 +7,6 @@ import { dayOf, Task, tasksOfDay } from "../tasks/task.js"
 import { loadTasks } from "../tasks/store.js"
 import { newTaskDialog, taskDialog, TaskDialogResult } from "./task-dialog.js"
 import { focusIn } from "./focus.js"
-import { floatingButton } from "../shell.js"
 
 /** How many tasks a day of the month shows before it says how many more there are. */
 const tasksShownInMonth = 3
@@ -25,25 +24,35 @@ export async function showCalendar(parameters: string[], page: HTMLElement): Pro
   page.classList.add("wide")
   const today = dayOf(new Date())
   if (span === "month" && when !== undefined && isMonth(when)) {
-    page.replaceChildren(header("month", when, today), monthTable(when, today, page), addTodayButton(today, page))
+    page.replaceChildren(header("month", when, today, page), toolbar("month", when, today), monthTable(when, today, page))
     return
   }
   const day = span === "week" && when !== undefined && isDay(when) ? when : today
-  page.replaceChildren(header("week", day, today), weekGrid(day, today, page), addTodayButton(today, page))
+  page.replaceChildren(header("week", day, today, page), toolbar("week", day, today), weekGrid(day, today, page))
 }
 
-function addTodayButton(today: string, page: HTMLElement): HTMLElement {
-  return floatingButton("Add a task", () => {
-    openDialog(page, newTaskDialog(today, localStorage, (result, task) => afterDialog(page, result, task, today)))
-  })
-}
-
-function header(span: Span, when: string, today: string): HTMLElement {
-  const header = uiComponent({ type: Html.Header, classes: ["calendar-header"] })
+/** The title of the week or month shown, and New task, the page's main action, for today. */
+function header(span: Span, when: string, today: string, page: HTMLElement): HTMLElement {
+  const header = uiComponent({ type: Html.Header, classes: ["page-header"] })
+  const titles = uiComponent()
+  const eyebrow = uiComponent({ type: Html.P, classes: ["date", "soft"], text: "Calendar" })
   const title = uiComponent({ type: Html.H1 })
   title.textContent = span === "week" ? weekTitle(weekOf(when)) : monthTitle(when)
-  header.append(title, spanSwitch(span, when), steps(span, when, today))
+  titles.append(eyebrow, title)
+  const newTask = uiComponent({ type: Html.Button, id: "new-task", classes: ["button", "primary"], attributes: { type: "button" } })
+  newTask.append(icon("plus"), document.createTextNode("New task"))
+  newTask.addEventListener("click", () => {
+    openDialog(page, newTaskDialog(today, localStorage, (result, task) => afterDialog(page, result, task, today)))
+  })
+  header.append(titles, newTask)
   return header
+}
+
+/** Week or month, and the steps to the ones before and after. */
+function toolbar(span: Span, when: string, today: string): HTMLElement {
+  const bar = uiComponent({ classes: ["calendar-header"] })
+  bar.append(spanSwitch(span, when), steps(span, when, today))
+  return bar
 }
 
 /** Week and month as two links, the current one marked, so it works without any script state. */

@@ -47,7 +47,6 @@
   gap: var(--gap);
 }
 
-.calendar-header h1 { flex: 1 1 100%; }
 
 .calendar-steps {
   display: flex;

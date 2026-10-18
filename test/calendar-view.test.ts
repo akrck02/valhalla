@@ -71,4 +71,10 @@ describe("the calendar page", () => {
     expect(page.querySelector("h1")?.textContent).toBe("October 2026")
     expect(page.querySelector("thead abbr")?.getAttribute("title")).toBe("Monday")
   })
+
+  it("New task is the page's main action, in its header", async () => {
+    const page = await calendarWith([])
+    expect([...page.querySelectorAll(".button.primary")].map(button => button.textContent?.trim()).join()).toBe("New task")
+    expect(page.querySelector(".fab")).toBe(null)
+  })
 })

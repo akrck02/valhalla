@@ -22,18 +22,6 @@ export function buildShell(body: HTMLElement, currentPath: string): HTMLElement 
 }
 
 /**
- * Makes the floating button that creates the main thing of a page.
- * @param name what it creates, as a screen reader says it, such as "Add a task"
- * @param create what pressing it does
- */
-export function floatingButton(name: string, create: () => void): HTMLElement {
-  const button = uiComponent({ type: Html.Button, classes: ["fab"], attributes: { type: "button", "aria-label": name, title: name } })
-  button.append(icon("plus"))
-  button.addEventListener("click", create)
-  return button
-}
-
-/**
  * The index on wide screens, a pane: the name on top, then each place with its icon and its name,
  * and the search at its foot, where it is always at hand.
  */
