@@ -16,6 +16,16 @@ For more information, please visit [our page.](https://akrck02.github.io/#/softw
 
 <br>
 
+## ▶️ | Run it
+
+No Node.js needed: esbuild is a single file in `bin/` (on a Mac, `brew install esbuild`).
+
+```bash
+bin/dev.sh      # serve on http://localhost:8000; reloading the page builds the latest code
+bin/build.sh    # build out/main.js once
+bin/test.sh     # run the tests in headless Chrome or Chromium
+```
+
 ## ☕️ | Open Source, for the community 
 
 This project is open source and is maintained currently by [**@akrck02**](https://github.com/akrck02). GPL 3.0 License is used in this project. [More info here.](./LICENSE)
