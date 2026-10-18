@@ -338,22 +338,11 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 .places svg { flex: none; width: var(--icon-size); height: var(--icon-size); }
 .places .key { margin-inline-start: auto; }
 
-/* What is chosen is brighter, with the fine straight bar of the first Valhalla beside it. */
+/* What is chosen is brighter, and its name heavier: enough to tell it, with no mark beside it. */
 .places a[aria-current="page"],
 .bottom-bar .button[aria-current="page"] {
   background: var(--sunken);
   font-weight: 600;
-}
-
-.places a[aria-current="page"]::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 28%;
-  bottom: 28%;
-  width: 2px;
-  border-radius: 1px;
-  background: var(--ink);
 }
 
 /* A key of the keyboard, as in Ctrl K. */
@@ -383,7 +372,6 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 
 :root[data-style="material"] .places a:hover,
 :root[data-style="material"] .places a[aria-current="page"] { background: transparent; }
-:root[data-style="material"] .places a[aria-current="page"]::before { display: none; }
 
 /* The pill sits behind the icon only, as in Material's navigation rail. */
 :root[data-style="material"] .places svg {
@@ -427,7 +415,6 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
     white-space: nowrap;
   }
 
-  .places a[aria-current="page"]::before { left: -10px; }
 }
 
 .bottom-bar { display: none; }
@@ -590,19 +577,8 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 .search-result:hover { background: var(--sunken); }
 
 .search-result[aria-selected="true"] {
-  position: relative;
   background: var(--sunken);
-}
-
-.search-result[aria-selected="true"]::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 28%;
-  bottom: 28%;
-  width: 2px;
-  border-radius: 1px;
-  background: var(--ink);
+  font-weight: 600;
 }
 
 .search-result .title {
@@ -775,18 +751,6 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   background: var(--glass-raised);
   color: var(--ink);
   box-shadow: none;
-}
-
-/* The fine, straight bar of the first Valhalla, beside what is chosen. */
-:root[data-glass] .search-result[aria-selected="true"]::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 28%;
-  bottom: 28%;
-  width: 2px;
-  border-radius: 1px;
-  background: var(--ink);
 }
 
 :root[data-glass] .bottom-bar .button[aria-current="page"],
