@@ -11,6 +11,7 @@ import "./terminal.test.js"
 import "./search-view.test.js"
 import "./settings-view.test.js"
 import "./shell.test.js"
+import "./today-view.test.js"
 
 run().then(report)
 

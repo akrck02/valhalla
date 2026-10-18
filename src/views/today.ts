@@ -1,48 +1,43 @@
 import { uiComponent } from "../gtd/dom.js"
 import { Html } from "../gtd/html.js"
 import { icon } from "../icons.js"
-import { createTask, dayOf, Task, tasksOfDay, withDoneSwitched } from "../tasks/task.js"
+import { longDay } from "../language.js"
+import { dayOf, Task, tasksOfDay, withDoneSwitched } from "../tasks/task.js"
 import { loadTasks, saveTasks } from "../tasks/store.js"
 import { newTaskDialog, taskDialog, TaskDialogResult } from "./task-dialog.js"
-import { floatingButton } from "../shell.js"
-import { field, valueOf } from "./form.js"
-import { tryShowingError } from "./messages.js"
 import { focusIn } from "./focus.js"
 
-/** Today: what is left to do, a check box for each task, and a line to add one. */
+/** How many tasks at a time the pane beside the day lists. */
+const nextShown = 4
+
+/**
+ * Today: the date over the title, New task as the one main action, the day's tasks in a pane with
+ * a check box each, and beside them a pane with what is left at a time.
+ */
 export async function showToday(_parameters: string[], page: HTMLElement): Promise<void> {
   const today = dayOf(new Date())
-  const isFirstDraw = page.childElementCount === 0 // drawing again after a change should not move
-  page.replaceChildren(header(today), addForm(today, page), taskList(today, page, isFirstDraw), addButton(today, page))
+  const tasks = tasksOfDay(loadTasks(localStorage), today)
+  page.classList.add("wide")
+  page.replaceChildren(header(today, tasks, page), body(today, tasks, page))
 }
 
-function addButton(today: string, page: HTMLElement): HTMLElement {
-  return floatingButton("Add a task", () => {
-    const dialog = newTaskDialog(today, localStorage, (result, task) => {
-      if (result !== "added" || task === undefined) {
-        return
-      }
-      showToday([], page)
-      focusIn(page, `#edit-${task.id}`)
-    })
-    page.append(dialog)
-    dialog.showModal()
-  })
-}
-
-function header(today: string): HTMLElement {
-  const header = uiComponent({ type: Html.Header })
+function header(today: string, tasks: Task[], page: HTMLElement): HTMLElement {
+  const header = uiComponent({ type: Html.Header, classes: ["page-header"] })
+  const titles = uiComponent()
+  const date = uiComponent({ type: Html.P, classes: ["date", "soft"] })
+  date.textContent = longDay(today)
   const title = uiComponent({ type: Html.H1, text: "Today" })
   const summary = uiComponent({ type: Html.P, classes: ["soft"], attributes: { "aria-live": "polite" } })
-  summary.textContent = summaryOf(tasksOfDay(loadTasks(localStorage), today))
-  header.append(title, summary)
+  summary.textContent = summaryOf(tasks)
+  titles.append(date, title, summary)
+  header.append(titles, newTaskButton("New task", today, page, ["primary"]))
   return header
 }
 
 function summaryOf(tasks: Task[]): string {
   const left = tasks.filter(task => !task.done).length
   if (tasks.length === 0) {
-    return "Nothing planned. Add the first task below."
+    return "Nothing planned yet."
   }
   if (left === 0) {
     return "All done for today."
@@ -51,39 +46,59 @@ function summaryOf(tasks: Task[]): string {
   return `${left === 1 ? "One task left" : `${left} tasks left`} · ${share}% done.`
 }
 
-function addForm(today: string, page: HTMLElement): HTMLElement {
-  const form = uiComponent({ type: Html.Form, classes: ["card", "add-task"], attributes: { "aria-label": "Add a task" } })
-  const titleField = field("task-title", "What is there to do?", "text")
-  const timeField = field("task-time", "Time", "time")
-  const error = uiComponent({ type: Html.P, classes: ["error"], attributes: { role: "alert" } })
-  const add = uiComponent({ type: Html.Button, classes: ["button", "primary"], attributes: { type: "submit" } })
-  add.append(icon("plus"), document.createTextNode("Add"))
-  form.append(titleField, timeField, add, error)
-
-  form.addEventListener("submit", event => {
-    event.preventDefault()
-    const added = tryShowingError(error, () =>
-      saveTasks(localStorage, [...loadTasks(localStorage), createTask(valueOf(form, "task-title"), today, valueOf(form, "task-time"))]))
-    if (added) {
+/** The button that opens the dialog to add a task, focused on the new task once it is added. */
+function newTaskButton(name: string, today: string, page: HTMLElement, classes: string[] = []): HTMLElement {
+  const button = uiComponent({ type: Html.Button, id: "new-task", classes: ["button", ...classes], attributes: { type: "button" } })
+  button.append(icon("plus"), document.createTextNode(name))
+  button.addEventListener("click", () => {
+    const dialog = newTaskDialog(today, localStorage, (result, task) => {
+      if (result !== "added" || task === undefined) {
+        focusIn(page, "#new-task")
+        return
+      }
       showToday([], page)
-      focusIn(page, "#task-title")
-    }
+      focusIn(page, `#task-${task.id}`)
+    })
+    page.append(dialog)
+    dialog.showModal()
   })
-  return form
+  return button
 }
 
-function taskList(today: string, page: HTMLElement, appears: boolean): HTMLElement {
-  const list = uiComponent({ type: Html.Ul, classes: appears ? ["list", "appear"] : ["list"], attributes: { "aria-label": "Tasks for today" } })
-  for (const task of tasksOfDay(loadTasks(localStorage), today)) {
-    list.append(taskItem(task, page))
+function body(today: string, tasks: Task[], page: HTMLElement): HTMLElement {
+  const columns = uiComponent({ classes: ["today"] })
+  columns.append(tasksPane(today, tasks, page), nextPane(tasks))
+  return columns
+}
+
+function tasksPane(today: string, tasks: Task[], page: HTMLElement): HTMLElement {
+  const pane = uiComponent({ type: Html.Section, classes: ["pane"], attributes: { "aria-labelledby": "tasks-heading" } })
+  const heading = uiComponent({ type: Html.H2, id: "tasks-heading", text: "Tasks" })
+  pane.append(heading)
+  if (tasks.length === 0) {
+    pane.append(emptyDay(today, page))
+    return pane
   }
-  return list
+  const list = uiComponent({ type: Html.Ul, classes: ["rows"], attributes: { "aria-label": "Tasks for today" } })
+  for (const task of tasks) {
+    list.append(taskRow(task, page))
+  }
+  pane.append(list)
+  return pane
 }
 
-function taskItem(task: Task, page: HTMLElement): HTMLElement {
-  const item = uiComponent({ type: Html.Li, classes: task.done ? ["list-item", "done"] : ["list-item"] })
-  const label = uiComponent({ type: Html.Label, classes: ["title"], attributes: { for: `task-${task.id}` } })
-  label.textContent = task.title // what a person typed is always text, never markup
+function emptyDay(today: string, page: HTMLElement): HTMLElement {
+  const empty = uiComponent({ classes: ["empty"] })
+  const text = uiComponent({ type: Html.P })
+  text.textContent = "Nothing planned for today. Write down the first thing to do."
+  const button = newTaskButton("Add a task", today, page)
+  button.id = "add-first-task"
+  empty.append(icon("circleCheck"), text, button)
+  return empty
+}
+
+function taskRow(task: Task, page: HTMLElement): HTMLElement {
+  const row = uiComponent({ type: Html.Li, classes: task.done ? ["row", "done"] : ["row"] })
   const checkBox = uiComponent({ type: Html.Input, id: `task-${task.id}`, attributes: { type: "checkbox" } }) as HTMLInputElement
   checkBox.checked = task.done
   checkBox.addEventListener("change", () => {
@@ -92,14 +107,42 @@ function taskItem(task: Task, page: HTMLElement): HTMLElement {
     showToday([], page)
     focusIn(page, `#task-${task.id}`)
   })
-  item.append(checkBox, label)
+  const label = uiComponent({ type: Html.Label, classes: ["title"], attributes: { for: `task-${task.id}` } })
+  label.textContent = task.title // what a person typed is always text, never markup
+  row.append(checkBox, label)
   if (task.time !== undefined) {
-    const time = uiComponent({ type: Html.Span, classes: ["pill"] })
+    const time = uiComponent({ type: Html.Span, classes: ["time"] })
     time.textContent = task.time
-    item.append(time)
+    row.append(time)
   }
-  item.append(editButton(task, page))
-  return item
+  row.append(editButton(task, page))
+  return row
+}
+
+/** What is left today at a time, the next few: the day's appointments at a glance. */
+function nextPane(tasks: Task[]): HTMLElement {
+  const pane = uiComponent({ type: Html.Section, classes: ["pane"], attributes: { "aria-labelledby": "next-heading" } })
+  const heading = uiComponent({ type: Html.H2, id: "next-heading", text: "Next" })
+  pane.append(heading)
+  const timed = tasks.filter(task => !task.done && task.time !== undefined).slice(0, nextShown)
+  if (timed.length === 0) {
+    const nothing = uiComponent({ type: Html.P, classes: ["soft"] })
+    nothing.textContent = "Nothing else at a set time today."
+    pane.append(nothing)
+    return pane
+  }
+  const list = uiComponent({ type: Html.Ul, classes: ["next"] })
+  for (const task of timed) {
+    const item = uiComponent({ type: Html.Li })
+    const time = uiComponent({ type: Html.Span, classes: ["time"] })
+    time.textContent = task.time ?? ""
+    const title = uiComponent({ type: Html.Span, classes: ["title"] })
+    title.textContent = task.title
+    item.append(time, title)
+    list.append(item)
+  }
+  pane.append(list)
+  return pane
 }
 
 function editButton(task: Task, page: HTMLElement): HTMLElement {
@@ -127,7 +170,7 @@ function afterEditing(result: TaskDialogResult, task: Task, page: HTMLElement): 
   }
   showToday([], page)
   if (result === "deleted" || page.querySelector(`#edit-${task.id}`) === null) {
-    focusIn(page, "#task-title") // a deleted task, or one moved to another day, is no longer here
+    focusIn(page, "#new-task") // a deleted task, or one moved to another day, is no longer here
     return
   }
   focusIn(page, `#edit-${task.id}`)

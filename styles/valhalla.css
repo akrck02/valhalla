@@ -1,22 +1,41 @@
 /* What only Valhalla needs; anything reusable moves to Bubble. */
 
-.add-task {
-  display: grid;
-  grid-template-columns: 1fr 8.5rem auto;
-  align-items: end;
+/* Today ------------------------------------------------------------------------------------------ */
+
+/* A page's title with its main action beside it, the date above. */
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
   gap: var(--gap);
 }
 
-.add-task .error {
-  grid-column: 1 / -1;
-  color: var(--danger);
+.page-header h1 { font-size: var(--text-display); line-height: 1.15; }
+.page-header .date { font-size: var(--text-small); }
+
+/* The day's tasks, and beside them what is left at a time; one column on narrow screens. */
+.today {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--gap);
 }
 
-.add-task .error:empty { display: none; }
+.next {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-@media (max-width: 640px) {
-  .add-task { grid-template-columns: 1fr auto; }
-  .add-task .field:first-child { grid-column: 1 / -1; }
+.next li { display: flex; gap: 10px; }
+.next .time { color: var(--ink-soft); font-weight: 650; font-variant-numeric: tabular-nums; }
+.next .title { font-weight: 600; }
+
+@media (max-width: 900px) {
+  .today { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* Calendar --------------------------------------------------------------------------------------- */
