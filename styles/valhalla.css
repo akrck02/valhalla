@@ -261,6 +261,23 @@
 
 /* Notes ------------------------------------------------------------------------------------------ */
 
+/* The wall, and an open note beside it on wide screens; on narrow ones the note takes the page. */
+.notes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: var(--gap);
+}
+
+.notes.open { grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); }
+.notes-wall { display: grid; gap: var(--gap); }
+.notes.open .note-wall { grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); }
+
+@media (max-width: 900px) {
+  .notes.open { grid-template-columns: minmax(0, 1fr); }
+  .notes.open .notes-wall { display: none; }
+}
+
 /* A wall of cards, as the first Valhalla pinned its notes. */
 .note-wall {
   display: grid;
@@ -288,6 +305,7 @@
 }
 
 .note-card:hover { background: var(--sunken); }
+.note-card[aria-current="page"] { border-color: var(--control-line); background: var(--sunken); }
 .note-card .title { font-weight: 650; overflow-wrap: anywhere; }
 .note-card .excerpt { flex: 1 1 auto; color: var(--ink-soft); overflow-wrap: anywhere; }
 
@@ -322,7 +340,8 @@
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
 }
 
-:root[data-glass] .note-card:hover { background: var(--glass-raised); }
+:root[data-glass] .note-card:hover,
+:root[data-glass] .note-card[aria-current="page"] { background: var(--glass-raised); }
 
 :root[data-glass] .note-editor {
   border-color: transparent;

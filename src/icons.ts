@@ -12,8 +12,9 @@ import search from "../resources/icons/search.svg"
 import settings from "../resources/icons/settings.svg"
 import sun from "../resources/icons/sun.svg"
 import trash from "../resources/icons/trash.svg"
+import x from "../resources/icons/x.svg"
 
-const icons = { calendar, chevronLeft, chevronRight, circleCheck, moon, notebookPen, pencil, plus, search, settings, sun, trash }
+const icons = { calendar, chevronLeft, chevronRight, circleCheck, moon, notebookPen, pencil, plus, search, settings, sun, trash, x }
 
 /** The name of an icon the app knows. */
 export type IconName = keyof typeof icons

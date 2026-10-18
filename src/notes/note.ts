@@ -35,3 +35,20 @@ export function nameOf(note: Note): string {
 export function notesByRecent(notes: Note[]): Note[] {
   return [...notes].sort((first, second) => second.updated.localeCompare(first.updated))
 }
+
+/** A tag: a word written right after a #, at the start of the text or after a space. */
+const tagPattern = /(?:^|\s)#([\p{L}\p{N}_-]+)/gu
+
+/**
+ * Gives the tags a note writes, in the order they first appear, once each and in small letters.
+ * @example tagsOf(createNote("Garden #Plans", "#garden #spring")) // ["plans", "garden", "spring"]
+ */
+export function tagsOf(note: Note): string[] {
+  const words = [...`${note.title} ${note.body}`.matchAll(tagPattern)].map(match => match[1].toLowerCase())
+  return [...new Set(words)]
+}
+
+/** Gives the notes that write a tag; the list it came from stays as it was. */
+export function notesTagged(notes: Note[], tag: string): Note[] {
+  return notes.filter(note => tagsOf(note).includes(tag))
+}

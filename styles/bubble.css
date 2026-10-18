@@ -627,6 +627,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
   background: transparent;
   color: var(--ink);
   font: inherit;
+  text-decoration: none;
   cursor: pointer;
   transition: background var(--motion-fast), transform var(--motion-fast);
 }
@@ -634,7 +635,8 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 .chip:hover { background: var(--sunken); }
 .chip:active { transform: scale(0.97); }
 
-.chip[aria-pressed="true"] {
+.chip[aria-pressed="true"],
+.chip[aria-current="page"] {
   border-color: transparent;
   background: var(--sunken);
   color: var(--ink);
@@ -962,6 +964,7 @@ input[type="checkbox"]:disabled { opacity: 0.6; cursor: not-allowed; }
 :root[data-glass] .segmented .button[aria-current="page"],
 :root[data-glass] .segmented .button[aria-pressed="true"],
 :root[data-glass] .chip[aria-pressed="true"],
+:root[data-glass] .chip[aria-current="page"],
 :root[data-glass] .finish:has(:checked),
 :root[data-glass] .choice:has(:checked) {
   border-color: transparent;

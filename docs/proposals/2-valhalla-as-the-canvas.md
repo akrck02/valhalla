@@ -54,7 +54,7 @@ there.
 - [x] T1 — Bubble: `.pane`, `.chips`, `.empty`, `.task-row`, `.finish-card`, round swatches, with tests · `bubble/css/bubble.css`, `bubble/css_test.go` · R7
 - [x] T2 — The index as a pane, Search at its foot · `src/shell.ts`, `styles/` · R1 R6 · `shell.test.ts`
 - [x] T3 — Today: title, main action, tasks pane, the next pane; the form into the dialog · `src/views/today.ts`, `task-dialog.ts` · R2 · today tests
-- [ ] T4 — Notes: chips, empty state, the editor beside the wall · `src/views/notes.ts` · R3 · `notes-view.test.ts`
+- [x] T4 — Notes: chips, empty state, the editor beside the wall · `src/views/notes.ts` · R3 · `notes-view.test.ts`
 - [ ] T5 — Settings as the canvas · `src/views/settings.ts` · R4 · `settings-view.test.ts`
 - [ ] T6 — Search and terminal · `src/views/search.ts` · R5 · `search-view.test.ts`
 - [ ] T7 — Screenshots of every screen in the four finishes and on a phone, and a pass with the keyboard · R6 R8

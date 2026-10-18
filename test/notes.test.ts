@@ -1,5 +1,5 @@
 import { describe, expect, it } from "./lib/test.js"
-import { createNote, editedNote, nameOf, notesByRecent } from "../src/notes/note.js"
+import { createNote, editedNote, nameOf, notesByRecent, notesTagged, tagsOf } from "../src/notes/note.js"
 import { addNote, deleteNote, loadNotes, updateNote } from "../src/notes/store.js"
 import { NoteEmpty, NoteNotFound, ValhallaError } from "../src/errors.js"
 import { memoryStorage } from "./storage.js"
@@ -67,5 +67,17 @@ describe("the notes store", () => {
     const storage = memoryStorage()
     storage.setItem("valhalla.notes", "[{\"id\": 1}, \"nonsense\"")
     expect(loadNotes(storage).length).toBe(0)
+  })
+
+  it("a note's tags are the words written with a # in it, once each and in small letters", () => {
+    const note = createNote("Garden #Plans", "Seeds after the frost. #garden #spring, and #garden again")
+    expect(tagsOf(note).join()).toBe("plans,garden,spring")
+    expect(tagsOf(createNote("", "A # alone, and an email@#example are no tags")).join()).toBe("")
+  })
+
+  it("notes tagged with a word are those that write it with a #", () => {
+    const garden = createNote("Plan", "#garden")
+    const soup = createNote("Soup", "leeks")
+    expect(notesTagged([garden, soup], "garden").map(note => note.title).join()).toBe("Plan")
   })
 })

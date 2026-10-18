@@ -25,10 +25,30 @@ function save(page: HTMLElement): void {
 }
 
 describe("the notes page", () => {
-  it("with no notes, says so and offers to write one", async () => {
+  it("with no notes, an empty state says so and offers to write one", async () => {
     const { page } = await notesWith([])
-    expect(page.textContent ?? "").toMatch(/No notes yet/)
-    expect(page.querySelector(".fab")?.getAttribute("aria-label")).toBe("Write a note")
+    expect(page.querySelector(".empty")?.textContent ?? "").toMatch(/No notes yet/)
+    expect(page.querySelector('.empty a[href="#/notes/new"]') !== null).toBe(true)
+    expect(page.querySelector('.page-header a.primary')?.getAttribute("href")).toBe("#/notes/new")
+    page.remove()
+  })
+
+  it("chips filter the wall by the tags the notes use, the chosen one marked", async () => {
+    const garden = createNote("Plan", "#garden")
+    const soup = createNote("Soup", "#kitchen")
+    const { page } = await notesWith(["tagged", "garden"], garden, soup)
+    const chips = [...page.querySelectorAll(".chips a")].map(chip => chip.textContent)
+    expect(chips.join()).toBe("All,#garden,#kitchen")
+    expect(page.querySelector('.chips [aria-current="page"]')?.textContent).toBe("#garden")
+    expect([...page.querySelectorAll(".note-card .title")].map(title => title.textContent).join()).toBe("Plan")
+    page.remove()
+  })
+
+  it("an open note is edited beside the wall", async () => {
+    const note = createNote("Ideas", "One")
+    const { page } = await notesWith([note.id], note)
+    expect(page.querySelector(".note-wall") !== null && page.querySelector(".note-editor") !== null).toBe(true)
+    expect(page.querySelector(`#note-${note.id}`)?.getAttribute("aria-current")).toBe("page")
     page.remove()
   })
 
